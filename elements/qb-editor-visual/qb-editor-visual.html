@@ -1,0 +1,26 @@
+<link rel="import" href="../qb.html">
+
+<polymer-element name="qb-editor-visual">
+
+<template>
+
+<style>
+	:host{
+		background-color: #eeffee;
+	}
+</style>
+
+	<qb-globals data="{{data}}"></qb-globals>
+	
+	<template repeat="{{data.tree}}">
+		<p>{{node.name}}</p>
+	</template>
+
+</template>
+
+
+<script>
+	Polymer({});
+</script>
+
+</polymer-element>

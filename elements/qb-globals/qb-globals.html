@@ -1,0 +1,18 @@
+<link rel="import" href="../qb.html">
+
+<polymer-element name="qb-globals" attributes="data">
+	<script>
+		(function() {
+			var data = {};
+			window.globals = data;
+			Polymer({
+				get data(){
+					return data;
+				},
+				set data(value){
+					data = value;
+				}
+			});
+		})();
+	</script>
+</polymer-element>

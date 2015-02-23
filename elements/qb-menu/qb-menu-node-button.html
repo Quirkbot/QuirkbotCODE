@@ -1,0 +1,63 @@
+<link rel="import" href="../qb.html">
+
+<polymer-element name="qb-menu-node-button" attributes="node">
+
+<template>
+
+	<style>
+		paper-button{
+			margin:0;
+			width: 100%;
+			text-align: left;
+		}
+		paper-button::shadow{
+	
+			text-align: left;
+		}
+	</style>
+
+	<qb-globals data="{{globals}}"></qb-globals>
+
+	<core-drag-drop on-drag-start="{{dragStart}}"></core-drag-drop>
+
+	<core-item icon="favorite" label="{{node.name}}" ></core-item>
+
+	<div id="avatar-containter" hidden>
+		<core-item icon="favorite" label="{{node.name}}" id="avatar"></core-item>
+	</div>
+	
+</template>
+<script>
+	Polymer({
+		dragStart: function (e) {
+			var dragInfo = e.detail;
+			dragInfo.avatar.appendChild(this.$.avatar);
+			dragInfo.drag = function() {};
+			dragInfo.drop = this.drop.bind(this);
+		},
+		drop: function (dragInfo) {
+			this.$['avatar-containter'].appendChild(dragInfo.avatar.querySelector('#avatar'));
+			
+			// check if dropping into editor
+			var dropTarget = dragInfo.event.relatedTarget;
+			var isEditor = function (node) {
+				if(node.tagName == 'QB-EDITOR')
+					return true;
+				var parent = node.parentNode || node.host;
+				
+				if(parent)
+					return isEditor(parent);
+
+				return false;
+			}			
+			if(!isEditor(dropTarget)) return;
+
+			this.globals.tree.push({
+				node: this.node
+			});
+		}
+
+	});
+</script>
+
+</polymer-element>

@@ -1,0 +1,84 @@
+<link rel="import" href="../qb.html">
+
+<!-- import flatiron just to get "director.js", we will build our own router -->
+<link rel="import" href="../../bower_components/flatiron-director/flatiron-director.html">
+
+<polymer-element name="qb-router" hidden>
+
+<template>
+	<qb-globals data="{{data}}">
+</template>
+
+<script>
+	(function () {
+		var router;
+		Polymer({
+			observe: {
+				'data.route.programId': 'programIdChanged',
+				'data.route.editorMode': 'editorModeChanged',
+				'data.route.path': 'pathChanged',
+			},
+			ready : function(){
+				if(router) return;
+				var self = this;
+				self.data.route = {}
+				var evaluateProgramId = function (id) {
+					self.data.route.programId = id;
+				}
+
+				var evaluateEditorMode = function (id, mode) {
+					self.data.route.editorMode = mode;
+				}
+
+				var routes = {
+					'/:programId': {
+						'/:editorMode': {
+							on: evaluateEditorMode
+						},
+						on: evaluateProgramId
+					}
+				}
+				
+				router = new Router(routes)
+					.configure({ recurse: 'backward' });;
+
+				
+				router.on(/(.*)/, function(path) {
+					self.data.route.path = path;
+				});
+
+				self.data.route.path = router.getRoute() ? 
+				router.getRoute().join(router.delimiter): '';
+
+				
+				router.init();
+			},
+			pathChanged: function() {
+				window.location.hash = this.data.route.path;
+			},
+			programIdChanged: function() {
+				this.applyPath();
+			},
+			editorModeChanged: function() {
+				if(this.data.route.editorMode != 'visual' && this.data.route.editorMode != 'text'){
+					this.data.route.editorMode = 'visual';
+					return;
+				}
+				this.applyPath();
+			},
+			applyPath: function () {
+				var newPath = [
+					this.data.route.programId, this.data.route.editorMode
+				].join(router.delimiter);
+
+				if(newPath == this.data.route.path){
+					// we need to force the update of the window location
+					//window.location.hash = this.data.route.path;
+				}
+				this.data.route.path = newPath;
+			}  
+		});
+	})();
+</script>
+
+</polymer-element>

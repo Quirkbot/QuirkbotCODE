@@ -1,0 +1,58 @@
+<link rel="import" href="../qb.html">
+
+<polymer-element 
+	name="qb-ide"
+	attributes="datasource test"
+	fullbleed
+	layout
+	vertical
+	flex>
+
+<template>
+	
+	<qb-globals data="{{data}}"></qb-globals>
+	<qb-tree></qb-tree>
+	<qb-node-data-loader src="{{datasource}}"></qb-node-data-loader>
+	<qb-router></qb-router>
+
+
+
+	<template if="{{data.nodesLoaded}}">
+		<core-header-panel flex>
+
+			<core-toolbar>
+				<qb-toolbar></qb-toolbar>
+			</core-toolbar>
+
+			<qb-editor main></qb-editor>
+
+			<template if="{{!data.user}}">
+				<core-drawer-panel rightDrawer>
+
+					<qb-editor main></qb-editor>
+					<qb-menu drawer></qb-menu>
+
+				</core-drawer-panel>		
+			</template>
+
+			<template if="{{data.user}}">
+				<qb-editor main></qb-editor>		
+			</template>
+
+		</core-header-panel>
+	</template>
+
+	<template if="{{!data.nodesLoaded}}">
+		loading
+	</template>
+	
+
+</template>
+
+
+<script>
+	Polymer({});
+</script>
+
+
+</polymer-element>

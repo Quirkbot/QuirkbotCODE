@@ -1,0 +1,27 @@
+<link rel="import" href="../qb.html">
+
+<polymer-element name="qb-editor-selector" >
+	<template>
+		<qb-globals data="{{data}}"></qb-globals>
+
+		<paper-toggle-button
+			id="toggle"
+			checked="{{data.route.editorMode | modeNameToChecked}}">
+
+	</template>
+	<script>
+		Polymer({
+			modeNameToChecked: {
+				toDOM: function(value) {
+					if(value == 'visual') return false;
+					if(value == 'text') return true;
+					return false;
+				},
+				toModel: function(value) {
+					if(value) return 'text';
+					else return 'visual';
+				}
+			}
+		});
+	</script>
+</polymer-element>

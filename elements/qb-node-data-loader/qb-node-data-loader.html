@@ -1,0 +1,47 @@
+<link rel="import" href="../qb.html">
+
+<polymer-element 
+	name="qb-node-data-loader"
+	attributes="src"
+	hidden
+	>
+	<template>
+		<core-ajax
+			auto
+			url="{{src}}"
+			params=''
+			handleAs="json"
+			on-core-response="{{onResponse}}"
+			on-core-error="{{onError}}"></core-ajax>
+
+		<qb-globals data="{{data}}"></qb-globals>
+	</template>
+		<script>
+		(function () {
+			Polymer({
+				src: '/dummy/Nodes.json',
+				onResponse: function (e, request, coreAjax) {
+					if(typeof request.response != 'object' &&
+						!request.response.success &&
+						!request.response.source,
+						!request.response.data){
+						return this.onError(e, request,coreAjax);
+					}
+					this.data.nodes = request.response.data;
+					this.data.nodesArray = [];
+					for(var label in this.data.nodes){
+						this.data.nodesArray.push(this.data.nodes[label])
+					}
+					this.data.nodesLoaded = true;
+					this.fire('ready')
+				},
+				onError: function (e, request, coreAjax) {
+					console.error(arguments),
+					this.fire('error')
+				}
+			});
+		})()
+
+	
+	</script>
+</polymer-element>

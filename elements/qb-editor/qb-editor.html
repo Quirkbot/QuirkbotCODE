@@ -1,0 +1,45 @@
+<link rel="import" href="../qb.html">
+
+<polymer-element name="qb-editor" >
+
+<template>
+	<style>
+		core-animated-pages {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			overflow: hidden;
+		}
+
+		section > * {
+			height: 100%;
+		}
+	</style>
+
+
+	<qb-globals data="{{data}}"></qb-globals>
+
+	<core-animated-pages
+		selected="{{data.route.editorMode | modeNameToIndex}}"
+		transitions="slide-from-right">
+		
+		<qb-editor-visual slide-from-right></qb-editor-visual>
+		<qb-editor-text slide-from-right></qb-editor-text>
+	
+	</core-animated-pages>
+
+</template>
+
+<script>
+	Polymer({
+		modeNameToIndex: function(value) {
+			if(value == 'visual') return 0;
+			if(value == 'text') return 1;
+			return 0;
+		}
+	});
+</script>
+
+</polymer-element>
