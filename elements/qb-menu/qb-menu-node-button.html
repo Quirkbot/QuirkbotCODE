@@ -49,12 +49,14 @@
 					return isEditor(parent);
 
 				return false;
-			}			
+			}	
+
 			if(!isEditor(dropTarget)) return;
 
-			this.globals.tree.push({
-				node: this.node
-			});
+			var data = {};
+			data.node = this.node;
+			data.visualPosition = dragInfo.framed;
+			this.globals.tree.push(data);
 		}
 
 	});
