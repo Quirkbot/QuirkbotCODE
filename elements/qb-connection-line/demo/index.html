@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+
+	<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	
+	<link rel="import" href="../../qb-styles/qb-styles.html">
+	<link rel="import" href="../../qb-svg-canvas/qb-svg-canvas.html">
+	<link rel="import" href="../../qb-connection-line/qb-connection-line.html">
+
+	<link rel="import" href="x-draggable.html">
+	
+	<style>
+		body{
+			background-color: yellow;
+		}
+		qb-svg-canvas{
+			background-color: red;
+			width: 500px;
+			height: 500px;
+			margin: 40px;
+			position: absolute;
+			left:0;
+			top:0;
+		}
+		> x-draggable{
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+	
+	<template is="dom-bind">
+		<qb-svg-canvas self="{{canvas}}">
+		</qb-svg-canvas>
+
+		<qb-connection-line
+			canvas="{{canvas}}"
+			source="{{source}}"
+			destination="{{destination}}">
+		</qb-connection-line>
+
+		<x-draggable draggable self="{{source}}">
+		</x-draggable>
+
+		<x-draggable draggable>
+			<div style="background-color:green; padding: 10px; float:left;clear: left; ">
+				<x-draggable draggable self="{{destination}}">
+				</x-draggable>
+				<x-draggable draggable>
+				</x-draggable>
+			</div>
+		</x-draggable>
+	</template>
+</body>
+</html>

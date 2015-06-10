@@ -1,0 +1,53 @@
+<link rel="import" href="../qb.html">
+<script src="ChromeExtensionAPIClient.js"></script>
+
+<polymer-element 
+	name="qb-browser-extension" 
+	attributes="extensionId model dev"
+	hidden>
+
+<script>(function () {
+		
+	Polymer({
+		model : { quirkbots:[] },
+		ready : function(){
+			// Create the serial adapter
+			var adapter = {};
+			var methods = ['upload'];
+			var events = ["modelChange"];
+			
+			// Google Chrome
+			if(typeof chrome !== 'undefined'){
+				if(typeof this.extensionId === 'undefined'){				
+					if(typeof this.dev === 'undefined'){
+						this.extensionId = "lgjmgejpijgfefnfbkdjoepoebaeafin";
+					}
+					else{
+						this.extensionId = "hmopjkdaifcnbhfgilhelghojhmabbhm";
+					}
+				}
+				var api = new ChromeExtensionAPIClient(this.extensionId);
+				for (var i = 0; i < methods.length; i++) {
+					adapter[methods[i]] = api.generateMethod(methods[i]);
+				};
+				for (var i = 0; i < events.length; i++) {
+					adapter[events[i]] = api.generateEvent(events[i]);
+				};
+			}
+
+			adapter.modelChange.add(this.onAdapterModelChange.bind(this));	
+		},
+		onAdapterModelChange: function(model){
+			this.model = model;
+		},
+		modelChanged: function(){
+			//console.log(this.model)
+		},
+		upload: function( quirkbotUuid, hexString ){
+			return adapter.upload(quirkbotUuid, hexString);
+		}
+		
+	});
+})();</script>
+
+</polymer-element>

@@ -14,12 +14,13 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.5.4",
-    "core-elements": "Polymer/core-elements#~0.5.4",
-    "paper-elements": "Polymer/paper-elements#~0.5.4",
-    "app-router": "~2.4.0",
-    "flatiron-director": "https://github.com/PolymerLabs/flatiron-director.git#~0.5.0",
-    "core-animated-pages": "Polymer/core-animated-pages#~0.5.4",
-    "draggabilly": "~1.1.2"
+    "polymer": "Polymer/polymer",
+    "iron-elements": "PolymerElements/iron-elements",
+    "paper-elements": "PolymerElements/paper-elements",
+    "gold-elements": "PolymerElements/gold-elements",
+    "neon-elements": "PolymerElements/neon-elements",
+    "platinum-elements": "PolymerElements/platinum-elements",
+    "molecules": "PolymerElements/molecules",
+    "page": "visionmedia/page.js"
   }
 }

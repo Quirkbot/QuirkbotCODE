@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+
+	Polymer.QBDraggableBehavior = {
+		QBDraggableBehavior: true,
+		properties:{
+			x:{
+				type: Number,
+				value: 0,
+				notify: true
+			},
+			y:{
+				type: Number,
+				value: 0,
+				notify: true
+			},
+			draggable:{
+				type: Boolean,
+				notify: true,
+				reflectToAttribute: true
+			}
+		},
+		observers: [
+			'_updatePosition(x, y)'
+		],
+		listeners: {
+			track: '_handleTrack'
+		},
+		_handleTrack: function(e) {
+			
+			if(!this.draggable) return;
+			if(e.target != this && e.target.draggable) return;
+
+			switch(e.detail.state) {
+				case 'start':
+					this.fire('dragstart');
+					this._zIndex = this.style.zIndex;
+					var parent = Polymer.dom(this).parentNode;
+					Polymer.dom(parent).insertBefore(this, Polymer.dom(parent).lastChild)
+					break;
+				case 'track':
+					this.x += e.detail.ddx;
+					this.y += e.detail.ddy;
+					if(this.x  < 0) this.x  = 0;
+					if(this.y  < 0) this.y  = 0;
+					this.fire('dragmove');
+					break;
+				case 'end':
+					this.fire('dragend');
+					break;
+			}
+		},
+		_updatePosition: function(x, y){
+			this.translate3d(x+'px', y+'px', 0);
+		}
+};
+</script>

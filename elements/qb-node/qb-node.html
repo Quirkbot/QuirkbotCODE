@@ -1,0 +1,68 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-draggable-behavior/qb-draggable-behavior.html">
+<link rel="import" href="../qb-node-input/qb-node-input.html">
+
+<dom-module id='qb-node'>
+	<style>
+		:host{
+			display: block;
+			position: absolute;
+			@apply(--qb-node-host-theme);
+		}
+		.name{
+			@apply(--qb-node-name-theme);
+		}
+		.inputs{
+			@apply(--qb-node-connection-theme);
+			@apply(--qb-node-inputs-theme);
+		}
+		.outputs{
+			@apply(--qb-node-connection-theme);
+			@apply(--qb-node-outputs-theme);
+		}
+	</style>
+
+	<template>
+		<div class='name'>{{name}}</div>
+
+		<div class='inputs'>
+			<template is="dom-repeat" items="{{inputs}}">
+				<qb-node-input
+					name="{{item.name}}">
+				</qb-node-input>
+			</template>
+		</div>
+
+		<div class='outputs'>
+			<template is="dom-repeat" items="{{outputs}}">
+				
+			</template>
+		</div>
+
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	Polymer({
+		is: 'qb-node',
+		properties: {
+			name: {
+				type: String
+			},
+			inputs: {
+				type: Array
+			},
+			outputs: {
+				type: Array
+			}
+		},
+		behaviors:[
+			Polymer.QBDraggableBehavior
+		],
+		ready: function() {
+		}
+	});
+})();
+</script>
