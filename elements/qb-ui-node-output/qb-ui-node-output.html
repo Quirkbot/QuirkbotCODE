@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-core-behavior-node-connector/qb-core-behavior-node-connector.html">
+
+<link rel="import" href="../qb-core-connection-line/qb-core-connection-line.html">
+
+<dom-module id='qb-ui-node-output'>
+	<style>
+		:host{
+			display: block;
+		}
+		.name{
+		}
+	</style>
+
+	<template>
+		<div class='name'>{{name}}</div>
+		
+		<qb-core-connection-line
+			id="line"
+			canvas="{{svgCanvas}}">
+		</qb-core-connection-line>
+	</template>
+</dom-module>
+<script>
+(function () {
+	Polymer({
+		is: 'qb-ui-node-output',
+		behaviors:[
+			NodeConnectorBehavior
+		],
+		properties: {
+		
+		}
+	});
+})();
+</script>

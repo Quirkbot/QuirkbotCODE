@@ -1,0 +1,50 @@
+<dom-module id="object-viewer">
+	<style type="text/css">
+		:host{
+			display: block;
+			font-family: monospace;
+		}
+	</style>
+	<template>
+		<div>ID: <span>{{object._id}}</span></div>
+		<div>Modified at: <span>{{object.modifiedAt}}</span></div>
+		<div>User: <span>{{object.userId}}</span></div>
+		<div>
+			Busy:
+			<br>- setup: (<template is="dom-if" if="{{object.doingSetup}}">x</template>)
+			<br>- sync: (<template is="dom-if" if="{{object.doingSync}}">x</template>)
+			<br>- addToProfile: (<template is="dom-if" if="{{object.addToProfile}}">x</template>)
+		</div>
+		<div>
+			Errors:
+			<br>- setup: (<span>{{object.setupError}}</span>)
+			<br>- sync: (<span>{{object.syncError}}</span>)
+			<br>- addToProfile: (<span>{{object.addToProdileError}}</span>)
+		</div>
+		<pre>{{objectString}}</pre>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	var cache = {};
+
+	Polymer({
+		is: 'object-viewer',
+		properties: {
+			object: {
+				type: Object
+			},
+			objectString: {
+				type: String
+			}
+		},
+		observers: [
+			'_objectObserver(object.*)'
+		],
+		_objectObserver: function(){ 
+			this.objectString =  JSON.stringify(this.object, null, '\t');
+		}
+	});
+})();
+</script>

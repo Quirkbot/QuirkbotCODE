@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<head>
+	<title>qb-core-model-controller - setup</title>
+
+	<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../../../bower_components/web-component-tester/browser.js"></script>
+	<script src="../../../bower_components/iron-test-helpers/test-helpers.js"></script>
+	<script src="../../../bower_components/test-fixture/test-fixture-mocha.js"></script>
+	
+	<link rel="import" href="../../../bower_components/test-fixture/test-fixture.html">
+	<link rel="import" href="../../qb-core-model-controller/qb-core-model-controller.html">
+
+</head>
+<body>
+
+	<test-fixture id="new-program">
+		<template>
+			<qb-core-model-controller id="b"></qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="local-program">
+		<template>
+			<qb-core-model-controller
+				_id="local-id"
+				verbose="error">
+			</qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="remote-program">
+		<template>
+			<qb-core-model-controller
+				_id="remote-id"
+				verbose="warning"
+				api="/responds_with_success">
+			</qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="offline-invalid">
+		<template>
+			<qb-core-model-controller
+				_id="bogus-id"
+				verbose="error"
+				api="/responds_with_invalid_status">
+			</qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="offline-404">
+		<template>
+			<qb-core-model-controller
+				_id="bogus-id"
+				verbose="error"
+				api="/responds_with_404">
+			</qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="not-found">
+		<template>
+			<qb-core-model-controller
+				_id="bogus-id"
+				verbose="error"
+				api="/responds_with_not_successful">
+			</qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+	<script>
+	suite('setup', function() {
+		var server;
+		setup(function() {
+			server = sinon.fakeServer.create();
+			server.autoRespond = true;
+			
+			server.respondWith(
+				'GET',
+				/\/responds_with_invalid_status.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "not-ok"}'
+				]
+			);
+			server.respondWith(
+				'GET',
+				/\/responds_with_404.*/,
+				[
+					404,
+					{ 'Content-Type': 'application/json' },
+					'i dont care'
+				]
+			);
+			server.respondWith(
+				'GET',
+				/\/responds_with_not_successful.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "ok", "success": false}'
+				]
+			);
+
+			server.respondWith(
+				'GET',
+				/\/responds_with_success.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "ok", "success": true, "result" : { "userId": "bogus-user" }}'
+				]
+			);
+
+			window.localStorage.setItem('qb_local-id', JSON.stringify({
+				_id: 'local-id',
+				userId : 'bogus-user'
+			}));
+		});
+
+
+		teardown(function() {
+			server.restore();
+			window.localStorage.removeItem('qb_local-id')
+		});
+
+
+		test('success - creates a new program', function(done) {
+			var data = fixture('new-program');
+
+			data.addEventListener('setupSuccess', function(event){
+				assert.equal(event.detail, 'new-program');
+				done()
+			})
+		});
+
+		test('success - loads program locally, anonymously', function(done) {
+			var data = fixture('local-program');
+			data.user = ''
+			data.addEventListener('setupSuccess', function(event){
+				assert.equal(event.detail, 'anonymous');
+				done()
+			})
+		});
+
+		test('success - loads program locally, users exists and owns program', function(done) {
+			var data = fixture('local-program');
+			data.user = {"_id": "bogus-user"}
+
+			data.addEventListener('setupSuccess', function(event){
+				assert.equal(event.detail, 'existing-program');
+				done()
+			})
+		});
+
+		test('success - loads program locally, users exists but does not own program', function(done) {
+			var data = fixture('local-program');
+			data.user = {"_id": "another-user"}
+
+			data.addEventListener('setupSuccess', function(event){
+				assert.equal(event.detail, 'not-in-profile');
+				done()
+			})
+		});
+
+		test('success - loads program from cloud, anonymously', function(done) {
+			var data = fixture('remote-program');
+			data.user = ''
+			data.addEventListener('setupSuccess', function(event){
+				assert.equal(event.detail, 'anonymous');
+				done()
+			})
+		});
+
+		test('success - loads program from cloud, users exists and owns program', function(done) {
+			var data = fixture('remote-program');
+			data.user = {"_id": "bogus-user"}
+
+			data.addEventListener('setupSuccess', function(event){
+				assert.equal(event.detail, 'existing-program');
+				done()
+			})
+		});
+
+		test('success - loads program from cloud, users exists but does not own program', function(done) {
+			var data = fixture('remote-program');
+			data.user = {"_id": "another-user"}
+
+			data.addEventListener('setupSuccess', function(event){
+				assert.equal(event.detail, 'not-in-profile');
+				done()
+			})
+		});
+
+		test('error - server offline - invalid status response', function(done) {
+			var data = fixture('offline-invalid');
+
+			data.addEventListener('setupError', function(event){
+				assert.equal(event.detail, 'offline');
+				done()
+			})
+		});
+
+		test('error - server offline - 404', function(done) {
+			var data = fixture('offline-404');
+
+			data.addEventListener('setupError', function(event){
+				assert.equal(event.detail, 'offline');
+				done()
+			})
+		});
+
+		test('error - program not found', function(done) {
+			var data = fixture('not-found');
+
+			data.addEventListener('setupError', function(event){
+				assert.equal(event.detail, 'not-found');
+				done()
+			})
+		});
+	
+	});
+	</script>
+
+</body>
+</html>

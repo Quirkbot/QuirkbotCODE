@@ -1,0 +1,33 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../qb-core-behavior-draggable.html">
+
+<dom-module id="qb-draggable">
+	<style>
+		:host{
+			display: block;
+			background-color: red;
+			border: solid 1px black;
+			padding: 20px;
+			float: left; 
+			clear: left; 
+		}
+		paper-checkbox{
+			display: block;
+		}
+	</style>
+	<template>
+		<paper-checkbox checked="{{draggable}}">Dragging enabled</paper-checkbox>
+		<content></content>
+	</template>
+
+</dom-module>
+
+<script>
+	Polymer({
+		is: 'qb-draggable',
+		behaviors: [
+			DraggableBehavior
+		]
+	});
+</script>

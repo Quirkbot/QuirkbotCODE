@@ -1,0 +1,84 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/observe-js/observe-js.html">
+
+<script>
+(function () {
+	var cache = {};
+	var current = {};
+
+	Polymer({
+		is: 'qb-core-i18n',
+		properties: {
+			urlFormat: {
+				type: String,
+				value: '/data/strings/{{locale}}.json'
+			},
+			locale: {
+				type: String
+			},
+			key:{
+				type: String,
+				observer: '_computeValue'
+			},
+			value:{
+				type: String,
+				notify: true,
+				observer: '_valueChanged'
+			}
+		},
+		observers:[
+			'_changeLocale(locale, urlFormat)'
+		],
+		originalTextContent: '',
+		getValue: function(key){
+			return this.cache[key];
+		},
+		created: function(){
+			this.originalTextContent = this.textContent;
+			// Bind to changes in cache
+			var observer = new ObjectObserver(current);
+			observer.open(function() {
+				this._computeValue();
+			}.bind(this));
+		},
+		_changeLocale: function(locale, urlFormat){
+
+			if(!locale || !urlFormat) return;
+		
+			if(cache[locale]) {
+				current.locale = cache[locale];
+				return;
+			}
+			
+			if(!this.loader){
+				this.loader = document.createElement('iron-ajax');
+				this.listen(this.loader, 'response', '_onLocaleResponse')
+
+			}
+			this.loader.url = urlFormat.replace('{{locale}}', locale);
+			this.loader.generateRequest();
+		},
+		_onLocaleResponse: function(event){
+			cache[this.locale] = event.detail.response;
+			current.locale = cache[this.locale]; 
+			Platform.performMicrotaskCheckpoint(); 
+		},
+		_computeValue: function(){
+
+			if(current.locale && typeof current.locale[this.key] != 'undefined'){
+				this.value = current.locale[this.key];
+			}
+			else if(this.originalTextContent){
+				this.value = this.originalTextContent;
+			}
+			else{
+				this.value = this.key;
+			}
+		},
+		_valueChanged: function(value){
+			this.innerHTML = value;
+		}
+	});
+})();
+</script>

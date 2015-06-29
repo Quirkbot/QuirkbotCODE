@@ -1,0 +1,111 @@
+{
+	"version" : "0.0.0",
+	"content":
+	[
+		{
+			"_id": "wave",
+			"groupId": "signal",
+			"type": "Wave",
+			"inputs" : [
+				{
+					"_id": "duration",
+					"default": 1,
+					"min" : 0,
+					"max" : 10
+				},
+				{
+					"_id": "type",
+					"default": "WAVE_SINE",
+					"datalist": [
+						{
+							"_id" : "sine-wave",
+							"value" : "WAVE_SINE"
+						},
+						{
+							"_id" : "square-wave",
+							"value" : "WAVE_SQUARE"
+						},
+						{
+							"_id" : "triangle-wave",
+							"value" : "WAVE_TRIANGLE"
+						},
+						{
+							"_id" : "pulse-wave",
+							"value" : "WAVE_PULSE"
+						},
+						{
+							"_id" : "ramp-up-wave",
+							"value" : "WAVE_RAMP_UP"
+						},
+						{
+							"_id" : "ramp-down-wave",
+							"value" : "WAVE_RAMP_DOWN"
+						}
+					]
+				},
+				{
+					"_id": "min",
+					"default": 0,
+					"min" : 0,
+					"max" : 1
+				},
+				{
+					"_id": "max",
+					"default": 1,
+					"min" : 0,
+					"max" : 1
+				},
+				{
+					"_id": "offset",
+					"default": 0,
+					"min" : 0,
+					"max" : 1
+				}
+			],
+			"outputs" : [
+				{
+					"_id": "out"
+				}
+			]
+		},
+		{
+			"_id": "servo-motor",
+			"groupId": "movement",
+			"type": "ServoMotor",
+			"inputs" : [
+				{
+					"_id": "in",
+					"default": 0,
+					"min" : 0,
+					"max" : 1
+				},
+				{
+					"_id": "place",
+					"default": "SERVO_BP_1",
+					"datalist": [
+						{
+							"_id" : "servo-bp-1",
+							"value" : "SERVO_BP_1"
+						},
+						{
+							"_id" : "servo-bp-2",
+							"value" : "SERVO_BP_2"
+						}
+					]
+				}
+			],
+			"outputs" : []
+		},
+		{
+			"_id": "test",
+			"groupId": "movement",
+			"type": "Test",
+			"inputs" : [
+				{
+					"_id": "in"
+				}
+			],
+			"outputs" : []
+		}
+	]
+}

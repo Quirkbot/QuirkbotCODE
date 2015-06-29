@@ -1,0 +1,113 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/observe-js/observe-js.html">
+
+<dom-module id="qb-core-i18n">
+	<template>
+		
+		<iron-ajax
+			id="localeLoader"
+			handle-as="json"
+			on-response="_onLocaleResponse">
+		</iron-ajax>
+		
+		<iron-ajax
+			id="defaultLocaleLoader"
+			handle-as="json"
+			on-response="_onDefaultLocaleResponse">
+		</iron-ajax>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	var cache = {};
+
+	Polymer({
+		is: 'qb-core-i18n',
+		localeData:{},
+		defaultLocale:{},
+		properties: {
+			urlFormat: {
+				type: String,
+				notify: true,
+				value: '/data/strings/{{locale}}.json'
+			},
+			defaultLocale: {
+				type: String,
+				notify: true,
+				value: 'en_US'
+			},
+			locale: {
+				type: String,
+				notify: true
+			},
+			data: {
+				type: Array,
+				notify: true
+			}
+		},
+		observers:[
+			'_changeLocale(locale, urlFormat)',
+			'_changeDefaultLocale(defaultLocale, urlFormat)'
+		],
+		getValue: function(key){
+			return this.cache[key];
+		},
+		ready: function(){
+			// Bind to changes in cache data
+			var observer = new ObjectObserver(cache);
+			observer.open(function() {
+				this.data = cache.data;
+				this.fire('change', this.data);
+			}.bind(this));
+		},
+		_changeLocale: function(locale, urlFormat){
+			this.$.localeLoader.url = urlFormat.replace('{{locale}}', locale);
+			this.$.localeLoader.generateRequest();
+		},
+		_changeDefaultLocale: function(defaultLocale, urlFormat){
+			this.$.defaultLocaleLoader.url = urlFormat.replace('{{locale}}', defaultLocale);
+			this.$.defaultLocaleLoader.generateRequest();
+		},
+		_onLocaleResponse: function(event){ 
+			this.localeData = event.detail.response;
+			this._computeData();
+		},
+		_onDefaultLocaleResponse: function(event){ 
+			this.defaultLocaleData = event.detail.response;
+			this._computeData();
+		},
+		_computeData: function(){
+			var localeData = this.localeData;
+			var defaultLocaleData = this.defaultLocaleData;
+			var data = {};
+
+			if(typeof defaultLocaleData === 'undefined')
+				return;
+			
+			if(typeof localeData === 'undefined')
+				localeData = {};
+
+			for(var label in localeData){
+				if(typeof localeData[label] !== 'undefined'){
+					data[label] = localeData[label];
+				}
+			}
+
+			for(var label in defaultLocaleData){
+				if(typeof defaultLocaleData[label] !== 'undefined' &&
+					typeof data[label] === 'undefined'){
+					data[label] = defaultLocaleData[label];
+				}
+			}
+
+			cache.data = data;
+
+			//inform changes for browsers that don't support Object.observe
+			Platform.performMicrotaskCheckpoint(); 
+		}
+	});
+})();
+</script>

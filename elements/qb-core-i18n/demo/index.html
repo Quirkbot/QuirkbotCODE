@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+		<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		
+		<link rel="import" href="../../../bower_components/paper-menu/paper-menu.html">
+		<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+		<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+		<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+
+		<link rel="import" href="../../qb-core-i18n/qb-core-i18n.html">
+	</head>
+	<body>
+
+	<template is="dom-bind">
+
+
+		<paper-menu selected="{{locale}}" attr-for-selected="locale">
+			<paper-item locale="en_US">English</paper-item>
+			<paper-item locale="pt_BR">Português</paper-item>
+		</paper-menu>
+		
+
+		<qb-core-i18n
+			url-format="strings/{{locale}}.json"
+			locale="{{locale}}">
+		</qb-core-i18n>
+
+		<h1>Locale: <qb-core-i18n key="locale/name" value="{{localeName}}">No language</qb-core-i18n></h1>
+		<paper-input value="[[localeName]]"></paper-input>
+
+		<h1>Wave: <qb-core-i18n key="nodes/wave/name" value="{{waveName}}"></qb-core-i18n></h1>
+		<paper-input value="[[waveName]]"></paper-input>
+
+		<h2>Bind to key: <qb-core-i18n key="{{keyName}}"></qb-core-i18n></h1>
+		<paper-input label="type 'test' or 'locale/name'" value="{{keyName}}"></paper-input>
+
+
+
+	</template>
+
+	</body>
+</html>

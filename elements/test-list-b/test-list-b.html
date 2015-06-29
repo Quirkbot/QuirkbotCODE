@@ -1,0 +1,28 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../test-item-b/test-item-b.html">
+
+<dom-module id="test-list-b">
+	<template>
+		<h2>LIST B</h2>
+		<div>{{data.meta}}</div>
+		<template is="dom-repeat" items="{{data.object.array}}">
+			<test-item-b data="{{item}}"></test-item-b>
+		</template>
+	</template>
+</dom-module>
+
+
+<script>
+(function () {
+	var cache = {};
+
+	Polymer({
+		is: 'test-list-b',
+		properties: {
+			data: {
+				type: Object
+			}
+		}
+	});
+})();
+</script>

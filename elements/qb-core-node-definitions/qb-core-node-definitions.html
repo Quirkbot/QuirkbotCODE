@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/observe-js/observe-js.html">
+
+<dom-module id="qb-core-node-definitions">
+	<template>
+		<iron-ajax
+			id="dataLoader"
+			handle-as="json"
+			url="{{url}}"
+			on-response="onResponse">
+		</iron-ajax>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	var cache = {};
+
+	Polymer({
+		is: 'qb-core-node-definitions',
+		properties: {
+			url: {
+				type: String,
+				observer: '_urlChanged'
+			},
+			data: {
+				type: Array,
+				notify: true,
+				value: cache.data
+			}
+		},
+
+		ready: function(){
+			// Bind to changes in cache
+			var observer = new ObjectObserver(cache);
+			observer.open(function(e) {
+				this.data = cache.data;
+			}.bind(this));
+		},
+		_urlChanged: function(url){
+			this.$.dataLoader.generateRequest();
+		},
+		onResponse: function(event){ 
+			cache.data = event.detail.response.content;
+			// inform changes for browsers that don't support Object.observe
+			Platform.performMicrotaskCheckpoint(); 
+		}
+	});
+})();
+</script>

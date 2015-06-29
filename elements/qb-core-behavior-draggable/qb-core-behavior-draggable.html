@@ -1,0 +1,75 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function(){
+	var zIndexFactory = 0;
+	DraggableBehavior = {
+		DraggableBehavior: true,
+		properties:{
+			x:{
+				type: Number,
+				value: 0,
+				notify: true
+			},
+			y:{
+				type: Number,
+				value: 0,
+				notify: true
+			},
+			data:{
+				type: Object
+			},
+			draggable:{
+				type: Boolean,
+				notify: true,
+				reflectToAttribute: true
+			}
+		},
+		observers: [
+			'_updatePosition(x, y)',
+			'_dataChanged(data.*)'
+		],
+		listeners: {
+			track: '_handleTrack'
+		},
+		_handleTrack: function(e) {
+			if(!this.draggable) return;
+			if(e.target != this && e.target.draggable) return;
+			if(this.trackEventFilter && this.trackEventFilter(e)) return;
+
+			switch(e.detail.state) {
+				case 'start':
+					this.fire('dragstart');
+					this.style.zIndex = zIndexFactory++;
+					break;
+				case 'track':
+					/*var x = this.data.x;
+					var y = this.data.y;
+					x += e.detail.ddx;
+					y += e.detail.ddy;
+					if(x  < 0) x  = 0;
+					if(y  < 0) y  = 0;
+					this.set('data.x', x);
+					this.set('data.y', y);*/
+
+
+					this.x += e.detail.ddx;
+					this.y += e.detail.ddy;
+					if(this.x  < 0) this.x  = 0;
+					if(this.y  < 0) this.y  = 0;
+					this.fire('dragmove');
+					break;
+				case 'end':
+					this.fire('dragend');
+					break;
+			}
+		},
+		_updatePosition: function(x, y){
+			this.translate3d(x+'px', y+'px', 0);
+		},
+		_dataChanged: function(x,y){
+			console.log('_dataChanged', this.data.x, this.data.y)
+		}
+	};
+})()
+</script>

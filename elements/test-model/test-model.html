@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/observe-js/observe-js.html">
+
+<script>
+(function () {
+	var cache = {};
+
+	Polymer({
+		is: 'test-model',
+		properties: {
+			model: {
+				type: Object,
+				notify: true,
+				observer: 'modelChanged'
+			}
+		},
+		attached: function(){
+			this.set('model', {
+				meta: "model",
+				object:{
+					array:[
+						{
+							_id: '1',
+							field: "a"
+						},
+						{
+							_id: '2',
+							field: "b"
+						}
+					]
+				}
+			})
+			
+		},
+		modelChanged: function(){
+			console.log(this.model)
+		}
+	});
+})();
+</script>

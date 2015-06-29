@@ -1,0 +1,14 @@
+{
+	"version" : "0.0.0",
+	"content":
+	[
+		{
+			"id": "signal",
+			"meta":{"test": "signal"}
+		},
+		{
+			"id": "movement",
+			"meta":{"test": "signal"}
+		}
+	]
+}

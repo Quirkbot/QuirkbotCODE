@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+<head>
+	<title>qb-core-model-controller - setup</title>
+
+	<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../../../bower_components/web-component-tester/browser.js"></script>
+	<script src="../../../bower_components/iron-test-helpers/test-helpers.js"></script>
+	<script src="../../../bower_components/test-fixture/test-fixture-mocha.js"></script>
+	
+	<link rel="import" href="../../../bower_components/test-fixture/test-fixture.html">
+	<link rel="import" href="../../qb-core-model-controller/qb-core-model-controller.html">
+
+</head>
+<body>
+
+	<test-fixture id="data-model">
+		<template>
+			<qb-core-model-controller
+				verbose='log'
+			></qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+
+	<script>
+	suite('sync', function() {
+		var server;
+		setup(function() {
+			server = sinon.fakeServer.create();
+			server.autoRespond = true;
+			
+			server.respondWith(
+				'PUT',
+				/\/responds_with_invalid_status.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "not-ok"}'
+				]
+			);
+			server.respondWith(
+				'PUT',
+				/\/responds_with_404.*/,
+				[
+					404,
+					{ 'Content-Type': 'application/json' },
+					'i dont care'
+				]
+			);
+			server.respondWith(
+				'PUT',
+				/\/responds_with_not_successful.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "ok", "success": false}'
+				]
+			);
+
+			server.respondWith(
+				'PUT',
+				/\/responds_with_success.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "ok", "success": true, "result" : { "_id": "local-id" }}'
+				]
+			);
+
+			server.respondWith(
+				'PUT',
+				/\/responds_with_new.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "ok", "success": true, "result" : { "_id": "local-id", "modifiedAt" : 100, "userId" : "bogus-user" }}'
+				]
+			);
+
+			server.respondWith(
+				'PUT',
+				/\/responds_with_old.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "ok", "success": true, "result" : { "_id": "local-id", "modifiedAt" : 1, "userId" : "bogus-user" }}'
+				]
+			);
+
+			window.localStorage.setItem('qb_local-id', JSON.stringify({
+				_id: 'local-id',
+				userId : 'bogus-user',
+				modifiedAt : 50
+			}));
+			window.localStorage.setItem('qb_local-id2', JSON.stringify({
+				_id: 'local-id2',
+				userId : 'bogus-user2',
+				modifiedAt : 50
+			}));
+		});
+
+		teardown(function() {
+			server.restore();
+			window.localStorage.removeItem('qb_local-id')
+			window.localStorage.removeItem('qb_local-id2')
+		});
+
+		test('success - empty id, creates program on server', function(done) {
+			var data = fixture('data-model');
+			data.api = '/responds_with_success';
+			data.user = {_id : "bogus-user"}
+
+
+			var count = 0;
+			data.addEventListener('setupSuccess', function(event){
+				switch(count){
+					case 0:
+						assert.equal(event.detail, 'new-program');
+						data.addEventListener('syncSuccess', function(event){
+							assert.equal(event.detail, 'created-on-server');
+							done()
+						})
+						data.sync();
+						break;
+					case 1:
+						assert.fail('','','setupSuccess was fired more than once');
+						break;
+				}
+				count++;
+				
+			})
+		});
+
+		test('success - "not-in-profile" id, creates program on server', function(done) {
+			var data = fixture('data-model');
+			data.api = '/responds_with_new';
+			data._id = 'local-id2';
+			data.user = {_id : "bogus-user"}
+
+
+			var count = 0;
+			data.addEventListener('setupSuccess', function(event){
+				switch(count){
+					case 0:
+						assert.equal(event.detail, 'new-program');
+						break;
+					case 1:
+						assert.equal(event.detail, 'not-in-profile');
+						data.addEventListener('syncSuccess', function(event){
+							assert.equal(event.detail, 'created-on-server');
+							assert.notEqual(data.model._id, 'local-id2');
+							done()
+						})
+						break;
+				}
+				count++;
+				
+			})
+		});
+
+		test('success - local existing program, server program is newer', function(done) {
+			var data = fixture('data-model');
+			data.api = '/responds_with_new';
+			data._id = 'local-id';
+			data.user = {_id : "bogus-user"}
+
+			var count = 0;
+			data.addEventListener('setupSuccess', function(event){
+				switch(count){
+					case 0:
+						assert.equal(event.detail, 'new-program');
+						break;
+					case 1:
+						assert.equal(event.detail, 'existing-program');
+						data.addEventListener('syncSuccess', function(event){
+							
+							assert.equal(event.detail, 'from-server');
+							assert.equal(data.model._id, 'local-id');
+							done()
+						})
+						data.sync();
+						break;
+				}
+				count++;
+				
+			})
+		});
+
+		test('success - local existing program, server program is older', function(done) {
+			var data = fixture('data-model');
+			data.api = '/responds_with_old';
+			data._id = 'local-id';
+			data.user = {_id : "bogus-user"}
+
+			var count = 0;
+			data.addEventListener('setupSuccess', function(event){
+				switch(count){
+					case 0:
+						assert.equal(event.detail, 'new-program');
+						break;
+					case 1:
+						assert.equal(event.detail, 'existing-program');
+						data.addEventListener('syncSuccess', function(event){
+							assert.equal(event.detail, 'to-server');
+							assert.equal(data.model._id, 'local-id');
+							done()
+						})
+						data.sync();
+						break;
+				}
+				count++;
+				
+			})
+		});
+
+
+
+		test('error - no user', function(done) {
+			var data = fixture('data-model');
+
+			setTimeout(function(){ data.sync().catch(function(){}) },10);
+			data.addEventListener('syncError', function(event){
+				assert.equal(event.detail, 'no-user');
+				done()
+			})
+		});
+
+		test('error - offline - broken connection', function(done) {
+			var data = fixture('data-model');
+			data.user = {_id:'a'}
+			data.api = '/this-is-not-an-url'
+
+			setTimeout(function(){ data.sync().catch(function(){}) },10);
+			data.addEventListener('syncError', function(event){
+				assert.equal(event.detail, 'offline');
+				done()
+			})
+		});
+
+		test('error - offline - invalid status response', function(done) {
+			var data = fixture('data-model');
+			data.user = {_id:'a'}
+			data.api = '/responds_with_invalid_status'
+
+			setTimeout(function(){ data.sync().catch(function(){}) },10);
+			data.addEventListener('syncError', function(event){
+				assert.equal(event.detail, 'offline');
+				done()
+			})
+		});
+
+		test('error - offline - 404', function(done) {
+			var data = fixture('data-model');
+			data.user = {_id:'a'}
+			data.api = '/responds_with_404'
+
+			setTimeout(function(){ data.sync().catch(function(){}) },10);
+			data.addEventListener('syncError', function(event){
+				assert.equal(event.detail, 'offline');
+				done()
+			})
+		});
+
+		test('error - offline - not succesdful status response', function(done) {
+			var data = fixture('data-model');
+			data.user = {_id:'a'}
+			data.api = '/responds_with_not_successful'
+
+			setTimeout(function(){ data.sync().catch(function(){}) },10);
+			data.addEventListener('syncError', function(event){
+				assert.equal(event.detail, 'offline');
+				done()
+			})
+		});
+
+	
+	});
+	</script>
+
+</body>
+</html>

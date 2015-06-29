@@ -1,0 +1,27 @@
+{
+	"locale/name" : "American English",
+
+
+	"node/name/wave": 			"Wave",
+	"node/name/servo-motor": 	"Servo Motor",
+
+	"node/connection/name/in" : 		"in",
+	"node/connection/name/out" : 		"out",
+	"node/connection/name/place" : 		"place",
+	"node/connection/name/duration" : 	"duration",
+	"node/connection/name/type" : 		"type",
+	"node/connection/name/min" : 		"min",
+	"node/connection/name/max" : 		"max",
+	"node/connection/name/offset" : 	"offset",
+
+	"node/connection/datalist/sine-wave" : 		"Sine",
+	"node/connection/datalist/square-wave" : 	"Square",
+	"node/connection/datalist/triangle-wave" : 	"Triangle",
+	"node/connection/datalist/pulse-wave" : 	"Pulse",
+	"node/connection/datalist/ramp-up-wave" : 	"Ramp Up",
+	"node/connection/datalist/ramp-down-wave" : "Ramp Down",
+
+	"node/connection/datalist/servo-bp-1" : 	"Backpack 1",
+	"node/connection/datalist/servo-bp-2" : 	"Backpack 2"
+
+}

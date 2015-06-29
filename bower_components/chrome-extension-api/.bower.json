@@ -1,0 +1,14 @@
+{
+  "name": "chrome-extension-api",
+  "homepage": "https://github.com/Quirkbot/ChromeExtensionAPI",
+  "version": "0.0.0",
+  "_release": "0.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.0",
+    "commit": "f30128ab5db891cd4d7a0499f013b2a81dcd1896"
+  },
+  "_source": "https://github.com/Quirkbot/ChromeExtensionAPI.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/Quirkbot/ChromeExtensionAPI.git"
+}

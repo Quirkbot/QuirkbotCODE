@@ -1,0 +1,34 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../qb-core-behavior-draggable/qb-core-behavior-draggable.html">
+<link rel="import" href="../../qb-core-behavior-self-property/qb-core-behavior-self-property.html">
+
+<dom-module id="x-draggable">
+	<style>
+		:host{
+			display: block;
+			background-color: red;
+			border: solid 1px black;
+			padding: 20px;
+			position: absolute;
+		}
+		paper-checkbox{
+			display: block;
+		}
+	</style>
+	<template>
+		<paper-checkbox checked="{{draggable}}">Dragging enabled</paper-checkbox>
+		<content></content>
+	</template>
+
+</dom-module>
+
+<script>
+	Polymer({
+		is: 'x-draggable',
+		behaviors: [
+			DraggableBehavior,
+			SelfPropertyBehavior
+		]
+	});
+</script>

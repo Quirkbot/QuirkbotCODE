@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function(){
+	NodeConnectorBehavior = {
+		NodeConnectorBehavior: true,
+		properties: {
+			svgCanvas: {
+				type: Object
+			},
+			definition: {
+				type: Object
+			},
+			data: {
+				type: Object
+			},
+			nameKey: {
+				type: String,
+				computed: '_computeNameKey(definition)'
+			},
+			nameValue: {
+				type: String
+			}
+		},
+		attached: function() {
+			this.$.line.source = this;
+		},
+		_computeNameKey: function(definition){
+			return 'node/connection/name/'+definition._id;
+		}
+	}
+}())
+</script>

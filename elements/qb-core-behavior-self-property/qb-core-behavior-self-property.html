@@ -1,0 +1,16 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+	SelfPropertyBehavior = {
+		SelfPropertyBehavior: true,
+		properties:{
+			self: {
+				type: Object,
+				notify: true
+			}
+		},
+		attached: function(){
+			this.self = this;
+		}
+	};
+</script>

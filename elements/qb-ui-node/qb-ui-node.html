@@ -1,0 +1,144 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/observe-js/observe-js.html">
+
+<link rel="import" href="../qb-core-behavior-draggable/qb-core-behavior-draggable.html">
+<link rel="import" href="../qb-core-behavior-utils/qb-core-behavior-utils.html">
+
+<link rel="import" href="../qb-core-uuid/qb-core-uuid.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-node-input/qb-ui-node-input.html">
+<link rel="import" href="../qb-ui-node-output/qb-ui-node-output.html">
+
+<dom-module id='qb-ui-node'>
+	<style>
+		:host{
+			display: block;
+			position: absolute;
+			@apply(--qb-ui-node-host-theme);
+		}
+		.name{
+			@apply(--qb-ui-node-name-theme);
+		}
+		.inputs{
+			@apply(--qb-ui-node-connection-theme);
+			@apply(--qb-ui-node-inputs-theme);
+		}
+		.outputs{
+			@apply(--qb-ui-node-connection-theme);
+			@apply(--qb-ui-node-outputs-theme);
+		}
+	</style>
+
+	<template>
+
+		<qb-core-uuid
+			id="uuid">
+		</qb-core-uuid>
+
+		<div class='name'>
+			<qb-core-i18n key="{{nameKey}}"></qb-core-i18n>
+		</div>
+
+		<div class='inputs'>
+			<template
+				is="dom-repeat"
+				items="{{inputs}}">
+
+				<qb-ui-node-input
+					svg-canvas="{{svgCanvas}}"
+					definition="{{item.definition}}"
+					data="{{item.data}}">
+				</qb-ui-node-input>
+
+			</template>
+		</div>
+
+		<!--<div class='outputs'>
+			<template
+				is="dom-repeat"
+				items="{{definition.outputs}}">
+				
+				<qb-ui-node-output
+					svg-canvas="{{svgCanvas}}"
+					data="{{item}}">
+				</qb-ui-node-output>
+
+			</template>
+		</div>-->
+
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	Polymer({
+		is: 'qb-ui-node',
+		properties: {
+			svgCanvas: {
+				type: Object
+			},
+			nodeDefinitions: {
+				type: Object
+			},
+			treeRef:{
+				type: Object
+			},
+			definition: {
+				type: Object
+			},
+			data: {
+				type: Object
+			},
+			nameKey: {
+				type: String,
+				computed: '_computeNameKey(definition)'
+			}
+		},
+		behaviors:[
+			DraggableBehavior,
+			UtilsBehaviour
+		],
+		observers:[
+			'_dataChanged(data, nodeDefinitions)'
+		],
+		_dataChanged: function(data, nodeDefinitions){
+			if(!data || !nodeDefinitions) return;
+			var definition;
+			for (var i = 0; i < nodeDefinitions.length; i++) {
+				if(nodeDefinitions[i]._id == data.node){
+					definition = nodeDefinitions[i];
+					break;
+				}
+			};
+			if(!definition) return;
+
+			this.definition = definition;
+
+			this.inputs = [];
+			definition.inputs.forEach(function(inputDefinition){
+				var inputData = this.listSearch(data.inputs, '_id', inputDefinition._id);
+				if(!inputData) inputData = {_id: inputDefinition._id};
+
+				this.push('inputs', {
+					definition : inputDefinition,
+					data: inputData
+				});
+			}.bind(this));
+		},
+		_computeNameKey: function(definition){
+			return 'node/name/'+definition._id;
+		},
+		/**
+		 * Allows to disable/enable dragging by filtering the track event.
+		 *
+		 * @return {boolean} - 'true' if tracking should be disabled
+		 */
+		trackEventFilter: function(e){
+			if(e.target.id == 'sliderKnob') return true;
+			if(e.target.id == 'sliderBar') return true;
+			return false;
+		}
+	});
+})();
+</script>

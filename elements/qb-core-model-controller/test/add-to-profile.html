@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+<head>
+	<title>qb-core-model-controller - setup</title>
+
+	<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../../../bower_components/web-component-tester/browser.js"></script>
+	<script src="../../../bower_components/iron-test-helpers/test-helpers.js"></script>
+	<script src="../../../bower_components/test-fixture/test-fixture-mocha.js"></script>
+	
+	<link rel="import" href="../../../bower_components/test-fixture/test-fixture.html">
+	<link rel="import" href="../../qb-core-model-controller/qb-core-model-controller.html">
+
+</head>
+<body>
+
+	<test-fixture id="empty">
+		<template>
+			<qb-core-model-controller
+				verbose="log">
+			</qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="remote-program">
+		<template>
+			<qb-core-model-controller
+				_id="remote-id"
+				verbose="log">
+			</qb-core-model-controller>
+		</template>
+	</test-fixture>
+
+
+	<script>
+	suite('add to profile', function() {
+		var server;
+		setup(function() {
+			server = sinon.fakeServer.create();
+			server.autoRespond = true;
+			server.autoRespondAfter = 500;
+			
+			server.respondWith(
+				'PUT',
+				/\/responds_with_new.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "ok", "success": true, "result" : { "_id": "new-remote-id", "modifiedAt" : 50, "userId" : "user-a" }}'
+				]
+			);
+
+			server.respondWith(
+				'GET',
+				/\/responds_with_success_user_b.*/,
+				[
+					200,
+					{ 'Content-Type': 'application/json' },
+					'{"status": "ok", "success": true, "result" : { "_id": "remote-id", "modifiedAt" : 50, "userId" : "user-b" }}'
+				]
+			);
+
+
+
+
+			window.localStorage.setItem('qb_user', JSON.stringify({
+				_id: 'user-a',
+				programs : []
+			}));
+		});
+
+
+		teardown(function() {
+			server.restore();
+			window.localStorage.removeItem('qb_user');
+		});
+
+
+		test('success - creates a new program, add to profile, sync', function(done) {
+			var data = fixture('empty');
+			data.api = '/responds_with_new'
+
+			data.addEventListener('setupError', function(event){
+				assert.fail('','', 'setupError fired with "'+event.detail+'"');
+				done()
+			})
+
+			data.addEventListener('setupStart', function(event){
+				// Setup Started
+				data.addEventListener('setupSuccess', function(event){
+					// Setup Succeded
+					assert.equal(event.detail, 'new-program');
+					var oldId = data._id;
+					data.addEventListener('addToProfileSuccess', function(event){
+						// Added to profile
+						assert.equal(event.detail, '');
+
+						data.addEventListener('syncSuccess', function(event){
+							// Synced
+							assert.equal(event.detail, 'created-on-server');
+							assert.notEqual(oldId, data._id);
+							assert.include(data.user.programs, data._id, 'user.programs do not contains new id');
+							assert.notInclude(data.user.programs, oldId, 'user.programs contains old id');
+
+							var localUser = JSON.parse(window.localStorage.getItem('qb_user'));
+							assert.include(localUser.programs, data._id, 'user in localStorage do not contains new id');
+							assert.notInclude(localUser.programs, oldId, 'user in localStorage contains old id');
+							done()
+							
+						})
+					})
+					data.addToProfile().catch(function(){})
+				})
+			});
+			
+		});
+
+		test('success - loads a program not in profile, add to profile, sync', function(done) {
+			var data = fixture('remote-program');
+			data.api = '/responds_with_success_user_b'
+
+			data.addEventListener('setupError', function(event){
+				assert.fail('','', 'setupError fired with "'+event.detail+'"');
+				done()
+			})
+
+			data.addEventListener('setupStart', function(event){
+				// Setup Started
+				data.addEventListener('setupSuccess', function(event){
+					// Setup Succeded
+					assert.equal(event.detail, 'not-in-profile');
+					var oldId = data._id;
+
+					data.addEventListener('addToProfileSuccess', function(event){
+						// Added to profile
+						assert.equal(event.detail, '');
+						data.api = '/responds_with_new'
+						data.addEventListener('syncSuccess', function(event){
+							// Synced
+							assert.equal(event.detail, 'created-on-server');
+							assert.notEqual(oldId, data._id);
+							assert.include(data.user.programs, data._id, 'user.programs do not contains new id');
+							assert.notInclude(data.user.programs, oldId, 'user.programs contains old id');
+
+							var localUser = JSON.parse(window.localStorage.getItem('qb_user'));
+							assert.include(localUser.programs, data._id, 'user in localStorage do not contains new id');
+							assert.notInclude(localUser.programs, oldId, 'user in localStorage contains old id');
+							done()
+							
+						})
+					})
+					data.addToProfile().catch(function(){})
+				})
+			});
+			
+		});
+
+		test('error - no user', function(done) {
+			var data = fixture('empty');
+			data.api = '/responds_with_new'
+
+			data.addEventListener('setupError', function(event){
+				assert.fail('','', 'setupError fired with "'+event.detail+'"');
+				done()
+			})
+
+			data.addEventListener('setupStart', function(event){
+				// Setup Started
+				data.addEventListener('setupSuccess', function(event){
+					// Setup Succeded
+					assert.equal(event.detail, 'new-program');
+					data.user = null;
+					data.addEventListener('addToProfileError', function(event){
+						// Added to profile
+						assert.equal(event.detail, 'no-user');
+						done();
+					})
+					data.addToProfile().catch(function(){})
+				})
+			});
+			
+		});
+
+		test('error - busy - trying to add to profile during setup', function(done) {
+			var data = fixture('remote-program');
+			data.api = '/responds_with_success_user_b'
+
+			data.addEventListener('setupError', function(event){
+				assert.fail('','', 'setupError fired with "'+event.detail+'"');
+				done()
+			})
+
+			data.addEventListener('addToProfileError', function(event){
+				// Added to profile
+				assert.equal(event.detail, 'busy');
+				done();
+			})
+			setTimeout(function () {
+				data.addToProfile().catch(function(){})
+			}, 100);
+			
+		});
+
+
+	
+	});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../qb-core-behavior-self-property/qb-core-behavior-self-property.html">
+
+<dom-module	id="qb-ui-svg-canvas">
+	<style>
+		:host{
+			display: block;
+		}
+		svg{
+			width: 100%;
+			height: 100%;
+			stroke: black;
+			@apply(--qb-svg-stroke-color-theme);
+			@apply(--qb-svg-stroke-theme);
+			@apply(--qb-svg-stroke-animation-theme);
+		}
+
+			
+		@-webkit-keyframes animated-dash {
+			from {
+				stroke-dashoffset: 0;
+			}
+			to {
+				stroke-dashoffset: -100;
+			}
+		}
+		@keyframes animated-dash {
+			from {
+				stroke-dashoffset: 0;
+			}
+			to {
+				stroke-dashoffset: -100;
+			}
+		}
+	</style>
+	<template>
+		<svg id="svg">
+		</line>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	Polymer({
+		is: 'qb-ui-svg-canvas',
+		behaviors:[
+			SelfPropertyBehavior
+		],
+		add: function(child) {
+			Polymer.dom(this.$.svg).appendChild(child);
+		},
+		remove: function(child) {
+			Polymer.dom(this.$.svg).removeChild(child);
+		}
+	});
+})();
+</script>

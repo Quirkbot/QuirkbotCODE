@@ -1,0 +1,22 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function(){
+
+	UtilsBehaviour = {
+		UtilsBehaviour: true,
+		listSearch: function(list, key, value) {
+			if(!list) return;
+			
+			var item;
+			for (var i = 0; i < list.length; i++) {
+				if(list[i][key] === value){
+					item = list[i];
+					break;
+				}
+			};
+			return item;
+		}
+	};
+})()
+</script>

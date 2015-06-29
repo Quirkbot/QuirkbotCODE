@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+		
+		<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../../qb-core-node-definitions/qb-core-node-definitions.html">
+	</head>
+	<body>
+
+	<template is="dom-bind">
+
+
+
+		<qb-core-node-definitions
+			name="one"
+			url="/data/nodes.json"
+			data="{{data1}}">
+		</qb-core-node-definitions>
+
+		<h1>Loaded</h1>
+		<template is="dom-repeat" items="{{data1.content}}">
+			<div>{{item.id}}</div>
+		</template>
+
+		<qb-core-node-definitions
+			name="two"
+			data="{{data}}">
+		</qb-core-node-definitions>
+
+		<h1>Cached</h1>
+		<template is="dom-repeat" items="{{data.content}}">
+			<div>{{item.id}}</div>
+		</template>
+
+	</template>
+
+	</body>
+</html>

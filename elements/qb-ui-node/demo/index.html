@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+
+	<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	
+
+	<link rel="import" href="../../../bower_components/paper-menu/paper-menu.html">
+	<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+	<link rel="import" href="../../../bower_components/paper-styles/paper-styles.html">
+
+	<link rel="import" href="../../qb-core-i18n/qb-core-i18n.html">
+	<link rel="import" href="../../qb-core-node-definitions/qb-core-node-definitions.html">
+	<link rel="import" href="../../qb-core-model-controller/qb-core-model-controller.html">
+	
+	<link rel="import" href="../../qb-ui-styles/qb-ui-styles.html">
+	<link rel="import" href="../../qb-ui-svg-canvas/qb-ui-svg-canvas.html">
+	<link rel="import" href="../../qb-ui-node/qb-ui-node.html">
+	
+
+	<style>
+		body{
+			background-color: yellow;
+		}
+		qb-ui-svg-canvas{
+			background-color: red;
+			width: 500px;
+			height: 500px;
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+
+	<script type="text/javascript">
+		window.localStorage.setItem('qb_user', JSON.stringify({
+			_id: 'p',
+			programs : ["5586b31e6fe167963d00000b"]
+		}));
+	</script>
+	
+	<template is="dom-bind">
+
+		<qb-core-i18n
+			url="/data/strings/{{locale}}.json"
+			locale="{{locale}}"
+			data="{{translation}}">
+		</qb-core-i18n>
+
+		<qb-core-node-definitions
+			url="/data/nodes.json"
+			data="{{nodes}}">
+		</qb-core-node-definitions>
+
+		<qb-core-model-controller
+			api="http://localhost:8585/api/programs"
+			_id="5586b31e6fe167963d00000b"
+			model="{{model}}">
+		</qb-core-model-controller>
+
+		<paper-menu
+			selected="{{locale}}"
+			attr-for-selected="locale">
+
+			<paper-item locale="en_US">English</paper-item>
+			<paper-item locale="pt_BR">Português</paper-item>
+
+		</paper-menu>
+
+		<qb-ui-svg-canvas
+			self="{{canvas}}">
+		</qb-ui-svg-canvas>
+
+		<template 
+			is="dom-repeat"
+			items="{{model.tree}}">
+
+			<qb-ui-node
+				svg-canvas="{{canvas}}"
+				node-definitions="{{nodes}}"
+				data="{{item}}"
+				draggable>
+			</qb-ui-node>
+			
+		</template>
+				
+	</template>
+</body>
+</html>

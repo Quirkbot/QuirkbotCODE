@@ -1,0 +1,181 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-connection-line/qb-core-connection-line.html">
+
+<link rel="import" href="../qb-core-behavior-node-connector/qb-core-behavior-node-connector.html">
+
+<dom-module id='qb-ui-node-input'>
+	<style>
+		:host{
+			
+		}
+		.name{
+		}
+	</style>
+
+	<template>
+
+		<qb-core-i18n
+			key="{{nameKey}}"
+			value="{{nameValue}}"
+			hidden></qb-core-i18n>
+
+		<paper-input
+			label="{{nameValue}}"
+			placeholder="{{definition.default}}"
+			value="{{data.value}}"
+			always-float-label>
+		</paper-input>
+
+		<template is="dom-if" if="{{datalist}}" restamp>
+			<paper-menu
+				selected="{{data.value}}"
+				attr-for-selected="name">
+
+				<template 
+					is="dom-repeat"
+					items="{{datalist}}">
+
+					<paper-item name="{{item.value}}">
+						<qb-core-i18n key="{{item.translationKey}}"></qb-core-i18n>
+					</paper-item>
+
+				</template>
+
+			</paper-menu>
+		</template>
+
+		<template is="dom-if" if="{{slider}}" restamp>
+			<paper-slider
+				value="{{data.value}}"
+				min="{{slider.min}}"
+				max="{{slider.max}}"
+				step="0.01"
+				pin>
+			</paper-slider>
+		</template>
+
+		<qb-core-connection-line
+			id="line"
+			canvas="{{svgCanvas}}">
+		</qb-core-connection-line>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	Polymer({
+		is: 'qb-ui-node-input',
+		properties:{
+			/*value: {
+				type: String,
+				oberserver: '_valueChanged'
+			},*/
+			datalist:{
+				type: Array,
+				computed: '_computeDatalist(definition)'
+			},
+			slider:{
+				type: Array,
+				computed: '_computeSlider(definition)'
+			}
+		},
+		behaviors:[
+			NodeConnectorBehavior
+		],
+		observers:[
+			'_applyDefault(data, definition)',
+			'_valueChanged(data.value)'
+		],
+		_valueChanged: function(value){
+			if(!this.definition || !this.data) return;
+			clearTimeout(this.validateTimer)
+			if(!this._validate(value)){
+				this.validateTimer = setTimeout(function(){
+					this.set('data.value', this._computeValid(value));
+				}.bind(this), 500);
+			}
+		},
+		_computeDatalist: function(definition){
+			if(!definition || !definition.datalist || !definition.datalist.length) return;
+			var datalist = [];
+			definition.datalist.forEach(function(item){
+				datalist.push({
+					_id: item._id,
+					value: item.value,
+					translationKey: 'node/connection/datalist/' + item._id
+				})
+			})
+			return datalist; 
+		},
+		_computeSlider: function(definition){
+			if(!definition
+				|| typeof definition.min === 'undefined'
+				|| typeof definition.max === 'undefined') return;
+			var slider = {
+				min:  parseFloat(definition.min),
+				max:  parseFloat(definition.max)
+			};
+			
+			return slider; 
+		},
+		_applyDefault: function(data, definition){
+			if(!definition || !data) return;
+
+			if(typeof data.value != 'undefined'
+				|| typeof this.definition.default == 'undefined')
+				return;
+
+			this.set('data.value', definition.default.toString());
+		},
+		_validate: function(value){
+			if(this.datalist){
+				for (var i = 0; i < this.datalist.length; i++) {
+					if(this.datalist[i].value == value)
+						return true;
+				};
+				return false;
+			}
+			else if(this.slider){
+				if(this.slider.min < this.slider.max)
+					return (value >= this.slider.min && value <= this.slider.max);
+				else
+					return (value <= this.slider.min && value >= this.slider.max);
+			}
+			else return true;
+		},
+		_computeValid: function(value){
+			var _default;
+			if(typeof this.definition.default !== 'undefined'){
+				_default = this.definition.default.toString();
+			}
+			if(this.datalist){
+				for (var i = 0; i < this.datalist.length; i++) {
+					if(this.datalist[i].value.toUpperCase() == value.toUpperCase())
+						return this.datalist[i].value;
+				};
+				return _default;
+			}
+			else if(this.slider){
+				var ref = parseFloat(value);
+				if(this.slider.min < this.slider.max){
+					if(ref < this.slider.min) return this.slider.min;
+					else if(ref > this.slider.max) return this.slider.max;
+					else return ref;
+				}
+				else{
+					if(ref > this.slider.min) return this.slider.min;
+					else if(ref < this.slider.max) return this.slider.max;
+					else return ref;
+				}
+			}
+			return _default;
+		}
+	});
+})();
+</script>

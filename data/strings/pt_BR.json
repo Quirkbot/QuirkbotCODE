@@ -1,0 +1,16 @@
+{
+	"locale/name" : "Português Brasiliero",
+
+
+	"node/name/wave": 			"Onda",
+	"node/name/servo-motor": 	"Motor Servo",
+
+	"node/connection/name/in" : 		"entrada",
+	"node/connection/name/out" : 		"saída",
+	"node/connection/name/place" : 		"lugar",
+	"node/connection/name/duration" : 	"duração",
+	"node/connection/name/type" : 		"tipo",
+	"node/connection/name/min" : 		"min",
+	"node/connection/name/max" : 		"max",
+	"node/connection/name/offset" : 	"ajuste"
+}

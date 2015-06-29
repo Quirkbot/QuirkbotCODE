@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../test-item-a/test-item-a.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="test-list-a">
+	<template>
+		<h2>LIST A</h2>
+		<div>{{data.meta}}</div>
+		<paper-button on-tap="add">add</paper-button>
+		<template is="dom-repeat" items="{{data.object.array}}">
+			<test-item-a list-ref="{{data.object.array}}" data="{{item}}"></test-item-a>
+		</template>
+	</template>
+</dom-module>
+
+
+<script>
+(function () {
+	var cache = {};
+
+	Polymer({
+		is: 'test-list-a',
+		properties: {
+			data: {
+				type: Object
+			}
+		},
+		add: function(){
+			this.push('data.object.array', {_id:Math.random(), field:"c"})
+		}
+	});
+})();
+</script>

@@ -1,0 +1,35 @@
+{
+	"tree": [
+		{
+			"node" : "wave",
+			"_id" : "a",
+			"inputs" : {
+				"duration": {
+					"type" : "Number",
+					"value": 0.5
+				},
+				"type": {
+					"type" : "Constant",
+					"value": "WAVE_SINE"
+				}
+			}
+		},
+		{
+			"node" : "servoMotor",
+			"_id" : "b",
+			"inputs" : {
+				"in" : {
+					"type" : "Output",
+					"value": {
+						"node": "a",
+						"output" "out"
+					}
+				}
+			}
+		},
+		{
+			"node" : "test",
+			"_id" : "c"
+		}
+	]
+}
