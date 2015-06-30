@@ -6,19 +6,6 @@
 	DraggableBehavior = {
 		DraggableBehavior: true,
 		properties:{
-			x:{
-				type: Number,
-				value: 0,
-				notify: true
-			},
-			y:{
-				type: Number,
-				value: 0,
-				notify: true
-			},
-			data:{
-				type: Object
-			},
 			draggable:{
 				type: Boolean,
 				notify: true,
@@ -26,8 +13,7 @@
 			}
 		},
 		observers: [
-			'_updatePosition(x, y)',
-			'_dataChanged(data.*)'
+			'_positionChanged(data.visualX, data.visualY)'
 		],
 		listeners: {
 			track: '_handleTrack'
@@ -43,20 +29,16 @@
 					this.style.zIndex = zIndexFactory++;
 					break;
 				case 'track':
-					/*var x = this.data.x;
-					var y = this.data.y;
-					x += e.detail.ddx;
-					y += e.detail.ddy;
-					if(x  < 0) x  = 0;
-					if(y  < 0) y  = 0;
-					this.set('data.x', x);
-					this.set('data.y', y);*/
-
-
-					this.x += e.detail.ddx;
-					this.y += e.detail.ddy;
-					if(this.x  < 0) this.x  = 0;
-					if(this.y  < 0) this.y  = 0;
+					if(this.data){
+						var x = this.data.visualX || 0;
+						var y = this.data.visualY || 0;
+						x += e.detail.ddx;
+						y += e.detail.ddy;
+						if(x  < 0) x  = 0;
+						if(y  < 0) y  = 0;
+						this.set('data.visualX', x);
+						this.set('data.visualY', y);
+					}
 					this.fire('dragmove');
 					break;
 				case 'end':
@@ -64,11 +46,8 @@
 					break;
 			}
 		},
-		_updatePosition: function(x, y){
+		_positionChanged: function(x,y){
 			this.translate3d(x+'px', y+'px', 0);
-		},
-		_dataChanged: function(x,y){
-			console.log('_dataChanged', this.data.x, this.data.y)
 		}
 	};
 })()

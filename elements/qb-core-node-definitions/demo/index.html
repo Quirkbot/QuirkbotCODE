@@ -16,22 +16,22 @@
 		<qb-core-node-definitions
 			name="one"
 			url="/data/nodes.json"
-			data="{{data1}}">
+			nodes="{{nodes}}"
+			groups="{{groups}}"
+			constants="{{constants}}">
 		</qb-core-node-definitions>
 
-		<h1>Loaded</h1>
-		<template is="dom-repeat" items="{{data1.content}}">
-			<div>{{item.id}}</div>
+		<h1>Nodes</h1>
+		<template is="dom-repeat" items="{{nodes}}">
+			<div>{{item._id}}</div>
 		</template>
-
-		<qb-core-node-definitions
-			name="two"
-			data="{{data}}">
-		</qb-core-node-definitions>
-
-		<h1>Cached</h1>
-		<template is="dom-repeat" items="{{data.content}}">
-			<div>{{item.id}}</div>
+		<h1>Groups</h1>
+		<template is="dom-repeat" items="{{groups}}">
+			<div>{{item._id}}</div>
+		</template>
+		<h1>Constants</h1>
+		<template is="dom-repeat" items="{{constants}}">
+			<div>{{item}}</div>
 		</template>
 
 	</template>

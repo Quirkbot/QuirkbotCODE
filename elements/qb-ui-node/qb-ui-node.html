@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/observe-js/observe-js.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <link rel="import" href="../qb-core-behavior-draggable/qb-core-behavior-draggable.html">
 <link rel="import" href="../qb-core-behavior-utils/qb-core-behavior-utils.html">
@@ -28,6 +30,7 @@
 			@apply(--qb-ui-node-connection-theme);
 			@apply(--qb-ui-node-outputs-theme);
 		}
+
 	</style>
 
 	<template>
@@ -35,6 +38,13 @@
 		<qb-core-uuid
 			id="uuid">
 		</qb-core-uuid>
+
+		<paper-icon-button
+			id="deleteButton"
+			icon="clear"
+			alt="remove"
+			on-down="_onDeletePress">
+		</paper-icon-button>
 
 		<div class='name'>
 			<qb-core-i18n key="{{nameKey}}"></qb-core-i18n>
@@ -47,6 +57,9 @@
 
 				<qb-ui-node-input
 					svg-canvas="{{svgCanvas}}"
+					model-controller="{{modelController}}"
+					node-definitions="{{nodeDefinitions}}"
+					constant-definitions="{{constantDefinitions}}"
 					definition="{{item.definition}}"
 					data="{{item.data}}">
 				</qb-ui-node-input>
@@ -54,18 +67,22 @@
 			</template>
 		</div>
 
-		<!--<div class='outputs'>
+		<div class='outputs'>
 			<template
 				is="dom-repeat"
-				items="{{definition.outputs}}">
+				items="{{outputs}}">
 				
 				<qb-ui-node-output
 					svg-canvas="{{svgCanvas}}"
-					data="{{item}}">
+					model-controller="{{modelController}}"
+					node-definitions="{{nodeDefinitions}}"
+					constant-definitions="{{constantDefinitions}}"
+					definition="{{item.definition}}"
+					data="{{item.data}}">
 				</qb-ui-node-output>
 
 			</template>
-		</div>-->
+		</div>
 
 
 	</template>
@@ -78,10 +95,13 @@
 			svgCanvas: {
 				type: Object
 			},
+			modelController:{
+				type: Object
+			},
 			nodeDefinitions: {
 				type: Object
 			},
-			treeRef:{
+			constantDefinitions: {
 				type: Object
 			},
 			definition: {
@@ -100,9 +120,12 @@
 			UtilsBehaviour
 		],
 		observers:[
-			'_dataChanged(data, nodeDefinitions)'
+			'_dataAndNodeDefinitionsChanged(data, nodeDefinitions)'
 		],
-		_dataChanged: function(data, nodeDefinitions){
+		_dataChanged: function(data){
+			this.data.element = this;
+		},
+		_dataAndNodeDefinitionsChanged: function(data, nodeDefinitions){
 			if(!data || !nodeDefinitions) return;
 			var definition;
 			for (var i = 0; i < nodeDefinitions.length; i++) {
@@ -115,10 +138,31 @@
 
 			this.definition = definition;
 
+			this.outputs = [];
+			definition.outputs.forEach(function(outputDefinition){
+				if(!data.outputs)this.set('data.outputs',[]);
+
+				var outputData = this.findObjectByKey(data.outputs, '_id', outputDefinition._id);
+				if(!outputData) {
+					outputData = {_id: outputDefinition._id};
+					this.push('data.outputs',outputData)
+				}
+
+				this.push('outputs', {
+					definition : outputDefinition,
+					data : outputData
+				});
+			}.bind(this));
+
 			this.inputs = [];
 			definition.inputs.forEach(function(inputDefinition){
-				var inputData = this.listSearch(data.inputs, '_id', inputDefinition._id);
-				if(!inputData) inputData = {_id: inputDefinition._id};
+				if(!data.inputs)this.set('data.inputs',[]);
+
+				var inputData = this.findObjectByKey(data.inputs, '_id', inputDefinition._id);
+				if(!inputData) {
+					inputData = {_id: inputDefinition._id};
+					this.push('data.inputs',inputData)
+				}
 
 				this.push('inputs', {
 					definition : inputDefinition,
@@ -129,12 +173,41 @@
 		_computeNameKey: function(definition){
 			return 'node/name/'+definition._id;
 		},
+		_onDeletePress: function(){
+			var index = this.findIndexByKey(this.modelController.model.tree, '_id', this.data._id);
+			if(index == -1) return;
+
+			for (var i = 0; i < this.modelController.model.tree.length; i++) {
+				var node  = this.modelController.model.tree[i];
+				if(node === this.data) continue;
+
+				for (var j = 0; j < node.inputs.length; j++) {
+					var input = node.inputs[j];
+					if(input.type != 'Output') continue;
+	
+					var parts = input.value.split('.');
+					
+					if(parts.length != 2
+						|| !isNaN(parseFloat(parts[0]))
+						|| !isNaN(parseFloat(parts[1]))
+						) continue;
+
+					if(parts[0] == this.data._id){
+						input.element.set('data.value', null);
+					}
+				};
+			};
+
+			this.modelController.splice('model.tree', index, 1);
+		},
 		/**
 		 * Allows to disable/enable dragging by filtering the track event.
 		 *
 		 * @return {boolean} - 'true' if tracking should be disabled
 		 */
 		trackEventFilter: function(e){
+			if(e.path.length && e.path[0].id == 'sliderKnob') return true;
+			if(e.path.length && e.path[0].id == 'sliderBar') return true;
 			if(e.target.id == 'sliderKnob') return true;
 			if(e.target.id == 'sliderBar') return true;
 			return false;

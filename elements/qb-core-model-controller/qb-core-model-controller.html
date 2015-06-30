@@ -3,6 +3,8 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="../../bower_components/observe-js/observe-js.html">
+
+<link rel="import" href="../qb-core-behavior-self-property/qb-core-behavior-self-property.html">
 <link rel="import" href="../qb-core-uuid/qb-core-uuid.html">
 
 <dom-module id="qb-core-model-controller">
@@ -54,6 +56,9 @@
 
 	Polymer({
 		is: 'qb-core-model-controller',
+		behaviors:[
+			SelfPropertyBehavior
+		],
 		properties: {
 			model: {
 				type: Object,
@@ -85,7 +90,7 @@
 				value: false
 			}
 		},
-		 observers: [
+		observers: [
 			'_modelObserver(model.*)'
 		],
 		listeners:{
@@ -108,6 +113,7 @@
 		},
 		ready: function(){
 			if(!this.model) this.model = {};
+			window.MODEL = this;
 		},
 		setup: function(_id){
 			var promise = function (resolve, reject) {
@@ -233,7 +239,6 @@
 					console.log('user in')
 					// User is logged in
 					this.set('model.userId',this.user._id);
-					this.push('user.programs', this.model._id);
 					this.fire('addToProfileSuccess', '');
 					resolve();
 				}.bind(this))
@@ -416,17 +421,6 @@
 					}
 					this._log('log', rejectMessage);
 					reject(rejectMessage)
-				}
-				else if(this.user.programs.indexOf(this._id) == -1){
-					var rejectMessage = {
-						element: 'qb-core-model-controller',
-						method: '_guaranteeUserOwnsProgram',
-						message: '_id is not in user.programs',
-						payload: this.user.programs
-					}
-					this._log('log', rejectMessage);
-					reject(rejectMessage)
-					
 				}
 				else {
 					resolve();

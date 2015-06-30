@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../../bower_components/observe-js/observe-js.html">
 
 <dom-module id="qb-core-node-definitions">
 	<template>
@@ -15,7 +14,6 @@
 
 <script>
 (function () {
-	var cache = {};
 
 	Polymer({
 		is: 'qb-core-node-definitions',
@@ -24,27 +22,26 @@
 				type: String,
 				observer: '_urlChanged'
 			},
-			data: {
+			nodes: {
 				type: Array,
-				notify: true,
-				value: cache.data
+				notify: true
+			},
+			groups: {
+				type: Array,
+				notify: true
+			},
+			constants: {
+				type: Array,
+				notify: true
 			}
-		},
-
-		ready: function(){
-			// Bind to changes in cache
-			var observer = new ObjectObserver(cache);
-			observer.open(function(e) {
-				this.data = cache.data;
-			}.bind(this));
 		},
 		_urlChanged: function(url){
 			this.$.dataLoader.generateRequest();
 		},
 		onResponse: function(event){ 
-			cache.data = event.detail.response.content;
-			// inform changes for browsers that don't support Object.observe
-			Platform.performMicrotaskCheckpoint(); 
+			this.nodes = event.detail.response.nodes;
+			this.constants = event.detail.response.constants;
+			this.groups = event.detail.response.groups;
 		}
 	});
 })();

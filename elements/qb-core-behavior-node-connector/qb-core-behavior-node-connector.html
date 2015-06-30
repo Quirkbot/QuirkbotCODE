@@ -8,11 +8,21 @@
 			svgCanvas: {
 				type: Object
 			},
+			modelController:{
+				type: Object
+			},
+			nodeDefinitions: {
+				type: Object
+			},
+			constantDefinitions: {
+				type: Object
+			},
 			definition: {
 				type: Object
 			},
 			data: {
-				type: Object
+				type: Object,
+				observer: '_dataChanged'
 			},
 			nameKey: {
 				type: String,
@@ -22,11 +32,11 @@
 				type: String
 			}
 		},
-		attached: function() {
-			this.$.line.source = this;
-		},
 		_computeNameKey: function(definition){
 			return 'node/connection/name/'+definition._id;
+		},
+		_dataChanged: function(data){
+			this.data.element = this;
 		}
 	}
 }())

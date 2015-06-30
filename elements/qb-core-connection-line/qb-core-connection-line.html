@@ -36,8 +36,7 @@
 			}
 		},
 		sharesCommonParent: function(node){
-			//var parent = Polymer.dom(node).parentNode;
-			var parent = node.parentNode;
+			var parent = this._findParent(node);
 			if(!parent) return false;
 			if(parent == this.commonParent)	return true;
 			return this.sharesCommonParent(parent)
@@ -92,7 +91,7 @@
 			if(node.DraggableBehavior){
 				this.listen(node, 'dragmove', 'postionUpdated')
 			}
-			var parent = Polymer.dom(node).parentNode;
+			var parent = this._findParent(node);
 			if(parent) return this.addDragListeners(parent)
 		},
 		removeDragListeners: function(node){
@@ -100,13 +99,11 @@
 			if(node.DraggableBehavior){
 				this.unlisten(node, 'dragmove', 'postionUpdated')
 			}
-			var parent = Polymer.dom(node).parentNode;
+			var parent = this._findParent(node);
 			if(parent) return this.removeDragListeners(parent)
 		},
 		postionUpdated: function(e){
-			if(typeof this.source === 'undefined'
-				|| typeof this.destination === 'undefined'
-				|| typeof this.canvas === 'undefined')
+			if(!this.source || !this.destination || !this.canvas)
 				return;
 
 			var sourcePosition = this.computePositionRelativeToCanvas(this.source);
@@ -116,6 +113,12 @@
 			this.line.setAttributeNS(null, 'y1', sourcePosition.y);
 			this.line.setAttributeNS(null, 'x2', destinationPosition.x);
 			this.line.setAttributeNS(null, 'y2', destinationPosition.y);
+		},
+		_hideLine: function(){
+			this.line.removeAttributeNS(null, 'x1');
+			this.line.removeAttributeNS(null, 'y1');
+			this.line.removeAttributeNS(null, 'x2');
+			this.line.removeAttributeNS(null, 'y2');
 		},
 		_canvasChanged: function(canvas, oldCanvas){
 			if(oldCanvas){
@@ -129,6 +132,9 @@
 			if(oldSource){
 				this.removeDragListeners(oldSource)
 			}
+			if(!source) {
+				return this._hideLine();
+			};
 			if(!this.sharesCommonParent(source)){
 				console.warn('"qb-core-connection-line": "source" do not share a commonParent with "canvas".');
 				return;
@@ -140,12 +146,24 @@
 			if(oldDestination){
 				this.removeDragListeners(oldDestination)
 			}
+			if(!destination) {
+				return this._hideLine();
+			};
 			if(!this.sharesCommonParent(destination)){
 				console.warn('"qb-core-connection-line": "destination" do not share a commonParent with "canvas".');
 				return;
 			}
 			this.addDragListeners(destination)
 			this.postionUpdated()
+		},
+		_findParent: function(node){
+			var parent = Polymer.dom(node).parentNode;
+			if(!parent){
+				if(node.host){
+					parent = node.host;
+				}
+			}
+			return parent;
 		}
 	});
 })();

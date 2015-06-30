@@ -4,10 +4,11 @@
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 
+<link rel="import" href="../qb-core-behavior-node-connector/qb-core-behavior-node-connector.html">
+<link rel="import" href="../qb-core-behavior-utils/qb-core-behavior-utils.html">
+
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-connection-line/qb-core-connection-line.html">
-
-<link rel="import" href="../qb-core-behavior-node-connector/qb-core-behavior-node-connector.html">
 
 <dom-module id='qb-ui-node-input'>
 	<style>
@@ -25,6 +26,8 @@
 			value="{{nameValue}}"
 			hidden></qb-core-i18n>
 
+		<div></div>
+
 		<paper-input
 			label="{{nameValue}}"
 			placeholder="{{definition.default}}"
@@ -32,8 +35,10 @@
 			always-float-label>
 		</paper-input>
 
+
 		<template is="dom-if" if="{{datalist}}" restamp>
 			<paper-menu
+				id="menu"
 				selected="{{data.value}}"
 				attr-for-selected="name">
 
@@ -50,19 +55,23 @@
 			</paper-menu>
 		</template>
 
-		<template is="dom-if" if="{{slider}}" restamp>
-			<paper-slider
-				value="{{data.value}}"
-				min="{{slider.min}}"
-				max="{{slider.max}}"
-				step="0.01"
-				pin>
-			</paper-slider>
-		</template>
+		<span id="sliderTemplate">
+			<template is="dom-if" if="{{range}}" restamp>
+				<paper-slider
+					id="slider"
+					value="{{data.value}}"
+					min="{{range.min}}"
+					max="{{range.max}}"
+					step="0.01"
+					pin>
+				</paper-slider>
+			</template>
+		</span>
 
 		<qb-core-connection-line
 			id="line"
-			canvas="{{svgCanvas}}">
+			canvas="{{svgCanvas}}"
+			source="{{connection.output.element}}">
 		</qb-core-connection-line>
 
 	</template>
@@ -72,34 +81,38 @@
 	Polymer({
 		is: 'qb-ui-node-input',
 		properties:{
-			/*value: {
-				type: String,
-				oberserver: '_valueChanged'
-			},*/
 			datalist:{
 				type: Array,
 				computed: '_computeDatalist(definition)'
 			},
-			slider:{
+			range:{
 				type: Array,
-				computed: '_computeSlider(definition)'
+				computed: '_computeRange(definition)'
+			},
+			connection:{
+				type: Object
 			}
 		},
 		behaviors:[
-			NodeConnectorBehavior
+			NodeConnectorBehavior,
+			UtilsBehaviour
 		],
 		observers:[
-			'_applyDefault(data, definition)',
-			'_valueChanged(data.value)'
+			'_applyDefaultValue(data, definition)',
+			'_valueChanged(data.value)',
+			'_computeLineSource(data.value, modelController)'
 		],
-		_valueChanged: function(value){
+		attached: function() {
+			this.$.line.destination = this;
+		},
+		_valueChanged: function(value, oldValue){
 			if(!this.definition || !this.data) return;
-			clearTimeout(this.validateTimer)
-			if(!this._validate(value)){
-				this.validateTimer = setTimeout(function(){
-					this.set('data.value', this._computeValid(value));
-				}.bind(this), 500);
-			}
+
+			// Validate
+			clearTimeout(this.validateDebouncer)
+			this.validateDebouncer = setTimeout(function(){
+				this._computeValid(value);
+			}.bind(this), 1000);
 		},
 		_computeDatalist: function(definition){
 			if(!definition || !definition.datalist || !definition.datalist.length) return;
@@ -113,68 +126,206 @@
 			})
 			return datalist; 
 		},
-		_computeSlider: function(definition){
+		_computeRange: function(definition){
 			if(!definition
 				|| typeof definition.min === 'undefined'
 				|| typeof definition.max === 'undefined') return;
-			var slider = {
+			var range = {
 				min:  parseFloat(definition.min),
 				max:  parseFloat(definition.max)
 			};
 			
-			return slider; 
+			return range; 
 		},
-		_applyDefault: function(data, definition){
+		_computeLineSource: function(value, modelController){
+			clearTimeout(this.connectionLineDebouncer)
+			this.connectionLineDebouncer = setTimeout(function(){
+				var connection = this._connectionMatch(value);
+				if(connection){
+					this.connection = connection;
+				}
+				else{
+					this.connection = null;
+				}
+			}.bind(this), 100);
+		},
+		_applyDefaultValue: function(data, definition){
 			if(!definition || !data) return;
 
-			if(typeof data.value != 'undefined'
-				|| typeof this.definition.default == 'undefined')
-				return;
+			var oldValue = this.data.value;
+			this.async(function(){
+				/**
+				 * Hack the paper-slider behavior so that it doens't auto validate.
+				 * Needs to wrap this in a async call since they won't be avaiable
+				 * before that.
+				 */
+				var slider = this.$.sliderTemplate.querySelector('#slider');
+				if(slider){
+					slider._update = function(){
+   						this._setRatio(this._calcRatio(this.value) * 100);
+					}.bind(slider)
+					
+				}
 
-			this.set('data.value', definition.default.toString());
-		},
-		_validate: function(value){
-			if(this.datalist){
-				for (var i = 0; i < this.datalist.length; i++) {
-					if(this.datalist[i].value == value)
-						return true;
-				};
-				return false;
-			}
-			else if(this.slider){
-				if(this.slider.min < this.slider.max)
-					return (value >= this.slider.min && value <= this.slider.max);
-				else
-					return (value <= this.slider.min && value >= this.slider.max);
-			}
-			else return true;
+
+				var newValue = oldValue;
+				if(typeof oldValue === 'undefined'
+					&& this.definition.mandatory
+					&& typeof this.definition.default !== 'undefined'
+					&& this.definition.default !== this.data.value){
+					newValue = this.definition.default;
+				}
+
+				if(slider && slider.value !== newValue)
+						slider.value = newValue;
+
+				this._setTypedValue(this.data.type, newValue);
+
+			}.bind(this));
 		},
 		_computeValid: function(value){
+			var _mandatory = this.definition.mandatory;
 			var _default;
 			if(typeof this.definition.default !== 'undefined'){
 				_default = this.definition.default.toString();
 			}
+
+			// Check if it is a conection to another node
+			if(this._connectionMatch(value)){
+				this._setTypedValue('Output', value);
+				return;
+			}
+
+			// Check if it belongs to datalist
 			if(this.datalist){
-				for (var i = 0; i < this.datalist.length; i++) {
-					if(this.datalist[i].value.toUpperCase() == value.toUpperCase())
-						return this.datalist[i].value;
-				};
-				return _default;
-			}
-			else if(this.slider){
-				var ref = parseFloat(value);
-				if(this.slider.min < this.slider.max){
-					if(ref < this.slider.min) return this.slider.min;
-					else if(ref > this.slider.max) return this.slider.max;
-					else return ref;
+				var dataListMatch = this._dataListMatch(value);
+				if(typeof dataListMatch != 'undefined'){
+					this._setTypedValue(isNaN(parseFloat(dataListMatch)) ? 'Constant' : 'Number', dataListMatch);
+					return;
 				}
-				else{
-					if(ref > this.slider.min) return this.slider.min;
-					else if(ref < this.slider.max) return this.slider.max;
-					else return ref;
+
+				if(_mandatory && typeof _default != 'undefined'){
+					this._setTypedValue(isNaN(parseFloat(_default)) ? 'Constant' : 'Number', _default);
+					return;
 				}
+				this._setTypedValue('Number');
+				return;
+
 			}
-			return _default;
+			
+			// Check if it is a number contained in range
+			if(this.range){
+				var rangeMatch =  this._rangeMatch(value);
+				this._setTypedValue('Number', rangeMatch);
+				return;
+			}
+
+			// Check if it is a global datalist
+			var constantMatch = this._constantMatch(value);
+			if(typeof constantMatch != 'undefined'){
+				this._setTypedValue('Constant', constantMatch);
+				return
+			}
+
+			// Check if it is a valud number
+			var ref = parseFloat(value);
+			if(isNaN(ref)){
+				if(_mandatory && typeof _default != 'undefined'){
+					this._setTypedValue(isNaN(parseFloat(_default)) ? 'Constant' : 'Number', _default);
+					return;
+				}
+				this._setTypedValue('Number');
+				return;
+			}
+
+			this._setTypedValue('Number', ref);
+			return
+		},
+		_connectionMatch: function(value){
+			if(typeof value == 'undefined') return;
+			
+			if(!value) value = '';
+			var parts = value.toString().split('.');
+
+			if(parts.length != 2
+				|| !isNaN(parseFloat(parts[0]))
+				|| !isNaN(parseFloat(parts[1]))
+				) return;
+			// String looks like a connection
+			
+			var node = this.findObjectByKey(this.modelController.model.tree, '_id', parts[0]);
+			if(!node) return;
+			// Node found
+
+			var output = this.findObjectByKey(node.outputs, '_id', parts[1]);
+			if(!output) return;
+			// Output found
+
+			var nodeDefinition = this.findObjectByKey(this.nodeDefinitions, '_id', node.node);
+			if(!nodeDefinition) return;
+			// Node definition found
+
+			var outputDefinition = this.findObjectByKey(nodeDefinition.outputs, '_id', parts[1]);
+			if(!outputDefinition) return;
+			// Output definition found
+
+			return {
+				node: node,
+				output: output,
+				nodeDefinition: nodeDefinition,
+				outputDefinition: outputDefinition
+			};
+		},
+		_dataListMatch: function(value){
+			if(!this.datalist) return;
+			if(!value) value = '';
+
+			for (var i = 0; i < this.datalist.length; i++) {
+				if(this.datalist[i].value.toUpperCase() == value.toUpperCase()){
+					return this.datalist[i].value;
+				}
+			};
+		},
+		_rangeMatch: function(value){
+			if(!this.range) return;
+			var _mandatory = this.definition.mandatory;
+			var _default;
+			if(typeof this.definition.default !== 'undefined'){
+				_default = this.definition.default.toString();
+			}
+
+			var ref = parseFloat(value);
+			
+			if(isNaN(ref)){
+				if(_mandatory && typeof _default != 'undefined') return _default;
+				else return;
+			}
+			if(this.range.min < this.range.max){
+				if(ref < this.range.min) return this.range.min;
+				else if(ref > this.range.max) return this.range.max;
+				else return ref;
+			}
+			else{
+				if(ref > this.range.min) return this.range.min;
+				else if(ref < this.range.max) return this.range.max;
+				else return ref;
+			}
+		},
+		_constantMatch: function(value){
+			if(!value) return;
+
+			for (var i = 0; i < this.constantDefinitions.length; i++) {
+				if(this.constantDefinitions[i].toUpperCase()
+					== value.toUpperCase()){
+					return this.constantDefinitions[i];
+				}
+			};
+		},
+		_setTypedValue: function(type, value){
+			if(this.data.type !== type)
+				this.set('data.type', type);
+			if(this.data.value !== value)
+				this.set('data.value', value);
 		}
 	});
 })();
