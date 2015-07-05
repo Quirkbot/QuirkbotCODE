@@ -1,8 +1,0 @@
-{
-	"locale/name" : "American English",
-
-
-	"nodes/wave/name" : 		"Wave",
-	"nodes/servoMotor/name" : 	"Servo Motor",
-	"test" : "it works!"
-}

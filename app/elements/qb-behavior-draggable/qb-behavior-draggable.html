@@ -1,0 +1,78 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function () {
+	var zIndexFactory = 0;
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.DraggableBehavior = {
+		DraggableBehavior: true,
+		properties:{
+			draggable:{
+				type: Boolean,
+				notify: true,
+				reflectToAttribute: true
+			}
+		},
+		observers: [
+			'_positionChanged(data.visualX, data.visualY)'
+		],
+		listeners: {
+			down: '_handleDown',
+			track: '_handleTrack',
+			touchmove: '_disableTouchScroll'
+		},
+		_handleDown: function(){
+			this.style.zIndex = zIndexFactory++;
+		},
+		_handleTrack: function(e) {
+			if(!this.draggable){
+				return;
+			}
+			if(e.target !== this && e.target.draggable){
+				return;
+			}
+			if(this.trackEventFilter && this.trackEventFilter(e)){
+				return;
+			}
+
+			switch(e.detail.state) {
+				case 'start':
+					this.fire('dragstart');
+					
+					break;
+				case 'track':
+					if(this.data){
+						var x = this.data.visualX || 0;
+						var y = this.data.visualY || 0;
+						x += e.detail.ddx;
+						y += e.detail.ddy;
+						if(x  < 0){
+							x  = 0;
+						}
+						if(y  < 0){
+							y  = 0;
+						}
+						this.set('data.visualX', x);
+						this.set('data.visualY', y);
+					}
+					this.fire('dragmove');
+					break;
+				case 'end':
+					this.fire('dragend');
+					break;
+			}
+		},
+		_positionChanged: function(x,y){
+			this.translate3d(x+'px', y+'px', 0);
+		},
+		/**
+		 * We need to disable the touchstart event on this elements, otherwise
+		 * when the user drags it, the whole screen will also be dragged on
+		 * touch devices.
+		 */
+		_disableTouchScroll: function(e){
+			e.preventDefault();
+		}
+	};
+})();
+</script>

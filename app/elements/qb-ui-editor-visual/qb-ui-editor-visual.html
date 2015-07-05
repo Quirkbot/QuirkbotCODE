@@ -1,0 +1,110 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../qb-ui-svg-canvas/qb-ui-svg-canvas.html">
+<link rel="import" href="../qb-ui-node/qb-ui-node.html">
+
+<dom-module id='qb-ui-editor-visual'>
+	<style>
+		:host{
+			display: block;
+			position: relative;
+		}
+		#container{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+
+			overflow: scroll;
+		}
+		qb-ui-svg-canvas{
+			background-color: red;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;	
+		}
+
+	</style>
+
+	<template>
+
+		<qb-ui-svg-canvas
+			self="{{canvas}}">
+		</qb-ui-svg-canvas>
+
+		<div id="container">
+			<template 
+				id="nodesTemplate"
+				is="dom-repeat"
+				items="{{tree}}" observe="splices">
+
+				<qb-ui-node
+					svg-canvas="{{canvas}}"
+					model-controller="{{modelController}}"
+					node-definitions="{{nodeDefinitions}}"
+					constant-definitions="{{constantDefinitions}}"
+					data="{{item}}"
+					draggable>
+				</qb-ui-node>
+				
+			</template>
+		</div>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIEditorVisual = Polymer({
+		is: 'qb-ui-editor-visual',
+		properties: {
+			model:{
+				type: Object
+			},
+			modelController:{
+				type: Object
+			},
+			nodeDefinitions: {
+				type: Object
+			},
+			constantDefinitions: {
+				type: Object
+			},
+			tree:{
+				type: Array
+			}
+		},
+		observers:[
+
+			'_refreshNodesTemplate(model.tree.length)',
+			'_refreshTree(model._id)'
+
+		],
+		ready: function(){
+			this.$.container.addEventListener('scroll', function(){
+				this.canvas.offsetY = this.$.container.scrollTop;
+				this.canvas.offsetX = this.$.container.scrollLeft;
+			}.bind(this));
+		},
+		/**
+		 * For some reason the dom-repeat template is failing to re-render when
+		 * there is a splice in tree. Let's give it a litle poke.
+		 */
+		_refreshNodesTemplate: function(){
+			this.$.nodesTemplate.render();
+		},
+		/**
+		 * Force dom-repeat template to destroy and recreate all items.
+		 */
+		_refreshTree: function(){
+			this.tree = [];
+			this.async(function(){
+				this.set('tree', this.model.tree);
+			}.bind(this));
+			
+		}
+	});
+})();
+</script>

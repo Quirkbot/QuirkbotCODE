@@ -1,0 +1,21 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="node-uuid.html">
+
+
+<script>
+(function(){
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreNodeUuid = Polymer({
+		is: 'qb-core-uuid',
+		properties: {
+			uuid: {
+				type: String,
+				notify: true
+			}
+		},
+		ready: function(){
+			this.uuid = window.uuid.v4();
+		}
+	});
+})();
+</script>

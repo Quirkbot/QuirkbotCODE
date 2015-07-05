@@ -42,5 +42,5 @@
   },
   "_source": "git://github.com/Polymer/web-component-tester.git",
   "_target": "*",
-  "_originalSource": "Polymer/web-component-tester"
+  "_originalSource": "web-component-tester"
 }

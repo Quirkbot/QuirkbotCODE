@@ -22,6 +22,6 @@
     "commit": "1b492a3ff9adc1000532952415fc2f54e0fcce81"
   },
   "_source": "git://github.com/PolymerElements/test-fixture.git",
-  "_target": "^1.0.0",
+  "_target": "*",
   "_originalSource": "PolymerElements/test-fixture"
 }

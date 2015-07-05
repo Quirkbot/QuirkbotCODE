@@ -1,0 +1,29 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UtilsBehaviour = {
+		UtilsBehaviour: true,
+		findIndexByKey: function(list, key, value) {
+			if(!list || !list.length){
+				return -1;
+			}
+
+			for (var i = 0; i < list.length; i++) {
+				if(list[i][key] === value){
+					return i;
+				}
+			}
+			return -1;
+		},
+		findObjectByKey: function(list, key, value) {
+			if(!list || !list.length){
+				return;
+			}
+			var index = this.findIndexByKey(list, key, value);
+			return	list[index];
+		}
+	};
+})();
+</script>
