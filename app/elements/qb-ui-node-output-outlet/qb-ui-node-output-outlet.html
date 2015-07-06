@@ -6,7 +6,7 @@
 	<style>
 		:host{
 			display: block;
-			border: solid 2px black;
+			border: solid 2px orange;
 			width: 10px;
 			height: 10px;
 		}
@@ -23,6 +23,11 @@
 	window.Quirkbot = window.Quirkbot || {};
 	window.Quirkbot.UINodeOutputOutlet = Polymer({
 		is: 'qb-ui-node-output-outlet',
+		properties:{
+			containerOutput:{
+				type: Object
+			}
+		},
 		behaviors:[
 			window.Quirkbot.DraggableBehavior
 		]

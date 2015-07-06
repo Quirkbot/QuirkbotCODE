@@ -4,7 +4,7 @@
 	<style>
 		:host{
 			display: block;
-			border: solid 2px black;
+			border: solid 2px green;
 			width: 10px;
 			height: 10px;
 		}
@@ -31,6 +31,15 @@
 
 		},
 		_onTrack: function(e){
+			// If there is a reference outlet, brodcast the event to it
+			if(this.referenceOutlet){
+				e.target = this.referenceOutlet;
+				this.referenceOutlet._handleTrack.apply(this.referenceOutlet, [e]);
+				if(e.detail.state === 'end'){
+					delete this.referenceOutlet;
+				}
+				return;
+			}
 			if(e.detail.state !== 'start'){
 				return;
 			}
@@ -38,8 +47,32 @@
 				return;
 			}
 
+			var connection = this.containerInput.connection;
+
 			// "Remove" the output from the input
 			this.containerInput.set('data.value', null);
+
+			// Hijact the "dragOutlet" from the output that is currenctly connected.
+			if(connection){
+				var outlet = connection.output.element.dragOutlet;
+				var inletBounding = this.getBoundingClientRect();
+				var outletBounding = outlet.getBoundingClientRect();
+				var diffX = inletBounding.left - outletBounding.left;
+				var diffY = inletBounding.top - outletBounding.top;
+				
+				// Move the outlet to the exact same position as the inlet
+				outlet.set('data.visualX', diffX);
+				outlet.set('data.visualY', diffY);
+				outlet.fire('dragmove');
+				// Move the node to the front
+				outlet.containerOutput.containerNode.moveToFront();
+				// Store the outlet, and pipe the track event to it
+				this.referenceOutlet = outlet;
+				e.target = this.referenceOutlet;
+				this.referenceOutlet._handleTrack.apply(this.referenceOutlet, [e]);
+			}
+
+		
 			
 		}
 	});

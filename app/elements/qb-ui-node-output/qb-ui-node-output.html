@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../qb-behavior-node-connector/qb-behavior-node-connector.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
@@ -26,11 +27,13 @@
 
 		<div>
 			<qb-ui-node-output-outlet
-				id="outlet">
+				id="outlet"
+				container-output="{{self}}">
 			</qb-ui-node-output-outlet>
 			
 			<qb-ui-node-output-outlet
 				id="dragOutlet"
+				container-output="{{self}}"
 				drag
 				>
 			</qb-ui-node-output-outlet>
@@ -49,6 +52,7 @@
 		is: 'qb-ui-node-output',
 		behaviors:[
 			window.Quirkbot.NodeConnectorBehavior,
+			window.Quirkbot.SelfPropertyBehavior,
 			window.Quirkbot.UtilsBehavior
 		],
 		properties: {
@@ -72,7 +76,7 @@
 		 * When dragging finishes, set the outlet back to it's original
 		 * position
 		 **/
-		_onDragOutletDragend: function(e){
+		_onDragOutletDragend: function(){
 			// Store the position of the outlet
 			var bounding = this.dragOutlet.getBoundingClientRect();
 			var centerX = bounding.left + bounding.width * 0.5;
@@ -84,7 +88,7 @@
 			this.dragOutlet.fire('dragmove');
 
 			// Search for an inlet on that position
-			var value = this.containerNode.data._id + '.' + this.data._id
+			var value = this.containerNode.data._id + '.' + this.data._id;
 			var tree = this.modelController.model.tree;
 			for (var i = 0; i < tree.length; i++) {
 				var node = tree[i].element;
@@ -106,7 +110,7 @@
 							continue;
 						}
 						// Matches input
-						input.set('data.value', value)
+						input.set('data.value', value);
 						break;
 					}
 					else{
@@ -118,13 +122,13 @@
 								continue;
 							}
 							// Matches input (in collection)
-							input.set('data.value', value)
+							input.set('data.value', value);
 							break;
 						}
 					}
-				};
+				}
 				break;
-			};
+			}
 
 		}
 	});

@@ -26,8 +26,11 @@
 			track: '_handleTrack',
 			touchmove: '_disableTouchScroll'
 		},
-		_handleDown: function(){
+		moveToFront: function(){
 			this.style.zIndex = window.Quirkbot._DraggableBehaviorZIndex++;
+		},
+		_handleDown: function(){
+			this.moveToFront();
 		},
 		_handleTrack: function(e) {
 			if(!this.drag){
