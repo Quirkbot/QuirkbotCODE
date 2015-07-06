@@ -26,8 +26,6 @@
 			value="{{nameValue}}"
 			hidden></qb-core-i18n>
 
-		<div></div>
-
 		<paper-input
 			label="{{nameValue}}"
 			placeholder="{{definition.default}}"
@@ -118,11 +116,11 @@
 			}.bind(this), 1000);
 		},
 		_computeDatalist: function(definition){
-			if(!definition || !definition.datalist || !definition.datalist.length) {
+			if(!definition || !definition.validation || definition.validation.type === 'list' || !definition.validation.data.length) {
 				return;
 			}
 			var datalist = [];
-			definition.datalist.forEach(function(item){
+			definition.validation.data.forEach(function(item){
 				datalist.push({
 					_id: item._id,
 					value: item.value,
@@ -132,13 +130,13 @@
 			return datalist; 
 		},
 		_computeRange: function(definition){
-			if(!definition || typeof definition.min === 'undefined' || typeof definition.max === 'undefined') {
+			if(!definition || !definition.validation || definition.validation.type === 'range' || typeof definition.validation.data.min === 'undefined' || typeof definition.validation.data.max === 'undefined') {
 				return;
 			}
 
 			var range = {
-				min:  parseFloat(definition.min),
-				max:  parseFloat(definition.max)
+				min:  parseFloat(definition.validation.data.min),
+				max:  parseFloat(definition.validation.data.max)
 			};
 			
 			return range; 

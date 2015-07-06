@@ -10,6 +10,7 @@
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-ui-node-input/qb-ui-node-input.html">
+<link rel="import" href="../qb-ui-node-input-collection/qb-ui-node-input-collection.html">
 <link rel="import" href="../qb-ui-node-output/qb-ui-node-output.html">
 
 <dom-module id='qb-ui-node'>
@@ -41,7 +42,7 @@
 
 		<paper-icon-button
 			id="deleteButton"
-			icon="clear"
+			icon="highlight-off"
 			alt="remove"
 			on-down="_onDeletePress">
 		</paper-icon-button>
@@ -55,14 +56,34 @@
 				is="dom-repeat"
 				items="{{inputs}}">
 
-				<qb-ui-node-input
-					svg-canvas="{{svgCanvas}}"
-					model-controller="{{modelController}}"
-					node-definitions="{{nodeDefinitions}}"
-					constant-definitions="{{constantDefinitions}}"
-					definition="{{item.definition}}"
-					data="{{item.data}}">
-				</qb-ui-node-input>
+				<template
+					is="dom-if"
+					if="{{!item.definition.multiple}}"
+					restamp>
+					<qb-ui-node-input
+						svg-canvas="{{svgCanvas}}"
+						model-controller="{{modelController}}"
+						node-definitions="{{nodeDefinitions}}"
+						constant-definitions="{{constantDefinitions}}"
+						definition="{{item.definition}}"
+						data="{{item.data}}">
+					</qb-ui-node-input>
+				</template>
+
+				<template
+					is="dom-if"
+					if="{{item.definition.multiple}}"
+					restamp>
+
+					<qb-ui-node-input-collection
+						svg-canvas="{{svgCanvas}}"
+						model-controller="{{modelController}}"
+						node-definitions="{{nodeDefinitions}}"
+						constant-definitions="{{constantDefinitions}}"
+						definition="{{item.definition}}"
+						data="{{item.data}}">
+					</qb-ui-node-input-collection>
+				</template>
 
 			</template>
 		</div>
@@ -173,6 +194,10 @@
 					this.push('data.inputs',inputData);
 				}
 
+				if(inputDefinition.multiple && !inputData.children){
+					inputData.children = [];
+				}
+
 				this.push('inputs', {
 					definition : inputDefinition,
 					data: inputData
@@ -188,29 +213,35 @@
 				return;
 			}
 
-			for (var i = 0; i < this.modelController.model.tree.length; i++) {
-				var node  = this.modelController.model.tree[i];
+			// "Disconnect" this node from any inputs that is connected to id
+			var disconnectInput = function(input){
+				if(input.type !== 'Output') {
+					return;
+				}
+
+				var parts = input.value.split('.');
+
+				if(parts.length !== 2 || !isNaN(parseFloat(parts[0])) || !isNaN(parseFloat(parts[1])) ) {
+					return;
+				}
+
+				if(parts[0] === this.data._id){
+					input.element.set('data.value', null);
+				}
+			}.bind(this);
+			this.modelController.model.tree.forEach(function(node){
 				if(node === this.data) {
-					continue;
+					return;
 				}
-
-				for (var j = 0; j < node.inputs.length; j++) {
-					var input = node.inputs[j];
-					if(input.type !== 'Output') {
-						continue;
+				node.inputs.forEach(function(input){
+					disconnectInput(input);
+					// check if the input is a collection
+					if(!input.children || !input.children.length){
+						return;
 					}
-	
-					var parts = input.value.split('.');
-					
-					if(parts.length !== 2 || !isNaN(parseFloat(parts[0])) || !isNaN(parseFloat(parts[1])) ) {
-						continue;
-					}
-
-					if(parts[0] === this.data._id){
-						input.element.set('data.value', null);
-					}
-				}
-			}
+					input.children.forEach(disconnectInput);
+				}.bind(this));
+			}.bind(this));
 
 			this.modelController.splice('model.tree', index, 1);
 

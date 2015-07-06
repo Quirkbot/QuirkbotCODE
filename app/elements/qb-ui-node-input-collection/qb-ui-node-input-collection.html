@@ -1,0 +1,104 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-node-input/qb-ui-node-input.html">
+
+<dom-module id='qb-ui-node-input-collection'>
+
+	<template>
+		<qb-core-i18n
+			key="{{nameKey}}"
+			value="{{nameValue}}"></qb-core-i18n>
+
+		<paper-icon-button
+			icon="add-circle-outline"
+			alt="add"
+			on-down="_onAddPress">
+		</paper-icon-button>
+
+		<template
+			is="dom-repeat"
+			items="{{children}}">
+
+			<qb-ui-node-input
+				svg-canvas="{{svgCanvas}}"
+				model-controller="{{modelController}}"
+				node-definitions="{{nodeDefinitions}}"
+				constant-definitions="{{constantDefinitions}}"
+				definition="{{item.definition}}"
+				data="{{item.data}}">
+			</qb-ui-node-input>
+
+			<paper-icon-button
+				icon="remove-circle-outline"
+				alt="remove"
+				on-down="_onRemovePress">
+			</paper-icon-button>
+
+		</template>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINodeInputCollection = Polymer({
+		is: 'qb-ui-node-input-collection',
+		properties:{
+			children: {
+				type: Array
+			}
+		},
+		behaviors:[
+			window.Quirkbot.NodeConnectorBehavior,
+			window.Quirkbot.UtilsBehaviour
+		],
+		observers:[
+			'_computeChildren(data, definition)',
+			'_computeChildren(data.children.length)'
+		],
+		_onAddPress: function(){
+			this.push('data.children', {
+				_id : this.definition._id + '.' + this.children.length
+			});
+		},
+		_onRemovePress: function(e){
+			var index = this.findIndexByKey(this.data.children, '_id', e.model.item.data._id);
+			if(index === -1) {
+				return;
+			}
+			this.splice('data.children', index, 1);
+			this.data.children.forEach(function(child, index){
+				child.definition._id =  this.definition._id + '.' + this.children.length;
+			}.bind(this))
+		},
+		_createChild: function(){
+			var definition = JSON.parse(JSON.stringify(this.definition));
+			definition._id = this.children.length;
+			return {
+				definition: definition,
+				data: {
+					_id : this.definition._id + '.' + this.children.length
+				}
+			};
+		},
+		_computeChildren: function(){
+			if(!this.definition){
+				return;
+			}
+			this.children = [];
+			this.data.children.forEach(function(data){
+				var definition = JSON.parse(JSON.stringify(this.definition));
+				definition._id = this.children.length;
+				
+				this.push('children', {
+					definition: definition,
+					data: data
+				});
+			}.bind(this));
+		}
+	});
+})();
+</script>

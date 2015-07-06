@@ -7,6 +7,7 @@
 
 	"node/connection/name/in" : 		"in",
 	"node/connection/name/out" : 		"out",
+	"node/connection/name/items" : 		"items",
 	"node/connection/name/place" : 		"place",
 	"node/connection/name/duration" : 	"duration",
 	"node/connection/name/type" : 		"type",
