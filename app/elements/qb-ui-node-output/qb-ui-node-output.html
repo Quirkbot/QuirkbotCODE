@@ -1,16 +1,20 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../qb-behavior-node-connector/qb-behavior-node-connector.html">
-<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-connection-line/qb-core-connection-line.html">
+
+<link rel="import" href="../qb-ui-node-output-outlet/qb-ui-node-output-outlet.html">
 
 <dom-module id='qb-ui-node-output'>
 	<style>
 		:host{
 			display: block;
 		}
-		.name{
+		#dragOutlet{
+			position: absolute;
 		}
 	</style>
 
@@ -19,7 +23,19 @@
 			key="{{nameKey}}"
 			value="{{nameValue}}"
 			></qb-core-i18n>
-		
+
+		<div>
+			<qb-ui-node-output-outlet
+				id="outlet">
+			</qb-ui-node-output-outlet>
+			
+			<qb-ui-node-output-outlet
+				id="dragOutlet"
+				drag
+				>
+			</qb-ui-node-output-outlet>
+		</div>
+
 		<qb-core-connection-line
 			id="line"
 			canvas="{{svgCanvas}}">
@@ -32,10 +48,84 @@
 	window.Quirkbot.UINodeOutput = Polymer({
 		is: 'qb-ui-node-output',
 		behaviors:[
-			window.Quirkbot.NodeConnectorBehavior
+			window.Quirkbot.NodeConnectorBehavior,
+			window.Quirkbot.UtilsBehavior
 		],
 		properties: {
-		
+			outlet:{
+				type: Object
+			},
+			dragOutlet:{
+				type: Object
+			}
+		},
+		listeners:{
+			'dragOutlet.dragend': '_onDragOutletDragend'
+		},
+		attached: function() {
+			this.outlet = this.$.outlet;
+			this.dragOutlet = this.$.dragOutlet;
+			this.$.line.source = this.outlet;
+			this.$.line.destination = this.dragOutlet;
+		},
+		/**
+		 * When dragging finishes, set the outlet back to it's original
+		 * position
+		 **/
+		_onDragOutletDragend: function(e){
+			// Store the position of the outlet
+			var bounding = this.dragOutlet.getBoundingClientRect();
+			var centerX = bounding.left + bounding.width * 0.5;
+			var centerY = bounding.top + bounding.height * 0.5;
+			
+			// Reset the position
+			this.dragOutlet.set('data.visualX', 0);
+			this.dragOutlet.set('data.visualY', 0);
+			this.dragOutlet.fire('dragmove');
+
+			// Search for an inlet on that position
+			var value = this.containerNode.data._id + '.' + this.data._id
+			var tree = this.modelController.model.tree;
+			for (var i = 0; i < tree.length; i++) {
+				var node = tree[i].element;
+				if(!this.hitTest(node, centerX, centerY)){
+					continue;
+				}
+				if(typeof node.inputs === 'undefined'){
+					continue;
+				}
+				// Matches node
+				for (var j = 0; j < node.inputs.length; j++) {
+					var inputData = node.inputs[j].data;
+					var input;
+					var inlet;
+					if(typeof inputData.children === 'undefined'){
+						input = node.inputs[j].data.element;
+						inlet = input.inlet;
+						if(!this.hitTest(inlet, centerX, centerY)){
+							continue;
+						}
+						// Matches input
+						input.set('data.value', value)
+						break;
+					}
+					else{
+						
+						for (var k = 0; k < inputData.children.length; k++) {
+							input = inputData.children[k].element;
+							inlet = input.inlet;
+							if(!this.hitTest(inlet, centerX, centerY)){
+								continue;
+							}
+							// Matches input (in collection)
+							input.set('data.value', value)
+							break;
+						}
+					}
+				};
+				break;
+			};
+
 		}
 	});
 })();

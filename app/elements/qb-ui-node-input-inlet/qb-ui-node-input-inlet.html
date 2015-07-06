@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id='qb-ui-node-input-inlet'>
+	<style>
+		:host{
+			display: block;
+			border: solid 2px black;
+			width: 10px;
+			height: 10px;
+		}
+
+	</style>
+
+	<template>
+
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINodeInputInlet = Polymer({
+		is: 'qb-ui-node-input-inlet',
+		properties:{
+			containerInput:{
+				type: Object
+			}
+		},
+		listeners: {
+			'track': '_onTrack',
+
+		},
+		_onTrack: function(e){
+			if(e.detail.state !== 'start'){
+				return;
+			}
+			if(this.containerInput.data.type !== 'Output'){
+				return;
+			}
+
+			// "Remove" the output from the input
+			this.containerInput.set('data.value', null);
+			
+		}
+	});
+})();
+</script>

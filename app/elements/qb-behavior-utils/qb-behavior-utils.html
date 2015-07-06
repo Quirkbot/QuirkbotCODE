@@ -3,8 +3,8 @@
 <script>
 (function () {
 	window.Quirkbot = window.Quirkbot || {};
-	window.Quirkbot.UtilsBehaviour = {
-		UtilsBehaviour: true,
+	window.Quirkbot.UtilsBehavior = {
+		UtilsBehavior: true,
 		getDeep: function(object, path){
 			try{
 				var paths = path.split('.');
@@ -42,6 +42,13 @@
 			}
 			var index = this.findIndexByKey(list, path, value);
 			return	list[index];
+		},
+		hitTest: function(element, x, y){
+			var box = element.getBoundingClientRect();
+			if(x < box.left || x > (box.left + box.width) || y < box.top || y > (box.top + box.height)){
+				return false;
+			};
+			return true;
 		}
 	};
 })();

@@ -5,6 +5,7 @@
 
 <link rel="import" href="../qb-behavior-draggable/qb-behavior-draggable.html">
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 
 <link rel="import" href="../qb-core-uuid/qb-core-uuid.html">
 
@@ -62,6 +63,7 @@
 					restamp>
 					<qb-ui-node-input
 						svg-canvas="{{svgCanvas}}"
+						container-node="{{self}}"
 						model-controller="{{modelController}}"
 						node-definitions="{{nodeDefinitions}}"
 						constant-definitions="{{constantDefinitions}}"
@@ -77,6 +79,7 @@
 
 					<qb-ui-node-input-collection
 						svg-canvas="{{svgCanvas}}"
+						container-node="{{self}}"
 						model-controller="{{modelController}}"
 						node-definitions="{{nodeDefinitions}}"
 						constant-definitions="{{constantDefinitions}}"
@@ -95,6 +98,7 @@
 				
 				<qb-ui-node-output
 					svg-canvas="{{svgCanvas}}"
+					container-node="{{self}}"
 					model-controller="{{modelController}}"
 					node-definitions="{{nodeDefinitions}}"
 					constant-definitions="{{constantDefinitions}}"
@@ -130,7 +134,14 @@
 				type: Object
 			},
 			data: {
-				type: Object
+				type: Object,
+				observer: '_dataChanged'
+			},
+			inputs:{
+				type: Array
+			},
+			outputs:{
+				type: Array
 			},
 			nameKey: {
 				type: String,
@@ -139,10 +150,12 @@
 		},
 		behaviors:[
 			window.Quirkbot.DraggableBehavior,
-			window.Quirkbot.UtilsBehaviour
+			window.Quirkbot.SelfPropertyBehavior,
+			window.Quirkbot.UtilsBehavior
 		],
 		observers:[
-			'_dataAndNodeDefinitionsChanged(data, nodeDefinitions)'
+			'_dataAndNodeDefinitionsChanged(data, nodeDefinitions)',
+			'_constrainDrag(data.visualX, data.visualY)'
 		],
 		_dataChanged: function(){
 			this.data.element = this;
@@ -258,6 +271,12 @@
 			if(e.target.id === 'sliderBar') {
 				return true;
 			}
+			if(e.target.id === 'dragOutlet') {
+				return true;
+			}
+			if(e.target.id === 'inlet') {
+				return true;
+			}
 
 			// This is for shadow dom only, since e.target will be the host
 			// element, regardless of how deep in was the targe.
@@ -270,10 +289,27 @@
 				if(e.path.length && e.path[0].id === 'sliderBar') {
 					return true;
 				}
+				if(e.path.length && e.path[0].id === 'dragOutlet') {
+					return true;
+				}
+				if(e.path.length && e.path[0].id === 'inlet') {
+					return true;
+				}
 			}
 			
 			
 			return false;
+		},
+		/**
+		 * Don't allow the node to be dragged to a negative position;
+		 */
+		_constrainDrag: function(visualX, visualY){
+			if(visualX < 0 && this.data){
+				this.set('data.visualX', 0);
+			}
+			if(visualY < 0 && this.data){
+				this.set('data.visualY', 0);
+			}
 		}
 	});
 })();

@@ -53,7 +53,7 @@
 		},
 		behaviors:[
 			window.Quirkbot.NodeConnectorBehavior,
-			window.Quirkbot.UtilsBehaviour
+			window.Quirkbot.UtilsBehavior
 		],
 		observers:[
 			'_computeChildren(data, definition)',
@@ -69,16 +69,16 @@
 			if(index === -1) {
 				return;
 			}
+
 			this.splice('data.children', index, 1);
+
 			this.data.children.forEach(function(child, index){
-				child.definition._id =  this.definition._id + '.' + this.children.length;
-			}.bind(this))
+				child._id =  this.definition._id + '.' + index;
+			}.bind(this));
 		},
 		_createChild: function(){
-			var definition = JSON.parse(JSON.stringify(this.definition));
-			definition._id = this.children.length;
 			return {
-				definition: definition,
+				definition: this.definition,
 				data: {
 					_id : this.definition._id + '.' + this.children.length
 				}
@@ -90,11 +90,8 @@
 			}
 			this.children = [];
 			this.data.children.forEach(function(data){
-				var definition = JSON.parse(JSON.stringify(this.definition));
-				definition._id = this.children.length;
-				
 				this.push('children', {
-					definition: definition,
+					definition: this.definition,
 					data: data
 				});
 			}.bind(this));

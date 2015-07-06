@@ -5,18 +5,20 @@
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 
 <link rel="import" href="../qb-behavior-node-connector/qb-behavior-node-connector.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-connection-line/qb-core-connection-line.html">
 
+<link rel="import" href="../qb-ui-node-input-inlet/qb-ui-node-input-inlet.html">
+
 <dom-module id='qb-ui-node-input'>
 	<style>
 		:host{
-			
-		}
-		.name{
-		}
+			border:solid 1px black;
+		};
+
 	</style>
 
 	<template>
@@ -24,7 +26,13 @@
 		<qb-core-i18n
 			key="{{nameKey}}"
 			value="{{nameValue}}"
-			hidden></qb-core-i18n>
+			hidden>
+		</qb-core-i18n>
+
+		<qb-ui-node-input-inlet
+			id="inlet"
+			container-input="{{self}}">
+		</qb-ui-node-input-inlet>
 
 		<paper-input
 			label="{{nameValue}}"
@@ -34,30 +42,47 @@
 		</paper-input>
 
 
-		<template is="dom-if" if="{{datalist}}" restamp>
-			<paper-menu
-				id="menu"
-				selected="{{data.value}}"
-				attr-for-selected="name">
+		<span
+			id="datalistTemplate"
+			hidden$="{{!datalist}}">
 
-				<template 
-					is="dom-repeat"
-					items="{{datalist}}">
+			<template
+				is="dom-if"
+				if="{{datalist}}"
+				restamp>
 
-					<paper-item name="{{item.value}}">
-						<qb-core-i18n key="{{item.translationKey}}"></qb-core-i18n>
-					</paper-item>
+				<paper-menu
+					id="menu"
+					selected="{{data.value}}"
+					attr-for-selected="name">
 
-				</template>
+					<template 
+						is="dom-repeat"
+						items="{{datalist}}">
 
-			</paper-menu>
-		</template>
+						<paper-item 
+							name="{{item.value}}">
 
-		<span id="sliderTemplate">
-			<template is="dom-if" if="{{range}}" restamp>
+							<qb-core-i18n 
+								key="{{item.translationKey}}"></qb-core-i18n>
+						</paper-item>
+					</template>
+				</paper-menu>
+			</template>
+		</span>
+
+		<span
+			id="sliderTemplate"
+			hidden$="{{!range}}">
+
+			<template
+				is="dom-if"
+				if="{{range}}"
+				restamp>
+
 				<paper-slider
 					id="slider"
-					value="{{data.value}}"
+					on-value-change="_sliderValueChanged"
 					min="{{range.min}}"
 					max="{{range.max}}"
 					step="0.01"
@@ -69,7 +94,7 @@
 		<qb-core-connection-line
 			id="line"
 			canvas="{{svgCanvas}}"
-			source="{{connection.output.element}}">
+			source="{{connection.output.element.outlet}}">
 		</qb-core-connection-line>
 
 	</template>
@@ -80,12 +105,15 @@
 	window.Quirkbot.UINodeInput = Polymer({
 		is: 'qb-ui-node-input',
 		properties:{
+			inlet:{
+				type: Object
+			},
 			datalist:{
 				type: Array,
 				computed: '_computeDatalist(definition)'
 			},
 			range:{
-				type: Array,
+				type: Object,
 				computed: '_computeRange(definition)'
 			},
 			connection:{
@@ -94,19 +122,29 @@
 		},
 		behaviors:[
 			window.Quirkbot.NodeConnectorBehavior,
-			window.Quirkbot.UtilsBehaviour
+			window.Quirkbot.SelfPropertyBehavior,
+			window.Quirkbot.UtilsBehavior
 		],
 		observers:[
 			'_applyDefaultValue(data, definition)',
 			'_valueChanged(data.value)',
-			'_computeLineSource(data.value, modelController)'
+			'_computeLineSource(data.value)'
 		],
 		attached: function() {
-			this.$.line.destination = this;
+			this.inlet = this.$.inlet;
+			this.$.line.destination = this.inlet;
 		},
 		_valueChanged: function(value){
+
 			if(!this.definition || !this.data) {
 				return;
+			}
+
+
+			// Change value in slider, if it exists
+			var slider = this.$.sliderTemplate.querySelector('#slider');
+			if(slider && !isNaN(value)){
+				slider.value = value;
 			}
 
 			// Validate
@@ -115,8 +153,14 @@
 				this._computeValid(value);
 			}.bind(this), 1000);
 		},
+		_sliderValueChanged: function(){
+			var slider = this.$.sliderTemplate.querySelector('#slider');
+			if(slider && !isNaN(slider.value)){
+				this.set('data.value', slider.value);
+			}
+		},
 		_computeDatalist: function(definition){
-			if(!definition || !definition.validation || definition.validation.type === 'list' || !definition.validation.data.length) {
+			if(!definition || !definition.validation || definition.validation.type !== 'list' || !definition.validation.data.length) {
 				return;
 			}
 			var datalist = [];
@@ -130,7 +174,7 @@
 			return datalist; 
 		},
 		_computeRange: function(definition){
-			if(!definition || !definition.validation || definition.validation.type === 'range' || typeof definition.validation.data.min === 'undefined' || typeof definition.validation.data.max === 'undefined') {
+			if(!definition || !definition.validation || definition.validation.type !== 'range' || typeof definition.validation.data.min === 'undefined' || typeof definition.validation.data.max === 'undefined') {
 				return;
 			}
 
@@ -151,7 +195,7 @@
 				else{
 					this.connection = null;
 				}
-			}.bind(this), 100);
+			}.bind(this), 30);
 		},
 		_applyDefaultValue: function(data, definition){
 			if(!definition || !data) {
@@ -160,25 +204,13 @@
 
 			var oldValue = this.data.value;
 			this.async(function(){
-				/**
-				 * Hack the paper-slider behavior so that it doens't auto validate.
-				 * Needs to wrap this in a async call since they won't be avaiable
-				 * before that.
-				 */
-				var slider = this.$.sliderTemplate.querySelector('#slider');
-				if(slider){
-					slider._update = function(){
-   						this._setRatio(this._calcRatio(this.value) * 100);
-					}.bind(slider);
-					
-				}
-
 
 				var newValue = oldValue;
 				if(typeof oldValue === 'undefined' && this.definition.mandatory	&& typeof this.definition.default !== 'undefined' && this.definition.default !== this.data.value){
 					newValue = this.definition.default;
 				}
 
+				var slider = this.$.sliderTemplate.querySelector('#slider');
 				if(slider && slider.value !== newValue){
 					slider.value = newValue;
 				}

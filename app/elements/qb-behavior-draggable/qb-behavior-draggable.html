@@ -2,15 +2,20 @@
 
 <script>
 (function () {
-	var zIndexFactory = 0;
+	
 	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot._DraggableBehaviorZIndex = 0;
 	window.Quirkbot.DraggableBehavior = {
 		DraggableBehavior: true,
 		properties:{
-			draggable:{
+			drag:{
 				type: Boolean,
 				notify: true,
 				reflectToAttribute: true
+			},
+			data:{
+				type: Object,
+				value: {}
 			}
 		},
 		observers: [
@@ -22,13 +27,13 @@
 			touchmove: '_disableTouchScroll'
 		},
 		_handleDown: function(){
-			this.style.zIndex = zIndexFactory++;
+			this.style.zIndex = window.Quirkbot._DraggableBehaviorZIndex++;
 		},
 		_handleTrack: function(e) {
-			if(!this.draggable){
+			if(!this.drag){
 				return;
 			}
-			if(e.target !== this && e.target.draggable){
+			if(e.target !== this && e.target.drag){
 				return;
 			}
 			if(this.trackEventFilter && this.trackEventFilter(e)){
@@ -46,12 +51,7 @@
 						var y = this.data.visualY || 0;
 						x += e.detail.ddx;
 						y += e.detail.ddy;
-						if(x  < 0){
-							x  = 0;
-						}
-						if(y  < 0){
-							y  = 0;
-						}
+
 						this.set('data.visualX', x);
 						this.set('data.visualY', y);
 					}
