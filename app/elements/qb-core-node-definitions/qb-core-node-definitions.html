@@ -26,7 +26,7 @@
 				type: Array,
 				notify: true
 			},
-			groups: {
+			taxonomies: {
 				type: Array,
 				notify: true
 			},
@@ -38,10 +38,10 @@
 		_urlChanged: function(){
 			this.$.dataLoader.generateRequest();
 		},
-		onResponse: function(event){ 
+		onResponse: function(event){
 			this.nodes = event.detail.response.nodes;
 			this.constants = event.detail.response.constants;
-			this.groups = event.detail.response.groups;
+			this.taxonomies = event.detail.response.taxonomies;
 		}
 	});
 })();

@@ -1,6 +1,11 @@
 {
 	"locale/name" : "Português Brasiliero",
 
+	"ide/editor/visual": 		"Visual",
+	"ide/editor/text": 			"Texto",
+
+	"category/signal": 			"Sinal",
+	"category/movement": 		"Movmento",
 
 	"node/name/wave": 			"Onda",
 	"node/name/servo-motor": 	"Motor Servo",

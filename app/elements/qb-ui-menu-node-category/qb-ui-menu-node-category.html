@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<link rel="import" href="../qb-ui-menu-node-item/qb-ui-menu-node-item.html">
+
+<dom-module id='qb-ui-menu-node-category'>
+	<style>
+		:host{
+			display: block;
+		}
+	</style>
+	<template>
+		<qb-core-i18n
+			key="{{nameKey}}"
+			value="{{name}}"></qb-core-i18n>
+
+		<template
+			is="dom-repeat"
+			items="{{data.nodes}}"
+			sort="sortByName"
+			observe="name">
+			<qb-ui-menu-node-item
+				data="{{item}}">
+			</qb-ui-menu-node-item>
+		</template>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIMenuNodeCategory = Polymer({
+		is: 'qb-ui-menu-node-category',
+		properties: {
+			data: {
+				type: Object
+			},
+			nameKey: {
+				type: String,
+				computed: '_computeNameKey(data)'
+			},
+			name: {
+				type: String,
+				observer: '_nameChanged'
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		_computeNameKey: function(data) {
+			return 'category/' + data.definition._id;
+		},
+		_nameChanged: function (name) {
+			this.set('data.name', name);
+		}
+	});
+})();
+</script>

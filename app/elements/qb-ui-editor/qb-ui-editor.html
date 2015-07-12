@@ -1,0 +1,100 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+
+<link rel="import" href="../qb-ui-editor-visual/qb-ui-editor-visual.html">
+<link rel="import" href="../qb-ui-menu-nodes/qb-ui-menu-nodes.html">
+
+<dom-module id='qb-ui-editor'>
+	<style>
+		:host{
+			display: block;
+		}
+		.paper-drawer-panel,
+		.editor{
+			width: 100%;
+			height: 100%;
+		}
+
+	</style>
+
+	<template>
+
+		<paper-drawer-panel
+			right-drawer>
+			<qb-ui-menu-nodes
+				drawer
+				node-definitions="{{nodeDefinitions}}"
+				taxonomy-definitions="{{taxonomyDefinitions}}">
+			</qb-ui-menu-nodes>
+			<div
+				main>
+				<template is="dom-if" if="{{visualMode}}">
+					<qb-ui-editor-visual
+						class="editor"
+						model="{{model}}"
+						model-controller="{{modelController}}"
+						node-definitions="{{nodeDefinitions}}"
+						constant-definitions="{{constantDefinitions}}">
+					</qb-ui-editor-visual>
+				</template>
+				<template is="dom-if" if="{{textlMode}}">
+					<qb-ui-editor-text
+						class="editor"
+						model="{{model}}"
+						model-controller="{{modelController}}"
+						node-definitions="{{nodeDefinitions}}"
+						constant-definitions="{{constantDefinitions}}">
+					</qb-ui-editor-text>
+				</template>
+			</div>
+		</paper-drawer-panel>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIEditor = Polymer({
+		is: 'qb-ui-editor',
+		properties: {
+			model:{
+				type: Object
+			},
+			modelController:{
+				type: Object
+			},
+			nodeDefinitions: {
+				type: Object
+			},
+			constantDefinitions: {
+				type: Object
+			},
+			taxonomyDefinitions: {
+				type: Object
+			},
+			mode:{
+				type: String,
+				value: 'visual',
+				notify: true,
+				observer: '_modeChanged'
+			},
+			visualMode: {
+				type: Boolean
+			},
+			textMode: {
+				type: Boolean
+			}
+		},
+		_modeChanged: function (mode) {
+			if(mode === 'text'){
+				this.textMode = true;
+				this.visualMode = false;
+			}
+			else {
+				this.textMode = false;
+				this.visualMode = true;
+			}
+		}
+	});
+})();
+</script>

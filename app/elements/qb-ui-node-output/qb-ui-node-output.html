@@ -13,7 +13,9 @@
 	<style>
 		:host{
 			display: block;
+			position: relative;
 		}
+		#outlet,
 		#dragOutlet{
 			position: absolute;
 			top: 0;
@@ -32,12 +34,11 @@
 				id="outlet"
 				container-output="{{self}}">
 			</qb-ui-node-output-outlet>
-			
+
 			<qb-ui-node-output-outlet
 				id="dragOutlet"
 				container-output="{{self}}"
-				drag
-				>
+				drag>
 			</qb-ui-node-output-outlet>
 		</div>
 
@@ -83,7 +84,7 @@
 			var bounding = this.dragOutlet.getBoundingClientRect();
 			var centerX = bounding.left + bounding.width * 0.5;
 			var centerY = bounding.top + bounding.height * 0.5;
-			
+
 			// Reset the position
 			this.dragOutlet.set('data.visualX', 0);
 			this.dragOutlet.set('data.visualY', 0);
@@ -116,7 +117,7 @@
 						break;
 					}
 					else{
-						
+
 						for (var k = 0; k < inputData.children.length; k++) {
 							input = inputData.children[k].element;
 							inlet = input.inlet;

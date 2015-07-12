@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id='qb-ui-menu-node-item'>
+	<style>
+		:host{
+			display: block;
+		}
+	</style>
+	<template>
+		<qb-core-i18n key="{{nameKey}}" value="{{name}}"></qb-core-i18n>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIMenuNodeItem = Polymer({
+		is: 'qb-ui-menu-node-item',
+		properties: {
+			data: {
+				type: Object
+			},
+			nameKey: {
+				type: String,
+				computed: '_computeNameKey(data)'
+			},
+			name: {
+				type: String,
+				observer: '_nameChanged'
+			}
+		},
+		_computeNameKey: function(data) {
+			return 'node/name/' + data.definition._id;
+		},
+		_nameChanged: function (name) {
+			this.set('data.name', name);
+		}
+	});
+})();
+</script>

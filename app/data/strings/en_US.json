@@ -1,9 +1,15 @@
 {
 	"locale/name" : "American English",
 
+	"ide/editor/visual": 		"Visual",
+	"ide/editor/text": 			"Text",
+
+	"category/signal": 			"Signal",
+	"category/movement": 		"Movement",
 
 	"node/name/wave": 			"Wave",
 	"node/name/servo-motor": 	"Servo Motor",
+	"node/name/test": 			"Test",
 
 	"node/connection/name/in" : 		"in",
 	"node/connection/name/out" : 		"out",

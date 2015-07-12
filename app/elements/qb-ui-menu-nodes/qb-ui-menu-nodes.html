@@ -1,0 +1,82 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<link rel="import" href="../qb-ui-menu-node-category/qb-ui-menu-node-category.html">
+
+<dom-module id='qb-ui-menu-nodes'>
+	<style>
+		:host{
+			display: block;
+		}
+	</style>
+	<template>
+		<template
+			is="dom-repeat"
+			items="{{categories}}"
+			sort="sortByName"
+			observe="name">
+			<qb-ui-menu-node-category
+				data="{{item}}">
+			</qb-ui-menu-node-category>
+		</template>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIMenuNodes = Polymer({
+		is: 'qb-ui-menu-nodes',
+		properties: {
+			taxonomyDefinitions: {
+				type: Object
+			},
+			nodeDefinitions: {
+				type: Array
+			},
+			categories:{
+				type: Array
+			},
+			tags:{
+				type: Array
+			},
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		observers:[
+			'_computeCategoriesAndTags(taxonomyDefinitions, nodeDefinitions)'
+		],
+		_computeCategoriesAndTags: function(taxonomyDefinitions, nodeDefinitions) {
+			if(typeof nodeDefinitions === 'undefined' || typeof taxonomyDefinitions === 'undefined' ){
+				return;
+			}
+			var nodesByCategory = {};
+			var nodesByTags = {};
+			this._taxonomyPush(nodeDefinitions, nodesByCategory, 'categories');
+			this._taxonomyPush(nodeDefinitions, nodesByTags, 'tags');
+
+			this.categories = [];
+			taxonomyDefinitions.categories.forEach(function (definition) {
+				var nodes = nodesByCategory[definition._id];
+				this.push('categories', {
+					definition: definition,
+					nodes: nodes
+				});
+			}.bind(this));
+		},
+		_taxonomyPush: function (list, container, type) {
+			list.forEach(function (node) {
+				node.taxonomy[type].forEach(function (key) {
+					if(!container[key]){
+						container[key] = [];
+					}
+					container[key].push({
+						definition: node
+					});
+				});
+			});
+		}
+	});
+})();
+</script>

@@ -44,12 +44,12 @@
 			if(!locale || !urlFormat) {
 				return;
 			}
-		
+
 			if(window.Quirkbot._CoreIl8nCache[locale]) {
 				window.Quirkbot._CoreIl8nCurrent.locale = window.Quirkbot._CoreIl8nCache[locale];
 				return;
 			}
-			
+
 			if(!this.loader){
 				this.loader = document.createElement('iron-ajax');
 				this.listen(this.loader, 'response', '_onLocaleResponse');
@@ -59,8 +59,8 @@
 		},
 		_onLocaleResponse: function(event){
 			window.Quirkbot._CoreIl8nCache[this.locale] = event.detail.response;
-			window.Quirkbot._CoreIl8nCurrent.locale = window.Quirkbot._CoreIl8nCache[this.locale]; 
-			Platform.performMicrotaskCheckpoint(); 
+			window.Quirkbot._CoreIl8nCurrent.locale = window.Quirkbot._CoreIl8nCache[this.locale];
+			Platform.performMicrotaskCheckpoint();
 		},
 		_computeValue: function(){
 

@@ -33,12 +33,12 @@
     "accessibility-developer-tools": "GoogleChrome/accessibility-developer-tools#^2.7.0"
   },
   "homepage": "https://github.com/Polymer/web-component-tester",
-  "version": "3.2.0",
-  "_release": "3.2.0",
+  "version": "3.3.0",
+  "_release": "3.3.0",
   "_resolution": {
     "type": "version",
-    "tag": "v3.2.0",
-    "commit": "87c1ac50d8e33cc8c9c7d90343162a33402439ff"
+    "tag": "v3.3.0",
+    "commit": "48f14a1ef4ce7346336dcb5d3b2c58c32d186ff1"
   },
   "_source": "git://github.com/Polymer/web-component-tester.git",
   "_target": "*",

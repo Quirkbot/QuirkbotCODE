@@ -2,7 +2,7 @@
 
 <script>
 (function () {
-	
+
 	window.Quirkbot = window.Quirkbot || {};
 	window.Quirkbot._DraggableBehaviorZIndex = 0;
 	window.Quirkbot.DraggableBehavior = {
@@ -46,17 +46,13 @@
 			switch(e.detail.state) {
 				case 'start':
 					this.fire('dragstart');
-					
+					this.startX = this.data.visualX || 0;
+					this.startY = this.data.visualY || 0;
 					break;
 				case 'track':
 					if(this.data){
-						var x = this.data.visualX || 0;
-						var y = this.data.visualY || 0;
-						x += e.detail.ddx;
-						y += e.detail.ddy;
-
-						this.set('data.visualX', x);
-						this.set('data.visualY', y);
+						this.set('data.visualX', e.detail.dx + this.startX);
+						this.set('data.visualY', e.detail.dy + this.startY);
 					}
 					this.fire('dragmove');
 					break;
