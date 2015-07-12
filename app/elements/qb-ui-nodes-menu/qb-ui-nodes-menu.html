@@ -2,9 +2,9 @@
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
-<link rel="import" href="../qb-ui-menu-node-category/qb-ui-menu-node-category.html">
+<link rel="import" href="../qb-ui-nodes-menu-group/qb-ui-nodes-menu-group.html">
 
-<dom-module id='qb-ui-menu-nodes'>
+<dom-module id='qb-ui-nodes-menu'>
 	<style>
 		:host{
 			display: block;
@@ -16,17 +16,17 @@
 			items="{{categories}}"
 			sort="sortByName"
 			observe="name">
-			<qb-ui-menu-node-category
+			<qb-ui-nodes-menu-group
 				data="{{item}}">
-			</qb-ui-menu-node-category>
+			</qb-ui-nodes-menu-group>
 		</template>
 	</template>
 </dom-module>
 <script>
 (function () {
 	window.Quirkbot = window.Quirkbot || {};
-	window.Quirkbot.UIMenuNodes = Polymer({
-		is: 'qb-ui-menu-nodes',
+	window.Quirkbot.UINodesMenu = Polymer({
+		is: 'qb-ui-nodes-menu',
 		properties: {
 			taxonomyDefinitions: {
 				type: Object

@@ -3,7 +3,7 @@
 <link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 
 <link rel="import" href="../qb-ui-editor-visual/qb-ui-editor-visual.html">
-<link rel="import" href="../qb-ui-menu-nodes/qb-ui-menu-nodes.html">
+<link rel="import" href="../qb-ui-nodes-menu/qb-ui-nodes-menu.html">
 
 <dom-module id='qb-ui-editor'>
 	<style>
@@ -22,11 +22,11 @@
 
 		<paper-drawer-panel
 			right-drawer>
-			<qb-ui-menu-nodes
+			<qb-ui-nodes-menu
 				drawer
 				node-definitions="{{nodeDefinitions}}"
 				taxonomy-definitions="{{taxonomyDefinitions}}">
-			</qb-ui-menu-nodes>
+			</qb-ui-nodes-menu>
 			<div
 				main>
 				<template is="dom-if" if="{{visualMode}}">

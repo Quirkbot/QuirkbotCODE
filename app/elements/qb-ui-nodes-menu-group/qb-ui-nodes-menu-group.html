@@ -4,9 +4,9 @@
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 
-<link rel="import" href="../qb-ui-menu-node-item/qb-ui-menu-node-item.html">
+<link rel="import" href="../qb-ui-nodes-menu-item/qb-ui-nodes-menu-item.html">
 
-<dom-module id='qb-ui-menu-node-category'>
+<dom-module id='qb-ui-nodes-menu-group'>
 	<style>
 		:host{
 			display: block;
@@ -22,17 +22,17 @@
 			items="{{data.nodes}}"
 			sort="sortByName"
 			observe="name">
-			<qb-ui-menu-node-item
+			<qb-ui-nodes-menu-item
 				data="{{item}}">
-			</qb-ui-menu-node-item>
+			</qb-ui-nodes-menu-item>
 		</template>
 	</template>
 </dom-module>
 <script>
 (function () {
 	window.Quirkbot = window.Quirkbot || {};
-	window.Quirkbot.UIMenuNodeCategory = Polymer({
-		is: 'qb-ui-menu-node-category',
+	window.Quirkbot.UINodesMenuGroup = Polymer({
+		is: 'qb-ui-nodes-menu-group',
 		properties: {
 			data: {
 				type: Object
