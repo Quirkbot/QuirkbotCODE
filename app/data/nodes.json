@@ -5,7 +5,7 @@
 			"_id": "wave",
 			"taxonomy":{
 				"categories": ["signal"],
-				"tags": []
+				"tags": ["beginner", "simple"]
 			},
 			"type": "Wave",
 			"inputs" : [
@@ -102,7 +102,7 @@
 			"_id": "servo-motor",
 			"taxonomy":{
 				"categories": ["movement"],
-				"tags": []
+				"tags": ["beginner", "simple"]
 			},
 			"type": "ServoMotor",
 			"inputs" : [
@@ -142,7 +142,7 @@
 			"_id": "test",
 			"taxonomy":{
 				"categories": ["movement"],
-				"tags": []
+				"tags": ["advanced", "simple"]
 			},
 			"type": "Test",
 			"inputs" : [
@@ -174,15 +174,23 @@
 	"taxonomies":{
 		"categories": [
 			{
-				"_id": "signal",
-				"meta":{"test": "signal"}
+				"_id": "signal"
 			},
 			{
-				"_id": "movement",
-				"meta":{"test": "signal"}
+				"_id": "movement"
 			}
 		],
-		"tags": []
+		"tags": [
+			{
+				"_id": "beginner"
+			},
+			{
+				"_id": "advanced"
+			},
+			{
+				"_id": "simple"
+			}
+		]
 	},
 	"constants" : [
 		"A0","A1","A2","A3","A4","A6","A7","A8","A9","A10", "A11",

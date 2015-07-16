@@ -1,16 +1,25 @@
 {
 	"locale/name" : "American English",
 
-	"ide/editor/visual": 		"Visual",
-	"ide/editor/text": 			"Text",
+	"IDE ----------------------------------------------------------------" : "",
+	"ide/editor/visual": 	"Visual",
+	"ide/editor/text": 		"Text",
 
-	"category/signal": 			"Signal",
-	"category/movement": 		"Movement",
+	"CATEGORIES ---------------------------------------------------------" : "",
+	"category/signal": 		"Signal",
+	"category/movement": 	"Movement",
 
+	"TAGS ---------------------------------------------------------------" : "",
+	"tag/beginner": 		"Begginer",
+	"tag/advanced": 		"Advanced",
+	"tag/simple": 			"Simple",
+
+	"NODES --------------------------------------------------------------" : "",
 	"node/name/wave": 			"Wave",
 	"node/name/servo-motor": 	"Servo Motor",
 	"node/name/test": 			"Test",
 
+	"CONNECTIONS --------------------------------------------------------" : "",
 	"node/connection/name/in" : 		"in",
 	"node/connection/name/out" : 		"out",
 	"node/connection/name/items" : 		"items",
@@ -21,6 +30,7 @@
 	"node/connection/name/max" : 		"max",
 	"node/connection/name/offset" : 	"offset",
 
+	"DATALISTS ----------------------------------------------------------" : "",
 	"node/connection/datalist/sine-wave" : 		"Sine",
 	"node/connection/datalist/square-wave" : 	"Square",
 	"node/connection/datalist/triangle-wave" : 	"Triangle",

@@ -49,6 +49,7 @@
 		</paper-icon-button>
 
 		<div class='name'>
+			<iron-icon icon="{{iconName}}"></iron-icon>
 			<qb-core-i18n key="{{nameKey}}"></qb-core-i18n>
 		</div>
 
@@ -146,6 +147,10 @@
 			nameKey: {
 				type: String,
 				computed: '_computeNameKey(definition)'
+			},
+			iconName: {
+				type: String,
+				computed: '_computeIconName(definition)'
 			}
 		},
 		behaviors:[
@@ -219,6 +224,9 @@
 		},
 		_computeNameKey: function(definition){
 			return 'node/name/'+definition._id;
+		},
+		_computeIconName: function(definition){
+			return this.resolveIconName(definition._id, 'quirkbot-nodes');
 		},
 		_onDeletePress: function(){
 			var index = this.findIndexByKey(this.modelController.model.tree, '_id', this.data._id);

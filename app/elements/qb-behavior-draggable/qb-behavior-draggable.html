@@ -11,7 +11,8 @@
 			drag:{
 				type: Boolean,
 				notify: true,
-				reflectToAttribute: true
+				reflectToAttribute: true,
+				observer: '_dragChanged'
 			},
 			data:{
 				type: Object,
@@ -30,6 +31,9 @@
 			this.style.zIndex = window.Quirkbot._DraggableBehaviorZIndex++;
 		},
 		_handleDown: function(){
+			if(!this.drag){
+				return;
+			}
 			this.moveToFront();
 		},
 		_handleTrack: function(e) {
@@ -61,7 +65,15 @@
 					break;
 			}
 		},
+		_dragChanged: function (drag) {
+			if(drag){
+				this._positionChanged(this.data.visualX, this.data.visualY);
+			}
+		},
 		_positionChanged: function(x,y){
+			if(!this.drag){
+				return;
+			}
 			this.translate3d(x+'px', y+'px', 0);
 		},
 		/**
@@ -70,6 +82,9 @@
 		 * touch devices.
 		 */
 		_disableTouchScroll: function(e){
+			if(!this.drag){
+				return;
+			}
 			e.preventDefault();
 		}
 	};

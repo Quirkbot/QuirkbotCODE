@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-meta/iron-meta.html">
 
 <script>
 (function () {
@@ -72,6 +73,20 @@
 		},
 		sortByName: function (a, b) {
 			return this.sortByKey('name', a, b);
+		},
+		resolveIconName: function(name, iconset){
+			var set = new Polymer.IronMetaQuery({type: 'iconset', key: iconset}).value;
+			var iconNames = set.getIconNames();
+			var index = iconNames.indexOf(iconset + ':' + name);
+			if(index !== -1){
+				return iconNames[index];
+			}
+
+			index = iconNames.indexOf(iconset + ':' + 'undefined');
+			if(index !== -1){
+				return iconNames[index];
+			}
+			return '';
 		}
 	};
 })();

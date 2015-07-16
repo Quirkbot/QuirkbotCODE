@@ -1,8 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
 <link rel="import" href="../qb-ui-nodes-menu-group/qb-ui-nodes-menu-group.html">
+<link rel="import" href="../qb-ui-nodes-menu-tag/qb-ui-nodes-menu-tag.html">
 
 <dom-module id='qb-ui-nodes-menu'>
 	<style>
@@ -11,6 +13,18 @@
 		}
 	</style>
 	<template>
+		<paper-menu
+			multi>
+			<template
+				is="dom-repeat"
+				items="{{tags}}"
+				sort="sortByName">
+				<qb-ui-nodes-menu-tag
+					value="{{item.definition._id}}"
+					data="{{item}}">
+				</qb-ui-nodes-menu-tag>
+			</template>
+		</paper-menu>
 		<template
 			is="dom-repeat"
 			items="{{categories}}"
@@ -39,7 +53,7 @@
 			},
 			tags:{
 				type: Array
-			},
+			}
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
@@ -64,6 +78,14 @@
 					nodes: nodes
 				});
 			}.bind(this));
+
+			this.tags = [];
+			taxonomyDefinitions.tags.forEach(function (definition) {
+				this.push('tags', {
+					definition: definition
+				});
+			}.bind(this));
+			console.log(this.tags)
 		},
 		_taxonomyPush: function (list, container, type) {
 			list.forEach(function (node) {

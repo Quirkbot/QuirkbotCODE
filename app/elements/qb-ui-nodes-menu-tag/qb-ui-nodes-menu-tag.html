@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id='qb-ui-nodes-menu-tag'>
+	<style>
+		:host{
+			display: block;
+		}
+		.nodes-container{
+			position: relative;
+		}
+		.nodes-container qb-ui-nodes-menu-item[drag]{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+		}
+	</style>
+	<template>
+		<paper-radio-button
+			checked="{{selected}}">
+			<qb-core-i18n
+				key="{{nameKey}}"
+				value="{{name}}"></qb-core-i18n>
+		</paper-radio-button>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINodesMenuTag = Polymer({
+		is: 'qb-ui-nodes-menu-tag',
+		properties: {
+			data: {
+				type: Object
+			},
+			selected: {
+				type: Boolean
+			},
+			nameKey: {
+				type: String,
+				computed: '_computeNameKey(data)'
+			},
+			name: {
+				type: String,
+				observer: '_nameChanged'
+			}
+		},
+		_computeNameKey: function(data) {
+			return 'tag/' + data.definition._id;
+		},
+		_nameChanged: function (name) {
+			this.set('data.name', name);
+		}
+	});
+})();
+</script>
