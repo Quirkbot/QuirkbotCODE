@@ -44,7 +44,7 @@
 				type: Object,
 				notify: true,
 				value: function(){
-					return {};
+					return {tree:[]};
 				}
 			},
 			_id: {
@@ -129,7 +129,7 @@
 
 				this.fire('setupStart', _id ? _id : '');
 
-				
+
 
 				// Check if there is a user
 				this._guaranteeUserExists()
@@ -186,7 +186,7 @@
 					}.bind(this));
 				}.bind(this))
 				.catch(function(){
-					// No user 
+					// No user
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: 'setup',
@@ -227,7 +227,7 @@
 				}.bind(this))
 				.catch(function(){
 					console.log('user out');
-					// No user 
+					// No user
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: 'addToProfile',
@@ -292,7 +292,7 @@
 						}.bind(this));
 					}.bind(this))
 					.catch(function(){
-						// No user 
+						// No user
 						var rejectMessage = {
 							element: 'qb-core-model-controller',
 							method: 'sync',
@@ -303,11 +303,11 @@
 						this.fire('syncError', 'forbidden');
 						reject(rejectMessage);
 					}.bind(this));
-					
+
 
 				}.bind(this))
 				.catch(function(){
-					// No user 
+					// No user
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: 'sync',
@@ -360,7 +360,8 @@
 					modifiedAt: 0,
 					doingSync: doingSync,
 					doingSetup: doingSetup,
-					doingAddToProfile: doingAddToProfile
+					doingAddToProfile: doingAddToProfile,
+					tree:[]
 				};
 
 				resolve();
@@ -410,7 +411,7 @@
 				else {
 					resolve();
 				}
-				
+
 			}.bind(this);
 			return new Promise(promise);
 		},
@@ -499,7 +500,7 @@
 					clearTimeout(timer);
 					this.$.loader.removeEventListener('error', onError);
 
-					
+
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: '_loadRemotely.onError',
@@ -517,7 +518,7 @@
 					request.abort();
 				}.bind(this), 5000);
 				var request = this.$.loader.generateRequest();
-				
+
 			}.bind(this);
 			return new Promise(promise);
 		},
@@ -617,7 +618,7 @@
 						resultType = 'to-server';
 					}
 					resolve(resultType);
-					
+
 				}.bind(this);
 
 				this.$.updater.addEventListener('response', onResponse);
@@ -626,7 +627,7 @@
 					clearTimeout(timer);
 					this.$.updater.removeEventListener('error', onError);
 
-					
+
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: '_putRemotely.onError',
@@ -645,7 +646,7 @@
 				}.bind(this), 5000);
 
 				var request = this.$.updater.generateRequest();
-				
+
 			}.bind(this);
 			return new Promise(promise);
 		},
@@ -666,7 +667,7 @@
 			if(this.model.setupError){
 				delete this.model.setupError;
 				this.notifyPath('model.setupError', null);
-			}			
+			}
 			this._log('log', { event: 'setupStart', detail: event.detail });
 		},
 		_onSetupSuccess: function(event){
@@ -707,7 +708,7 @@
 		},
 		_onSyncError: function(event){
 			this.set('model.doingSync', false);
-			this.set('model.syncError', event.detail); 
+			this.set('model.syncError', event.detail);
 			this._log('error', { event: 'syncError', detail: event.detail });
 		},
 		_onAddToProfileStart: function(event){
@@ -773,10 +774,10 @@
 						}
 					}
 					catch(e){}
-					
+
 				}
 			}
-			
+
 			if(level === 'error') {
 				return console.log.apply(console, args);
 			}

@@ -13,8 +13,11 @@
 		}
 	</style>
 	<template>
-		<paper-menu
-			multi>
+		<!--<paper-menu
+			multi
+			attr-for-selected="value"
+			selected-values="{{selectedTags}}"
+			selected-attribute="selected">
 			<template
 				is="dom-repeat"
 				items="{{tags}}"
@@ -24,14 +27,19 @@
 					data="{{item}}">
 				</qb-ui-nodes-menu-tag>
 			</template>
-		</paper-menu>
+		</paper-menu>-->
 		<template
 			is="dom-repeat"
 			items="{{categories}}"
 			sort="sortByName"
 			observe="name">
 			<qb-ui-nodes-menu-group
-				data="{{item}}">
+				model="{{model}}"
+				model-controller="{{modelController}}"
+				drop-area="{{dropArea}}"
+				visual-editor="{{visualEditor}}"
+				data="{{item}}"
+				tags="{{selectedTags}}">
 			</qb-ui-nodes-menu-group>
 		</template>
 	</template>
@@ -42,6 +50,18 @@
 	window.Quirkbot.UINodesMenu = Polymer({
 		is: 'qb-ui-nodes-menu',
 		properties: {
+			dropArea:{
+				type: Object
+			},
+			visualEditor:{
+				type: Object
+			},
+			model:{
+				type: Object
+			},
+			modelController:{
+				type: Object
+			},
 			taxonomyDefinitions: {
 				type: Object
 			},
@@ -52,6 +72,9 @@
 				type: Array
 			},
 			tags:{
+				type: Array
+			},
+			selectedTags:{
 				type: Array
 			}
 		},
@@ -80,12 +103,13 @@
 			}.bind(this));
 
 			this.tags = [];
+			this.selectedTags = [];
 			taxonomyDefinitions.tags.forEach(function (definition) {
 				this.push('tags', {
 					definition: definition
 				});
+				this.push('selectedTags',definition._id);
 			}.bind(this));
-			console.log(this.tags)
 		},
 		_taxonomyPush: function (list, container, type) {
 			list.forEach(function (node) {

@@ -32,14 +32,21 @@
 			right-drawer>
 			<qb-ui-nodes-menu
 				drawer
+				id="menu"
+				visual-editor="{{visualEditor}}"
+				text-editor="{{textEditor}}"
+				model="{{model}}"
+				model-controller="{{modelController}}"
 				node-definitions="{{nodeDefinitions}}"
 				taxonomy-definitions="{{taxonomyDefinitions}}">
 			</qb-ui-nodes-menu>
 			<div
+				id="dropArea"
 				main>
 				<template is="dom-if" if="{{visualMode}}">
 					<qb-ui-editor-visual
 						class="editor"
+						self="{{visualEditor}}"
 						model="{{model}}"
 						model-controller="{{modelController}}"
 						node-definitions="{{nodeDefinitions}}"
@@ -49,6 +56,7 @@
 				<template is="dom-if" if="{{textlMode}}">
 					<qb-ui-editor-text
 						class="editor"
+						self="{{textEditor}}"
 						model="{{model}}"
 						model-controller="{{modelController}}"
 						node-definitions="{{nodeDefinitions}}"
@@ -86,6 +94,12 @@
 				notify: true,
 				observer: '_modeChanged'
 			},
+			visualEditor:{
+				type: Object
+			},
+			textEditor:{
+				type: Object
+			},
 			visualMode: {
 				type: Boolean
 			},
@@ -102,6 +116,9 @@
 				this.textMode = false;
 				this.visualMode = true;
 			}
+		},
+		attached: function () {
+			this.$.menu.dropArea = this.$.dropArea;
 		}
 	});
 })();

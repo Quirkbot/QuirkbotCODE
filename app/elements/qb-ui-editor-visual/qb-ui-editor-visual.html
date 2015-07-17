@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 <link rel="import" href="../qb-ui-svg-canvas/qb-ui-svg-canvas.html">
 <link rel="import" href="../qb-ui-node/qb-ui-node.html">
 
@@ -60,8 +61,14 @@
 	window.Quirkbot = window.Quirkbot || {};
 	window.Quirkbot.UIEditorVisual = Polymer({
 		is: 'qb-ui-editor-visual',
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior
+		],
 		properties: {
 			model:{
+				type: Object
+			},
+			canvas:{
 				type: Object
 			},
 			modelController:{
