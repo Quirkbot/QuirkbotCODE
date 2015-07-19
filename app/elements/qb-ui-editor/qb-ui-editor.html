@@ -37,6 +37,7 @@
 				text-editor="{{textEditor}}"
 				model="{{model}}"
 				model-controller="{{modelController}}"
+				tree-manager="{{treeManager}}"
 				node-definitions="{{nodeDefinitions}}"
 				taxonomy-definitions="{{taxonomyDefinitions}}">
 			</qb-ui-nodes-menu>
@@ -50,6 +51,7 @@
 						model="{{model}}"
 						model-controller="{{modelController}}"
 						node-definitions="{{nodeDefinitions}}"
+						tree-manager="{{treeManager}}"
 						constant-definitions="{{constantDefinitions}}">
 					</qb-ui-editor-visual>
 				</template>
@@ -73,39 +75,22 @@
 	window.Quirkbot.UIEditor = Polymer({
 		is: 'qb-ui-editor',
 		properties: {
-			model:{
-				type: Object
-			},
-			modelController:{
-				type: Object
-			},
-			nodeDefinitions: {
-				type: Object
-			},
-			constantDefinitions: {
-				type: Object
-			},
-			taxonomyDefinitions: {
-				type: Object
-			},
+			model: Object,
+			modelController: Object,
+			treeManager: Object,
+			nodeDefinitions: Object,
+			constantDefinitions: Object,
+			taxonomyDefinitions: Object,
 			mode:{
 				type: String,
 				value: 'visual',
 				notify: true,
 				observer: '_modeChanged'
 			},
-			visualEditor:{
-				type: Object
-			},
-			textEditor:{
-				type: Object
-			},
-			visualMode: {
-				type: Boolean
-			},
-			textMode: {
-				type: Boolean
-			}
+			visualEditor: Object,
+			textEditor: Object,
+			visualMode: Boolean,
+			textMode: Boolean
 		},
 		_modeChanged: function (mode) {
 			if(mode === 'text'){

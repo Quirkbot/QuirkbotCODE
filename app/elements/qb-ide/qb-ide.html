@@ -8,10 +8,12 @@
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
-<link rel="import" href="../qb-core-router/qb-core-router.html">
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-router/qb-core-router.html">
+
 <link rel="import" href="../qb-core-node-definitions/qb-core-node-definitions.html">
 <link rel="import" href="../qb-core-model-controller/qb-core-model-controller.html">
+<link rel="import" href="../qb-core-tree-manager/qb-core-tree-manager.html">
 
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-editor/qb-ui-editor.html">
@@ -53,6 +55,13 @@
 			model="{{model}}">
 		</qb-core-model-controller>
 
+		<qb-core-tree-manager
+			self="{{treeManager}}"
+			model-controller="{{modelController}}"
+			model="{{model}}"
+			node-definitions="{{nodeDefinitions}}">
+		</qb-core-tree-manager>
+
 		<paper-header-panel mode="seamed">
 
 			<paper-toolbar>
@@ -71,6 +80,7 @@
 				mode={{editorMode}}
 				model="{{model}}"
 				model-controller="{{modelController}}"
+				tree-manager="{{treeManager}}"
 				node-definitions="{{nodeDefinitions}}"
 				constant-definitions="{{constantDefinitions}}"
 				taxonomy-definitions="{{taxonomyDefinitions}}">
@@ -91,6 +101,7 @@
 			locale: String,
 			modelController: Object,
 			model: Object,
+			treeManager: Object,
 			nodeDefinitions: Array,
 			constantDefinitions: Array,
 			editorMode: String

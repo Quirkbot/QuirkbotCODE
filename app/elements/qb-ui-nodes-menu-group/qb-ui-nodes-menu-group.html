@@ -64,24 +64,13 @@
 	window.Quirkbot.UINodesMenuGroup = Polymer({
 		is: 'qb-ui-nodes-menu-group',
 		properties: {
-			dropArea:{
-				type: Object
-			},
-			visualEditor:{
-				type: Object
-			},
-			textEditor:{
-				type: Object
-			},
-			model:{
-				type: Object
-			},
-			modelController:{
-				type: Object
-			},
-			data: {
-				type: Object
-			},
+			dropArea: Object,
+			visualEditor: Object,
+			textEditor: Object,
+			model: Object,
+			modelController: Object,
+			treeManager: Object,
+			data: Object,
 			nameKey: {
 				type: String,
 				computed: '_computeNameKey(data)'
@@ -132,18 +121,10 @@
 			if(centerX >= dropAreaBounding.left && centerX <= (dropAreaBounding.left + dropAreaBounding.width) && centerY >= dropAreaBounding.top && centerY <= (dropAreaBounding.top + dropAreaBounding.height)){
 				var type = e.model.item.definition._id;
 				var x = bounding.left - dropAreaBounding.left + this.visualEditor.canvas.offsetX;
-				var y = bounding.left - dropAreaBounding.left + this.visualEditor.canvas.visualY;
+				var y = bounding.top - dropAreaBounding.top + this.visualEditor.canvas.offsetY;
 
-				this._insertNodeInTree(type, x, y);
+				this.treeManager.add(type, x, y);
 			}
-		},
-		_insertNodeInTree: function (type, x, y) {
-			console.warn('add variable name TREE MANAGER');
-			this.modelController.push('model.tree', {
-				node: type,
-				visualX: x,
-				visualY: y
-			});
 		}
 	});
 })();

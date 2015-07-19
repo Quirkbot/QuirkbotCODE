@@ -1,0 +1,101 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<dom-module id="qb-core-tree-manager">
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreNodeTreeManager = Polymer({
+		is: 'qb-core-tree-manager',
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior,
+			window.Quirkbot.UtilsBehavior
+		],
+		properties: {
+			modelController: Object,
+			nodeDefinitions: Array
+		},
+		add: function (type, x, y, id) {
+			if(!type){
+				return;
+			}
+			if(!x){
+				x = 0;
+			}
+			if(!y){
+				y = 0;
+			}
+			if(!id){
+				id = this._generateNodeId(type);
+			}
+			this.modelController.push('model.tree', {
+				_id: id,
+				node: type,
+				visualX: x,
+				visualY: y
+			});
+		},
+		remove: function(id){
+			var index = this.findIndexByKey(this.modelController.model.tree, '_id', id);
+			if(index === -1) {
+				return;
+			}
+
+			// "Disconnect" this node from any inputs that is connected to id
+			var disconnectInput = function(input){
+				if(input.type !== 'Output') {
+					return;
+				}
+
+				var parts = input.value.split('.');
+
+				if(parts.length !== 2 || !isNaN(parseFloat(parts[0])) || !isNaN(parseFloat(parts[1])) ) {
+					return;
+				}
+
+				if(parts[0] === id){
+					input.element.set('data.value', null);
+				}
+			}.bind(this);
+			this.modelController.model.tree.forEach(function(node){
+				if(node === this.data) {
+					return;
+				}
+				node.inputs.forEach(function(input){
+					disconnectInput(input);
+					// check if the input is a collection
+					if(!input.children || !input.children.length){
+						return;
+					}
+					input.children.forEach(disconnectInput);
+				}.bind(this));
+			}.bind(this));
+
+			this.modelController.splice('model.tree', index, 1);
+		},
+		_generateNodeId: function(type){
+			var definition = this.findObjectByKey(this.nodeDefinitions, '_id', type);
+			if(!definition){
+				return;
+			}
+			var base = definition.type;
+			base = base.charAt(0).toLowerCase() + base.slice(1);
+			var count = 1;
+			this.modelController.model.tree.forEach(function(node){
+				if(node.node !== type){
+					return;
+				}
+				count++;
+			});
+
+			if(count === 1){
+				return base;
+			}
+			return base + count;
+		}
+	});
+})();
+</script>

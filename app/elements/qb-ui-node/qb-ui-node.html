@@ -119,31 +119,18 @@
 	window.Quirkbot.UINode = Polymer({
 		is: 'qb-ui-node',
 		properties: {
-			svgCanvas: {
-				type: Object
-			},
-			modelController:{
-				type: Object
-			},
-			nodeDefinitions: {
-				type: Object
-			},
-			constantDefinitions: {
-				type: Object
-			},
-			definition: {
-				type: Object
-			},
+			svgCanvas: Object,
+			modelController: Object,
+			treeManager: Object,
+			nodeDefinitions: Object,
+			constantDefinitions: Object,
+			definition: Object,
 			data: {
 				type: Object,
 				observer: '_dataChanged'
 			},
-			inputs:{
-				type: Array
-			},
-			outputs:{
-				type: Array
-			},
+			inputs: Array,
+			outputs: Array,
 			nameKey: {
 				type: String,
 				computed: '_computeNameKey(definition)'
@@ -229,42 +216,7 @@
 			return this.resolveIconName(definition._id, 'quirkbot-nodes');
 		},
 		_onDeletePress: function(){
-			var index = this.findIndexByKey(this.modelController.model.tree, '_id', this.data._id);
-			if(index === -1) {
-				return;
-			}
-
-			// "Disconnect" this node from any inputs that is connected to id
-			var disconnectInput = function(input){
-				if(input.type !== 'Output') {
-					return;
-				}
-
-				var parts = input.value.split('.');
-
-				if(parts.length !== 2 || !isNaN(parseFloat(parts[0])) || !isNaN(parseFloat(parts[1])) ) {
-					return;
-				}
-
-				if(parts[0] === this.data._id){
-					input.element.set('data.value', null);
-				}
-			}.bind(this);
-			this.modelController.model.tree.forEach(function(node){
-				if(node === this.data) {
-					return;
-				}
-				node.inputs.forEach(function(input){
-					disconnectInput(input);
-					// check if the input is a collection
-					if(!input.children || !input.children.length){
-						return;
-					}
-					input.children.forEach(disconnectInput);
-				}.bind(this));
-			}.bind(this));
-
-			this.modelController.splice('model.tree', index, 1);
+			this.treeManager.remove(this.data._id);
 
 		},
 		/**

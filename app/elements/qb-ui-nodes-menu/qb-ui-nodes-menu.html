@@ -36,6 +36,7 @@
 			<qb-ui-nodes-menu-group
 				model="{{model}}"
 				model-controller="{{modelController}}"
+				tree-manager="{{treeManager}}"
 				drop-area="{{dropArea}}"
 				visual-editor="{{visualEditor}}"
 				data="{{item}}"
@@ -50,33 +51,16 @@
 	window.Quirkbot.UINodesMenu = Polymer({
 		is: 'qb-ui-nodes-menu',
 		properties: {
-			dropArea:{
-				type: Object
-			},
-			visualEditor:{
-				type: Object
-			},
-			model:{
-				type: Object
-			},
-			modelController:{
-				type: Object
-			},
-			taxonomyDefinitions: {
-				type: Object
-			},
-			nodeDefinitions: {
-				type: Array
-			},
-			categories:{
-				type: Array
-			},
-			tags:{
-				type: Array
-			},
-			selectedTags:{
-				type: Array
-			}
+			dropArea: Object,
+			visualEditor: Object,
+			model: Object,
+			modelController: Object,
+			treeManager: Object,
+			taxonomyDefinitions: Object,
+			nodeDefinitions: Array,
+			categories: Array,
+			tags: Array,
+			selectedTags: Array
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior

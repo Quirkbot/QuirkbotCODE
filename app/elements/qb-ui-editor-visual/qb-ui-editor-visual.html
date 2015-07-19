@@ -45,6 +45,7 @@
 					drag
 					svg-canvas="{{canvas}}"
 					model-controller="{{modelController}}"
+					tree-manager="{{treeManager}}"
 					node-definitions="{{nodeDefinitions}}"
 					constant-definitions="{{constantDefinitions}}"
 					data="{{item}}"
@@ -65,24 +66,13 @@
 			window.Quirkbot.SelfPropertyBehavior
 		],
 		properties: {
-			model:{
-				type: Object
-			},
-			canvas:{
-				type: Object
-			},
-			modelController:{
-				type: Object
-			},
-			nodeDefinitions: {
-				type: Object
-			},
-			constantDefinitions: {
-				type: Object
-			},
-			tree:{
-				type: Array
-			}
+			model: Object,
+			canvas: Object,
+			modelController: Object,
+			treeManager: Object,
+			nodeDefinitions: Object,
+			constantDefinitions: Object,
+			tree: Array
 		},
 		observers:[
 
