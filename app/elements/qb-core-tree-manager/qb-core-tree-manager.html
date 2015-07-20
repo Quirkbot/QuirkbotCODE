@@ -16,8 +16,12 @@
 		],
 		properties: {
 			modelController: Object,
+			model: Object,
 			nodeDefinitions: Array
 		},
+		observers:[
+			'_computeCode(model.tree.*)'
+		],
 		add: function (type, x, y, id) {
 			if(!type){
 				return;
@@ -95,6 +99,9 @@
 				return base;
 			}
 			return base + count;
+		},
+		_computeCode: function () {
+			//console.log(this.model.tree)
 		}
 	});
 })();

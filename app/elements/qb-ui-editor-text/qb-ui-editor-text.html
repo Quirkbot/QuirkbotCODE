@@ -1,0 +1,61 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/juicy-ace-editor/src/juicy-ace-editor.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+
+<dom-module id='qb-ui-editor-text'>
+	<style>
+		:host{
+			display: block;
+			position: relative;
+		}
+
+		juicy-ace-editor{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+	</style>
+
+	<template>
+		<juicy-ace-editor
+			theme="ace/theme/monokai"
+			mode="ace/mode/c_cpp"
+			fontsize="14px"
+			readonly="true">#include "Quirkbot.h"
+
+Wave wave;
+
+void start(){
+
+}</juicy-ace-editor>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIEditorText = Polymer({
+		is: 'qb-ui-editor-text',
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior
+		],
+		properties: {
+			model: Object,
+			modelController: Object,
+			treeManager: Object,
+			nodeDefinitions: Object,
+			constantDefinitions: Object,
+			text: String
+		},
+		observers: [
+
+		],
+		_computeCode: function(){
+			//var tree = this.modelController.model.tree;
+			//console.log(tree)
+		}
+	});
+})();
+</script>

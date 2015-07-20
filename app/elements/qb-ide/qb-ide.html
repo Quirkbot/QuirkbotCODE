@@ -52,14 +52,16 @@
 			api="http://localhost:8585/api/programs"
 			_id="{{programId}}"
 			self="{{modelController}}"
-			model="{{model}}">
+			model="{{model}}"
+			verbose="error">
 		</qb-core-model-controller>
 
 		<qb-core-tree-manager
 			self="{{treeManager}}"
 			model-controller="{{modelController}}"
 			model="{{model}}"
-			node-definitions="{{nodeDefinitions}}">
+			node-definitions="{{nodeDefinitions}}"
+			constant-definitions="{{constantDefinitions}}">
 		</qb-core-tree-manager>
 
 		<paper-header-panel mode="seamed">

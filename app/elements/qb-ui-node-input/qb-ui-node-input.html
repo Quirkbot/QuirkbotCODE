@@ -56,14 +56,14 @@
 					selected="{{data.value}}"
 					attr-for-selected="name">
 
-					<template 
+					<template
 						is="dom-repeat"
 						items="{{datalist}}">
 
-						<paper-item 
+						<paper-item
 							name="{{item.value}}">
 
-							<qb-core-i18n 
+							<qb-core-i18n
 								key="{{item.translationKey}}"></qb-core-i18n>
 						</paper-item>
 					</template>
@@ -105,9 +105,8 @@
 	window.Quirkbot.UINodeInput = Polymer({
 		is: 'qb-ui-node-input',
 		properties:{
-			inlet:{
-				type: Object
-			},
+			inlet: Object,
+			modelController: Object,
 			datalist:{
 				type: Array,
 				computed: '_computeDatalist(definition)'
@@ -116,9 +115,8 @@
 				type: Object,
 				computed: '_computeRange(definition)'
 			},
-			connection:{
-				type: Object
-			}
+			data: Object,
+			connection: Object
 		},
 		behaviors:[
 			window.Quirkbot.NodeConnectorBehavior,
@@ -171,7 +169,7 @@
 					translationKey: 'node/connection/datalist/' + item._id
 				});
 			});
-			return datalist; 
+			return datalist;
 		},
 		_computeRange: function(definition){
 			if(!definition || !definition.validation || definition.validation.type !== 'range' || typeof definition.validation.data.min === 'undefined' || typeof definition.validation.data.max === 'undefined') {
@@ -182,8 +180,8 @@
 				min:  parseFloat(definition.validation.data.min),
 				max:  parseFloat(definition.validation.data.max)
 			};
-			
-			return range; 
+
+			return range;
 		},
 		_computeLineSource: function(value){
 			clearTimeout(this.connectionLineDebouncer);
@@ -248,7 +246,7 @@
 				return;
 
 			}
-			
+
 			// Check if it is a number contained in range
 			if(this.range){
 				var rangeMatch =  this._rangeMatch(value);
@@ -281,7 +279,7 @@
 			if(typeof value ==='undefined') {
 				return;
 			}
-			
+
 			if(!value) {
 				value = '';
 			}
@@ -291,7 +289,7 @@
 				return;
 			}
 			// String looks like a connection
-			
+
 			var node = this.findObjectByKey(this.modelController.model.tree, '_id', parts[0]);
 			if(!node) {
 				return;
@@ -348,7 +346,7 @@
 			}
 
 			var ref = parseFloat(value);
-			
+
 			if(isNaN(ref)){
 				if(_mandatory && typeof _default !== 'undefined') {
 					return _default;
@@ -385,8 +383,10 @@
 				return;
 			}
 
+			var stringValue = value + '';
+			stringValue = stringValue.toUpperCase();
 			for (var i = 0; i < this.constantDefinitions.length; i++) {
-				if(this.constantDefinitions[i].toUpperCase() === value.toUpperCase()){
+				if(this.constantDefinitions[i].toUpperCase() === stringValue){
 					return this.constantDefinitions[i];
 				}
 			}

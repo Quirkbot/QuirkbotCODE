@@ -92,9 +92,10 @@
 		//	console.log('_userChanged', JSON.stringify(user))
 		},
 		ready: function(){
-			if(!this.model){
-				this.model = {};
-			}
+			/**
+			 * Set a global MODEL for debug
+			 */
+
 			window.MODEL = this;
 		},
 		setup: function(_id){
