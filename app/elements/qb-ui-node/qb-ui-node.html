@@ -157,15 +157,8 @@
 		__idChanged: function(newId){
 			clearTimeout(this.idValidationDebouncer);
 			// Validate the variable name;
-			var isInvalid = false;
-			var validId = newId;
-			// Validate whitespace
-			validId = this.trimSpaces(validId);
-			// Validate starting with numbers
-			validId = this.lTrimNumerals(validId);
-
-			isInvalid = validId !== newId;
-			console.warn('todo, Validate varaible name: only allow letters and numbers, if empty or equal existing, increment');
+			var validId = newId
+			validId = this.sanitizeVariableName(validId);
 
 			// Check if the id is already taken by another node
 			var existingMatch;
@@ -184,8 +177,7 @@
 
 				validId = this.treeManager.generateVariableName(definition._id);
 			}
-
-			if(isInvalid){
+			if(validId !== newId){
 				console.log('is invalid', validId);
 				this.idValidationDebouncer = setTimeout(function(){
 					this.set('data._id', validId);
