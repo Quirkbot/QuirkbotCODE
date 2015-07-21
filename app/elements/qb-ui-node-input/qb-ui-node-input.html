@@ -290,25 +290,25 @@
 			}
 			// String looks like a connection
 
-			var node = this.findObjectByKey(this.modelController.model.tree, '_id', parts[0]);
+			var node = this.findOneObjectByKey(this.modelController.model.tree, '_id', parts[0]);
 			if(!node) {
 				return;
 			}
 			// Node found
 
-			var output = this.findObjectByKey(node.outputs, '_id', parts[1]);
+			var output = this.findOneObjectByKey(node.outputs, '_id', parts[1]);
 			if(!output) {
 				return;
 			}
 			// Output found
 
-			var nodeDefinition = this.findObjectByKey(this.nodeDefinitions, '_id', node.node);
+			var nodeDefinition = this.findOneObjectByKey(this.nodeDefinitions, '_id', node.node);
 			if(!nodeDefinition) {
 				return;
 			}
 			// Node definition found
 
-			var outputDefinition = this.findObjectByKey(nodeDefinition.outputs, '_id', parts[1]);
+			var outputDefinition = this.findOneObjectByKey(nodeDefinition.outputs, '_id', parts[1]);
 			if(!outputDefinition) {
 				return;
 			}

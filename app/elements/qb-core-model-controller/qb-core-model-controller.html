@@ -95,7 +95,6 @@
 			/**
 			 * Set a global MODEL for debug
 			 */
-
 			window.MODEL = this;
 		},
 		setup: function(_id){
@@ -357,13 +356,18 @@
 				var doingSetup = this.model.doingSetup;
 				var doingSync = this.model.doingSync;
 				var doingAddToProfile = this.model.doingAddToProfile;
-				this.model = {
+				this._replaceModel({
+					_id: '',
+					userId: '',
 					modifiedAt: 0,
 					doingSync: doingSync,
 					doingSetup: doingSetup,
 					doingAddToProfile: doingAddToProfile,
+					syncError: '',
+					setupError: '',
+					addToProfileError: '',
 					tree:[]
-				};
+				});
 
 				resolve();
 			}.bind(this);
@@ -372,9 +376,6 @@
 		_createNewId : function(){
 			var promise = function (resolve) {
 				var id = window.uuid.v4();
-				if(!this.model){
-					this.model = {};
-				}
 				this.set('model._id', id);
 				this._id = id;
 				resolve();
@@ -422,7 +423,7 @@
 				if( raw !== null){
 					try {
 						var model = JSON.parse(raw);
-						this.model = this._rawDataToModel(model);
+						this._replaceModel(this._rawDataToModel(model));
 						resolve();
 					} catch(e) {
 						var rejectMessage = {
@@ -491,7 +492,7 @@
 					}
 
 					// Loaded successfully!
-					this.model = this._rawDataToModel(event.detail.response.result);
+					this._replaceModel(this._rawDataToModel(event.detail.response.result));
 					resolve();
 				}.bind(this);
 
@@ -611,7 +612,7 @@
 						// Server data is more recent, so we replace the local
 						// data with it.
 						resultType = 'from-server';
-						this.model = this._rawDataToModel(event.detail.response.result);
+						this._replaceModel(this._rawDataToModel(event.detail.response.result));
 					}
 					else{
 						// Local data is more recent then server's data.
@@ -663,19 +664,36 @@
 			this._log('warning', '_modelToRawData', 'TODO: implement this :)');
 			return JSON.parse(JSON.stringify(model));
 		},
+		_replaceModel: function(data){
+			this.set('model._id', data._id || '');
+			this.set('model.userId', data.userId || '');
+			this.set('model.modifiedAt', data.modifiedAt || 0);
+			this.set('model.doingSync', data.doingSync || false);
+			this.set('model.doingSetup', data.doingSetup || false);
+			this.set('model.doingAddToProfile', data.doingAddToProfile || false);
+			this.set('model.syncError', data.syncError || '');
+			this.set('model.setupError', data.setupError || '');
+			this.set('model.addToProfileError', data.addToProfileError || '');
+
+			// For the tree, empty it first, the re-add all elements
+			this.splice('model.tree', 0, this.model.length);
+			if(data.tree.length){
+				data.tree.forEach(function(treeItem){
+					this.push('model.tree', treeItem);
+				}.bind(this));
+			}
+		},
 		_onSetupStart: function(event){
 			this.set('model.doingSetup', true);
 			if(this.model.setupError){
-				delete this.model.setupError;
-				this.notifyPath('model.setupError', null);
+				this.set('model.setupError', '');
 			}
 			this._log('log', { event: 'setupStart', detail: event.detail });
 		},
 		_onSetupSuccess: function(event){
 			this.set('model.doingSetup', false);
 			if(this.model.setupError){
-				delete this.model.setupError;
-				this.notifyPath('model.setupError', null);
+				this.set('model.setupError', '');
 			}
 			this._log('log', { event: 'setupSuccess', detail: event.detail });
 
@@ -694,16 +712,14 @@
 		_onSyncStart: function(event){
 			this.set('model.doingSync', true);
 			if(this.model.syncError){
-				delete this.model.syncError;
-				this.notifyPath('model.syncError', null);
+				this.set('model.syncError', '');
 			}
 			this._log('log', { event: 'syncStart', detail: event.detail });
 		},
 		_onSyncSuccess: function(event){
 			this.set('model.doingSync', false);
 			if(this.model.syncError){
-				delete this.model.syncError;
-				this.notifyPath('model.syncError', null);
+				this.set('model.syncError', '');
 			}
 			this._log('log', { event: 'syncSuccess', detail: event.detail });
 		},
@@ -715,16 +731,14 @@
 		_onAddToProfileStart: function(event){
 			this.set('model.doingAddToProfile', true);
 			if(this.model.addToProfileError){
-				delete this.model.addToProfileError;
-				this.notifyPath('model.addToProfileError', null);
+				this.set('model.addToProfileError', '');
 			}
 			this._log('log', { event: 'addToProfileStart', detail: event.detail });
 		},
 		_onAddToProfileSuccess: function(event){
 			this.set('model.doingAddToProfile', false);
 			if(this.model.addToProfileError){
-				delete this.model.addToProfileError;
-				this.notifyPath('model.addToProfileError', null);
+				this.set('model.addToProfileError', '');
 			}
 			this._log('log', { event: 'addToProfileSuccess', detail: event.detail });
 			this.sync()

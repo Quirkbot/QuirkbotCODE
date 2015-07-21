@@ -20,7 +20,8 @@
 			nodeDefinitions: Array
 		},
 		observers:[
-			'_computeCode(model.tree.*)'
+			'_computeCode(model.tree.length)',
+			'_computeCode(model.tree.0.*)'
 		],
 		add: function (type, x, y, id) {
 			if(!type){
@@ -33,7 +34,7 @@
 				y = 0;
 			}
 			if(!id){
-				id = this._generateNodeId(type);
+				id = this.generateVariableName(type);
 			}
 			this.modelController.push('model.tree', {
 				_id: id,
@@ -43,7 +44,7 @@
 			});
 		},
 		remove: function(id){
-			var index = this.findIndexByKey(this.modelController.model.tree, '_id', id);
+			var index = this.findOneIndexByKey(this.modelController.model.tree, '_id', id);
 			if(index === -1) {
 				return;
 			}
@@ -80,25 +81,55 @@
 
 			this.modelController.splice('model.tree', index, 1);
 		},
-		_generateNodeId: function(type){
-			var definition = this.findObjectByKey(this.nodeDefinitions, '_id', type);
+		findInputsByValue: function(value){
+			var result = [];
+			var checkMatch = function(input, node){
+				if(input.value === value){
+					result.push({
+						input: input,
+						node: node
+					});
+				}
+			};
+			this.modelController.model.tree.forEach(function(node){
+				if(!node.inputs || !node.inputs.length){
+					return;
+				}
+				node.inputs.forEach(function(input){
+					if(input.children){
+						input.children.forEach(function(input){
+							checkMatch(input, node);
+						});
+					}
+					else {
+						checkMatch(input, node);
+					}
+				}.bind(this));
+			}.bind(this));
+
+			return result;
+		},
+		findOneNodeById: function(id) {
+			return this.findOneObjectByKey(this.modelController.model.tree, '_id', id);
+		},
+		findNodesById: function(id) {
+			return this.findObjectsByKey(this.modelController.model.tree, '_id', id);
+		},
+		generateVariableName: function(definitionId){
+			var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', definitionId);
 			if(!definition){
 				return;
 			}
 			var base = definition.type;
 			base = base.charAt(0).toLowerCase() + base.slice(1);
-			var count = 1;
-			this.modelController.model.tree.forEach(function(node){
-				if(node.node !== type){
-					return;
-				}
-				count++;
-			});
 
-			if(count === 1){
-				return base;
+			var count = 1;
+			var name = base;
+			while(this.findOneNodeById(name)){
+				count++;
+				name = base + count;
 			}
-			return base + count;
+			return name;
 		},
 		_computeCode: function () {
 			//console.log(this.model.tree)

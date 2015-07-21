@@ -65,7 +65,7 @@
 			});
 		},
 		_onRemovePress: function(e){
-			var index = this.findIndexByKey(this.data.children, '_id', e.model.item.data._id);
+			var index = this.findOneIndexByKey(this.data.children, '_id', e.model.item.data._id);
 			if(index === -1) {
 				return;
 			}
@@ -89,7 +89,7 @@
 				return;
 			}
 			this.children = [];
-			console.log(this)
+			//console.log(this)
 			this.data.children.forEach(function(data){
 				this.push('children', {
 					definition: this.definition,

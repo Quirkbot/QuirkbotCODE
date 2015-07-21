@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/observe-js/observe-js.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <link rel="import" href="../qb-behavior-draggable/qb-behavior-draggable.html">
@@ -52,6 +53,7 @@
 			<iron-icon icon="{{iconName}}"></iron-icon>
 			<qb-core-i18n key="{{nameKey}}"></qb-core-i18n>
 		</div>
+		<paper-input value="{{data._id}}"></paper-input>
 
 		<div class='inputs'>
 			<template
@@ -124,7 +126,6 @@
 			treeManager: Object,
 			nodeDefinitions: Object,
 			constantDefinitions: Object,
-			definition: Object,
 			data: {
 				type: Object,
 				observer: '_dataChanged'
@@ -147,22 +148,71 @@
 		],
 		observers:[
 			'_dataAndNodeDefinitionsChanged(data, nodeDefinitions)',
-			'_constrainDrag(data.visualX, data.visualY)'
+			'_constrainDrag(data.visualX, data.visualY)',
+			'__idChanged(data._id)'
 		],
 		_dataChanged: function(){
 			this.data.element = this;
+		},
+		__idChanged: function(newId){
+			clearTimeout(this.idValidationDebouncer);
+			// Validate the variable name;
+			var isInvalid = false;
+			var validId = newId;
+			// Validate whitespace
+			validId = this.trimSpaces(validId);
+			// Validate starting with numbers
+			validId = this.lTrimNumerals(validId);
+
+			isInvalid = validId !== newId;
+			console.warn('todo, Validate varaible name: only allow letters and numbers, if empty or equal existing, increment');
+
+			// Check if the id is already taken by another node
+			var existingMatch;
+			if(this.treeManager){
+				var foundNodes = this.treeManager.findNodesById(validId);
+				foundNodes.forEach(function(node){
+					if(node !== this.data){
+						existingMatch = node;
+					}
+				}.bind(this));
+			}
+			// Validade if empty or if it's taken
+			if(validId === '' || existingMatch){
+				isInvalid = true;
+				var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', this.data.node);
+
+				validId = this.treeManager.generateVariableName(definition._id);
+			}
+
+			if(isInvalid){
+				console.log('is invalid', validId);
+				this.idValidationDebouncer = setTimeout(function(){
+					this.set('data._id', validId);
+				}.bind(this), 1000);
+			}
+			else{
+				// Check if any of the outputs is connected, and if so, updated them
+				if(this.data.outputs){
+					this.data.outputs.forEach(function(output){
+						var inputs = this.treeManager.findInputsByValue(this.oldId + '.' + output._id);
+						inputs.forEach(function(inputData){
+							var element = inputData.input.element;
+							element.set('data.value', newId + '.' + output._id);
+						}.bind(this));
+					}.bind(this));
+
+				}
+				this.oldId = newId;
+			}
+
 		},
 		_dataAndNodeDefinitionsChanged: function(data, nodeDefinitions){
 			if(!data || !nodeDefinitions) {
 				return;
 			}
-			var definition;
-			for (var i = 0; i < nodeDefinitions.length; i++) {
-				if(nodeDefinitions[i]._id === data.node){
-					definition = nodeDefinitions[i];
-					break;
-				}
-			}
+			var definition = this.findOneObjectByKey(nodeDefinitions, '_id', data.node);
+
 			if(!definition) {
 				return;
 			}
@@ -175,7 +225,7 @@
 					this.set('data.outputs',[]);
 				}
 
-				var outputData = this.findObjectByKey(data.outputs, '_id', outputDefinition._id);
+				var outputData = this.findOneObjectByKey(data.outputs, '_id', outputDefinition._id);
 				if(!outputData) {
 					outputData = {_id: outputDefinition._id};
 					this.push('data.outputs',outputData);
@@ -193,7 +243,7 @@
 					this.set('data.inputs',[]);
 				}
 
-				var inputData = this.findObjectByKey(data.inputs, '_id', inputDefinition._id);
+				var inputData = this.findOneObjectByKey(data.inputs, '_id', inputDefinition._id);
 				if(!inputData) {
 					inputData = {_id: inputDefinition._id};
 					this.push('data.inputs',inputData);

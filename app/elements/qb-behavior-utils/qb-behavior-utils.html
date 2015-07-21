@@ -25,7 +25,56 @@
 				return;
 			}
 		},
-		findIndexByKey: function(list, path, value) {
+		/**
+		 * Dom utils
+		 **/
+		hitTest: function(element, x, y){
+			var box = element.getBoundingClientRect();
+			if(x < box.left || x > (box.left + box.width) || y < box.top || y > (box.top + box.height)){
+				return false;
+			}
+			return true;
+		},
+		/**
+		 * Polymer helpers
+		 **/
+		resolveIconName: function(name, iconset){
+			var set = new Polymer.IronMetaQuery({type: 'iconset', key: iconset}).value;
+			var iconNames = set.getIconNames();
+			var index = iconNames.indexOf(iconset + ':' + name);
+			if(index !== -1){
+				return iconNames[index];
+			}
+
+			index = iconNames.indexOf(iconset + ':' + 'undefined');
+			if(index !== -1){
+				return iconNames[index];
+			}
+			return '';
+		},
+		/**
+		 * Searching arrays of objects
+		 **/
+		 findIndexesByKey: function(list, path, value) {
+			var result = [];
+ 			if(!list || !list.length){
+ 				return result;
+ 			}
+
+ 			for (var i = 0; i < list.length; i++) {
+ 				if(this.getDeep(list[i], path) === value){
+ 					result.push(i);
+ 				}
+ 			}
+ 			return result;
+ 		},
+		findObjectsByKey: function(list, path, value) {
+			var indexes = this.findIndexesByKey(list, path, value);
+			return	indexes.map(function(index){
+				return list[index];
+			});
+		},
+		findOneIndexByKey: function(list, path, value) {
 			if(!list || !list.length){
 				return -1;
 			}
@@ -37,20 +86,16 @@
 			}
 			return -1;
 		},
-		findObjectByKey: function(list, path, value) {
+		findOneObjectByKey: function(list, path, value) {
 			if(!list || !list.length){
 				return;
 			}
-			var index = this.findIndexByKey(list, path, value);
+			var index = this.findOneIndexByKey(list, path, value);
 			return	list[index];
 		},
-		hitTest: function(element, x, y){
-			var box = element.getBoundingClientRect();
-			if(x < box.left || x > (box.left + box.width) || y < box.top || y > (box.top + box.height)){
-				return false;
-			}
-			return true;
-		},
+		/**
+		 * Filters and sorters for arrays of objects
+		 **/
 		sortByKey: function (key, a, b) {
 			if(!a[key] && !b[key]){
 				return 0;
@@ -74,19 +119,38 @@
 		sortByName: function (a, b) {
 			return this.sortByKey('name', a, b);
 		},
-		resolveIconName: function(name, iconset){
-			var set = new Polymer.IronMetaQuery({type: 'iconset', key: iconset}).value;
-			var iconNames = set.getIconNames();
-			var index = iconNames.indexOf(iconset + ':' + name);
-			if(index !== -1){
-				return iconNames[index];
+		/**
+		 * String utils
+		 **/
+		lTrimNumerals : function(string){
+			while (parseInt(string.charAt(0)).toString() === string.charAt(0)) {
+				string = string.substring(string.length, 1);
 			}
-
-			index = iconNames.indexOf(iconset + ':' + 'undefined');
-			if(index !== -1){
-				return iconNames[index];
+			return string;
+		},
+		rTrimNumerals : function(string){
+			while (parseInt(string.charAt(string.length-1)).toString() === string.charAt(0)) {
+				string = string.substring(string.length-1, 0);
 			}
-			return '';
+			return string;
+		},
+		trimNumerals: function(string){
+			return this.lTrimNumerals(this.rTrimNumerals(string));
+		},
+		lTrimSpaces : function(string){
+			while (string.charAt(0) === ' ') {
+				string = string.substring(string.length, 1);
+			}
+			return string;
+		},
+		rTrimSpaces : function(string){
+			while (string.charAt(string.length-1) === ' ') {
+				string = string.substring(string.length-1, 0);
+			}
+			return string;
+		},
+		trimSpaces: function(string){
+			return this.lTrimSpaces(this.rTrimSpaces(string));
 		}
 	};
 })();
