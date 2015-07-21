@@ -246,11 +246,11 @@
 			return str;
 		},
 		sanitizeVariableName: function(name){
-			var name = this.trimSpaces(name);
-			name = this.lTrimNumerals(name);
-			name = this.removeDiacritics(name);
-			name = name.replace(/[^\w]/gi, '_');
-			return name;
+			var newName = this.trimSpaces(name);
+			newName = this.lTrimNumerals(newName);
+			newName = this.removeDiacritics(newName);
+			newName = newName.replace(/[^\w]/gi, '_');
+			return newName;
 		}
 
 	};

@@ -157,7 +157,7 @@
 		__idChanged: function(newId){
 			clearTimeout(this.idValidationDebouncer);
 			// Validate the variable name;
-			var validId = newId
+			var validId = newId;
 			validId = this.sanitizeVariableName(validId);
 
 			// Check if the id is already taken by another node
@@ -172,7 +172,6 @@
 			}
 			// Validade if empty or if it's taken
 			if(validId === '' || existingMatch){
-				isInvalid = true;
 				var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', this.data.node);
 
 				validId = this.treeManager.generateVariableName(definition._id);
