@@ -678,7 +678,7 @@
 			// For the tree, empty it first, the re-add all elements
 			this.splice('model.tree', 0, this.model.tree.length);
 
-			if(data.tree.length){
+			if(data.tree && data.tree.length){
 				data.tree.forEach(function(treeItem){
 					this.push('model.tree', treeItem);
 				}.bind(this));

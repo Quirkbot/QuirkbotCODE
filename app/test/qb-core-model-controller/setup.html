@@ -7,9 +7,9 @@
 	<script src="../../bower_components/web-component-tester/browser.js"></script>
 	<script src="../../bower_components/iron-test-helpers/test-helpers.js"></script>
 	<script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
-	
+
 	<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
-	
+
 	<link rel="import" href="../../elements/qb-core-model-controller/qb-core-model-controller.html">
 
 </head>
@@ -40,7 +40,7 @@
 			server = sinon.fakeServer.create();
 			server.autoRespond = true;
 			server.autoRespondAfter = 500;
-			
+
 			server.respondWith(
 				'GET',
 				/\/responds_with_invalid_status.*/,
@@ -127,7 +127,7 @@
 					done()
 				})
 			});
-			
+
 		});
 
 
