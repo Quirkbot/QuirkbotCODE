@@ -185,7 +185,7 @@
 			}
 			else{
 				// Check if any of the outputs is connected, and if so, updated them
-				if(this.data.outputs){
+				if(this.data.outputs && this.treeManager){
 					this.data.outputs.forEach(function(output){
 						var inputs = this.treeManager.findInputsByValue(this.oldId + '.' + output._id);
 						inputs.forEach(function(inputData){
