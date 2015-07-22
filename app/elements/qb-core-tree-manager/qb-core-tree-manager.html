@@ -20,9 +20,14 @@
 			nodeDefinitions: Array
 		},
 		observers:[
-			'_computeCode(model.tree.length)',
-			'_computeCode(model.tree.0.*)'
+			'_computeCode(model.tree.length)'
 		],
+		ready: function(){
+			/*setInterval(function (argument) {
+				console.log(this.modelController.model.tree);
+			}.bind(this), 1000)*/
+
+		},
 		add: function (type, x, y, id) {
 			if(!type){
 				return;
@@ -132,7 +137,7 @@
 			return name;
 		},
 		_computeCode: function () {
-			//console.log(this.model.tree)
+			console.log(this.model.tree)
 		}
 	});
 })();

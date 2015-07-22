@@ -107,6 +107,7 @@
 		properties:{
 			inlet: Object,
 			modelController: Object,
+			treeManager: Object,
 			datalist:{
 				type: Array,
 				computed: '_computeDatalist(definition)'
@@ -137,7 +138,6 @@
 			if(!this.definition || !this.data) {
 				return;
 			}
-
 
 			// Change value in slider, if it exists
 			var slider = this.$.sliderTemplate.querySelector('#slider');

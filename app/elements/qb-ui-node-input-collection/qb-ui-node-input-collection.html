@@ -25,6 +25,7 @@
 			<qb-ui-node-input
 				svg-canvas="{{svgCanvas}}"
 				model-controller="{{modelController}}"
+				tree-manager="{{treeManager}}"
 				node-definitions="{{nodeDefinitions}}"
 				constant-definitions="{{constantDefinitions}}"
 				definition="{{item.definition}}"
@@ -47,9 +48,8 @@
 	window.Quirkbot.UINodeInputCollection = Polymer({
 		is: 'qb-ui-node-input-collection',
 		properties:{
-			children: {
-				type: Array
-			}
+			children: Array,
+			treeManager: Object
 		},
 		behaviors:[
 			window.Quirkbot.NodeConnectorBehavior,

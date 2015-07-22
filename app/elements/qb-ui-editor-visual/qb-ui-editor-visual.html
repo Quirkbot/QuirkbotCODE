@@ -39,7 +39,7 @@
 			<template
 				id="nodesTemplate"
 				is="dom-repeat"
-				items="{{tree}}" observe="splices">
+				items="{{tree}}">
 
 				<qb-ui-node
 					drag
@@ -90,8 +90,15 @@
 		 * For some reason the dom-repeat template is failing to re-render when
 		 * there is a splice in tree. Let's give it a litle poke.
 		 */
-		_refreshNodesTemplate: function(){
-			this.$.nodesTemplate.render();
+		_refreshNodesTemplate: function(lenght){
+			if(this.oldTreeLength > lenght){
+				this._refreshTree();
+			}
+			else{
+				this.$.nodesTemplate.render();
+			}
+			this.oldTreeLength = lenght;
+
 		},
 		/**
 		 * Force dom-repeat template to destroy and recreate all items.
