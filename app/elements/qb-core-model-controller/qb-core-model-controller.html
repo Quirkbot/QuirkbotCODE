@@ -667,7 +667,7 @@
 			var safeModel = {};
 			Object.keys(model).forEach(function(key){
 				safeModel[key] = model[key];
-			})
+			});
 
 			delete safeModel.tree;
 			var safeTree = [];
@@ -676,7 +676,7 @@
 				safeTree.push(safeNode);
 				Object.keys(node).forEach(function(key){
 					safeNode[key] = node[key];
-				})
+				});
 				delete safeNode.element;
 
 				delete safeNode.inputs;
@@ -691,7 +691,7 @@
 
 						Object.keys(input).forEach(function(key){
 							safeInput[key] = input[key];
-						})
+						});
 						delete safeInput.element;
 
 						delete safeInput.children;
@@ -705,9 +705,9 @@
 								safeInput.children.push(safeChild);
 								Object.keys(child).forEach(function(key){
 									safeChild[key] = child[key];
-								})
+								});
 								delete safeChild.element;
-							})
+							});
 						}
 						if(safeInput.children && !safeInput.children.length){
 							return;
@@ -717,7 +717,7 @@
 						}
 
 						safeNode.inputs.push(safeInput);
-					})
+					});
 				}
 				delete safeNode.outputs;
 				if(safeNode.inputs && !safeNode.inputs.length){
@@ -734,7 +734,7 @@
 						delete safeOutput.element;
 					})
 				}*/
-			})
+			});
 			safeModel.tree = safeTree;
 			delete safeModel.doingSync;
 			delete safeModel.doingSetup;

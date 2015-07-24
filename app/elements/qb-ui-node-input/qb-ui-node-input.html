@@ -140,7 +140,7 @@
 
 			// Change value in slider, if it exists
 			var slider = this.$.sliderTemplate.querySelector('#slider');
-			if(slider && value != '' && !isNaN(value)){
+			if(slider && value !== '' && !isNaN(value)){
 				slider.value = parseFloat(value);
 			}
 
@@ -271,7 +271,6 @@
 					this._setTypedValue(isNaN(parseFloat(_default)) ? 'Constant' : 'Number', _default);
 					return;
 				}
-				console.log('waht', ref	)
 				this._setTypedValue('Number');
 				return;
 			}

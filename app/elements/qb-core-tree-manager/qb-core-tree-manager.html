@@ -139,16 +139,16 @@
 				return;
 			}
 
-			var tree = this.modelController.getRawModel().tree;
+			var tree = this.modelController.getRawModel().tree.splice(0);
 			tree.sort(this._nodesSort.bind(this));
-
 
 			var code = this._generateIncludes();
 			code += this._generateNewLine();
 			code += this._generateDeclares(tree);
 			code += this._generateNewLine();
 			code += this._generateFunctionOpenning();
-			//code += generateConnections.bind(this)(tree, this.nodeDefinitions);
+			code += this._generateNewLine();
+			code += this._generateConnections(tree);
 			code += this._generateFunctionClosing();
 
 			this.computedCode = code;
@@ -201,7 +201,52 @@
 
 				text += definition.type + ' ' + node._id + ';';
 				text += this._generateNewLine();
-			}.bind(this))
+			}.bind(this));
+			return text;
+		},
+		_generateConnections: function(tree){
+			var text = '';
+
+			var processInput = function (input, node, isCollection){
+				var text = this._generateTabSpace() + node._id + '.';
+				if(isCollection){
+					var inputParts = input._id.split('.');
+					var base = inputParts[0];
+					var index = inputParts[1];
+					text += base + '[' + index + ']';
+				}
+				else{
+					text += input._id;
+				}
+				if(input.type === 'Output'){
+					text += '.connect(' + input.value + ')';
+				}
+				else{
+					text += ' = ' + input.value;
+				}
+				text += ';' + this._generateNewLine();
+				return text;
+
+			}.bind(this);
+			tree.forEach(function(node){
+				var nodeText = '';
+				if(node.inputs){
+					node.inputs.forEach(function(input){
+						if(input.children){
+							input.children.forEach(function(input){
+								nodeText += processInput(input, node, true);
+							}.bind(this));
+						}
+						else{
+							nodeText += processInput(input, node);
+						}
+					}.bind(this));
+				}
+				if(nodeText){
+					nodeText += this._generateNewLine();
+				}
+				text += nodeText;
+			}.bind(this));
 			return text;
 		},
 		_generateFunctionOpenning : function(){
@@ -218,7 +263,7 @@
 			return text;
 		},
 		_generateNewLine : function(){
-			return "\n";
+			return '\n';
 		},
 		_generateTabSpace : function(){
 			return '	';
