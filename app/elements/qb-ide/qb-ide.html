@@ -58,6 +58,7 @@
 
 		<qb-core-tree-manager
 			self="{{treeManager}}"
+			computed-code="{{computedCode}}"
 			model-controller="{{modelController}}"
 			model="{{model}}"
 			node-definitions="{{nodeDefinitions}}"
@@ -83,6 +84,7 @@
 				model="{{model}}"
 				model-controller="{{modelController}}"
 				tree-manager="{{treeManager}}"
+				computed-code="{{computedCode}}"
 				node-definitions="{{nodeDefinitions}}"
 				constant-definitions="{{constantDefinitions}}"
 				taxonomy-definitions="{{taxonomyDefinitions}}">
@@ -106,6 +108,7 @@
 			treeManager: Object,
 			nodeDefinitions: Array,
 			constantDefinitions: Array,
+			taxonomyDefinitions: Object,
 			editorMode: String
 		}
 	});

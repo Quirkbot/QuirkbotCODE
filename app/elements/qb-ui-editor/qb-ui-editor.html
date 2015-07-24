@@ -35,9 +35,6 @@
 				drawer
 				id="menu"
 				visual-editor="{{visualEditor}}"
-				text-editor="{{textEditor}}"
-				model="{{model}}"
-				model-controller="{{modelController}}"
 				tree-manager="{{treeManager}}"
 				node-definitions="{{nodeDefinitions}}"
 				taxonomy-definitions="{{taxonomyDefinitions}}">
@@ -51,6 +48,7 @@
 						self="{{visualEditor}}"
 						model="{{model}}"
 						model-controller="{{modelController}}"
+						tree-manager="{{treeManager}}"
 						node-definitions="{{nodeDefinitions}}"
 						tree-manager="{{treeManager}}"
 						constant-definitions="{{constantDefinitions}}">
@@ -60,10 +58,7 @@
 					<qb-ui-editor-text
 						class="editor"
 						self="{{textEditor}}"
-						model="{{model}}"
-						model-controller="{{modelController}}"
-						node-definitions="{{nodeDefinitions}}"
-						constant-definitions="{{constantDefinitions}}">
+						computed-code="{{computedCode}}">
 					</qb-ui-editor-text>
 				</template>
 			</div>
@@ -79,6 +74,7 @@
 			model: Object,
 			modelController: Object,
 			treeManager: Object,
+			computedCode: String,
 			nodeDefinitions: Object,
 			constantDefinitions: Object,
 			taxonomyDefinitions: Object,
@@ -97,6 +93,7 @@
 			if(mode === 'text'){
 				this.textMode = true;
 				this.visualMode = false;
+				this.treeManager.computeCode();
 			}
 			else {
 				this.textMode = false;

@@ -34,8 +34,6 @@
 			sort="sortByName"
 			observe="name">
 			<qb-ui-nodes-menu-group
-				model="{{model}}"
-				model-controller="{{modelController}}"
 				tree-manager="{{treeManager}}"
 				drop-area="{{dropArea}}"
 				visual-editor="{{visualEditor}}"
@@ -53,11 +51,10 @@
 		properties: {
 			dropArea: Object,
 			visualEditor: Object,
-			model: Object,
-			modelController: Object,
 			treeManager: Object,
-			taxonomyDefinitions: Object,
 			nodeDefinitions: Array,
+			taxonomyDefinitions: Object,
+
 			categories: Array,
 			tags: Array,
 			selectedTags: Array

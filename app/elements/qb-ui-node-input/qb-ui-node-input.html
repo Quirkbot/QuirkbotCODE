@@ -134,15 +134,14 @@
 			this.$.line.destination = this.inlet;
 		},
 		_valueChanged: function(value){
-
 			if(!this.definition || !this.data) {
 				return;
 			}
 
 			// Change value in slider, if it exists
 			var slider = this.$.sliderTemplate.querySelector('#slider');
-			if(slider && !isNaN(value)){
-				slider.value = value;
+			if(slider && value != '' && !isNaN(value)){
+				slider.value = parseFloat(value);
 			}
 
 			// Validate
@@ -154,7 +153,7 @@
 		_sliderValueChanged: function(){
 			var slider = this.$.sliderTemplate.querySelector('#slider');
 			if(slider && !isNaN(slider.value)){
-				this.set('data.value', slider.value);
+				this._setTypedValue('Number', slider.value);
 			}
 		},
 		_computeDatalist: function(definition){
@@ -209,7 +208,7 @@
 				}
 
 				var slider = this.$.sliderTemplate.querySelector('#slider');
-				if(slider && slider.value !== newValue){
+				if(slider && typeof newValue !== 'undefined'){
 					slider.value = newValue;
 				}
 
@@ -249,6 +248,10 @@
 
 			// Check if it is a number contained in range
 			if(this.range){
+				if(_mandatory && typeof value === 'undefined'){
+					this._setTypedValue('Number');
+					return;
+				}
 				var rangeMatch =  this._rangeMatch(value);
 				this._setTypedValue('Number', rangeMatch);
 				return;
@@ -261,13 +264,14 @@
 				return;
 			}
 
-			// Check if it is a valud number
+			// Check if it is a valid number
 			var ref = parseFloat(value);
 			if(isNaN(ref)){
 				if(_mandatory && typeof _default !=='undefined'){
 					this._setTypedValue(isNaN(parseFloat(_default)) ? 'Constant' : 'Number', _default);
 					return;
 				}
+				console.log('waht', ref	)
 				this._setTypedValue('Number');
 				return;
 			}
@@ -392,6 +396,9 @@
 			}
 		},
 		_setTypedValue: function(type, value){
+			if(typeof value !== 'undefined'){
+				value = value.toString();
+			}
 			if(this.data.type !== type){
 				this.set('data.type', type);
 			}

@@ -9,7 +9,7 @@
 			position: relative;
 		}
 
-		juicy-ace-editor{
+		#editor{
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -21,16 +21,11 @@
 
 	<template>
 		<juicy-ace-editor
+			id="editor"
 			theme="ace/theme/monokai"
 			mode="ace/mode/c_cpp"
 			fontsize="14px"
-			readonly="true">#include "Quirkbot.h"
-
-Wave wave;
-
-void start(){
-
-}</juicy-ace-editor>
+			readonly="true">{{computedCode}}</juicy-ace-editor>
 	</template>
 </dom-module>
 <script>
@@ -42,19 +37,7 @@ void start(){
 			window.Quirkbot.SelfPropertyBehavior
 		],
 		properties: {
-			model: Object,
-			modelController: Object,
-			treeManager: Object,
-			nodeDefinitions: Object,
-			constantDefinitions: Object,
-			text: String
-		},
-		observers: [
-
-		],
-		_computeCode: function(){
-			//var tree = this.modelController.model.tree;
-			//console.log(tree)
+			computedCode: String
 		}
 	});
 })();

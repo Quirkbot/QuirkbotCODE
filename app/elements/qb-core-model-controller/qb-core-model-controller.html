@@ -333,6 +333,9 @@
 
 			return (doingSetup || doingSync || doingAddToProfile);
 		},
+		getRawModel: function () {
+			return this._modelToRawData(this.model);
+		},
 		__idChanged:function(_id){
 			this.async(function () {
 				this._log('log', {event: '__idChanged', detail: _id});
@@ -661,8 +664,85 @@
 			return model;
 		},
 		_modelToRawData : function(model){
-			this._log('warning', '_modelToRawData', 'TODO: implement this :)');
-			return JSON.parse(JSON.stringify(model));
+			var safeModel = {};
+			Object.keys(model).forEach(function(key){
+				safeModel[key] = model[key];
+			})
+
+			delete safeModel.tree;
+			var safeTree = [];
+			this.model.tree.forEach(function(node){
+				var safeNode = {};
+				safeTree.push(safeNode);
+				Object.keys(node).forEach(function(key){
+					safeNode[key] = node[key];
+				})
+				delete safeNode.element;
+
+				delete safeNode.inputs;
+				if(node.inputs && node.inputs.length){
+					safeNode.inputs = [];
+					node.inputs.forEach(function(input){
+						if(!input.children && typeof input.value === 'undefined'){
+							return;
+						}
+
+						var safeInput = {};
+
+						Object.keys(input).forEach(function(key){
+							safeInput[key] = input[key];
+						})
+						delete safeInput.element;
+
+						delete safeInput.children;
+						if(input.children && input.children.length){
+							safeInput.children = [];
+							input.children.forEach(function(child){
+								if(typeof child.value === 'undefined'){
+									return;
+								}
+								var safeChild = {};
+								safeInput.children.push(safeChild);
+								Object.keys(child).forEach(function(key){
+									safeChild[key] = child[key];
+								})
+								delete safeChild.element;
+							})
+						}
+						if(safeInput.children && !safeInput.children.length){
+							return;
+						}
+						if(!safeInput.children && typeof input.value === 'undefined'){
+							return;
+						}
+
+						safeNode.inputs.push(safeInput);
+					})
+				}
+				delete safeNode.outputs;
+				if(safeNode.inputs && !safeNode.inputs.length){
+					delete safeNode.inputs;
+				}
+				/*if(node.outputs && node.outputs.length){
+					safeNode.outputs = [];
+					node.outputs.forEach(function(output){
+						var safeOutput = {};
+						safeNode.outputs.push(safeOutput);
+						Object.keys(output).forEach(function(key){
+							safeOutput[key] = output[key];
+						})
+						delete safeOutput.element;
+					})
+				}*/
+			})
+			safeModel.tree = safeTree;
+			delete safeModel.doingSync;
+			delete safeModel.doingSetup;
+			delete safeModel.doingAddToProfile;
+			delete safeModel.syncError;
+			delete safeModel.setupError;
+			delete safeModel.addToProfileError;
+			return safeModel;
 		},
 		_replaceModel: function(data){
 			this.set('model._id', data._id || '');
