@@ -1,6 +1,8 @@
 {
 	"locale/name" : "Português Brasiliero",
 
+	"ide/upload-area/upload-button":	"Carregar",
+
 	"ide/editor/visual": 		"Visual",
 	"ide/editor/text": 			"Texto",
 

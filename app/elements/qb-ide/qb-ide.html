@@ -10,13 +10,13 @@
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-router/qb-core-router.html">
-
 <link rel="import" href="../qb-core-node-definitions/qb-core-node-definitions.html">
 <link rel="import" href="../qb-core-model-controller/qb-core-model-controller.html">
 <link rel="import" href="../qb-core-tree-manager/qb-core-tree-manager.html">
 
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-editor/qb-ui-editor.html">
+<link rel="import" href="../qb-ui-upload-area/qb-ui-upload-area.html">
 
 <!-- Platinum elements -->
 <!--
@@ -39,6 +39,7 @@
 			url="/data/strings/{{locale}}.json"
 			locale="{{locale}}">
 		</qb-core-i18n>
+
 
 		<qb-core-node-definitions
 			url="/data/nodes.json"
@@ -65,9 +66,14 @@
 			constant-definitions="{{constantDefinitions}}">
 		</qb-core-tree-manager>
 
+		<qb-ui-upload-area
+			self="{{uploadArea}}">
+		</qb-ui-upload-area>
+
 		<paper-header-panel mode="seamed">
 
 			<paper-toolbar>
+
 				<paper-radio-group selected="{{editorMode}}">
 					<paper-radio-button name="visual">
 						<qb-core-i18n key="ide/editor/visual"></qb-core-i18n>
@@ -76,6 +82,12 @@
 						<qb-core-i18n key="ide/editor/text"></qb-core-i18n>
 					</paper-radio-button>
 				</paper-radio-group>
+
+				<paper-button
+					on-tap="_onUploadButtonTap">
+					<qb-core-i18n key="ide/upload-area/upload-button"></qb-core-i18n>
+				</paper-button>
+
 			</paper-toolbar>
 
 			<qb-ui-editor
@@ -109,7 +121,11 @@
 			nodeDefinitions: Array,
 			constantDefinitions: Array,
 			taxonomyDefinitions: Object,
-			editorMode: String
+			editorMode: String,
+			uploadArea: Object,
+		},
+		_onUploadButtonTap: function(){
+			this.uploadArea.open();
 		}
 	});
 })();

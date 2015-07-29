@@ -5,6 +5,35 @@
 	"ide/editor/visual": 	"Visual",
 	"ide/editor/text": 		"Text",
 
+	"ide/upload-area/upload-button":	"Upload",
+	"ide/upload-area/dialog/header":	"Upload",
+
+	"ide/upload-area/dialog/warning/wrong-browser/header" :		"Ops, it looks like you are not using Google Chrome.",
+	"ide/upload-area/dialog/warning/wrong-browser/description" :"Please open this page from Google Chrome and try again.",
+	"ide/upload-area/dialog/warning/wrong-browser/dismiss" : 	"Cancel",
+	"ide/upload-area/dialog/warning/wrong-browser/confirm" :	"Download Chrome",
+
+	"ide/upload-area/dialog/warning/no-browser-extension/header" : 		"Almost there!",
+	"ide/upload-area/dialog/warning/no-browser-extension/description" : "Before we continue, we need you to install the Quirkbot Chrome app. It will allow us to communicate with your Quirkbots.",
+	"ide/upload-area/dialog/warning/no-browser-extension/dismiss" : 	"Cancel",
+	"ide/upload-area/dialog/warning/no-browser-extension/confirm" : 	"Install",
+	"ide/upload-area/dialog/warning/no-browser-extension/error/unhanlded" : "There was an error installing the app, please try again",
+	"ide/upload-area/dialog/warning/no-browser-extension/error/user-cancelled" : "You need to click on the \"Add\" button when the installation dialog appears. Please try again.",
+	"ide/upload-area/dialog/warning/no-browser-extension/error/webstore" : "It seems that you can't access the Chrome Web Store. This could be a problem with your internet connection, or you could be in a country where Google's servers are blocked.<br><br>If you know Google is blocked, please follow <a href='https://github.com/Quirkbot/QuirkbotChromeExtension/releases' target='_blank'>this guide</a> to install the app manually.<br><br>If the problem may be on your internet connection, please try again when you are online.",
+	"ide/upload-area/dialog/warning/no-browser-extension/error/webstore/manual-installation/" : "Install manually",
+
+	"ide/upload-area/dialog/warning/no-quirkbots/header" :		"No Quirkbots detected.",
+	"ide/upload-area/dialog/warning/no-quirkbots/description" : "Are you sure your Quirkbot is turned on and connected to a working USB port?",
+	"ide/upload-area/dialog/warning/no-quirkbots/dismiss" : 	"Cancel",
+
+	"ide/upload-area/dialog/quirkbots/header" :			"Select a Quirkbot",
+	"ide/upload-area/dialog/quirkbots/description" : 	"The program will be uploaded to the selected Quirkbot",
+	"ide/upload-area/dialog/quirkbots/dismiss" : 		"Cancel",
+	"ide/upload-area/dialog/quirkbots/confirm" : 		"Upload",
+
+	"ide/upload-area/dialog/dismiss":	"Cancel",
+	"ide/upload-area/dialog/confirm":	"OK",
+
 	"CATEGORIES ---------------------------------------------------------" : "",
 	"category/signal": 		"Signal",
 	"category/movement": 	"Movement",
