@@ -89,61 +89,61 @@
 			this._connectToExtension();
 		},
 		_connectToExtension: function(){
-			var self = this;
-			self.connected = false;
+			this.connected = false;
 			// Clear previous event listeners
-			if(self.adapter.modelChange){
-				self.adapter.modelChange.remove(self._onAdapterModelChange);
+			if(this.adapter.modelChange){
+				this.adapter.modelChange.remove(this._onAdapterModelChange);
 			}
 
 			// Google Chrome
 			if(typeof chrome !== 'undefined'){
-				var api = new window.ChromeExtensionAPIClient(self.extensionId);
-				self.adapter.ping = api.generateMethod('ping');
+				var api = new window.ChromeExtensionAPIClient(this.extensionId);
+				this.adapter.ping = api.generateMethod('ping');
 				this.adapter.upload = api.generateMethod('upload');
 				this.adapter.modelChange = api.generateEvent('modelChange');
 			}
 		},
 		_monitorExtensionConnection: function(){
-			var self = this;
 			var interval = 1000;
 			// Ping the extension to see if we are connected. We will not get
 			// an error in case we can't access to extension (eg. running from
 			// an unauthrized domain), so we need to timeout to notify failure
 			var timeout = setTimeout(function () {
-				if(self.connected){
-					console.log('Disconnected from extensionId: ' + self.extensionId);
-					self.connected = false;
-					self.model = {};
+				if(this.connected){
+					console.log('Disconnected from extensionId: ' + this.extensionId);
+					this.connected = false;
+					if(this.model.quirkbots.length){
+						this.splice('model.quirkbots', 0, this.model.quirkbots.length);
+					};
 				}
-				self._monitorExtensionConnection();
-			}, interval);
+				this._monitorExtensionConnection();
+			}.bind(this), interval);
 
-			if(!self.adapter.ping) {
+			if(!this.adapter.ping) {
 				return;
 			}
-			self.adapter.ping()
+			this.adapter.ping()
 			.then(function(){
-				if(!self.connected){
-					console.log('Connected to extensionId: ' + self.extensionId);
-					self.connected = true;
+				if(!this.connected){
+					console.log('Connected to extensionId: ' + this.extensionId);
+					this.connected = true;
 					// Now we are save to bind the adapter to the extension
-					self.adapter.modelChange.add(self._onAdapterModelChange.bind(self));
+					this.adapter.modelChange.add(this._onAdapterModelChange.bind(this));
 				}
 				clearTimeout(timeout);
-				setTimeout(self._monitorExtensionConnection.bind(self), interval);
-			})
+				setTimeout(this._monitorExtensionConnection.bind(this), interval);
+			}.bind(this))
 			.catch(function(error){
 				// If we were explitly rejected, the extension must be booting up
 				console.log(error);
-				if(self.connected){
-					console.log('Disconnected from extensionId: ' + self.extensionId);
-					self.connected = false;
-					self.model = {};
+				if(this.connected){
+					console.log('Disconnected from extensionId: ' + this.extensionId);
+					this.connected = false;
+					this.model = {};
 				}
 				clearTimeout(timeout);
-				setTimeout(self._monitorExtensionConnection.bind(self), interval);
-			});
+				setTimeout(this._monitorExtensionConnection.bind(this), interval);
+			}.bind(this));
 		},
 		_onAdapterModelChange: function(model){
 			if(!model.quirkbots.length && this.model.quirkbots.length){

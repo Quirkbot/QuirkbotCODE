@@ -17,6 +17,7 @@
 
 		#dialog{
 			width: 300px;
+
 		}
 		[dialog-dismiss]{
 			color: red;
@@ -43,7 +44,8 @@
 			entry-animation="scale-up-animation"
 			exit-animation="fade-out-animation"
 			id="dialog">
-			<h2>
+			<h2
+				class="dialog-header">
 				<qb-core-i18n
 					key="ide/upload-area/dialog/header"></qb-core-i18n>
 			</h2>
@@ -57,7 +59,8 @@
 					<template
 						is="dom-if"
 						if="{{extensionModel.quirkbots.length}}">
-						<paper-dialog-scrollable>
+						<div
+							class="dialog-content">
 							<h3>
 								<qb-core-i18n
 									key="ide/upload-area/dialog/quirkbots/header"></qb-core-i18n>
@@ -79,7 +82,7 @@
 								<qb-core-i18n
 									key="ide/upload-area/dialog/quirkbots/description"></qb-core-i18n>
 							</div>
-						</paper-dialog-scrollable>
+						</div>
 						<div
 							class="buttons">
 							<paper-button
@@ -97,7 +100,8 @@
 					<template
 						is="dom-if"
 						if="{{!extensionModel.quirkbots.length}}">
-						<paper-dialog-scrollable>
+						<div
+							class="dialog-content">
 							<h3>
 								<qb-core-i18n
 									key="ide/upload-area/dialog/warning/no-quirkbots/header"></qb-core-i18n>
@@ -106,7 +110,7 @@
 								<qb-core-i18n
 									key="ide/upload-area/dialog/warning/no-quirkbots/description"></qb-core-i18n>
 							</div>
-						</paper-dialog-scrollable>
+						</div>
 						<div
 							class="buttons">
 							<paper-button
@@ -120,7 +124,8 @@
 				<template
 					is="dom-if"
 					if="{{!connectedToExtension}}">
-					<paper-dialog-scrollable>
+					<div
+						class="dialog-content">
 						<h3>
 							<qb-core-i18n
 								key="ide/upload-area/dialog/warning/no-browser-extension/header"></qb-core-i18n>
@@ -138,7 +143,7 @@
 								</div>
 							</template>
 						</div>
-					</paper-dialog-scrollable>
+					</div>
 					<div
 						class="buttons">
 						<paper-button
@@ -169,7 +174,8 @@
 			<template
 				is="dom-if"
 				if="{{!browserChrome}}">
-				<paper-dialog-scrollable>
+				<div
+					class="dialog-content">
 					<h3>
 						<qb-core-i18n
 							key="ide/upload-area/dialog/warning/wrong-browser/header"></qb-core-i18n>
@@ -179,7 +185,7 @@
 						<qb-core-i18n
 							key="ide/upload-area/dialog/warning/wrong-browser/description"></qb-core-i18n>
 					</div>
-				</paper-dialog-scrollable>
+				</div>
 				<div
 					class="buttons">
 					<paper-button
@@ -198,7 +204,6 @@
 					</a>
 				</div>
 			</template>
-
 		</paper-dialog>
 
 	</template>
@@ -236,7 +241,13 @@
 			this.$.dialog.open();
 		},
 		_onInstallExtensionTap: function(){
-			this.$.extension.install();
+			this.$.extension.install()
+			.then(function(){
+				this.$.dialog.notifyResize();
+			}.bind(this))
+			.catch(function(){
+				this.$.dialog.notifyResize();
+			}.bind(this));
 		},
 		_computeExtensionInstallationErrorKey: function(code){
 
@@ -265,6 +276,7 @@
 				this.extensionModel.quirkbots.forEach(function(quirkbot){
 					this.push('quirkbots', quirkbot)
 				}.bind(this));
+				this.$.dialog.notifyResize();
 			}.bind(this), 10);
 
 		}
