@@ -23,11 +23,6 @@
 				value: {quirkbots:[]},
 				notify: true
 			},
-			selectedQuirkbotUuid: {
-				type: String,
-				value: '',
-				notify: true
-			},
 			connected: {
 				type: Boolean,
 				value: false,
@@ -45,9 +40,6 @@
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
-		],
-		observers:[
-			'_onQuirbotsSplices(model.quirkbots.splices)'
 		],
 		adapter: {},
 		created: function(){
@@ -172,17 +164,7 @@
 				}
 
 			};
-		},
-		_onQuirbotsSplices: function(){
-			var nextId;
-			if(!this.model.quirkbots.length){
-				this.selectedQuirkbotUuid = '';
-			}
-			else if(this.findOneIndexByKey(this.model.quirkbots, 'uuid', this.selectedQuirkbotUuid) === -1){
-				this.selectedQuirkbotUuid = this.model.quirkbots[0].uuid;
-			}
 		}
-
 	});
 })();
 </script>

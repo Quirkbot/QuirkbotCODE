@@ -16,7 +16,7 @@
 
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-editor/qb-ui-editor.html">
-<link rel="import" href="../qb-ui-upload-area/qb-ui-upload-area.html">
+<link rel="import" href="../qb-ui-quirkbots-area/qb-ui-quirkbots-area.html">
 
 <!-- Platinum elements -->
 <!--
@@ -66,9 +66,9 @@
 			constant-definitions="{{constantDefinitions}}">
 		</qb-core-tree-manager>
 
-		<qb-ui-upload-area
-			self="{{uploadArea}}">
-		</qb-ui-upload-area>
+		<qb-ui-quirkbots-area
+			self="{{quirkbotsArea}}">
+		</qb-ui-quirkbots-area>
 
 		<paper-header-panel mode="seamed">
 
@@ -85,7 +85,7 @@
 
 				<paper-button
 					on-tap="_onUploadButtonTap">
-					<qb-core-i18n key="ide/upload-area/upload-button"></qb-core-i18n>
+					<qb-core-i18n key="ide/quirkbots-area/open-button"></qb-core-i18n>
 				</paper-button>
 
 			</paper-toolbar>
@@ -122,10 +122,10 @@
 			constantDefinitions: Array,
 			taxonomyDefinitions: Object,
 			editorMode: String,
-			uploadArea: Object,
+			quirkbotsArea: Object,
 		},
 		_onUploadButtonTap: function(){
-			this.uploadArea.open();
+			this.quirkbotsArea.open();
 		}
 	});
 })();
