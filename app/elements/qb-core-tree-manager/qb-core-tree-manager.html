@@ -1,8 +1,15 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
 <dom-module id="qb-core-tree-manager">
+	<template>
+		<iron-ajax
+			id="loader"
+			handle-as="json">
+		</iron-ajax>
+	</template>
 </dom-module>
 
 <script>
@@ -15,10 +22,18 @@
 			window.Quirkbot.UtilsBehavior
 		],
 		properties: {
+			compilerUrl:{
+				type: String,
+				value: 'https://quirkbot-compiler.herokuapp.com/'
+			},
 			modelController: Object,
 			model: Object,
 			nodeDefinitions: Array,
 			computedCode: {
+				type: String,
+				notify: true
+			},
+			compiledHex: {
 				type: String,
 				notify: true
 			}
@@ -151,7 +166,99 @@
 			code += this._generateConnections(tree);
 			code += this._generateFunctionClosing();
 
-			this.computedCode = code;
+			if(code !== this.computedCode){
+				this.computedCode = code;
+				this.compiledHex = '';
+			}
+		},
+		compileHex: function(){
+			return new Promise(function(resolve, reject){
+				var oldComputedCode = this.computedCode;
+				var oldCompiledHex = this.compiledHex;
+				this.computeCode();
+
+				if(oldComputedCode === this.computedCode){
+					this.compiledHex = oldCompiledHex;
+				}
+
+				if(this.compiledHex){
+					return resolve(this.compiledHex);
+				}
+				this._enterCompilationQueue(this.computedCode)
+				.then(this._verifyCompilation.bind(this))
+				.then(resolve)
+				.catch(reject)
+
+			}.bind(this));
+		},
+		_enterCompilationQueue: function(code){
+			return new Promise(function(resolve, reject){
+				var onResponse = function(event){
+					clearTimeout(timer);
+					this.$.loader.removeEventListener('response', onResponse);
+					if(!event || !event.detail || !event.detail.response || !event.detail.response._id){
+						return reject('BAD_RESPONSE');
+					}
+					resolve(event.detail.response._id);
+				}.bind(this);
+				var onError = function(event){
+					clearTimeout(timer);
+					this.$.loader.removeEventListener('error', onError);
+					return reject('NETWORK_ERROR');
+				}.bind(this);
+				this.$.loader.addEventListener('response', onResponse);
+				this.$.loader.addEventListener('error', onError);
+				this.$.loader.url = this.compilerUrl + window.encodeURIComponent(code);
+				var request = this.$.loader.generateRequest();
+				var timer = setTimeout(function(){
+					request.abort();
+				}.bind(this), 5000);
+
+			}.bind(this));
+		},
+		_verifyCompilation: function(id){
+			return new Promise(function(resolve, reject){
+				// Try 3 times before giving up
+				this._verifySingleCompilation(id)
+				.then(resolve)
+				.catch(function(){
+					this._verifySingleCompilation(id)
+					.then(resolve)
+					.catch(function(){
+						this._verifySingleCompilation(id)
+						.then(resolve)
+						.catch(reject)
+					}.bind(this))
+				}.bind(this))
+			}.bind(this));
+		},
+		_verifySingleCompilation: function(id){
+			return new Promise(function(resolve, reject){
+				// Wait a bit before requesting
+				setTimeout(function() {
+					var onResponse = function(event){
+						clearTimeout(timer);
+						this.$.loader.removeEventListener('response', onResponse);
+						if(!event || !event.detail || !event.detail.response || !event.detail.response.hex){
+							return reject('BAD_RESPONSE');
+						}
+						this.compiledHex = event.detail.response.hex;
+						resolve(this.compiledHex);
+					}.bind(this);
+					var onError = function(event){
+						clearTimeout(timer);
+						this.$.loader.removeEventListener('error', onError);
+						return reject('NETWORK_ERROR');
+					}.bind(this);
+					this.$.loader.addEventListener('response', onResponse);
+					this.$.loader.addEventListener('error', onError);
+					this.$.loader.url = this.compilerUrl + 'i' + id;
+					var request = this.$.loader.generateRequest();
+					var timer = setTimeout(function(){
+						request.abort();
+					}.bind(this), 5000);
+				}.bind(this), 2000)
+			}.bind(this));
 		},
 		_nodesSort: function(a, b){
 			var aDefinition = this.findOneObjectByKey(this.nodeDefinitions, '_id', a.node);

@@ -13,6 +13,20 @@
 	"ide/quirkbots-area/dialog/quirkbots/dismiss" : 		"Cancel",
 	"ide/quirkbots-area/dialog/quirkbots/confirm" : 		"Upload",
 
+	"ide/quirkbots-area/dialog/quirkbots/uploading/header" :		"Uploading program",
+	"ide/quirkbots-area/dialog/quirkbots/uploading/description" : 	"Please don't disconnect or turn off your Quitkbot.",
+	"ide/quirkbots-area/dialog/quirkbots/uploading/dismiss" : 		"Cancel",
+
+	"ide/quirkbots-area/dialog/quirkbots/upload-success/header" :		"Upload complete",
+	"ide/quirkbots-area/dialog/quirkbots/upload-success/description" : 	"Yay! Your program was successfully uploaded to your Quirkbot.",
+	"ide/quirkbots-area/dialog/quirkbots/upload-success/confirm" : 		"Ok",
+
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/header" :				"Upload failed",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/compiler-description" :"Ops... there seems to have a problem with your internet connection.",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/uploader-description" :"Weird... something went wrong and the upload failed. Please try again.",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/dismiss" : 			"Cancel",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/retry" : 				"Retry",
+
 	"ide/quirkbots-area/dialog/warning/wrong-browser/header" :		"Ops, it looks like you are not using Google Chrome.",
 	"ide/quirkbots-area/dialog/warning/wrong-browser/description" :	"Please open this page from Google Chrome and try again.",
 	"ide/quirkbots-area/dialog/warning/wrong-browser/dismiss" : 	"Cancel",
@@ -37,6 +51,7 @@
 	"CATEGORIES ---------------------------------------------------------" : "",
 	"category/signal": 		"Signal",
 	"category/movement": 	"Movement",
+	"category/light": 		"Light",
 
 	"TAGS ---------------------------------------------------------------" : "",
 	"tag/beginner": 		"Begginer",
@@ -46,6 +61,7 @@
 	"NODES --------------------------------------------------------------" : "",
 	"node/name/wave": 			"Wave",
 	"node/name/servo-motor": 	"Servo Motor",
+	"node/name/led": 			"Led",
 	"node/name/test": 			"Test",
 
 	"CONNECTIONS --------------------------------------------------------" : "",
@@ -68,6 +84,15 @@
 	"node/connection/datalist/ramp-down-wave" : "Ramp Down",
 
 	"node/connection/datalist/servo-bp-1" : 	"Backpack 1",
-	"node/connection/datalist/servo-bp-2" : 	"Backpack 2"
+	"node/connection/datalist/servo-bp-2" : 	"Backpack 2",
 
+	"node/connection/datalist/place-left-eye" : 	"Left eye",
+	"node/connection/datalist/place-right-eye" : 	"Right eye",
+	"node/connection/datalist/place-left-mouth" : 	"Left mouth",
+	"node/connection/datalist/place-right-mouth" : 	"Right mouth",
+	"node/connection/datalist/place-left-arm" : 	"Left arm",
+	"node/connection/datalist/place-right-arm" : 	"Right arm",
+	"node/connection/datalist/place-left-leg" : 	"Left leg",
+	"node/connection/datalist/place-right-leg" : 	"Right leg",
+	"node/connection/datalist/place-horn" : 		"Horn"
 }

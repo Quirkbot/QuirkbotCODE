@@ -88,7 +88,7 @@
 			}
 
 			// Google Chrome
-			if(typeof chrome !== 'undefined'){
+			if(typeof window.chrome !== 'undefined'){
 				var api = new window.ChromeExtensionAPIClient(this.extensionId);
 				this.adapter.ping = api.generateMethod('ping');
 				this.adapter.upload = api.generateMethod('upload');
@@ -110,7 +110,6 @@
 				}
 				this._monitorExtensionConnection();
 			}.bind(this), interval);
-
 			if(!this.adapter.ping) {
 				return;
 			}
@@ -131,7 +130,9 @@
 				if(this.connected){
 					console.log('Disconnected from extensionId: ' + this.extensionId);
 					this.connected = false;
-					this.model = {};
+					if(this.model.quirkbots.length){
+						this.splice('model.quirkbots', 0, this.model.quirkbots.length);
+					};
 				}
 				clearTimeout(timeout);
 				setTimeout(this._monitorExtensionConnection.bind(this), interval);
@@ -150,7 +151,22 @@
 				else{
 					var quirkbot = this.model.quirkbots[index];
 					Object.keys(newQuirkbot).forEach(function(key){
-						this.set('model.quirkbots.'+index+'.'+key, newQuirkbot[key]);
+						if(typeof newQuirkbot[key] === 'Object'){
+							if(!this.model.quirkbots[index][key]){
+								this.set('model.quirkbots.'+index+'.'+key, {});
+							}
+							Object.keys(newQuirkbot[key]).forEach(function(subKey){
+								if(this.model.quirkbots[index][key][subKey] !==  newQuirkbot[key][subKey]){
+									this.set('model.quirkbots.'+index+'.'+key+'.'+subKey, newQuirkbot[key][subKey]);
+								}
+							}.bind(this));
+						}
+						else{
+							if(this.model.quirkbots[index][key] !==  newQuirkbot[key]){
+								this.set('model.quirkbots.'+index+'.'+key, newQuirkbot[key]);
+							}
+
+						}
 					}.bind(this));
 				}
 			}.bind(this));

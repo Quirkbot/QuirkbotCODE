@@ -98,6 +98,73 @@
 			]
 		},
 		{
+			"_id": "led",
+			"taxonomy":{
+				"categories": ["light"],
+				"tags": []
+			},
+			"type": "Led",
+			"inputs" : [
+				{
+					"_id": "in",
+					"default": 1,
+					"validation" : {
+						"type": "range",
+						"data": {
+							"min" : 0,
+							"max" : 1
+						}
+
+					}
+				},
+				{
+					"_id": "place",
+					"validation" : {
+						"type" : "list",
+						"data": [
+							{
+								"_id" : "place-left-eye",
+								"value" : "LE"
+							},
+							{
+								"_id" : "place-right-eye",
+								"value" : "RE"
+							},
+							{
+								"_id" : "place-left-mouth",
+								"value" : "LM"
+							},
+							{
+								"_id" : "place-right-mouth",
+								"value" : "RM"
+							},
+							{
+								"_id" : "place-horn",
+								"value" : "H"
+							},
+							{
+								"_id" : "place-left-arm",
+								"value" : "LA"
+							},
+							{
+								"_id" : "place-right-arm",
+								"value" : "RA"
+							},
+							{
+								"_id" : "place-left-leg",
+								"value" : "LL"
+							},
+							{
+								"_id" : "place-right-leg",
+								"value" : "RL"
+							}
+						]
+					}
+				}
+			],
+			"outputs" : []
+		},
+		{
 			"_id": "servo-motor",
 			"taxonomy":{
 				"categories": ["movement"],
@@ -177,6 +244,9 @@
 			},
 			{
 				"_id": "movement"
+			},
+			{
+				"_id": "light"
 			}
 		],
 		"tags": [
