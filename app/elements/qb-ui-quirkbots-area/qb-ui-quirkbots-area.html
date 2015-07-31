@@ -14,6 +14,8 @@
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-browser-extension/qb-core-browser-extension.html">
 
+<link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
+
 <dom-module id='qb-ui-quirkbots-area'>
 	<style>
 
@@ -85,9 +87,10 @@
 										class="transiting"
 										value="{{uploadProgress}}">
 									</paper-progress>
-									<qb-core-i18n
-										key="ide/quirkbots-area/dialog/quirkbots/uploading/description"></qb-core-i18n>
-
+									<qb-ui-notice>
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/uploading/description"></qb-core-i18n>
+									</qb-ui-notice>
 								</div>
 								<div
 									class="buttons">
@@ -114,8 +117,11 @@
 										<template
 											is="dom-if"
 											if="{{uploadErrorKey}}">
-											<qb-core-i18n
+											<qb-ui-notice
+												error>
+												<qb-core-i18n
 												key="{{uploadErrorKey}}"></qb-core-i18n>
+											</qb-ui-notice>
 										</template>
 									</div>
 									<div
@@ -216,10 +222,10 @@
 								<qb-core-i18n
 									key="ide/quirkbots-area/dialog/warning/no-quirkbots/header"></qb-core-i18n>
 							</h3>
-							<div>
+							<qb-ui-notice>
 								<qb-core-i18n
 									key="ide/quirkbots-area/dialog/warning/no-quirkbots/description"></qb-core-i18n>
-							</div>
+							</qb-ui-notice>
 						</div>
 						<div
 							class="buttons">
@@ -247,10 +253,11 @@
 							<template
 								is="dom-if"
 								if="{{extensionInstallationErrorCode}}">
-								<div class="error">
+								<qb-ui-notice
+									error>
 									<qb-core-i18n
 										key="{{extensionInstallationErrorKey}}"></qb-core-i18n>
-								</div>
+								</qb-ui-notice>
 							</template>
 						</div>
 					</div>
@@ -291,10 +298,11 @@
 							key="ide/quirkbots-area/dialog/warning/wrong-browser/header"></qb-core-i18n>
 					</h3>
 
-					<div>
+					<qb-ui-notice
+						error>
 						<qb-core-i18n
 							key="ide/quirkbots-area/dialog/warning/wrong-browser/description"></qb-core-i18n>
-					</div>
+					</qb-ui-notice>
 				</div>
 				<div
 					class="buttons">
