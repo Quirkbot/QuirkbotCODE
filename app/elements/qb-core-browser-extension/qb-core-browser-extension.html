@@ -67,7 +67,8 @@
 						this.installing = false;
 						this.installationErrorCode = errorCode;
 						reject.apply(this, [errorCode]);
-					}.bind(this))
+					}.bind(this)
+				);
 			}.bind(this));
 		},
 		upload: function( quirkbotUuid, hexString ){
@@ -106,7 +107,7 @@
 					this.connected = false;
 					if(this.model.quirkbots.length){
 						this.splice('model.quirkbots', 0, this.model.quirkbots.length);
-					};
+					}
 				}
 				this._monitorExtensionConnection();
 			}.bind(this), interval);
@@ -132,7 +133,7 @@
 					this.connected = false;
 					if(this.model.quirkbots.length){
 						this.splice('model.quirkbots', 0, this.model.quirkbots.length);
-					};
+					}
 				}
 				clearTimeout(timeout);
 				setTimeout(this._monitorExtensionConnection.bind(this), interval);
@@ -141,7 +142,7 @@
 		_onAdapterModelChange: function(model){
 			if(!model.quirkbots.length && this.model.quirkbots.length){
 				this.splice('model.quirkbots', 0, this.model.quirkbots.length);
-			};
+			}
 			model.quirkbots.forEach(function(newQuirkbot){
 				var index = this.findOneIndexByKey(this.model.quirkbots, 'uuid', newQuirkbot.uuid);
 				if(index === -1){
@@ -149,9 +150,8 @@
 					this.push('model.quirkbots', newQuirkbot);
 				}
 				else{
-					var quirkbot = this.model.quirkbots[index];
 					Object.keys(newQuirkbot).forEach(function(key){
-						if(typeof newQuirkbot[key] === 'Object'){
+						if(typeof newQuirkbot[key] === 'object'){
 							if(!this.model.quirkbots[index][key]){
 								this.set('model.quirkbots.'+index+'.'+key, {});
 							}
@@ -178,8 +178,7 @@
 						this.splice('model.quirkbots', i, 1);
 					}
 				}
-
-			};
+			}
 		}
 	});
 })();
