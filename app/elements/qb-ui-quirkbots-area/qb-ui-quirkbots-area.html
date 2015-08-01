@@ -31,7 +31,7 @@
 		}
 
 		paper-progress {
-			--paper-progress-transition-duration: 0.2s;
+			--paper-progress-transition-duration: 0.1s;
 			display: block;
 			width: 100%;
 		}
@@ -150,7 +150,7 @@
 												key="ide/quirkbots-area/dialog/quirkbots/upload-success/header"></qb-core-i18n>
 										</h3>
 
-										<div>{{selectedQuirkbot.uuid}}</div>
+										<div>{{selectedQuirkbotUuid}}</div>
 										<qb-core-i18n
 											key="ide/quirkbots-area/dialog/quirkbots/upload-success/description"></qb-core-i18n>
 
@@ -345,11 +345,6 @@
 				type: Array,
 				value: []
 			},
-			selectedQuirkbot: {
-				type: Object,
-				value: null,
-				compute: '_computeSelectedQuirkbot(selectedQuirkbotUuid)'
-			},
 			selectedQuirkbotUuid: {
 				type: String
 			},
@@ -380,8 +375,7 @@
 			window.Quirkbot.UtilsBehavior
 		],
 		observers:[
-			'_computeQuirkbots(extensionModel.quirkbots.splices)',
-			'_computeUploadProgress(selectedQuirkbot.upload.progress)'
+			'_computeQuirkbots(extensionModel.quirkbots.splices)'
 		],
 		ready: function(){
 			this.browserChrome = typeof window.chrome !== 'undefined';
@@ -420,7 +414,7 @@
 					if(this.uploadProgress >= 95){
 						clearInterval(fakeUploadProgressTimer);
 					}
-				}.bind(this), 600);
+				}.bind(this), 300);
 				this.$.extension.upload(this.selectedQuirkbotUuid, hexString)
 				.then(function(){
 					clearInterval(fakeUploadProgressTimer);
@@ -488,12 +482,21 @@
 			return base + error;
 		},
 		_computeQuirkbots: function(){
-			var nextId;
+			var newSelectedId;
 			if(!this.extensionModel.quirkbots.length){
-				this.selectedQuirkbotUuid = '';
+				newSelectedId = '';
 			}
 			else if(!this.findOneObjectByKey(this.extensionModel.quirkbots, 'uuid', this.selectedQuirkbotUuid)){
-				this.selectedQuirkbotUuid = this.extensionModel.quirkbots[0].uuid;
+				newSelectedId = this.extensionModel.quirkbots[0].uuid;
+			}
+
+			if(typeof newSelectedId !== 'undefined'){
+				this.selectedQuirkbotUuid = newSelectedId;
+				this.pendingUploadProcess = false;
+				this.uploadProgress = 0;
+				this.uploadCompleted = false;
+				this.uploadSucceeded = false;
+				this.uploadErrorKey = '';
 			}
 
 			setTimeout(function(){
@@ -505,18 +508,8 @@
 			}.bind(this), 10);
 
 		},
-		_computeSelectedQuirkbot: function(){
-			console.log(this.selectedQuirkbotUuid)
-			return this.findOneObjectByKey(this.extensionModel.quirkbots, 'uuid', this.selectedQuirkbotUuid);
-		},
 		_pendingUploadProcessChanged: function(){
 			this.$.dialog.notifyResize();
-		},
-		_computeUploadProgress: function(progress){
-			if(this.selectedQuirkbot){
-				console.log(this.selectedQuirkbot.upload.progress)
-			}
-
 		}
 	});
 })();
