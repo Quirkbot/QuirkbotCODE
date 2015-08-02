@@ -36,13 +36,13 @@
 	<template>
 
 		<qb-core-i18n
-			url="/data/strings/{{locale}}.json"
+			url-format="{{stringsUrl}}"
 			locale="{{locale}}">
 		</qb-core-i18n>
 
 
 		<qb-core-node-definitions
-			url="/data/nodes.json"
+			url="{{nodesUrl}}"
 			nodes="{{nodeDefinitions}}"
 			groups="{{groupDefinitions}}"
 			constants="{{constantDefinitions}}"
@@ -50,8 +50,8 @@
 		</qb-core-node-definitions>
 
 		<qb-core-model-controller
-			api="http://localhost:8585/api/programs"
 			_id="{{programId}}"
+			api="{{programsApiUrl}}"
 			self="{{modelController}}"
 			model="{{model}}"
 			verbose="error">
@@ -59,6 +59,7 @@
 
 		<qb-core-tree-manager
 			self="{{treeManager}}"
+			compiler-url="{{compilerUrl}}"
 			computed-code="{{computedCode}}"
 			model-controller="{{modelController}}"
 			model="{{model}}"
@@ -68,6 +69,7 @@
 
 		<qb-ui-quirkbots-area
 			self="{{quirkbotsArea}}"
+			chrome-webstore-id="{{chromeWebstoreId}}"
 			tree-manager="{{treeManager}}">
 		</qb-ui-quirkbots-area>
 
@@ -115,7 +117,30 @@
 		is: 'qb-ide',
 		properties: {
 			programId: String,
-			locale: String,
+			locale: {
+				type: String,
+				value: 'en_US'
+			},
+			programsApiUrl: {
+				type: String,
+				value: 'http://localhost:8585/api/programs/'
+			},
+			compilerUrl: {
+				type: String,
+				value: 'https://quirkbot-compiler.herokuapp.com/'
+			},
+			nodesUrl: {
+				type: String,
+				value: 'data/nodes.json'
+			},
+			stringsUrl: {
+				type: String,
+				value: 'data/strings/{{locale}}.json'
+			},
+			chromeWebstoreId: {
+				type: String,
+				value: 'ackaalhbfjagidmjlhlokoblhbnahegd'
+			},
 			modelController: Object,
 			model: Object,
 			treeManager: Object,

@@ -42,6 +42,7 @@
 	<template>
 		<qb-core-browser-extension
 			id="extension"
+			extension-id="{{chromeWebstoreId}}"
 			connected="{{connectedToExtension}}"
 			model="{{extensionModel}}"
 			installing="{{installingExtension}}"
@@ -332,6 +333,7 @@
 	window.Quirkbot.UIQuirkbotsArea = Polymer({
 		is: 'qb-ui-quirkbots-area',
 		properties: {
+			chromeWebstoreId:String,
 			treeManager: Object,
 			connectedToExtension: Boolean,
 			installingExtension: Boolean,
@@ -428,7 +430,7 @@
 				}.bind(this))
 				.catch(function(error){
 					clearInterval(fakeUploadProgressTimer);
-					console.error(error)
+					console.error(error);
 					setTimeout(function(){
 						this.uploadCompleted = true;
 						this.uploadSucceeded = false;
@@ -440,7 +442,7 @@
 
 			}.bind(this))
 			.catch(function(){
-				console.error(arguments)
+				console.error(arguments);
 				setTimeout(function(){
 					this.uploadCompleted = true;
 					this.uploadSucceeded = false;
@@ -502,7 +504,7 @@
 			setTimeout(function(){
 				this.splice('quirkbots', 0, this.quirkbots.length);
 				this.extensionModel.quirkbots.forEach(function(quirkbot){
-					this.push('quirkbots', quirkbot)
+					this.push('quirkbots', quirkbot);
 				}.bind(this));
 				this.$.dialog.notifyResize();
 			}.bind(this), 10);

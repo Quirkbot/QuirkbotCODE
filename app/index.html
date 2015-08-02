@@ -18,25 +18,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="generator" content="Polymer Starter Kit" />
   <title>Quirkbot</title>
   <!-- Place favicon.ico in the `app/` directory -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 
   <!-- Chrome for Android theme color -->
-  <meta name="theme-color" content="#303F9F">
+  <meta name="theme-color" content="#000000">
 
   <!-- Web Application Manifest -->
   <link rel="manifest" href="manifest.json">
 
   <!-- Tile color for Win8 -->
-  <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-TileColor" content="#000000">
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="PSK">
+  <meta name="application-name" content="Quirkbot">
   <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
 
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
+  <meta name="apple-mobile-web-app-title" content="Quirkbot">
   <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
 
   <!-- Tile icon for Win8 (144x144) -->
@@ -64,19 +66,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }));
   </script>
 
-  <!--<a href="#/5586b31e6fe167963d00000b">5586b31e6fe167963d00000b</a>
-  <a href="#/5592f38d81492f9c3c76ad91">5592f38d81492f9c3c76ad91</a>
-  <a href="#/">empty</a>
-
-     <paper-menu
-      selected="{{locale}}"
-      attr-for-selected="locale">
-      <paper-item locale="en_US">English</paper-item>
-      <paper-item locale="pt_BR">Português</paper-item>
-    </paper-menu>-->
-
   <template is="dom-bind">
-
 
     <qb-core-router
       program-id="{{programId}}">
@@ -84,7 +74,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <qb-ide
       program-id="{{programId}}"
-      locale="{{locale}}">
+      locale="en_US"
+      programs-api-url="http://localhost:8585/api/programs"
+      compiler-url="https://quirkbot-compiler.herokuapp.com/"
+      nodes-url="data/nodes.json"
+      strings-url="data/strings/{{locale}}.json"
+      chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd">
     </qb-ide>
 
     <!-- Uncomment next block to enable Service Worker support (1/2) -->
@@ -104,11 +99,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     -->
 
   </template>
-
-  <script type="text/javascript">
-    window.template = document.querySelector('template[is=dom-bind]');
-    window.template.locale = 'en_US';
-  </script>
 
 </body>
 

@@ -187,7 +187,7 @@
 				this._enterCompilationQueue(this.computedCode)
 				.then(this._verifyCompilation.bind(this))
 				.then(resolve)
-				.catch(reject)
+				.catch(reject);
 
 			}.bind(this));
 		},
@@ -201,7 +201,7 @@
 					}
 					resolve(event.detail.response._id);
 				}.bind(this);
-				var onError = function(event){
+				var onError = function(){
 					clearTimeout(timer);
 					this.$.loader.removeEventListener('error', onError);
 					return reject('NETWORK_ERROR');
@@ -227,9 +227,9 @@
 					.catch(function(){
 						this._verifySingleCompilation(id)
 						.then(resolve)
-						.catch(reject)
-					}.bind(this))
-				}.bind(this))
+						.catch(reject);
+					}.bind(this));
+				}.bind(this));
 			}.bind(this));
 		},
 		_verifySingleCompilation: function(id){
@@ -245,7 +245,7 @@
 						this.compiledHex = event.detail.response.hex;
 						resolve(this.compiledHex);
 					}.bind(this);
-					var onError = function(event){
+					var onError = function(){
 						clearTimeout(timer);
 						this.$.loader.removeEventListener('error', onError);
 						return reject('NETWORK_ERROR');
@@ -257,7 +257,7 @@
 					var timer = setTimeout(function(){
 						request.abort();
 					}.bind(this), 5000);
-				}.bind(this), 2000)
+				}.bind(this), 2000);
 			}.bind(this));
 		},
 		_nodesSort: function(a, b){

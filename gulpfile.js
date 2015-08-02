@@ -90,6 +90,10 @@ gulp.task('copy', function () {
     dot: true
   }).pipe(gulp.dest('dist'));
 
+  var data = gulp.src([
+    'app/data/**/*'
+  ]).pipe(gulp.dest('dist/data'));
+
   var bower = gulp.src([
     'bower_components/**/*'
   ]).pipe(gulp.dest('dist/bower_components'));
@@ -107,7 +111,7 @@ gulp.task('copy', function () {
     .pipe($.rename('elements.vulcanized.html'))
     .pipe(gulp.dest('dist/elements'));
 
-  return merge(app, bower, elements, vulcanized, swBootstrap, swToolbox)
+  return merge(app, data, bower, elements, vulcanized, swBootstrap, swToolbox)
     .pipe($.size({title: 'copy'}));
 });
 
@@ -157,6 +161,16 @@ gulp.task('vulcanize', function () {
     .pipe(gulp.dest(DEST_DIR))
     .pipe($.size({title: 'vulcanize'}));
 });
+
+// Compress
+/*gulp.task('compress', function () {
+  var DEST_DIR = 'dist/elements';
+
+  return gulp.src('dist/elements/elements.vulcanized.html')
+    .pipe($.htmlMinifier({minifyJS: true}))
+    .pipe(gulp.dest(DEST_DIR))
+    .pipe($.size({title: 'compress'}));
+});*/
 
 // Generate a list of files that should be precached when serving from 'dist'.
 // The list will be consumed by the <platinum-sw-cache> element.
@@ -239,6 +253,7 @@ gulp.task('default', ['clean'], function (cb) {
     'elements',
     ['jshint', 'images', 'fonts', 'html'],
     'vulcanize',
+    //'compress',
     cb);
     // Note: add , 'precache' , after 'vulcanize', if your are going to use Service Worker
 });
