@@ -13,4 +13,4 @@ cp  dist/elements/elements.vulcanized.html \
 s3_publish/elements/elements.vulcanized.html
 
 aws s3 sync s3_publish s3://code.quirkbot.com/program --exclude *.DS_Store
-rm -r s3_publish
+#rm -r s3_publish
