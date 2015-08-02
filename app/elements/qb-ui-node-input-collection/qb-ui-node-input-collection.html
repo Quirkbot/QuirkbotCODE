@@ -57,11 +57,12 @@
 		],
 		observers:[
 			'_computeChildren(data, definition)',
-			'_computeChildren(data.children.length)'
+			'_computeChildren(data.children.splices)'
 		],
 		_onAddPress: function(){
 			this.push('data.children', {
-				_id : this.definition._id + '.' + this.children.length
+				_id : this.definition._id + '.' + this.children.length,
+				index : this.children.length
 			});
 		},
 		_onRemovePress: function(e){
@@ -74,16 +75,17 @@
 
 			this.data.children.forEach(function(child, index){
 				child._id =  this.definition._id + '.' + index;
+				child.index = index;
 			}.bind(this));
 		},
-		_createChild: function(){
+		/*_createChild: function(){
 			return {
 				definition: this.definition,
 				data: {
 					_id : this.definition._id + '.' + this.children.length
 				}
 			};
-		},
+		},*/
 		_computeChildren: function(){
 			if(!this.definition){
 				return;

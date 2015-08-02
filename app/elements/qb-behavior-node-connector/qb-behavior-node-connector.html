@@ -34,6 +34,10 @@
 			},
 			nameValue: {
 				type: String
+			},
+			name: {
+				type: String,
+				computed: '_computeName(nameValue)'
 			}
 		},
 		_computeNameKey: function(definition){
@@ -41,6 +45,12 @@
 		},
 		_dataChanged: function(){
 			this.data.element = this;
+		},
+		_computeName: function(nameValue){
+			if(typeof this.data.index !== 'undefined' ){
+				return nameValue + '.' + this.data.index;
+			}
+			return nameValue;
 		}
 	};
 })();

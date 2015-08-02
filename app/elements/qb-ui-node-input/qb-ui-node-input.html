@@ -35,7 +35,7 @@
 		</qb-ui-node-input-inlet>
 
 		<paper-input
-			label="{{nameValue}}"
+			label="{{name}}"
 			placeholder="{{definition.default}}"
 			value="{{data.value}}"
 			always-float-label>
@@ -105,6 +105,7 @@
 	window.Quirkbot.UINodeInput = Polymer({
 		is: 'qb-ui-node-input',
 		properties:{
+
 			inlet: Object,
 			modelController: Object,
 			treeManager: Object,
