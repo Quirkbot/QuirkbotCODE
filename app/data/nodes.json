@@ -217,7 +217,7 @@
 					"default": 0.5
 				},
 				{
-					"_id": "items",
+					"_id": "slider",
 					"default": 0.5,
 					"multiple": true,
 					"validation" : {
@@ -228,6 +228,11 @@
 						}
 
 					}
+				},
+				{
+					"_id": "items",
+					"default": 0.5,
+					"multiple": true
 				}
 			],
 			"outputs" : [

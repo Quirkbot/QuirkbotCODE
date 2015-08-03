@@ -138,11 +138,7 @@ gulp.task('html', function () {
     .pipe(assets.restore())
     .pipe($.useref())
     // Minify Any HTML
-    .pipe($.if('*.html', $.minifyHtml({
-      quotes: true,
-      empty: true,
-      spare: true
-    })))
+    .pipe($.if('*.html', $.minifyHtml()))
     // Output Files
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));
@@ -167,7 +163,21 @@ gulp.task('vulcanize', function () {
   var DEST_DIR = 'dist/elements';
 
   return gulp.src('dist/elements/elements.vulcanized.html')
-    .pipe($.htmlMinifier({minifyJS: true}))
+    //.pipe($.crisper())
+    //.pipe($.if('*.js', $.uglify()))
+    //.pipe($.if('*.html', $.minifyHtml()))
+    .pipe($.if('*.html', $.minifyInline()))
+    //.pipe($.if('*.html', $.htmlMinifier()))
+    .pipe(gulp.dest(DEST_DIR))
+    .pipe($.size({title: 'compress'}));
+});*/
+
+// Crisper
+/*gulp.task('crisper', function () {
+  var DEST_DIR = 'dist/elements';
+
+  return gulp.src('dist/elements/elements.vulcanized.html')
+    .pipe($.crisper())
     .pipe(gulp.dest(DEST_DIR))
     .pipe($.size({title: 'compress'}));
 });*/
@@ -253,7 +263,6 @@ gulp.task('default', ['clean'], function (cb) {
     'elements',
     ['jshint', 'images', 'fonts', 'html'],
     'vulcanize',
-    //'compress',
     cb);
     // Note: add , 'precache' , after 'vulcanize', if your are going to use Service Worker
 });

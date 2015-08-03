@@ -16,8 +16,78 @@
 <dom-module id='qb-ui-node-input'>
 	<style>
 		:host{
-			border:solid 1px black;
+			display: block;
+			@apply(--qb-ui-node-input-theme);
 		};
+		.label{
+			font-family: monospace;
+			@apply(--qb-ui-node-input-label-theme);
+		}
+		.value,
+		.default{
+			border:solid 1px;
+			padding: 5px;
+			font-family: monospace;
+			@apply(--qb-ui-node-input-label-theme);
+
+		}
+		.default{
+			@apply(--qb-ui-node-input-default-theme);
+		}
+
+		/* controller */
+		:host(:hover) .controller{
+			display: block;
+			@apply(--qb-ui-node-input-controller-active-theme);
+		}
+		.controller{
+			position: absolute;
+			width: 200px;
+			background-color: white;
+			padding: 10px;
+
+			animation: pop-in 0.1s ease-out;
+			-webkit-animation: pop-in 0.1s ease-out;
+
+			@apply(--qb-ui-node-input-controller-theme);
+		}
+		.controller,
+		:host([connection-type="Output"]) .controller{
+			display: none;
+			@apply(--qb-ui-node-input-controller-inactive-theme);
+		}
+		@-webkit-keyframes pop-in{
+			from {
+				opacity: 0;
+				-webkit-transform: translate(0,-10px);
+			}
+			to {
+				opacity: 1;
+				-webkit-transform: translate(0,0);
+			}
+		}
+		@keyframes pop-in {
+			from {
+				opacity: 0;
+				transform: translate(0,-10px);
+			}
+			to {
+				opacity: 1;
+				transform: translate(0,0);
+			}
+		}
+
+		.slider{
+			width: 100%;
+			@apply(--qb-ui-node-input-controller-slider-theme);
+		}
+		.paper-input{
+			font-family: monospace;
+		}
+
+
+
+
 
 	</style>
 
@@ -34,25 +104,39 @@
 			container-input="{{self}}">
 		</qb-ui-node-input-inlet>
 
-		<paper-input
-			label="{{name}}"
-			placeholder="{{definition.default}}"
-			value="{{data.value}}"
-			always-float-label>
-		</paper-input>
 
+		<div
+			class="label">{{name}}</div>
+		<div
+			class="value"
+			hidden$="{{hideValue}}">{{data.value}}</div>
+		<div
+			class="default"
+			hidden$="{{hideDefault}}">{{definition.default}}</div>
 
-		<span
-			id="datalistTemplate"
-			hidden$="{{!datalist}}">
+		<div
+			id="templateContainer"
+			class="controller">
 
 			<template
 				is="dom-if"
-				if="{{datalist}}"
+				if="{{inputTemplate}}"
+				restamp>
+				<paper-input
+					class="text-input"
+					value="{{data.value}}"
+					no-label-float>
+				</paper-input>
+			</template>
+
+			<template
+				is="dom-if"
+				if="{{datalistTemplate}}"
 				restamp>
 
 				<paper-menu
 					id="menu"
+					class="menu"
 					selected="{{data.value}}"
 					attr-for-selected="name">
 
@@ -69,19 +153,15 @@
 					</template>
 				</paper-menu>
 			</template>
-		</span>
-
-		<span
-			id="sliderTemplate"
-			hidden$="{{!range}}">
 
 			<template
 				is="dom-if"
-				if="{{range}}"
+				if="{{rangeTemplate}}"
 				restamp>
 
 				<paper-slider
 					id="slider"
+					class="slider"
 					on-value-change="_sliderValueChanged"
 					min="{{range.min}}"
 					max="{{range.max}}"
@@ -89,7 +169,7 @@
 					pin>
 				</paper-slider>
 			</template>
-		</span>
+		</div>
 
 		<qb-core-connection-line
 			id="line"
@@ -109,6 +189,21 @@
 			inlet: Object,
 			modelController: Object,
 			treeManager: Object,
+			datalistTemplate: Boolean,
+			rangeTemplate: Boolean,
+			inputTemplate: Boolean,
+			hideDefault:{
+				type: Boolean,
+				computed: '_computeHideDefault(data.value)'
+			},
+			hideValue:{
+				type: Boolean,
+				computed: '_computeHideValue(data.value)'
+			},
+			connectionType:{
+				type: String,
+				reflectToAttribute: true
+			},
 			datalist:{
 				type: Array,
 				computed: '_computeDatalist(definition)'
@@ -128,7 +223,10 @@
 		observers:[
 			'_applyDefaultValue(data, definition)',
 			'_valueChanged(data.value)',
-			'_computeLineSource(data.value)'
+			'_computeLineSource(data.value)',
+			'_computeTemplates(definition)',
+			'_computeConnectionType(data.type)',
+			'_computeConnectionType(definition)'
 		],
 		attached: function() {
 			this.inlet = this.$.inlet;
@@ -140,22 +238,56 @@
 			}
 
 			// Change value in slider, if it exists
-			var slider = this.$.sliderTemplate.querySelector('#slider');
-			if(slider && value !== '' && !isNaN(value)){
+			var slider = this.$.templateContainer.querySelector('#slider');
+			if(slider && value !== '' && value !== null && !isNaN(value)){
 				slider.value = parseFloat(value);
 			}
 
 			// Validate
 			clearTimeout(this.validateDebouncer);
 			this.validateDebouncer = setTimeout(function(){
-				this._computeValid(value);
+				var valid = this._computeValid(value);
+				this._setTypedValue(valid.type, valid.value);
 			}.bind(this), 1000);
 		},
 		_sliderValueChanged: function(){
-			var slider = this.$.sliderTemplate.querySelector('#slider');
+			var slider = this.$.templateContainer.querySelector('#slider');
 			if(slider && !isNaN(slider.value)){
 				this._setTypedValue('Number', slider.value);
 			}
+		},
+		_computeTemplates: function (definition) {
+			if( definition.validation && definition.validation.type === 'list' && definition.validation.data.length) {
+				this.datalistTemplate = true;
+				this.rangeTemplate = false;
+				this.inputTemplate = false;
+			}
+			else if( definition.validation && definition.validation.type === 'range' && typeof definition.validation.data.min !== 'undefined' && typeof definition.validation.data.max !== 'undefined') {
+				this.datalistTemplate = false;
+				this.rangeTemplate = true;
+				this.inputTemplate = false;
+			}
+			else{
+				this.datalistTemplate = false;
+				this.rangeTemplate = false;
+				this.inputTemplate = true;
+			}
+		},
+		_computeHideValue: function(value){
+			return (typeof value === 'undefined' || value === '');
+		},
+		_computeHideDefault: function(value){
+			return  (typeof value !== 'undefined' && value !== '');
+		},
+		_computeConnectionType: function(){
+			if(typeof this.definition === 'undefined'){
+				return;
+			}
+			if(typeof this.data.type === 'undefined' && (typeof this.data.value === 'undefined' || this.data.value === '')){
+				var valid = this._computeValid(this.data.default);
+				this.connectionType = valid.type
+			}
+			this.connectionType = this.data.type;
 		},
 		_computeDatalist: function(definition){
 			if(!definition || !definition.validation || definition.validation.type !== 'list' || !definition.validation.data.length) {
@@ -208,7 +340,7 @@
 					newValue = this.definition.default;
 				}
 
-				var slider = this.$.sliderTemplate.querySelector('#slider');
+				var slider = this.$.templateContainer.querySelector('#slider');
 				if(slider && typeof newValue !== 'undefined'){
 					slider.value = newValue;
 				}
@@ -226,58 +358,75 @@
 
 			// Check if it is a conection to another node
 			if(this._connectionMatch(value)){
-				this._setTypedValue('Output', value);
-				return;
+				return{
+					type: 'Output',
+					value: value
+				};
 			}
 
 			// Check if it belongs to datalist
 			if(this.datalist){
 				var dataListMatch = this._dataListMatch(value);
 				if(typeof dataListMatch !=='undefined'){
-					this._setTypedValue(isNaN(parseFloat(dataListMatch)) ? 'Constant' : 'Number', dataListMatch);
-					return;
+					return {
+						type: isNaN(parseFloat(dataListMatch)) ? 'Constant' : 'Number',
+						value: dataListMatch
+					};
 				}
 
 				if(_mandatory && typeof _default !=='undefined'){
-					this._setTypedValue(isNaN(parseFloat(_default)) ? 'Constant' : 'Number', _default);
-					return;
+					return {
+						type: isNaN(parseFloat(_default)) ? 'Constant' : 'Number',
+						value:_default
+					};
 				}
-				this._setTypedValue('Number');
-				return;
+				return {
+					type: 'Number'
+				};
 
 			}
 
 			// Check if it is a number contained in range
 			if(this.range){
 				if(_mandatory && typeof value === 'undefined'){
-					this._setTypedValue('Number');
-					return;
+					return {
+						type: 'Number'
+					};
 				}
 				var rangeMatch =  this._rangeMatch(value);
-				this._setTypedValue('Number', rangeMatch);
-				return;
+				return {
+					type: 'Number',
+					value: rangeMatch
+				};
 			}
 
 			// Check if it is a global datalist
 			var constantMatch = this._constantMatch(value);
 			if(typeof constantMatch !=='undefined'){
-				this._setTypedValue('Constant', constantMatch);
-				return;
+				return {
+					type: 'Constant',
+					value: constantMatch
+				};
 			}
 
 			// Check if it is a valid number
 			var ref = parseFloat(value);
 			if(isNaN(ref)){
 				if(_mandatory && typeof _default !=='undefined'){
-					this._setTypedValue(isNaN(parseFloat(_default)) ? 'Constant' : 'Number', _default);
-					return;
+					return {
+						type: isNaN(parseFloat(_default)) ? 'Constant' : 'Number',
+						value: _default
+					};
 				}
-				this._setTypedValue('Number');
-				return;
+				return {
+					type: 'Number'
+				};
 			}
 
-			this._setTypedValue('Number', ref);
-			return;
+			return {
+				type: 'Number',
+				value: ref
+			};
 		},
 		_connectionMatch: function(value){
 			if(typeof value ==='undefined') {

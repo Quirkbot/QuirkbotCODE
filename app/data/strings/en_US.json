@@ -74,6 +74,7 @@
 	"node/connection/name/min" : 		"min",
 	"node/connection/name/max" : 		"max",
 	"node/connection/name/offset" : 	"offset",
+	"node/connection/name/slider" : 	"slider",
 
 	"DATALISTS ----------------------------------------------------------" : "",
 	"node/connection/datalist/sine-wave" : 		"Sine",
