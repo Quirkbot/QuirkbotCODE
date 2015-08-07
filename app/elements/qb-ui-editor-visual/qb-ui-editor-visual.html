@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
 <link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 <link rel="import" href="../qb-ui-svg-canvas/qb-ui-svg-canvas.html">
 <link rel="import" href="../qb-ui-node/qb-ui-node.html">
@@ -12,21 +14,7 @@
 			z-index: 0;
 		}
 		#container{
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-
 			overflow: scroll;
-		}
-		qb-ui-svg-canvas{
-			background-color: red;
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
 		}
 
 	</style>
@@ -34,10 +22,13 @@
 	<template>
 
 		<qb-ui-svg-canvas
+			class="fit"
 			self="{{canvas}}">
 		</qb-ui-svg-canvas>
 
-		<div id="container">
+		<div
+			class="fit"
+			id="container">
 			<template
 				id="nodesTemplate"
 				is="dom-repeat"

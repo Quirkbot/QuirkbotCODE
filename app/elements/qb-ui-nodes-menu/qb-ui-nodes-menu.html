@@ -10,24 +10,10 @@
 	<style>
 		:host{
 			display: block;
+			overflow-y: scroll;
 		}
 	</style>
 	<template>
-		<!--<paper-menu
-			multi
-			attr-for-selected="value"
-			selected-values="{{selectedTags}}"
-			selected-attribute="selected">
-			<template
-				is="dom-repeat"
-				items="{{tags}}"
-				sort="sortByName">
-				<qb-ui-nodes-menu-tag
-					value="{{item.definition._id}}"
-					data="{{item}}">
-				</qb-ui-nodes-menu-tag>
-			</template>
-		</paper-menu>-->
 		<template
 			is="dom-repeat"
 			items="{{categories}}"

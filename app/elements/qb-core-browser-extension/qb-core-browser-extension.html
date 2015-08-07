@@ -140,6 +140,8 @@
 			}.bind(this));
 		},
 		_onAdapterModelChange: function(model){
+
+			// Manage quirkbots
 			if(!model.quirkbots.length && this.model.quirkbots.length){
 				this.splice('model.quirkbots', 0, this.model.quirkbots.length);
 			}
@@ -179,6 +181,25 @@
 					}
 				}
 			}
+
+			// Manage all the other properties
+			Object.keys(model).forEach(function(key){
+				if(key === 'quirkbots'){
+					return;
+				}
+				var value = model[key];
+				if(typeof value === 'object'){
+					if(typeof this.model[key] !== 'object'){
+						this.set('model.'+key, {});
+					}
+					Object.keys(value).forEach(function(subKey){
+						this.set('model.' + key + '.' + subKey, value[subKey]);
+					}.bind(this));
+				}
+				else{
+					this.set('model.'+key, value);
+				}
+			}.bind(this));
 		}
 	});
 })();

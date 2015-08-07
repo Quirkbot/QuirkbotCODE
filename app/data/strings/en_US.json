@@ -32,8 +32,8 @@
 	"ide/quirkbots-area/dialog/warning/wrong-browser/dismiss" : 	"Cancel",
 	"ide/quirkbots-area/dialog/warning/wrong-browser/confirm" :		"Download Chrome",
 
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/header" : 				"Almost there!",
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/description" : 			"Before we continue, we need you to install the Quirkbot Chrome app. It will allow us to communicate with your Quirkbots.",
+	"ide/quirkbots-area/dialog/warning/no-browser-extension/header" : 				"Install Quirkbot for Chrome",
+	"ide/quirkbots-area/dialog/warning/no-browser-extension/description" : 			"You need to install the Quirkbot app. It will allow us to communicate with your Quirkbots.",
 	"ide/quirkbots-area/dialog/warning/no-browser-extension/dismiss" : 				"Cancel",
 	"ide/quirkbots-area/dialog/warning/no-browser-extension/confirm" : 				"Install",
 	"ide/quirkbots-area/dialog/warning/no-browser-extension/error/unhanlded" : 		"There was an error installing the app, please try again",
@@ -41,9 +41,13 @@
 	"ide/quirkbots-area/dialog/warning/no-browser-extension/error/webstore" : 		"It seems that you can't access the Chrome Web Store. This could be a problem with your internet connection, or you could be in a country where Google's servers are blocked.<br><br>If you know Google is blocked, please follow <a href='https://github.com/Quirkbot/QuirkbotChromeExtension/releases' target='_blank'>this guide</a> to install the app manually.<br><br>If the problem may be on your internet connection, please try again when you are online.",
 	"ide/quirkbots-area/dialog/warning/no-browser-extension/error/webstore/manual-installation/" : "Install manually",
 
-	"ide/quirkbots-area/dialog/warning/no-quirkbots/header" :		"No Quirkbots detected.",
+	"ide/quirkbots-area/dialog/warning/no-quirkbots/header" :		"No Quirkbots detected",
 	"ide/quirkbots-area/dialog/warning/no-quirkbots/description" : 	"Are you sure your Quirkbot is turned on and connected to a working USB port?",
 	"ide/quirkbots-area/dialog/warning/no-quirkbots/dismiss" : 		"Cancel",
+
+	"ide/quirkbots-area/dialog/warning/no-serial-permission/header" :		"Update Linux settings",
+	"ide/quirkbots-area/dialog/warning/no-serial-permission/description" : 	"Copy and paste the script bellow in terminal, and hit enter. You will need the <b>administrator password</b> and after to <b>restart the computer</b>.<br><br><pre>wget -nv http://code.quirkbot.com/install/linux/quirkbot.sh -O - | sh</pre>",
+	"ide/quirkbots-area/dialog/warning/no-serial-permission/dismiss" : 		"Cancel",
 
 	"ide/quirkbots-area/dialog/dismiss":	"Cancel",
 	"ide/quirkbots-area/dialog/confirm":	"OK",

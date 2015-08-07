@@ -73,6 +73,10 @@
 					return;
 				}
 
+				if(!input.value) {
+					return;
+				}
+
 				var parts = input.value.split('.');
 
 				if(parts.length !== 2 || !isNaN(parseFloat(parts[0])) || !isNaN(parseFloat(parts[1])) ) {
@@ -212,7 +216,7 @@
 				var request = this.$.loader.generateRequest();
 				var timer = setTimeout(function(){
 					request.abort();
-				}.bind(this), 5000);
+				}.bind(this), 10000);
 
 			}.bind(this));
 		},
@@ -256,7 +260,7 @@
 					var request = this.$.loader.generateRequest();
 					var timer = setTimeout(function(){
 						request.abort();
-					}.bind(this), 5000);
+					}.bind(this), 10000);
 				}.bind(this), 2000);
 			}.bind(this));
 		},

@@ -285,7 +285,7 @@
 			}
 			if(typeof this.data.type === 'undefined' && (typeof this.data.value === 'undefined' || this.data.value === '')){
 				var valid = this._computeValid(this.data.default);
-				this.connectionType = valid.type
+				this.connectionType = valid.type;
 			}
 			this.connectionType = this.data.type;
 		},
@@ -545,7 +545,7 @@
 			}
 		},
 		_setTypedValue: function(type, value){
-			if(typeof value !== 'undefined'){
+			if(typeof value !== 'undefined' && value !== null){
 				value = value.toString();
 			}
 			if(this.data.type !== type){

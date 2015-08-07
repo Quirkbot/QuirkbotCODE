@@ -30,6 +30,17 @@
 			color: green;
 		}
 
+		/deep/ pre {
+			display: block;
+			word-wrap: break-word;
+			font-size: 11px;
+			line-height: 13px;
+			background-color: black;
+			color: white;
+			padding: 5px 10px;
+			margin: 0;
+		}
+
 		paper-progress {
 			--paper-progress-transition-duration: 0.1s;
 			display: block;
@@ -68,175 +79,203 @@
 					if="{{connectedToExtension}}">
 					<template
 						is="dom-if"
-						if="{{extensionModel.quirkbots.length}}">
-						<template
-							is="dom-if"
-							if="{{pendingUploadProcess}}">
-
-							<template
-								is="dom-if"
-								if="{{!uploadCompleted}}">
-								<div
-									class="dialog-content">
-									<h3>
-										<qb-core-i18n
-											key="ide/quirkbots-area/dialog/quirkbots/uploading/header"></qb-core-i18n>
-									</h3>
-
-									<div>{{selectedQuirkbotUuid}}</div>
-									<paper-progress
-										class="transiting"
-										value="{{uploadProgress}}">
-									</paper-progress>
-									<qb-ui-notice>
-										<qb-core-i18n
-											key="ide/quirkbots-area/dialog/quirkbots/uploading/description"></qb-core-i18n>
-									</qb-ui-notice>
-								</div>
-								<div
-									class="buttons">
-								</div>
-
-							</template>
-
-							<template
-								is="dom-if"
-								if="{{uploadCompleted}}">
-								<template
-									is="dom-if"
-									if="{{!uploadSucceeded}}">
-									<div
-										class="dialog-content">
-										<h3>
-											<qb-core-i18n
-												key="ide/quirkbots-area/dialog/quirkbots/upload-fail/header"></qb-core-i18n>
-										</h3>
-
-
-										<div>{{selectedQuirkbotUuid}}</div>
-
-										<template
-											is="dom-if"
-											if="{{uploadErrorKey}}">
-											<qb-ui-notice
-												error>
-												<qb-core-i18n
-												key="{{uploadErrorKey}}"></qb-core-i18n>
-											</qb-ui-notice>
-										</template>
-									</div>
-									<div
-										class="buttons">
-										<paper-button
-											dialog-dismiss
-											on-tap="_onFailDismissButtonTap">
-											<qb-core-i18n
-												key="ide/quirkbots-area/dialog/quirkbots/upload-fail/dismiss"></qb-core-i18n>
-										</paper-button>
-										<paper-button
-											dialog-continue
-											on-tap="_onUploadButtonTap">
-											<qb-core-i18n
-												key="ide/quirkbots-area/dialog/quirkbots/upload-fail/retry"></qb-core-i18n>
-										</paper-button>
-									</div>
-								</template>
-								<template
-									is="dom-if"
-									if="{{uploadSucceeded}}">
-									<div
-										class="dialog-content">
-										<h3>
-											<qb-core-i18n
-												key="ide/quirkbots-area/dialog/quirkbots/upload-success/header"></qb-core-i18n>
-										</h3>
-
-										<div>{{selectedQuirkbotUuid}}</div>
-										<qb-core-i18n
-											key="ide/quirkbots-area/dialog/quirkbots/upload-success/description"></qb-core-i18n>
-
-
-									</div>
-									<div
-										class="buttons">
-										<paper-button
-											dialog-confirm
-											on-tap="_onFinalConfirmTap">
-											<qb-core-i18n
-												key="ide/quirkbots-area/dialog/quirkbots/upload-success/confirm"></qb-core-i18n>
-										</paper-button>
-									</div>
-								</template>
-							</template>
-						</template>
-						<template
-							is="dom-if"
-							if="{{!pendingUploadProcess}}">
-							<div
-								class="dialog-content">
-								<h3>
-									<qb-core-i18n
-										key="ide/quirkbots-area/dialog/quirkbots/header"></qb-core-i18n>
-								</h3>
-
-								<paper-radio-group
-									selected="{{selectedQuirkbotUuid}}">
-									<template
-										is="dom-repeat"
-										items="{{quirkbots}}"
-										sort="sortByUuid"
-										observe="uuid">
-										<paper-radio-button
-											name="{{item.uuid}}">
-											<span>{{item.uuid}}</span>
-										</paper-radio-button>
-									</template>
-								</paper-radio-group>
-
-								<div>
-									<qb-core-i18n
-										key="ide/quirkbots-area/dialog/quirkbots/description"></qb-core-i18n>
-								</div>
-							</div>
-							<div
-								class="buttons">
-								<paper-button
-									dialog-dismiss>
-									<qb-core-i18n
-										key="ide/quirkbots-area/dialog/quirkbots/dismiss"></qb-core-i18n>
-								</paper-button>
-								<paper-button
-									dialog-continue
-									on-tap="_onUploadButtonTap">
-									<qb-core-i18n
-										key="ide/quirkbots-area/dialog/quirkbots/confirm"></qb-core-i18n>
-								</paper-button>
-							</div>
-						</template>
-					</template>
-					<template
-						is="dom-if"
-						if="{{!extensionModel.quirkbots.length}}">
+						if="{{extensionModel.platform.serialPermissionError}}">
 						<div
 							class="dialog-content">
 							<h3>
 								<qb-core-i18n
-									key="ide/quirkbots-area/dialog/warning/no-quirkbots/header"></qb-core-i18n>
+									key="ide/quirkbots-area/dialog/warning/no-serial-permission/header"></qb-core-i18n>
 							</h3>
-							<qb-ui-notice>
-								<qb-core-i18n
-									key="ide/quirkbots-area/dialog/warning/no-quirkbots/description"></qb-core-i18n>
-							</qb-ui-notice>
+
+							<qb-core-i18n
+								key="ide/quirkbots-area/dialog/warning/no-serial-permission/description"></qb-core-i18n>
+
 						</div>
 						<div
 							class="buttons">
 							<paper-button
 								dialog-dismiss>
 								<qb-core-i18n
-									key="ide/quirkbots-area/dialog/warning/no-quirkbots/dismiss"></qb-core-i18n>
+									key="ide/quirkbots-area/dialog/warning/no-serial-permission/dismiss"></qb-core-i18n>
 							</paper-button>
 						</div>
 					</template>
+					<template
+						is="dom-if"
+						if="{{!extensionModel.platform.serialPermissionError}}">
+						<template
+							is="dom-if"
+							if="{{extensionModel.quirkbots.length}}">
+							<template
+								is="dom-if"
+								if="{{pendingUploadProcess}}">
+
+								<template
+									is="dom-if"
+									if="{{!uploadCompleted}}">
+									<div
+										class="dialog-content">
+										<h3>
+											<qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/uploading/header"></qb-core-i18n>
+										</h3>
+
+										<div>{{selectedQuirkbotUuid}}</div>
+										<paper-progress
+											class="transiting"
+											value="{{uploadProgress}}">
+										</paper-progress>
+										<qb-ui-notice>
+											<qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/uploading/description"></qb-core-i18n>
+										</qb-ui-notice>
+									</div>
+									<div
+										class="buttons">
+									</div>
+
+								</template>
+
+								<template
+									is="dom-if"
+									if="{{uploadCompleted}}">
+									<template
+										is="dom-if"
+										if="{{!uploadSucceeded}}">
+										<div
+											class="dialog-content">
+											<h3>
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-fail/header"></qb-core-i18n>
+											</h3>
+
+
+											<div>{{selectedQuirkbotUuid}}</div>
+
+											<template
+												is="dom-if"
+												if="{{uploadErrorKey}}">
+												<qb-ui-notice
+													error>
+													<qb-core-i18n
+													key="{{uploadErrorKey}}"></qb-core-i18n>
+												</qb-ui-notice>
+											</template>
+										</div>
+										<div
+											class="buttons">
+											<paper-button
+												dialog-dismiss
+												on-tap="_onFailDismissButtonTap">
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-fail/dismiss"></qb-core-i18n>
+											</paper-button>
+											<paper-button
+												dialog-continue
+												on-tap="_onUploadButtonTap">
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-fail/retry"></qb-core-i18n>
+											</paper-button>
+										</div>
+									</template>
+									<template
+										is="dom-if"
+										if="{{uploadSucceeded}}">
+										<div
+											class="dialog-content">
+											<h3>
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-success/header"></qb-core-i18n>
+											</h3>
+
+											<div>{{selectedQuirkbotUuid}}</div>
+											<qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/upload-success/description"></qb-core-i18n>
+
+
+										</div>
+										<div
+											class="buttons">
+											<paper-button
+												dialog-confirm
+												on-tap="_onFinalConfirmTap">
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-success/confirm"></qb-core-i18n>
+											</paper-button>
+										</div>
+									</template>
+								</template>
+							</template>
+							<template
+								is="dom-if"
+								if="{{!pendingUploadProcess}}">
+								<div
+									class="dialog-content">
+									<h3>
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/header"></qb-core-i18n>
+									</h3>
+
+									<paper-radio-group
+										selected="{{selectedQuirkbotUuid}}">
+										<template
+											is="dom-repeat"
+											items="{{quirkbots}}"
+											sort="sortByUuid"
+											observe="uuid">
+											<paper-radio-button
+												name="{{item.uuid}}">
+												<span>{{item.uuid}}</span>
+											</paper-radio-button>
+										</template>
+									</paper-radio-group>
+
+									<div>
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/description"></qb-core-i18n>
+									</div>
+								</div>
+								<div
+									class="buttons">
+									<paper-button
+										dialog-dismiss>
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/dismiss"></qb-core-i18n>
+									</paper-button>
+									<paper-button
+										dialog-continue
+										on-tap="_onUploadButtonTap">
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/confirm"></qb-core-i18n>
+									</paper-button>
+								</div>
+							</template>
+						</template>
+						<template
+							is="dom-if"
+							if="{{!extensionModel.quirkbots.length}}">
+							<div
+								class="dialog-content">
+								<h3>
+									<qb-core-i18n
+										key="ide/quirkbots-area/dialog/warning/no-quirkbots/header"></qb-core-i18n>
+								</h3>
+								<qb-ui-notice>
+									<qb-core-i18n
+										key="ide/quirkbots-area/dialog/warning/no-quirkbots/description"></qb-core-i18n>
+								</qb-ui-notice>
+							</div>
+							<div
+								class="buttons">
+								<paper-button
+									dialog-dismiss>
+									<qb-core-i18n
+										key="ide/quirkbots-area/dialog/warning/no-quirkbots/dismiss"></qb-core-i18n>
+								</paper-button>
+							</div>
+						</template>
+					</template>
+
 				</template>
 				<template
 					is="dom-if"

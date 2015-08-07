@@ -12,5 +12,5 @@ mkdir -p s3_publish/elements
 cp  dist/elements/elements.vulcanized.html \
 s3_publish/elements/elements.vulcanized.html
 
-aws s3 sync s3_publish s3://code.quirkbot.com/program --exclude *.DS_Store
+aws s3 sync s3_publish s3://code.quirkbot.com/program --delete --exclude *.DS_Store
 #rm -r s3_publish
