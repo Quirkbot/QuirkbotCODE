@@ -92,6 +92,7 @@
 			if(typeof window.chrome !== 'undefined'){
 				var api = new window.ChromeExtensionAPIClient(this.extensionId);
 				this.adapter.ping = api.generateMethod('ping');
+				this.adapter.getModel = api.generateMethod('getModel');
 				this.adapter.upload = api.generateMethod('upload');
 				this.adapter.modelChange = api.generateEvent('modelChange');
 			}
@@ -121,6 +122,9 @@
 					this.connected = true;
 					// Now we are save to bind the adapter to the extension
 					this.adapter.modelChange.add(this._onAdapterModelChange.bind(this));
+					// Get the initial model
+					this.adapter.getModel()
+					.then(this._onAdapterModelChange.bind(this));
 				}
 				clearTimeout(timeout);
 				setTimeout(this._monitorExtensionConnection.bind(this), interval);
