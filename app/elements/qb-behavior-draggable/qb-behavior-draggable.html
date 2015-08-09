@@ -14,6 +14,11 @@
 				reflectToAttribute: true,
 				observer: '_dragChanged'
 			},
+			dragStatus:{
+				type: String,
+				notify: true,
+				reflectToAttribute: true
+			},
 			data:{
 				type: Object,
 				value: {}
@@ -50,6 +55,7 @@
 			switch(e.detail.state) {
 				case 'start':
 					this.fire('dragstart');
+					this.dragStatus = 'dragstart';
 					this.startX = this.data.visualX || 0;
 					this.startY = this.data.visualY || 0;
 					break;
@@ -59,9 +65,11 @@
 						this.set('data.visualY', e.detail.dy + this.startY);
 					}
 					this.fire('dragmove');
+					this.dragStatus = 'dragmove';
 					break;
 				case 'end':
 					this.fire('dragend');
+					this.dragStatus = 'dragend';
 					break;
 			}
 		},

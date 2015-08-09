@@ -22,7 +22,9 @@
 			height: 100%;
 			top: 0;
 			left: 0;
+			z-index: 1;
 		}
+
 	</style>
 	<template>
 		<paper-toolbar
@@ -48,6 +50,7 @@
 					</qb-ui-nodes-menu-item>
 					<qb-ui-nodes-menu-item
 						drag
+						on-dragstart="_onNodeDragStart"
 						on-dragend="_onNodeDragEnd"
 						data="{{item}}">
 					</qb-ui-nodes-menu-item>
@@ -68,7 +71,7 @@
 			visualEditor: Object,
 			treeManager: Object,
 			data: Object,
-			
+
 			nameKey: {
 				type: String,
 				computed: '_computeNameKey(data)'
@@ -101,13 +104,24 @@
 		_computeCollapseIcon: function(opened){
 			return (opened) ? 'icons:unfold-less' : 'icons:unfold-more';
 		},
+		_onNodeDragStart: function(e){
+			var node = e.model.item.element;
+			var bounding = node.getBoundingClientRect();
+			node.style.position = 'fixed';
+			node.style.left = bounding.left + 'px';
+			node.style.top = bounding.top + 'px';
+		},
 		_onNodeDragEnd: function(e){
 			var node = e.model.item.element;
 
+			node.style.removeProperty('position');
+			node.style.left = 0;
+			node.style.top = 0;
 			// Store the position of the outlet
 			var bounding = node.getBoundingClientRect();
 			var centerX = bounding.left + bounding.width * 0.5;
 			var centerY = bounding.top + bounding.height * 0.5;
+			console.log(bounding.width)
 
 			// Reset the position
 			node.set('data.visualX', 0);

@@ -24,6 +24,11 @@
 			-ms-user-select: none;
 			user-select: none;
 		}
+		#dropArea{
+			/* create a z-index context to avoid nodes to "leak" outwards */
+			position: relative;
+			z-index: 0;
+		}
 
 	</style>
 
