@@ -1,0 +1,185 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-browser-extension/qb-core-browser-extension.html">
+
+<link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
+
+<dom-module id='qb-ui-warnings-overlay'>
+	<style>
+
+		#dialog{
+			width: 300px;
+		}
+		[dialog-dismiss]{
+			color: red;
+		}
+		[dialog-confirm],
+		[dialog-continue]{
+			color: green;
+		}
+
+
+
+	</style>
+
+	<template>
+		<paper-dialog
+			modal
+			no-cancel-on-esc-key
+			entry-animation="scale-up-animation"
+			exit-animation="fade-out-animation"
+			id="dialog">
+			<h2
+				class="dialog-header">
+				<qb-core-i18n
+					key="{{titleKey}}"></qb-core-i18n>
+			</h2>
+
+			<div
+				class="dialog-content">
+				<h3>
+					<qb-core-i18n
+						key="{{headerKey}}"></qb-core-i18n>
+				</h3>
+
+				<qb-core-i18n
+					key="{{descriptionKey}}"></qb-core-i18n>
+			</div>
+			<template
+				is="dom-if"
+				if="{{hasButtons}}">
+				<div
+					class="buttons">
+					<template
+						is="dom-if"
+						if="{{hasDismiss}}">
+						<paper-button
+							dialog-dismiss>
+							<qb-core-i18n
+								key="{{dismissKey}}"></qb-core-i18n>
+						</paper-button>
+					</template>
+					<template
+						is="dom-if"
+						if="{{hasContinue}}">
+						<paper-button
+							dialog-continue
+							on-tap='_onContinueTap'>
+							<qb-core-i18n
+								key="{{continueKey}}"></qb-core-i18n>
+						</paper-button>
+					</template>
+					<template
+						is="dom-if"
+						if="{{hasConfirm}}">
+						<paper-button
+							dialog-confirm>
+							<qb-core-i18n
+								key="{{confirmKey}}"></qb-core-i18n>
+						</paper-button>
+					</template>
+				</div>
+			</template>
+		</paper-dialog>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIWarningsOverlay = Polymer({
+		is: 'qb-ui-warnings-overlay',
+		properties: {
+			model: Object,
+			currentError: String,
+			currentErrorType: String,
+			titleKey: String,
+			headerKey: String,
+			descriptioKey: String,
+			dismissKey: String,
+			continueKey: String,
+			confirmKey: String,
+			hasDismiss: Boolean,
+			hasConfirm: Boolean,
+			hasButtons: Boolean
+		},
+		observers:[
+			'_computeDialog(model.syncError, model.setupError, model.addToProfileError)'
+		],
+		_computeDialog: function (sync, setup, addToProfile) {
+			this.debounce('_computeHasError', function () {
+
+				if(sync){
+					this.currentErrorType = 'sync';
+					this.currentError = 'sync/' + sync;
+				}
+				else if(setup){
+					this.currentErrorType = 'setup';
+					this.currentError = 'setup/' + setup;
+				}
+				else if(addToProfile){
+					this.currentErrorType = 'add-to-profile';
+					this.currentError = 'add-to-profile/' + addToProfile;
+				}
+				else{
+					this.currentErrorType = '';
+					this.currentError = '';
+				}
+
+				if(this.currentError && !this.$.dialog.opened){
+					this.$.dialog.open();
+				}
+				else if(!this.currentError && this.$.dialog.opened){
+					this.$.dialog.close();
+				}
+				if(this.currentError){
+					var base = 'ide/warnings/' + this.currentError + '/';
+					this.titleKey = base + 'title';
+					this.headerKey = base + 'header';
+					this.descriptionKey = base + 'description';
+					this.cancelKey = base + 'cancel';
+					this.continueKey = base + 'continue';
+					this.confirmKey = base + 'confirm';
+
+					switch (this.currentError) {
+						case 'setup/offline':
+						case 'setup/not-found':
+							this.hasDismiss = false;
+							this.hasConfirm = false;
+							this.hasContinue = true;
+							break;
+						default:
+							this.hasDismiss = false;
+							this.hasConfirm = false;
+							this.hasContinue = false;
+
+					}
+					this.hasButtons = this.hasDismiss || this.hasConfirm || this.hasContinue;
+				}
+
+			}, 100);
+
+		},
+		_onContinueTap: function(){
+			switch (this.currentError) {
+				case 'setup/offline':
+				case 'setup/not-found':
+					location.hash = '#/';
+					break;
+			}
+		}
+	});
+})();
+</script>

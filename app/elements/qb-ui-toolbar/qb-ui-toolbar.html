@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+
+
+<dom-module id='qb-ui-toolbar'>
+	<style>
+
+	</style>
+	<template>
+		<paper-toolbar>
+			<paper-radio-group selected="{{editorMode}}">
+				<paper-radio-button name="visual">
+					<qb-core-i18n key="ide/editor/visual"></qb-core-i18n>
+				</paper-radio-button>
+				<paper-radio-button name="text">
+					<qb-core-i18n key="ide/editor/text"></qb-core-i18n>
+				</paper-radio-button>
+			</paper-radio-group>
+
+			<paper-input
+				value="{{model.title}}">
+			</paper-input>
+
+			<paper-button
+				on-tap="_onQuirkbotsAreaButtonTap">
+				<qb-core-i18n key="ide/quirkbots-area/open-button"></qb-core-i18n>
+			</paper-button>
+		</paper-toolbar>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIToolbar = Polymer({
+		is: 'qb-ui-toolbar',
+		properties: {
+			model: Object,
+			editorMode: {
+				type: String,
+				notify: true
+			}
+		},
+		_onQuirkbotsAreaButtonTap: function(){
+			this.fire('quirkbots-area-button-tap');
+		}
+	});
+})();
+</script>

@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-behaviors/iron-button-state.html">
+<link rel="import" href="../../bower_components/iron-behaviors/iron-control-state.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
@@ -36,7 +38,7 @@
 		}
 
 		/* controller */
-		:host(:hover) .controller{
+		:host([active]) .controller{
 			display: block;
 			@apply(--qb-ui-node-input-controller-active-theme);
 		}
@@ -57,23 +59,23 @@
 			@apply(--qb-ui-node-input-controller-inactive-theme);
 		}
 		@-webkit-keyframes pop-in{
-			from {
+			0% {
 				opacity: 0;
 				-webkit-transform: translate(0,-10px);
 			}
-			to {
+			100% {
 				opacity: 1;
 				-webkit-transform: translate(0,0);
 			}
 		}
 		@keyframes pop-in {
-			from {
+			0% {
 				opacity: 0;
-				transform: translate(0,-10px);
+				-webkit-transform: translate(0,-10px);
 			}
-			to {
+			100% {
 				opacity: 1;
-				transform: translate(0,0);
+				-webkit-transform: translate(0,0);
 			}
 		}
 
@@ -216,6 +218,8 @@
 			connection: Object
 		},
 		behaviors:[
+			Polymer.IronButtonState,
+			Polymer.IronControlState,
 			window.Quirkbot.NodeConnectorBehavior,
 			window.Quirkbot.SelfPropertyBehavior,
 			window.Quirkbot.UtilsBehavior
@@ -229,6 +233,7 @@
 			'_computeConnectionType(definition)'
 		],
 		attached: function() {
+			this.toggles = true;
 			this.inlet = this.$.inlet;
 			this.$.line.destination = this.inlet;
 		},
