@@ -160,6 +160,11 @@
 							this.hasConfirm = false;
 							this.hasContinue = true;
 							break;
+						case 'sync/offline':
+								this.hasDismiss = false;
+								this.hasConfirm = true;
+								this.hasContinue = false;
+								break;
 						default:
 							this.hasDismiss = false;
 							this.hasConfirm = false;
