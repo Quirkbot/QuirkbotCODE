@@ -1,0 +1,79 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<dom-module id='qb-ui-input-text'>
+	<style>
+		:host{
+			@apply(--qb-ui-input-text);
+		};
+		:host(:hover) {
+			@apply(--qb-ui-input-text-hover);
+		};
+		paper-input{
+			background-color: var(--qb-ui-input-text-background-color, --qb-interactive-color);
+			--paper-input-container-input-color: var(--qb-ui-input-text-foreground-color, --qb-text-color);
+			border-radius: 999px;
+			--paper-input-container: {
+				padding: 0em 0.5em 0.1em 0.5em;
+			};
+			--paper-input-container-underline: {
+				display: none;
+			};
+			--paper-input-container-underline-focus: {
+				display: none;
+			};
+			--paper-input-container-input:{
+				text-align: center;
+				@apply(--qb-font-code);
+				@apply(--qb-ui-input-text-input);
+			};
+			@apply(--qb-ui-input-text-input-container);
+		}
+
+		:host(:hover) paper-input{
+			background-color: var(--qb-ui-input-text-hover-background-color, --qb-interactive-hover-color);
+			--paper-input-container-input-color: var(--qb-ui-input-text-foreground-hover-color, --qb-text-color);
+			--paper-input-container-input:{
+				@apply(--qb-ui-input-text-input-hover);
+			};
+			@apply(--qb-ui-input-text-input-container-hover);
+		};
+
+
+	</style>
+
+	<template>
+		<paper-input
+			class="variable"
+			value="{{value}}"
+			no-label-float
+			size="[[calculateInputLength(value)]]">
+		</paper-input>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIInputText = Polymer({
+		is: 'qb-ui-input-text',
+		properties: {
+			value: {
+				type: String,
+				notify: true
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		observers:[],
+		calculateInputLength : function(string){
+			if(!string){
+				return 1;
+			}
+			return string.length || 1;
+ 		}
+	});
+})();
+</script>

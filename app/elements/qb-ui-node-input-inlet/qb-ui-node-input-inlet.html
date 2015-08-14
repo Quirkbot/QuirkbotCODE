@@ -1,17 +1,52 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
 <dom-module id='qb-ui-node-input-inlet'>
 	<style>
 		:host{
 			display: block;
-			border: solid 2px green;
-			width: 10px;
-			height: 10px;
+			--size: var(--qb-ui-node-input-inlet-size, 20px);
+			width: var(--size);
+			height: var(--size);
+			--iron-icon-width: calc(var(--size) + 20%);
+			--iron-icon-height: calc(var(--size) + 20%);
+			@apply(--qb-ui-node-input-inlet);
+		}
+
+		div{
+			border-radius: 999px;
+			background-color: var(--qb-ui-node-input-inlet-background-color, --qb-interactive-color);
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+		iron-icon{
+			fill: var(--qb-ui-node-input-inlet-foreground-color, --qb-blue-transparent);
+			position: absolute;
+			top: -10%;
+			left: -10%;
+			bottom: 0;
+			right: 0;
+		}
+
+		:host([connection-type="Output"]) iron-icon{
+			fill: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-pink-transparent);
 		}
 
 	</style>
 
 	<template>
+
+		<div>
+		</div>
+			<iron-icon
+				id="inlet-icon"
+				icon="[[resolveIconName('connector-border-left', 'qb-buttons')]]">
+			</iron-icon>
+
 
 
 	</template>
@@ -24,12 +59,19 @@
 		properties:{
 			containerInput:{
 				type: Object
+			},
+			connectionType:{
+				type: String,
+				reflectToAttribute: true
 			}
 		},
 		listeners: {
 			'track': '_onTrack',
 
 		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
 		_onTrack: function(e){
 			// If there is a reference outlet, brodcast the event to it
 			if(this.referenceOutlet){
@@ -59,7 +101,7 @@
 				var outletBounding = outlet.getBoundingClientRect();
 				var diffX = inletBounding.left - outletBounding.left;
 				var diffY = inletBounding.top - outletBounding.top;
-				
+
 				// Move the outlet to the exact same position as the inlet
 				outlet.set('data.visualX', diffX);
 				outlet.set('data.visualY', diffY);
@@ -72,8 +114,8 @@
 				this.referenceOutlet._handleTrack.apply(this.referenceOutlet, [e]);
 			}
 
-		
-			
+
+
 		}
 	});
 })();

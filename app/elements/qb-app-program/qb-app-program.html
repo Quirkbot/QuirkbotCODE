@@ -10,6 +10,7 @@
 <link rel="import" href="../qb-core-tree-manager/qb-core-tree-manager.html">
 
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+<link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
 <link rel="import" href="../qb-ui-editor/qb-ui-editor.html">
 <link rel="import" href="../qb-ui-toolbar/qb-ui-toolbar.html">
 <link rel="import" href="../qb-ui-quirkbots-area/qb-ui-quirkbots-area.html">
@@ -21,7 +22,7 @@
 <link rel="import" href="../bower_components/platinum-sw/platinum-sw-register.html">
 -->
 
-<dom-module id='qb-ide'>
+<dom-module id='qb-app-program'>
 	<style>
 		:host{
 			display: block;
@@ -103,8 +104,8 @@
 <script>
 (function () {
 	window.Quirkbot = window.Quirkbot || {};
-	window.Quirkbot.Ide = Polymer({
-		is: 'qb-ide',
+	window.Quirkbot.AppProgram = Polymer({
+		is: 'qb-app-program',
 		properties: {
 			programId: String,
 			locale: {

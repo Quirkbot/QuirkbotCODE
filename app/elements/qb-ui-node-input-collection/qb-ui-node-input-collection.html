@@ -19,7 +19,7 @@
 			value="{{nameValue}}"></qb-core-i18n>
 
 		<paper-icon-button
-			icon="add-circle-outline"
+			icon="[[resolveIconName('add-input', 'qb-buttons')]]"
 			alt="add"
 			on-down="_onAddPress">
 		</paper-icon-button>
@@ -39,7 +39,7 @@
 			</qb-ui-node-input>
 
 			<paper-icon-button
-				icon="remove-circle-outline"
+				icon="[[resolveIconName('delete-input', 'qb-buttons')]]"
 				alt="remove"
 				on-down="_onRemovePress">
 			</paper-icon-button>
@@ -67,8 +67,7 @@
 		],
 		_onAddPress: function(){
 			this.push('data.children', {
-				_id : this.definition._id + '.' + this.children.length,
-				index : this.children.length
+				_id : this.definition._id + '.' + this.children.length
 			});
 		},
 		_onRemovePress: function(e){
@@ -81,7 +80,6 @@
 
 			this.data.children.forEach(function(child, index){
 				child._id =  this.definition._id + '.' + index;
-				child.index = index;
 			}.bind(this));
 		},
 		/*_createChild: function(){

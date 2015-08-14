@@ -21,6 +21,13 @@
 				type: String,
 				observer: '_computeValue'
 			},
+			/**
+			 * Don't use the key as the value, in case the value is undefined
+			 **/
+			noKeyOnEmptyValue:{
+				type: Boolean,
+				value: false
+			},
 			value:{
 				type: String,
 				notify: true,
@@ -70,8 +77,11 @@
 			else if(this.originalTextContent){
 				this.value = this.originalTextContent;
 			}
-			else{
+			else if(!this.noKeyOnEmptyValue) {
 				this.value = this.key;
+			}
+			else{
+				this.value = '';
 			}
 		},
 		_valueChanged: function(value){

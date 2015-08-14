@@ -15,7 +15,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="Polymer Starter Kit" />
   <title>Quirkbot</title>
   <!-- Place favicon.ico in the `app/` directory -->
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
@@ -72,7 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       program-id="{{programId}}">
     </qb-core-router>
 
-    <qb-ide
+    <qb-app-program
       program-id="{{programId}}"
       locale="en_US"
       programs-api-url="http://localhost:8585/api/programs"
@@ -80,7 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       nodes-url="data/nodes.json"
       strings-url="data/strings/{{locale}}.json"
       chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd">
-    </qb-ide>
+    </qb-app-program>
 
     <!-- Uncomment next block to enable Service Worker support (1/2) -->
     <!--

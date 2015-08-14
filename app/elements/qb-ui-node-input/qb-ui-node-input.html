@@ -19,23 +19,51 @@
 	<style>
 		:host{
 			display: block;
-			@apply(--qb-ui-node-input-theme);
+			@apply(--qb-ui-node-input);
+			--qb-ui-node-input-handle-height: 20px;
+			--qb-ui-node-input-handle-offset: -10px;
+			--qb-ui-node-input-font-size: 12px;
 		};
 		.label{
-			font-family: monospace;
-			@apply(--qb-ui-node-input-label-theme);
-		}
-		.value,
-		.default{
-			border:solid 1px;
-			padding: 5px;
-			font-family: monospace;
-			@apply(--qb-ui-node-input-label-theme);
 
+			@apply(--qb-ui-node-input-label);
 		}
-		.default{
-			@apply(--qb-ui-node-input-default-theme);
+		.handle{
+			position: relative;
+			display: inline-block;
+			margin-left: -10px;
+
+			height: var(--qb-ui-node-input-handle-height);
+			/*margin-left: var(--qb-ui-node-input-handle-offset);*/
 		}
+		.inlet{
+			position: absolute;
+			top: 0;
+			left: 0;
+			margin-top: 2px;
+			@apply(--qb-ui-node-input-inlet);
+
+			--qb-ui-node-connector-color: var(--qb-blue-transparent);
+
+			--qb-ui-node-input-inlet:{
+				width: var(--qb-ui-node-input-handle-height);
+				height: var(--qb-ui-node-input-handle-height);
+			};
+		}
+
+		.value-container{
+
+			border-radius: 999px;
+			background-color:  var(--qb-text-background-color);
+			padding: 0 0.5em 0 2.4em;
+			display: inline-block;
+			@apply(--qb-font-code);
+			@apply(--qb-ui-node-input-label-theme);
+			font-size: var(--qb-ui-node-input-font-size);
+			line-height: var(--qb-ui-node-input-handle-height);
+			height: var(--qb-ui-node-input-handle-height);
+		}
+
 
 		/* controller */
 		:host([active]) .controller{
@@ -101,20 +129,28 @@
 			hidden>
 		</qb-core-i18n>
 
-		<qb-ui-node-input-inlet
-			id="inlet"
-			container-input="{{self}}">
-		</qb-ui-node-input-inlet>
-
 
 		<div
 			class="label">{{name}}</div>
+
 		<div
-			class="value"
-			hidden$="{{hideValue}}">{{data.value}}</div>
-		<div
-			class="default"
-			hidden$="{{hideDefault}}">{{definition.default}}</div>
+			class="handle">
+
+			<div
+				class="value-container">
+				&nbsp;
+				<span
+					hidden$="{{hideValue}}">{{data.value}}</span>
+				<span
+					hidden$="{{hideDefault}}">{{definition.default}}</span>
+			</div>
+			<qb-ui-node-input-inlet
+				id="inlet"
+				class="inlet"
+				connection-type="[[connectionType]]"
+				container-input="{{self}}">
+			</qb-ui-node-input-inlet>
+		</div>
 
 		<div
 			id="templateContainer"

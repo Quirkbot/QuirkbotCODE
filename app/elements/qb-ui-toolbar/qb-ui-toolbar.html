@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
 
 
 
@@ -24,9 +25,9 @@
 				</paper-radio-button>
 			</paper-radio-group>
 
-			<paper-input
+			<qb-ui-input-text
 				value="{{model.title}}">
-			</paper-input>
+			</qb-ui-input-text>
 
 			<paper-button
 				on-tap="_onQuirkbotsAreaButtonTap">
@@ -43,6 +44,11 @@
 		is: 'qb-ui-toolbar',
 		properties: {
 			model: Object,
+			windowTitle: {
+				type: String,
+				computed: '_computeWindowTitle(model.title)',
+				observer: '_windowTitleChanged'
+			},
 			editorMode: {
 				type: String,
 				notify: true
@@ -50,6 +56,15 @@
 		},
 		_onQuirkbotsAreaButtonTap: function(){
 			this.fire('quirkbots-area-button-tap');
+		},
+		_computeWindowTitle: function (title) {
+			if(title) {
+				return title + ' - Quirkbot';
+			}
+			return 'Program - Quirkbot';
+		},
+		_windowTitleChanged: function (title) {
+			window.document.title = title;
 		}
 	});
 })();

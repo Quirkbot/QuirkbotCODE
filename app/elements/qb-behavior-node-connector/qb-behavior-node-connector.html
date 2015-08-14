@@ -47,8 +47,9 @@
 			this.data.element = this;
 		},
 		_computeName: function(nameValue){
-			if(typeof this.data.index !== 'undefined' ){
-				return nameValue + '.' + this.data.index;
+			var idParts = this.data._id.split('.');
+			if(idParts.length === 2){
+				return idParts[1];
 			}
 			return nameValue;
 		}
