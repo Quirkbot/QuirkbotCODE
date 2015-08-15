@@ -14,12 +14,42 @@
 		:host{
 			display: block;
 			position: relative;
+			text-align: right;
+			width: 100%;
+			--handle-height: var(--qb-ui-node-output-handle-height, 20px);
+			--handle-offset: var(--qb-ui-node-output-handle-offset, -23px);
+			--label-offset: var(--qb-ui-node-output-label-offset, 6px);
+			--label-font-size: var(--qb-ui-node-output-label-font-size, 12px);
+			height: var(--handle-height);
+			@apply(--qb-ui-node-output);
+		}
+		.label{
+			display: block;
+			position: relative;
+			font-size: var(--label-font-size);
+			line-height: var(--handle-height);
+			color: var(--qb-text-background-color);
+			margin-right:  var(--label-offset);
+			@apply(--qb-ui-node-output-label);
+
+		}
+		.outlet-container{
+			position: absolute;
+			top: 0;
+			right: 0;
+			display: block;
+			margin-right: var(--handle-offset);
 		}
 		#outlet,
 		#dragOutlet{
+
 			position: absolute;
 			top: 0;
-			left: 0;
+			right: 0;
+			--qb-ui-node-input-inlet:{
+				width: var(--handle-height);
+				height: var(--handle-height);
+			};
 
 		}
 		#dragOutlet{
@@ -58,7 +88,8 @@
 
 		<qb-core-connection-line
 			id="line"
-			canvas="{{svgCanvas}}">
+			canvas="{{svgCanvas}}"
+			hidden>
 		</qb-core-connection-line>
 	</template>
 </dom-module>

@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <link rel="import" href="../qb-behavior-draggable/qb-behavior-draggable.html">
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
@@ -25,6 +26,7 @@
 			border-radius: 10px;
 			padding: 13px;
 			min-width: 150px;
+			cursor: move;
 			@apply(--qb-ui-node);
 		}
 		.type-container{
@@ -53,13 +55,40 @@
 				font-size: 12px;
 				line-height: 12px;
 			};
-			@apply(--qb-ui-node-variable-theme);
+			@apply(--qb-ui-node-variable);
 		}
 
-		qb-ui-node-input,
-		qb-ui-output-input {
-			margin-top: calc(var(--qb-ui-node-connector-gap, 20px)*0.5);
-			margin-bottom: calc(var(--qb-ui-node-connector-gap, 20px)*0.5);
+		.connectors{
+			@apply(--layout-horizontal);
+			@apply(--qb-ui-node-connectors);
+		}
+		.inputs{
+			position: relative;
+			@apply(--qb-ui-node-inputs);
+		}
+		.outputs .inner{
+			@apply(--qb-ui-node-inputs-inner);
+		}
+		qb-ui-node-input {
+			margin-top: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
+			margin-bottom: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
+			@apply(--qb-ui-node-node-input);
+		}
+		.outputs{
+			position: relative;
+			@apply(--layout-flex);
+			@apply(--layout-center);
+			@apply(--layout-horizontal);
+			@apply(--qb-ui-node-outputs);
+		}
+		.outputs .inner{
+			width: 100%;
+			@apply(--qb-ui-node-outputs-inner);
+		}
+		qb-ui-node-output {
+			margin-top: calc(var(--qb-ui-node-output-gap, 30px)*0.5);
+			margin-bottom: calc(var(--qb-ui-node-output-gap, 30px)*0.5);
+			@apply(--qb-ui-node-node-output);
 		}
 
 		#deleteButton{
@@ -104,7 +133,7 @@
 			id="deleteButton"
 			icon="[[resolveIconName('delete-node', 'qb-buttons')]]"
 			alt="remove"
-			on-down="_onDeletePress">
+			on-tap="_onDeletePress">
 		</paper-icon-button>
 
 		<div class="type-container">
@@ -124,64 +153,68 @@
 			value="{{data._id}}">
 		</qb-ui-input-text>
 
-		<div class="layout horizontal">
+		<div class="connectors">
 			<div class="inputs">
-				<template
-					is="dom-repeat"
-					items="{{inputs}}">
-
+				<div class="inner">
 					<template
-						is="dom-if"
-						if="{{!item.definition.multiple}}"
-						restamp>
-						<qb-ui-node-input
-							svg-canvas="{{svgCanvas}}"
-							container-node="{{self}}"
-							model-controller="{{modelController}}"
-							tree-manager="{{treeManager}}"
-							node-definitions="{{nodeDefinitions}}"
-							constant-definitions="{{constantDefinitions}}"
-							definition="{{item.definition}}"
-							data="{{item.data}}">
-						</qb-ui-node-input>
+						is="dom-repeat"
+						items="{{inputs}}">
+
+						<template
+							is="dom-if"
+							if="{{!item.definition.multiple}}"
+							restamp>
+							<qb-ui-node-input
+								svg-canvas="{{svgCanvas}}"
+								container-node="{{self}}"
+								model-controller="{{modelController}}"
+								tree-manager="{{treeManager}}"
+								node-definitions="{{nodeDefinitions}}"
+								constant-definitions="{{constantDefinitions}}"
+								definition="{{item.definition}}"
+								data="{{item.data}}">
+							</qb-ui-node-input>
+						</template>
+
+						<template
+							is="dom-if"
+							if="{{item.definition.multiple}}"
+							restamp>
+
+							<qb-ui-node-input-collection
+								svg-canvas="{{svgCanvas}}"
+								container-node="{{self}}"
+								model-controller="{{modelController}}"
+								tree-manager="{{treeManager}}"
+								node-definitions="{{nodeDefinitions}}"
+								constant-definitions="{{constantDefinitions}}"
+								definition="{{item.definition}}"
+								data="{{item.data}}"
+								on-items-splices="_onCollectionItemsSplices">
+							</qb-ui-node-input-collection>
+						</template>
 					</template>
-
-					<template
-						is="dom-if"
-						if="{{item.definition.multiple}}"
-						restamp>
-
-						<qb-ui-node-input-collection
-							svg-canvas="{{svgCanvas}}"
-							container-node="{{self}}"
-							model-controller="{{modelController}}"
-							tree-manager="{{treeManager}}"
-							node-definitions="{{nodeDefinitions}}"
-							constant-definitions="{{constantDefinitions}}"
-							definition="{{item.definition}}"
-							data="{{item.data}}">
-						</qb-ui-node-input-collection>
-					</template>
-
-				</template>
+				</div>
 			</div>
 
 			<div class="outputs">
-				<template
-					is="dom-repeat"
-					items="{{outputs}}">
+				<div class="inner">
+					<template
+						is="dom-repeat"
+						items="{{outputs}}">
 
-					<qb-ui-node-output
-						svg-canvas="{{svgCanvas}}"
-						container-node="{{self}}"
-						model-controller="{{modelController}}"
-						node-definitions="{{nodeDefinitions}}"
-						constant-definitions="{{constantDefinitions}}"
-						definition="{{item.definition}}"
-						data="{{item.data}}">
-					</qb-ui-node-output>
+						<qb-ui-node-output
+							svg-canvas="{{svgCanvas}}"
+							container-node="{{self}}"
+							model-controller="{{modelController}}"
+							node-definitions="{{nodeDefinitions}}"
+							constant-definitions="{{constantDefinitions}}"
+							definition="{{item.definition}}"
+							data="{{item.data}}">
+						</qb-ui-node-output>
 
-				</template>
+					</template>
+				</div>
 			</div>
 		</div>
 
@@ -332,6 +365,16 @@
 
 		},
 		/**
+		 * When a collection changes size, the node will resize. To make sure
+		 * that the connection lines will update their positions properly, we
+		 * fire a fake "dragmove" event;
+		 */
+		_onCollectionItemsSplices: function () {
+			this.async(function (argument) {
+				this.fire('dragmove');
+			})
+		},
+		/**
 		 * Allows to disable/enable dragging by filtering the track event.
 		 *
 		 * @return {boolean} - 'true' if tracking should be disabled
@@ -353,6 +396,9 @@
 				return true;
 			}
 			if(e.target.id === 'inlet-icon') {
+				return true;
+			}
+			if(e.target.id === 'outlet-icon') {
 				return true;
 			}
 
@@ -377,6 +423,9 @@
 					return true;
 				}
 				if(e.path.length && e.path[0].id === 'inlet-icon') {
+					return true;
+				}
+				if(e.path.length && e.path[0].id === 'outlet-icon') {
 					return true;
 				}
 			}

@@ -2,7 +2,7 @@
 
 <script>
 (function () {
-	
+
 	window.Quirkbot = window.Quirkbot || {};
 	window.Quirkbot.CoreConnectionLine = Polymer({
 		is: 'qb-core-connection-line',
@@ -133,7 +133,7 @@
 				return;
 			}
 			this.addDragListeners(destination);
-			this.postionUpdated();
+			setTimeout(this.postionUpdated.bind(this), 10);
 		},
 		_findParent: function(node){
 			var parent = Polymer.dom(node).parentNode;

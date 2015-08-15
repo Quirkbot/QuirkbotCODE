@@ -41,11 +41,13 @@
 			margin-left: var(--handle-offset);
 			@apply(--qb-ui-node-input-handle);
 		}
+		.handle:hover{
+			@apply(--qb-ui-node-input-handle-hover);
+		}
 		.inlet{
 			position: absolute;
 			top: 0;
 			left: 0;
-			margin-top: 2px;
 			@apply(--qb-ui-node-input-inlet);
 
 			--qb-ui-node-input-inlet:{
@@ -55,7 +57,6 @@
 		}
 
 		.value-container{
-
 			border-radius: 999px;
 			background-color:  var(--qb-text-background-color);
 			padding: 0 1em 0 1.5em;
@@ -65,7 +66,15 @@
 			font-size: var(--value-font-size);
 			line-height: var(--handle-height);
 			height: var(--handle-height);
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: 100px;
 		}
+		.handle:hover .value-container{
+			background-color:  var(--qb-interactive-color);
+		}
+
 
 		:host([connection-type="Output"]) .value-container{
 			color: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color);
@@ -296,7 +305,7 @@
 			this.validateDebouncer = setTimeout(function(){
 				var valid = this._computeValid(value);
 				this._setTypedValue(valid.type, valid.value);
-			}.bind(this), 1000);
+			}.bind(this), 500);
 		},
 		_sliderValueChanged: function(){
 			var slider = this.$.templateContainer.querySelector('#slider');
@@ -334,6 +343,7 @@
 			if(typeof this.data.type === 'undefined' && (typeof this.data.value === 'undefined' || this.data.value === '')){
 				var valid = this._computeValid(this.data.default);
 				this.connectionType = valid.type;
+				return;
 			}
 			this.connectionType = this.data.type;
 		},
