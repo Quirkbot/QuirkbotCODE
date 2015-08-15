@@ -28,9 +28,10 @@
 		/**
 		 * Dom utils
 		 **/
-		hitTest: function(element, x, y){
+		hitTest: function(element, x, y, margin){
+			margin = margin || 0;
 			var box = element.getBoundingClientRect();
-			if(x < box.left || x > (box.left + box.width) || y < box.top || y > (box.top + box.height)){
+			if(x < (box.left - margin) || x > (box.left + box.width + margin) || y < (box.top - margin) || y > (box.top + box.height + margin)){
 				return false;
 			}
 			return true;

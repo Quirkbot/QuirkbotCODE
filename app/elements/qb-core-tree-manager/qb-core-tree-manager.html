@@ -146,7 +146,7 @@
 			base = base.charAt(0).toLowerCase() + base.slice(1);
 
 			var count = 1;
-			var name = base;
+			var name = base + count;
 			while(this.findOneNodeById(name)){
 				count++;
 				name = base + count;

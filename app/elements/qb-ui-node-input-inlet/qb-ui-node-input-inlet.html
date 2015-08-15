@@ -24,7 +24,7 @@
 			right: 0;
 		}
 		iron-icon{
-			fill: var(--qb-ui-node-input-inlet-foreground-color, --qb-blue-transparent);
+			fill: var(--qb-ui-node-input-inlet-foreground-color, --qb-node-color-transparent);
 			position: absolute;
 			top: -10%;
 			left: -10%;
@@ -33,20 +33,18 @@
 		}
 
 		:host([connection-type="Output"]) iron-icon{
-			fill: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-pink-transparent);
+			fill: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color-transparent);
 		}
 
 	</style>
 
 	<template>
 
-		<div>
-		</div>
-			<iron-icon
-				id="inlet-icon"
-				icon="[[resolveIconName('connector-border-left', 'qb-buttons')]]">
-			</iron-icon>
-
+		<div></div>
+		<iron-icon
+			id="inlet-icon"
+			icon="[[resolveIconName('connector-border-left', 'qb-buttons')]]">
+		</iron-icon>
 
 
 	</template>

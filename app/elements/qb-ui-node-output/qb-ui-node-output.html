@@ -20,16 +20,28 @@
 			position: absolute;
 			top: 0;
 			left: 0;
+
+		}
+		#dragOutlet{
+			opacity: 0;
+		}
+		#dragOutlet[drag-status="dragmove"]{
+			opacity: 1;
 		}
 	</style>
 
 	<template>
-		<qb-core-i18n
-			key="{{nameKey}}"
-			value="{{nameValue}}"
-			></qb-core-i18n>
 
-		<div>
+
+		<div
+			class="label">
+			<qb-core-i18n
+				key="{{nameKey}}"
+				value="{{nameValue}}"
+				></qb-core-i18n>
+		</div>
+		<div
+			class="outlet-container">
 			<qb-ui-node-output-outlet
 				id="outlet"
 				container-output="{{self}}">
@@ -41,6 +53,8 @@
 				drag>
 			</qb-ui-node-output-outlet>
 		</div>
+
+
 
 		<qb-core-connection-line
 			id="line"
@@ -95,7 +109,7 @@
 			var tree = this.modelController.model.tree;
 			for (var i = 0; i < tree.length; i++) {
 				var node = tree[i].element;
-				if(!this.hitTest(node, centerX, centerY)){
+				if(!this.hitTest(node, centerX, centerY, 10)){
 					continue;
 				}
 				if(typeof node.inputs === 'undefined'){

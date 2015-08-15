@@ -19,22 +19,27 @@
 	<style>
 		:host{
 			display: block;
+			--handle-height: var(--qb-ui-node-input-handle-height, 20px);
+			--handle-offset: var(--qb-ui-node-input-handle-offset, -23px);
+			--value-font-size: var(--qb-ui-node-input-value-font-size, 12px);
+			--label-offset: var(--qb-ui-node-input-label-offset, 6px);
+			--label-font-size: var(--qb-ui-node-input-label-font-size, 12px);
 			@apply(--qb-ui-node-input);
-			--qb-ui-node-input-handle-height: 20px;
-			--qb-ui-node-input-handle-offset: -10px;
-			--qb-ui-node-input-font-size: 12px;
 		};
 		.label{
-
+			font-size: var(--label-font-size);
+			color: var(--qb-text-background-color);
+			margin-left: var(--label-offset);
 			@apply(--qb-ui-node-input-label);
 		}
 		.handle{
+			cursor: pointer;
 			position: relative;
 			display: inline-block;
-			margin-left: -10px;
 
-			height: var(--qb-ui-node-input-handle-height);
-			/*margin-left: var(--qb-ui-node-input-handle-offset);*/
+			height: var(--handle-height);
+			margin-left: var(--handle-offset);
+			@apply(--qb-ui-node-input-handle);
 		}
 		.inlet{
 			position: absolute;
@@ -43,11 +48,9 @@
 			margin-top: 2px;
 			@apply(--qb-ui-node-input-inlet);
 
-			--qb-ui-node-connector-color: var(--qb-blue-transparent);
-
 			--qb-ui-node-input-inlet:{
-				width: var(--qb-ui-node-input-handle-height);
-				height: var(--qb-ui-node-input-handle-height);
+				width: var(--handle-height);
+				height: var(--handle-height);
 			};
 		}
 
@@ -55,13 +58,17 @@
 
 			border-radius: 999px;
 			background-color:  var(--qb-text-background-color);
-			padding: 0 0.5em 0 2.4em;
+			padding: 0 1em 0 1.5em;
 			display: inline-block;
 			@apply(--qb-font-code);
 			@apply(--qb-ui-node-input-label-theme);
-			font-size: var(--qb-ui-node-input-font-size);
-			line-height: var(--qb-ui-node-input-handle-height);
-			height: var(--qb-ui-node-input-handle-height);
+			font-size: var(--value-font-size);
+			line-height: var(--handle-height);
+			height: var(--handle-height);
+		}
+
+		:host([connection-type="Output"]) .value-container{
+			color: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color);
 		}
 
 
