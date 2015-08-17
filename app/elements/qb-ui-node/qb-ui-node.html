@@ -370,9 +370,9 @@
 		 * fire a fake "dragmove" event;
 		 */
 		_onCollectionItemsSplices: function () {
-			this.async(function (argument) {
+			this.async(function () {
 				this.fire('dragmove');
-			})
+			});
 		},
 		/**
 		 * Allows to disable/enable dragging by filtering the track event.

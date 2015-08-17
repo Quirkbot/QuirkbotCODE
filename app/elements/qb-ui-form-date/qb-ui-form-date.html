@@ -1,0 +1,276 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../qb-behavior-form-field/qb-behavior-form-field.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id='qb-ui-form-date'>
+	<style>
+		:host{
+			display: block;
+
+		}
+		paper-dropdown-menu{
+			width: 75px;
+			--paper-dropdown-menu-button: {
+				padding: 0;
+				margin-right: 4px;
+			};
+			--paper-input-container-underline: {
+				visibility: hidden;
+			};
+			--paper-input-container-underline-focus: {
+				visibility: hidden;
+			};
+			--paper-input-container-underline-disabled: {
+				visibility: hidden;
+			};
+		}
+		paper-menu{
+			width: 75px;
+		}
+		paper-item {
+			--paper-item-min-height: 25px;
+		}
+		paper-item:nth-child(odd) {
+			background-color: rgba(0,0,0,0.05);
+		}
+
+
+	</style>
+	<template>
+		<qb-core-i18n
+			key="[[_labelKey]]"
+			value="{{label}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_placeholderlKey]]"
+			value="{{placeholder}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_tipKey]]"
+			value="{{tip}}"
+			no-key-on-empty-value
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_ErrorKey]]"
+			value="{{error}}"
+			hidden></qb-core-i18n>
+
+		<paper-input-container
+			attr-for-value="value"
+			no-label-float$="[[noFloatLabel]]"
+			always-float-label$="[[alwaysFloatLabel]]"
+			disabled$="[[disabled]]"
+			invalid$="[[invalid]]">
+			<label>[[label]]</label>
+			<div
+				class="paper-input-input">
+				<qb-core-i18n
+					key="[[_yearLabelKey]]"
+					value="{{yearLabel}}"
+					hidden></qb-core-i18n>
+				<qb-core-i18n
+					key="[[_yearPlaceholderlKey]]"
+					value="{{yearPlaceholder}}"
+					hidden></qb-core-i18n>
+				<paper-dropdown-menu
+					id="yearDropdown"
+					label$="[[yearLabel]]"
+					placeholder$="[[yearPlaceholder]]"
+					no-label-float$="[[noFloatInnerLabel]]"
+					always-float-label$="[[alwaysFloatInnerLabel]]"
+					selected-item-label="{{_selectedYear}}">
+					<paper-menu
+						class="dropdown-content">
+						<template
+							is="dom-repeat"
+							items="[[_years]]">
+							<paper-item>[[item]]</paper-item>
+						</template>
+					</paper-menu>
+				</paper-dropdown-menu>
+
+
+				<qb-core-i18n
+					key="[[_monthLabelKey]]"
+					value="{{monthLabel}}"
+					hidden></qb-core-i18n>
+				<qb-core-i18n
+					key="[[_monthPlaceholderlKey]]"
+					value="{{monthPlaceholder}}"
+					hidden></qb-core-i18n>
+				<paper-dropdown-menu
+					id="monthDropdown"
+					label$="[[monthLabel]]"
+					placeholder$="[[monthPlaceholder]]"
+					no-label-float$="[[noFloatInnerLabel]]"
+					always-float-label$="[[alwaysFloatInnerLabel]]"
+					selected-item-label="{{_selectedMonth}}">
+					<paper-menu
+						class="dropdown-content">
+						<template
+							is="dom-repeat"
+							items="[[_months]]">
+							<paper-item>[[item]]</paper-item>
+						</template>
+					</paper-menu>
+				</paper-dropdown-menu>
+
+				<qb-core-i18n
+					key="[[_dayLabelKey]]"
+					value="{{dayLabel}}"
+					hidden></qb-core-i18n>
+				<qb-core-i18n
+					key="[[_dayPlaceholderlKey]]"
+					value="{{dayPlaceholder}}"
+					hidden></qb-core-i18n>
+				<paper-dropdown-menu
+					id="dayDropdown"
+					label$="[[dayLabel]]"
+					placeholder$="[[dayPlaceholder]]"
+					no-label-float$="[[noFloatInnerLabel]]"
+					always-float-label$="[[alwaysFloatInnerLabel]]"
+					selected-item-label="{{_selectedDay}}">
+					<paper-menu
+						class="dropdown-content">
+						<template
+							is="dom-repeat"
+							items="[[_days]]">
+							<paper-item>[[item]]</paper-item>
+						</template>
+					</paper-menu>
+				</paper-dropdown-menu>
+			</div>
+			<paper-input-error>[[error]]</paper-input-error>
+		</paper-input-container>
+
+
+
+		<paper-input
+			id="hiddenInput"
+			hidden=""
+			on-iron-input-validate="_onValidate"
+			disabled$="[[disabled]]"
+			value="{{value}}"
+			invalid="{{invalid}}"
+			required$="[[required]]"
+			name$="[[name]]">
+		</paper-input>
+
+		<template
+			is="dom-if"
+			if="[[tip]]">
+			<paper-tooltip>[[tip]]</paper-tooltip>
+		</template>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIFormDte = Polymer({
+		is: 'qb-ui-form-date',
+		properties:{
+			value: {
+				notify: true,
+				reflectToAttribute: true,
+				computed: '_computeValue(_selectedYear,_selectedMonth,_selectedDay)',
+				type: String
+			},
+			invalid:{
+				type: Boolean
+			},
+			_yearLabelKey: {
+				type: String,
+				computed: '_computeYearLabelKey(stringsBase)'
+			},
+			_yearPlaceholderlKey: {
+				type: String,
+				computed: '_computeYearPlaceholderlKey(stringsBase)'
+			},
+			_monthLabelKey: {
+				type: String,
+				computed: '_computeMonthLabelKey(stringsBase)'
+			},
+			_monthPlaceholderlKey: {
+				type: String,
+				computed: '_computeMonthPlaceholderlKey(stringsBase)'
+			},
+			_dayLabelKey: {
+				type: String,
+				computed: '_computeDayLabelKey(stringsBase)'
+			},
+			_dayPlaceholderlKey: {
+				type: String,
+				computed: '_computeDayPlaceholderlKey(stringsBase)'
+			},
+			_years: {
+				type: Array,
+				value: []
+			},
+			_months: {
+				type: Array,
+				value: []
+			},
+			_days: {
+				type: Array,
+				value: []
+			},
+			_selected: {
+				type: Object
+			}
+		},
+		behaviors: [
+			window.Quirkbot.FormFieldBehavior
+		],
+		ready: function () {
+			var days = [];
+			for (var i = 31; i >= 1; i--) {
+				days.push(i);
+			}
+			this._days = days;
+			var months = [];
+			for (var j = 12; j >= 1; j--) {
+				months.push(j);
+			}
+			this._months = months;
+			var years = [];
+			for (var k = new Date().getFullYear(); k >= 1900; k--) {
+				years.push(k);
+			}
+			this._years = years;
+		},
+		_computeValue: function(year, month, day) {
+			return year + '-' + month+ '-' + day;
+		},
+		_onValidate: function () {
+			this.invalid = this.$.hiddenInput.invalid;
+		},
+		_computeYearLabelKey: function(base){
+			return base + '/year/label';
+		},
+		_computeYearPlaceholderlKey: function(base){
+			return base + '/year/placeholder';
+		},
+		_computeMonthLabelKey: function(base){
+			return base + '/month/label';
+		},
+		_computeMonthPlaceholderlKey: function(base){
+			return base + '/month/placeholder';
+		},
+		_computeDayLabelKey: function(base){
+			return base + '/day/label';
+		},
+		_computeDayPlaceholderlKey: function(base){
+			return base + '/day/placeholder';
+		},
+	});
+})();
+</script>

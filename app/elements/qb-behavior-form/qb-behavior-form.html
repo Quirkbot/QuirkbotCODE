@@ -1,0 +1,70 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.FormBehavior = {
+		FormBehavior: true,
+		properties: {
+			action: {
+				type: String
+			},
+			goTo: {
+				type: String
+			}
+		},
+		_onSubmitTap: function(){
+			this.$.form.submit();
+		},
+		_onSubmit: function(){
+			this.registerLoading = true;
+		},
+		_onResponse: function(e){
+			var params = {};
+			window.location.search.slice(1).split('&').forEach(function (o) {
+				o = o.split('=');
+				params[o[0]] = o[1];
+				//o[0] && (params[o[0]] = o[1] || true);
+			});
+			if(params.goto){
+				window.location = params.goto;
+				return;
+			}
+			if(this.goTo){
+				window.location = this.goTo + '#/' + e.detail.id;
+				return;
+			}
+
+			this.registerLoading = false;
+		},
+		_onError: function(e){
+			this.registerLoading = false;
+			var apiError;
+			try{
+				apiError = e.detail.request.xhr.response;
+			}
+			catch(e){
+				console.error(e);
+			}
+			if(apiError.error === 'E_VALIDATION' && typeof apiError.invalidAttributes === 'object'){
+				Object.keys(apiError.invalidAttributes).forEach(function (id) {
+					var field = this.$[id];
+					if(!field) {
+						return;
+					}
+					field.apiErrors = [];
+					this.async(function () {
+						field.apiErrors = apiError.invalidAttributes[id];
+					});
+
+				}.bind(this));
+			}
+		},
+		_exactMatchRegex: function (str) {
+			var scaped = str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+			return '^'+scaped+'$';
+		}
+
+	};
+})();
+</script>
