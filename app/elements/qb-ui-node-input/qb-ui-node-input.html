@@ -1,7 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-behaviors/iron-button-state.html">
 <link rel="import" href="../../bower_components/iron-behaviors/iron-control-state.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
@@ -14,11 +15,13 @@
 <link rel="import" href="../qb-core-connection-line/qb-core-connection-line.html">
 
 <link rel="import" href="../qb-ui-node-input-inlet/qb-ui-node-input-inlet.html">
+<link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
 
 <dom-module id='qb-ui-node-input'>
 	<style>
 		:host{
 			display: block;
+			position: relative;
 			--handle-height: var(--qb-ui-node-input-handle-height, 20px);
 			--handle-offset: var(--qb-ui-node-input-handle-offset, -23px);
 			--value-font-size: var(--qb-ui-node-input-value-font-size, 12px);
@@ -30,6 +33,7 @@
 			font-size: var(--label-font-size);
 			color: var(--qb-text-background-color);
 			margin-left: var(--label-offset);
+			margin-bottom: 2px;
 			@apply(--qb-ui-node-input-label);
 		}
 		.handle{
@@ -82,30 +86,79 @@
 
 
 		/* controller */
-		:host([active]) .controller{
+		:host([controller-openend]) .controller{
 			display: block;
-			@apply(--qb-ui-node-input-controller-active-theme);
+			@apply(--qb-ui-node-input-controller-active);
 		}
 		.controller{
+			z-index: 1;
 			position: absolute;
-			width: 200px;
-			background-color: white;
+			left: 6px;
+			width: 180px;
+			background-color: var(--qb-text-background-color);
+			border-radius: 10px;
 			padding: 10px;
-
+			box-shadow: 0 0 0 7px var(--qb-interactive-color-transparent);
 			animation: pop-in 0.1s ease-out;
 			-webkit-animation: pop-in 0.1s ease-out;
 
-			@apply(--qb-ui-node-input-controller-theme);
+			@apply(--qb-ui-node-input-controller);
 		}
-		.controller,
-		:host([connection-type="Output"]) .controller{
+		.controller{
 			display: none;
-			@apply(--qb-ui-node-input-controller-inactive-theme);
+			@apply(--qb-ui-node-input-controller-inactive);
+		}
+		:host([input-type="range"]) .controller{
+			bottom: -3px;
+			width: 180px;
+			padding: 0;
+			@apply(--qb-ui-node-input-controller-range);
+		}
+		:host(.collection-item[input-type="range"]) .controller{
+			bottom: -8px;
+		}
+
+		:host([input-type="text"]) .controller{
+			bottom: -6px;
+			width: 100px;
+			@apply(--qb-ui-node-input-controller-text);
+		}
+		:host(.collection-item[input-type="text"]) .controller{
+			bottom: -11px;
+		}
+		:host([input-type="datalist"]) .controller{
+			top: 17px;
+			@apply(--qb-ui-node-input-controller-datalist);
+		}
+		:host(.collection-item[input-type="datalist"]) .controller{
+
+		}
+
+		#deleteButton{
+			position: absolute;
+			right: -15px;
+			top: -15px;
+			border-radius: 100px;
+			color: white;
+			background-color: var(--qb-action-inactive-color-transparent);
+			border: solid 3px;
+			border-color: var(--qb-white-transparent);
+			padding: 5px;
+			-moz-background-clip: padding;
+			-webkit-background-clip: padding;
+			background-clip: padding-box;
+			--iron-icon-height: 22px;
+			--iron-icon-width: 22px;
+			transform: scale(0.8);
+		}
+		#deleteButton:hover{
+			background-color: var(--qb-action-color-transparent);
+			@apply(--qb-ui-node-delete-button-hover-theme);
 		}
 		@-webkit-keyframes pop-in{
 			0% {
 				opacity: 0;
-				-webkit-transform: translate(0,-10px);
+				-webkit-transform: translate(-10px,0);
 			}
 			100% {
 				opacity: 1;
@@ -115,7 +168,7 @@
 		@keyframes pop-in {
 			0% {
 				opacity: 0;
-				-webkit-transform: translate(0,-10px);
+				-webkit-transform: translate(-10px,0);
 			}
 			100% {
 				opacity: 1;
@@ -125,10 +178,21 @@
 
 		.slider{
 			width: 100%;
-			@apply(--qb-ui-node-input-controller-slider-theme);
+			@apply(--qb-ui-node-input-controller-slider);
 		}
-		.paper-input{
-			font-family: monospace;
+		.text-input{
+
+			display: block;
+
+			--qb-ui-input-text-input: {
+				text-align: left;
+				font-size: 12px;
+				line-height: 12px;
+			};
+		}
+
+		.menu paper-item{
+			--paper-item-min-height: 30px;
 		}
 
 
@@ -146,11 +210,10 @@
 		</qb-core-i18n>
 
 
-		<div
-			class="label">{{name}}</div>
+		<div class="label">{{name}}</div>
 
-		<div
-			class="handle">
+		<div class="handle"
+			on-tap="_openController">
 
 			<div
 				class="value-container">
@@ -168,60 +231,93 @@
 			</qb-ui-node-input-inlet>
 		</div>
 
-		<div
-			id="templateContainer"
-			class="controller">
+		<div class="controller"
+			id="templateContainer">
+
+			<paper-icon-button
+				id="deleteButton"
+				icon="[[resolveIconName('delete-node', 'qb-buttons')]]"
+				alt="remove"
+				on-tap="_closeController">
+			</paper-icon-button>
+
 
 			<template
 				is="dom-if"
-				if="{{inputTemplate}}"
-				restamp>
-				<paper-input
-					class="text-input"
-					value="{{data.value}}"
-					no-label-float>
-				</paper-input>
+				if="[[_isEqual(connectionType, 'Output')]]">
+
+				<paper-button
+					on-tap="_clearValue">
+					<iron-icon
+						icon="[[resolveIconName('disconnect-node', 'qb-buttons')]]"
+						hidden$="[[!resolveIconName('disconnect-node', 'qb-buttons')]]">
+					</iron-icon>
+					<qb-core-i18n
+						key="ide/node/disconnect"></qb-core-i18n>
+				</paper-button>
+
+
 			</template>
 
 			<template
 				is="dom-if"
-				if="{{datalistTemplate}}"
-				restamp>
+				if="[[!_isEqual(connectionType, 'Output')]]">
 
-				<paper-menu
-					id="menu"
-					class="menu"
-					selected="{{data.value}}"
-					attr-for-selected="name">
+				<template
+					is="dom-if"
+					if="{{textController}}"
+					restamp>
+					<qb-ui-input-text
+						class="text-input"
+						value="{{data.value}}">
+					</qb-ui-input-text>
 
-					<template
-						is="dom-repeat"
-						items="{{datalist}}">
+				</template>
 
-						<paper-item
-							name="{{item.value}}">
+				<template
+					is="dom-if"
+					if="{{datalistController}}"
+					restamp>
 
-							<qb-core-i18n
-								key="{{item.translationKey}}"></qb-core-i18n>
-						</paper-item>
-					</template>
-				</paper-menu>
-			</template>
+					<paper-menu
+						id="menu"
+						class="menu"
+						selected="{{data.value}}"
+						attr-for-selected="name">
 
-			<template
-				is="dom-if"
-				if="{{rangeTemplate}}"
-				restamp>
+						<template
+							is="dom-repeat"
+							items="{{datalist}}">
 
-				<paper-slider
-					id="slider"
-					class="slider"
-					on-value-change="_sliderValueChanged"
-					min="{{range.min}}"
-					max="{{range.max}}"
-					step="0.01"
-					pin>
-				</paper-slider>
+							<paper-item
+								name="{{item.value}}">
+								<iron-icon
+									icon="[[resolveIconName(item._id, 'qb-datalists')]]"
+									hidden$="[[!resolveIconName(item._id, 'qb-datalists')]]">
+								</iron-icon>
+								<qb-core-i18n
+									key="{{item.translationKey}}"></qb-core-i18n>
+							</paper-item>
+						</template>
+					</paper-menu>
+				</template>
+
+				<template
+					is="dom-if"
+					if="{{rangeController}}"
+					restamp>
+
+					<paper-slider
+						id="slider"
+						class="slider"
+						on-value-change="_sliderValueChanged"
+						min="{{range.min}}"
+						max="{{range.max}}"
+						step="0.01"
+						pin>
+					</paper-slider>
+				</template>
+
 			</template>
 		</div>
 
@@ -243,9 +339,13 @@
 			inlet: Object,
 			modelController: Object,
 			treeManager: Object,
-			datalistTemplate: Boolean,
-			rangeTemplate: Boolean,
-			inputTemplate: Boolean,
+			controllerOpenend: {
+				type: Boolean,
+				reflectToAttribute: true
+			},
+			datalistController: Boolean,
+			rangeController: Boolean,
+			textController: Boolean,
 			hideDefault:{
 				type: Boolean,
 				computed: '_computeHideDefault(data.value)'
@@ -257,6 +357,11 @@
 			connectionType:{
 				type: String,
 				reflectToAttribute: true
+			},
+			inputType:{
+				type: String,
+				reflectToAttribute: true,
+				computed: '_computeInputType(datalistController, rangeController, textController)'
 			},
 			datalist:{
 				type: Array,
@@ -280,7 +385,7 @@
 			'_applyDefaultValue(data, definition)',
 			'_valueChanged(data.value)',
 			'_computeLineSource(data.value)',
-			'_computeTemplates(definition)',
+			'_computeControllers(definition)',
 			'_computeConnectionType(data.type)',
 			'_computeConnectionType(definition)'
 		],
@@ -305,7 +410,7 @@
 			this.validateDebouncer = setTimeout(function(){
 				var valid = this._computeValid(value);
 				this._setTypedValue(valid.type, valid.value);
-			}.bind(this), 500);
+			}.bind(this), 1300);
 		},
 		_sliderValueChanged: function(){
 			var slider = this.$.templateContainer.querySelector('#slider');
@@ -313,21 +418,27 @@
 				this._setTypedValue('Number', slider.value);
 			}
 		},
-		_computeTemplates: function (definition) {
+		_openController: function(){
+			this.controllerOpenend = true;
+		},
+		_closeController: function(){
+			this.controllerOpenend = false;
+		},
+		_computeControllers: function (definition) {
 			if( definition.validation && definition.validation.type === 'list' && definition.validation.data.length) {
-				this.datalistTemplate = true;
-				this.rangeTemplate = false;
-				this.inputTemplate = false;
+				this.datalistController = true;
+				this.rangeController = false;
+				this.textController = false;
 			}
 			else if( definition.validation && definition.validation.type === 'range' && typeof definition.validation.data.min !== 'undefined' && typeof definition.validation.data.max !== 'undefined') {
-				this.datalistTemplate = false;
-				this.rangeTemplate = true;
-				this.inputTemplate = false;
+				this.datalistController = false;
+				this.rangeController = true;
+				this.textController = false;
 			}
 			else{
-				this.datalistTemplate = false;
-				this.rangeTemplate = false;
-				this.inputTemplate = true;
+				this.datalistController = false;
+				this.rangeController = false;
+				this.textController = true;
 			}
 		},
 		_computeHideValue: function(value){
@@ -346,6 +457,18 @@
 				return;
 			}
 			this.connectionType = this.data.type;
+		},
+		_computeInputType: function(datalistController, rangeController, textController){
+			if(datalistController){
+				return 'datalist';
+			}
+			else if(rangeController){
+				return 'range';
+			}
+			else if(textController){
+				return 'text';
+			}
+			return 'text';
 		},
 		_computeDatalist: function(definition){
 			if(!definition || !definition.validation || definition.validation.type !== 'list' || !definition.validation.data.length) {
@@ -446,16 +569,23 @@
 
 			// Check if it is a number contained in range
 			if(this.range){
-				if(_mandatory && typeof value === 'undefined'){
+				if(_mandatory && (typeof value === 'undefined' || value === null || value === '')){
 					return {
 						type: 'Number'
 					};
 				}
+
 				var rangeMatch =  this._rangeMatch(value);
+				if(typeof rangeMatch !== 'undefined'){
+					return {
+						type: 'Number',
+						value: rangeMatch
+					};
+				}
 				return {
-					type: 'Number',
-					value: rangeMatch
+					type: 'Number'
 				};
+
 			}
 
 			// Check if it is a global datalist
@@ -506,7 +636,6 @@
 				return;
 			}
 			// Node found
-
 			var output = this.findOneObjectByKey(node.outputs, '_id', parts[1]);
 			if(!output) {
 				return;
@@ -602,6 +731,9 @@
 				}
 			}
 		},
+		_isEqual: function(a,b){
+			return a === b;
+		},
 		_setTypedValue: function(type, value){
 			if(typeof value !== 'undefined' && value !== null){
 				value = value.toString();
@@ -612,6 +744,10 @@
 			if(this.data.value !== value){
 				this.set('data.value', value);
 			}
+		},
+		_clearValue: function(){
+			this._setTypedValue('Number');
+			this._closeController();
 		}
 	});
 })();

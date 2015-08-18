@@ -4,6 +4,7 @@
 	"IDE ----------------------------------------------------------------" : "",
 	"ide/editor/visual": 	"Visual",
 	"ide/editor/text": 		"Text",
+	"ide/node/disconnect": "disconnect",
 
 	"IDE - Quirkbots Area -----------------------------------------------" : "",
 	"ide/quirkbots-area/open-button":	"My Quirkbots",

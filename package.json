@@ -25,6 +25,8 @@
     "gulp-crisper": "*",
     "gulp-html-minifier": "*",
     "gulp-minify-inline": "*",
+    "gulp-debug" : "*",
+    "polybuild" : "*",
     "jshint-stylish": "^2.0.0",
     "merge-stream": "^0.1.7",
     "opn": "^1.0.0",

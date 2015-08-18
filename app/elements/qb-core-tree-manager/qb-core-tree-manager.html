@@ -84,7 +84,9 @@
 				}
 
 				if(parts[0] === id){
-					input.element.set('data.value', null);
+					this.async(function () {
+						input.element._setTypedValue.bind(input.element)('Number');
+					});
 				}
 			}.bind(this);
 			this.model.tree.forEach(function(node){

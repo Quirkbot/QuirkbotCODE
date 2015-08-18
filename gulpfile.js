@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 // Include Gulp & Tools We'll Use
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var polybuild = require('polybuild');
 var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
@@ -126,9 +127,9 @@ gulp.task('fonts', function () {
 gulp.task('html', function () {
   var assets = $.useref.assets({searchPath: ['.tmp', 'app', 'dist']});
 
-  return gulp.src(['app/**/*.html', '!app/{elements,test}/**/*.html'])
+  return gulp.src(['app/**/*.html','app/**/*.css','app/**/*.js'])
     // Replace path for vulcanized assets
-    .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.html')))
+    .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.build.html')))
     .pipe(assets)
     // Concatenate And Minify JavaScript
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
@@ -149,11 +150,12 @@ gulp.task('vulcanize', function () {
   var DEST_DIR = 'dist/elements';
 
   return gulp.src('dist/elements/elements.vulcanized.html')
-    .pipe($.vulcanize({
+    .pipe(polybuild({maximumCrush: true}))
+    /*.pipe($.vulcanize({
       stripComments: true,
       inlineCss: true,
       inlineScripts: true
-    }))
+  }))*/
     .pipe(gulp.dest(DEST_DIR))
     .pipe($.size({title: 'vulcanize'}));
 });

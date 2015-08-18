@@ -90,7 +90,7 @@
 			var connection = this.containerInput.connection;
 
 			// "Remove" the output from the input
-			this.containerInput.set('data.value', null);
+			this.containerInput._setTypedValue.bind(this.containerInput)('Number');
 
 			// Hijact the "dragOutlet" from the output that is currenctly connected.
 			if(connection){
