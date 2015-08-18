@@ -2,9 +2,8 @@
 
 <style is="custom-style">
 :root {
-	font-family: var(--qb-font-familiy-text);
-
 	--qb-interactive-color: var(--qb-yellow);
+	--qb-interactive-color-transparent: var(--qb-yellow-transparent);
 	--qb-interactive-hover-color: var(--qb-yellow-light);
 
 	--qb-action-color: var(--qb-pink);
@@ -13,12 +12,28 @@
 	--qb-action-inactive-color-transparent: var(--qb-grey-transparent);
 
 	--qb-text-color: var(--qb-black);
+	--qb-text-color-transparent: var(--qb-black-transparent);
 	--qb-text-background-color: var(--qb-white);
+	--qb-text-background-color-transparent: var(--qb-white-transparent);
 
 	--qb-node-color: var(--qb-blue);
 	--qb-node-color-transparent: var(--qb-blue-transparent);
 
 	--iron-overlay-backdrop-background-color: var(--qb-blue);
 	--iron-overlay-backdrop-background-opacity: 0.5;
+
+	--paper-progress-container-color: var(--qb-interactive-color);
+	--paper-slider-active-color: var(--qb-action-color-transparent);
+	--paper-slider-knob-color: var(--qb-action-color-transparent);
+	--paper-slider-knob-start-color: var(--qb-action-color-transparent);
+	--paper-slider-knob-start-border-color: rgba(255,255,255,0);
+	--paper-slider-pin-color: var(--qb-interactive-color);
+	--paper-slider-font-color:var(--qb-black);
+}
+:root {
+	font-family: var(--qb-font-familiy-text);
+}
+body /deep/ paper-slider{
+	@apply(--qb-font-code);
 }
 </style>

@@ -1,103 +1,81 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <html lang="">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quirkbot</title>
-  <!-- Place favicon.ico in the `app/` directory -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Chrome for Android theme color -->
-  <meta name="theme-color" content="#000000">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- Web Application Manifest -->
-  <link rel="manifest" href="manifest.json">
+	<title>Quirkbot</title>
+	<meta name="apple-mobile-web-app-title" content="Quirkbot">
+	<meta name="application-name" content="Quirkbot">
 
-  <!-- Tile color for Win8 -->
-  <meta name="msapplication-TileColor" content="#000000">
+	<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+	<link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+	<link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+	<meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
 
-  <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="Quirkbot">
-  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+	<meta name="theme-color" content="#000000">
+	<meta name="msapplication-TileColor" content="#000000">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Quirkbot">
-  <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+	<link rel="manifest" href="manifest.json">
 
-  <!-- Tile icon for Win8 (144x144) -->
-  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+	<!-- build:css styles/main.css -->
+	<link rel="stylesheet" href="styles/main.css">
+	<!-- endbuild -->
 
-  <!-- build:css styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild-->
+	<!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
+	<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<!-- endbuild -->
 
-  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <!-- endbuild -->
-
-  <!-- will be replaced with elements/elements.vulcanized.html -->
-  <link rel="import" href="elements/elements.html">
-  <!-- endreplace-->
+	<!-- will be replaced with elements/elements.vulcanized.html -->
+	<link rel="import" href="elements/elements.html">
+	<!-- endreplace -->
 </head>
 
 <body unresolved class="fullbleed layout vertical">
 
+	<script type="text/javascript">
+	/*window.localStorage.setItem('qb_user', JSON.stringify({
+		_id: 'p'
+	}));*/
+	</script>
 
-  <script type="text/javascript">
-    window.localStorage.setItem('qb_user', JSON.stringify({
-      _id: 'p'
-    }));
-  </script>
+	<template is="dom-bind">
 
-  <template is="dom-bind">
+		<qb-core-router
+			program-id="{{programId}}">
+		</qb-core-router>
 
-    <qb-core-router
-      program-id="{{programId}}">
-    </qb-core-router>
+		<qb-app-program
+			program-id="{{programId}}"
+			locale="en_US"
+			programs-api-url="http://localhost:8585/api/programs"
+			compiler-url="https://quirkbot-compiler.herokuapp.com/"
+			nodes-url="data/nodes.json"
+			strings-url="data/strings/{{locale}}.json"
+			chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd">
+		</qb-app-program>
 
-    <qb-app-program
-      program-id="{{programId}}"
-      locale="en_US"
-      programs-api-url="http://localhost:8585/api/programs"
-      compiler-url="https://quirkbot-compiler.herokuapp.com/"
-      nodes-url="data/nodes.json"
-      strings-url="data/strings/{{locale}}.json"
-      chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd">
-    </qb-app-program>
+		<!-- Uncomment next block to enable Service Worker support (1/2) -->
+		<!--
+		<platinum-sw-register
+			auto-register
+			clients-claim
+			skip-waiting
+			on-service-worker-installed="displayInstalledToast">
+			<platinum-sw-cache
+				default-cache-strategy="networkFirst"
+				precache-file="precache.json">
+			</platinum-sw-cache>
+		</platinum-sw-register>
+		-->
 
-    <!-- Uncomment next block to enable Service Worker support (1/2) -->
-    <!--
-    <paper-toast id="caching-complete"
-                 duration="6000"
-                 text="Caching complete! This app will work offline.">
-    </paper-toast>
-    <platinum-sw-register auto-register
-                          clients-claim
-                          skip-waiting
-                          on-service-worker-installed="displayInstalledToast">
-      <platinum-sw-cache default-cache-strategy="networkFirst"
-                         precache-file="precache.json">
-      </platinum-sw-cache>
-    </platinum-sw-register>
-    -->
-
-  </template>
+	</template>
 
 </body>
 

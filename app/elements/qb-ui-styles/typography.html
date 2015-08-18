@@ -1,11 +1,11 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="fonts/inconsolata.html">
-<link rel="import" href="fonts/montserrat.html">
+<link rel="import" href="fonts/raleway.html">
 
 <style is="custom-style">
 :root {
 	--qb-font-familiy-code: 'Inconsolata', monospace;
-	--qb-font-familiy-text: 'Montserrat';
+	--qb-font-familiy-text: 'Raleway', sans-serif;
 
 	--qb-font-text: {
 		font-family: var(--qb-font-familiy-text);
@@ -14,6 +14,26 @@
 	--qb-font-code: {
 		font-family: var(--qb-font-familiy-code);
 		-webkit-font-smoothing: antialiased;
+	};
+
+	--paper-font-common-base: {
+		font-family: var(--qb-font-familiy-text);
+		-webkit-font-smoothing: antialiased;
+	};
+
+	--paper-font-common-code: {
+		font-family: var(--qb-font-familiy-code);
+		-webkit-font-smoothing: antialiased;
+	};
+
+	--paper-font-subhead: {
+		font-family: var(--qb-font-familiy-text);
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+
+		/*font-size: 16px;
+		font-weight: 400;
+		line-height: 24px;*/
 	};
 }
 </style>

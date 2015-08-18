@@ -1,0 +1,94 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+
+
+<link rel="import" href="../qb-behavior-form/qb-behavior-form.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-form-input/qb-ui-form-input.html">
+<link rel="import" href="../qb-ui-form-dropdown/qb-ui-form-dropdown.html">
+<link rel="import" href="../qb-ui-form-radiogroup/qb-ui-form-radiogroup.html">
+<link rel="import" href="../qb-ui-form-date/qb-ui-form-date.html">
+
+
+
+<dom-module id='qb-ui-login-form'>
+	<style>
+		:host{
+			display: block;
+
+		}
+		form{
+			position: relative;
+		}
+		.loading-indicator{
+			background-color: rgba(255,255,255, 0.7);
+		}
+
+	</style>
+	<template>
+
+		<form
+			is="iron-form"
+			id="form"
+			method="post"
+			action="[[action]]"
+			disable-Native-Validation-Ui
+			on-iron-form-submit='_onSubmit'
+			on-iron-form-response='_onResponse'
+			on-iron-form-error='_onError'>
+
+			<qb-ui-form-input
+				id="email"
+				name="email"
+				strings-base="register/login/email"
+				required
+				type="email">
+			</qb-ui-form-input>
+
+			<qb-ui-form-input
+				id="password"
+				name="password"
+				strings-base="register/login/password"
+				required
+				type="password"
+				minlength="6">
+			</qb-ui-form-input>
+
+			<paper-button
+				on-tap='_onSubmitTap'
+				disabled$="{{registerLoading}}">
+				<qb-core-i18n
+					key="register/login/submit"></qb-core-i18n>
+			</paper-button>
+
+			<template
+				is="dom-if"
+				if="{{registerLoading}}">
+				<div
+					class="loading-indicator fit horizontal layout center center-justified"
+					>
+					<paper-spinner
+						active>
+					</paper-spinner>
+				</div>
+			</template>
+
+		</form>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UILoginForm = Polymer({
+		is: 'qb-ui-login-form',
+		behaviors:[
+			window.Quirkbot.FormBehavior
+		]
+	});
+})();
+</script>

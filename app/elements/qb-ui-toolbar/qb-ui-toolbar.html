@@ -1,10 +1,12 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
 
@@ -12,10 +14,25 @@
 
 <dom-module id='qb-ui-toolbar'>
 	<style>
+		:host{
+
+		}
+		paper-toolbar{
+			background-color: var(--qb-grey-transparent);
+		}
+		.logo{
+			--iron-icon-width: 300px;
+			--iron-icon-height: 100px;
+		}
 
 	</style>
 	<template>
 		<paper-toolbar>
+			<iron-image
+				class="logo"
+				src="[[resolveUrl('../../images/logo/white-outline.svg')]]">
+			</iron-image>
+
 			<paper-radio-group selected="{{editorMode}}">
 				<paper-radio-button name="visual">
 					<qb-core-i18n key="ide/editor/visual"></qb-core-i18n>
@@ -54,6 +71,9 @@
 				notify: true
 			}
 		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
 		_onQuirkbotsAreaButtonTap: function(){
 			this.fire('quirkbots-area-button-tap');
 		},

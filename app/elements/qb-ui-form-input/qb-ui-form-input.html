@@ -1,0 +1,88 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../qb-behavior-form-field/qb-behavior-form-field.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id='qb-ui-form-input'>
+	<style>
+		:host{
+			display: block;
+		}
+
+	</style>
+	<template>
+		<qb-core-i18n
+			key="[[_labelKey]]"
+			value="{{label}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_placeholderlKey]]"
+			value="{{placeholder}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_tipKey]]"
+			value="{{tip}}"
+			no-key-on-empty-value
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_ErrorKey]]"
+			value="{{error}}"
+			hidden></qb-core-i18n>
+		<paper-input
+			name="[[name]]"
+			error-message="[[error]]"
+			label$="[[label]]"
+			no-label-float$="[[noFloatLabel]]"
+			always-float-label$="[[alwaysFloatLabel]]"
+			char-counter$="[[charCounter]]"
+			disabled$="[[disabled]]"
+			value="{{value}}"
+			invalid="{{invalid}}"
+			prevent-invalid-input="[[preventInvalidInput]]"
+			allowed-pattern="[[allowedPattern]]"
+			validator="[[validator]]"
+			type$="[[type]]"
+			pattern$="[[pattern]]"
+			required$="[[required]]"
+			autocomplete$="[[autocomplete]]"
+			autofocus$="[[autofocus]]"
+			auto-validate$="[[auto-validate]]"
+			inputmode$="[[inputmode]]"
+			minlength$="[[minlength]]"
+			maxlength$="[[maxlength]]"
+			min$="[[min]]"
+			max$="[[max]]"
+			step$="[[step]]"
+			name$="[[name]]"
+			placeholder$="[[placeholder]]"
+			readonly$="[[readonly]]"
+			list$="[[list]]"
+			size$="[[size]]"
+			autocapitalize$="[[autocapitalize]]"
+			autocorrect$="[[autocorrect]]">
+		</paper-input>
+		<template
+			is="dom-if"
+			if="[[tip]]">
+			<paper-tooltip>[[tip]]</paper-tooltip>
+		</template>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIFormInput = Polymer({
+		is: 'qb-ui-form-input',
+		behaviors: [
+			window.Quirkbot.FormFieldBehavior
+		]
+
+	});
+})();
+</script>
