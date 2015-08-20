@@ -11,15 +11,50 @@
 		:host{
 			display: block;
 		}
+		paper-item{
+			display: block;
+			background-color: var(--qb-node-color-transparent);
+			border-radius: 20px;
+			padding: 6px 7px 7px 7px;
+			height: 20px;
+			min-height: auto;
+			cursor: move;
+			margin-top: 3px;
+			@apply(--qb-ui-nodes-menu-item);
+		}
+		.type-container{
+			text-align: left;
+			@apply(--qb-ui-nodes-menu-item-type-container);
+		}
+		.type{
+			background-color: var(--qb-text-background-color);
+			border-radius: 30px;
+			display: inline-block;
+			font-size: 12px;
+			line-height: 20px;
+			padding: 0em 1em;
+			margin-bottom: 5px;
+			--iron-icon-height: 12px;
+			--iron-icon-width: 12px;
+			@apply(--qb-ui-nodes-menu-item-type);
+		}
 	</style>
 	<template>
 		<paper-item role="menuitem">
-			<iron-icon icon="{{icon}}"></iron-icon>
-			<paper-item-body>
-				<qb-core-i18n
-					key="{{nameKey}}"
-					value="{{name}}"></qb-core-i18n>
-			</paper-item-body>
+
+			<div class="type-container">
+				<div
+					class="type">
+					<iron-icon
+						icon="[[icon]]"
+						hidden$="[[!icon]]">
+					</iron-icon>
+					<qb-core-i18n
+						key="[[nameKey]]"
+						value="{{name}}"></qb-core-i18n>
+				</div>
+			</div>
+
 		</paper-item>
 	</template>
 </dom-module>

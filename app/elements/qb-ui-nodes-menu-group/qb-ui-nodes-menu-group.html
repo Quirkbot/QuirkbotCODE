@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
@@ -12,6 +11,23 @@
 	<style>
 		:host{
 			display: block;
+			margin-top: 3px;
+			@apply(--qb-ui-nodes-menu-group);
+		}
+		paper-toolbar{
+			border-radius: 999px;
+			height: 30px;
+			--paper-toolbar-background: var(--qb-action-color-transparent);
+			@apply(--qb-ui-nodes-menu-group-toolbar);
+		}
+		:host paper-toolbar.toolbar .title{
+			/**
+			* the redundant paper-toolbar.toolbar is just so the selector is
+			* deep enought to take priority over polymer selector
+			**/
+			@apply(--qb-font-text);
+			font-size: 14px ;
+			margin: 0;
 		}
 		.nodes-container{
 			position: relative;
@@ -24,10 +40,18 @@
 			left: 0;
 			z-index: 1;
 		}
+		.nodes-container qb-ui-nodes-menu-item[drag]{
+			opacity:0;
+		}
+		.nodes-container qb-ui-nodes-menu-item[drag][drag-status="dragmove"]{
+			opacity:1;
+			width: 150px;
+		}
 
 	</style>
 	<template>
 		<paper-toolbar
+		 	class="toolbar"
 			on-tap="toggleItems">
 			<div class="title">
 				<qb-core-i18n
@@ -102,7 +126,7 @@
 			this.set('data.name', name);
 		},
 		_computeCollapseIcon: function(opened){
-			return (opened) ? 'icons:unfold-less' : 'icons:unfold-more';
+			return (opened) ? 'qb-buttons:collapse' : 'qb-buttons:expand';
 		},
 		_onNodeDragStart: function(e){
 			var node = e.model.item.element;

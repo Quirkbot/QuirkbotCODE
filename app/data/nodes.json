@@ -5,7 +5,7 @@
 			"_id": "wave",
 			"taxonomy":{
 				"categories": ["signal"],
-				"tags": ["beginner", "simple"]
+				"tags": []
 			},
 			"type": "Wave",
 			"inputs" : [
@@ -233,6 +233,24 @@
 					"_id": "items",
 					"default": 0.5,
 					"multiple": true
+				},
+				{
+					"_id": "duration",
+					"default": "SERVO_BP_1",
+					"multiple": true,
+					"validation" : {
+						"type" : "list",
+						"data": [
+							{
+								"_id" : "servo-bp-1",
+								"value" : "SERVO_BP_1"
+							},
+							{
+								"_id" : "servo-bp-2",
+								"value" : "SERVO_BP_2"
+							}
+						]
+					}
 				}
 			],
 			"outputs" : [
@@ -254,17 +272,7 @@
 				"_id": "light"
 			}
 		],
-		"tags": [
-			{
-				"_id": "beginner"
-			},
-			{
-				"_id": "advanced"
-			},
-			{
-				"_id": "simple"
-			}
-		]
+		"tags": []
 	},
 	"constants" : [
 		"A0","A1","A2","A3","A4","A6","A7","A8","A9","A10", "A11",

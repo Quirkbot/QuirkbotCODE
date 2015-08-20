@@ -12,6 +12,13 @@
 			display: block;
 			overflow-y: scroll;
 			overflow-x: hidden;
+			 @apply(--layout-vertical);
+		}
+		.footer{
+			@apply(--layout-flex);
+			margin: 3px 0;
+			border-radius: 10px;
+			background-color: var(--qb-grey-transparent);
 		}
 	</style>
 	<template>
@@ -28,6 +35,8 @@
 				tags="{{selectedTags}}">
 			</qb-ui-nodes-menu-group>
 		</template>
+		<div class="footer">
+		</div>
 	</template>
 </dom-module>
 <script>

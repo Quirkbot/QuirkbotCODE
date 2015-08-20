@@ -63,7 +63,7 @@
 		.value-container{
 			border-radius: 999px;
 			background-color:  var(--qb-text-background-color);
-			padding: 0 1em 0 1.5em;
+			padding: 0 1em 0 2em;
 			display: inline-block;
 			@apply(--qb-font-code);
 			@apply(--qb-ui-node-input-label-theme);
@@ -75,10 +75,10 @@
 			overflow: hidden;
 			max-width: 100px;
 		}
-		.handle:hover .value-container{
+		.handle:hover .value-container,
+		:host([controller-openend]) .value-container{
 			background-color:  var(--qb-interactive-color);
 		}
-
 
 		:host([connection-type="Output"]) .value-container{
 			color: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color);
@@ -93,51 +93,27 @@
 		.controller{
 			z-index: 1;
 			position: absolute;
+			top: 5px;
 			left: 6px;
 			width: 180px;
-			background-color: var(--qb-text-background-color);
+			background-color: var(--qb-text-background-color-hard-transparent);
 			border-radius: 10px;
 			padding: 10px;
-			box-shadow: 0 0 0 7px var(--qb-interactive-color-transparent);
+			box-shadow: 0 0 0 7px var(--qb-interactive-color-hard-transparent);
 			animation: pop-in 0.1s ease-out;
 			-webkit-animation: pop-in 0.1s ease-out;
-
 			@apply(--qb-ui-node-input-controller);
-		}
-		.controller{
 			display: none;
 			@apply(--qb-ui-node-input-controller-inactive);
 		}
-		:host([input-type="range"]) .controller{
-			bottom: -3px;
-			width: 180px;
-			padding: 0;
-			@apply(--qb-ui-node-input-controller-range);
-		}
-		:host(.collection-item[input-type="range"]) .controller{
-			bottom: -8px;
+		:host(.collection-item) .controller{
+			top: -11px;
 		}
 
-		:host([input-type="text"]) .controller{
-			bottom: -6px;
-			width: 100px;
-			@apply(--qb-ui-node-input-controller-text);
-		}
-		:host(.collection-item[input-type="text"]) .controller{
-			bottom: -11px;
-		}
-		:host([input-type="datalist"]) .controller{
-			top: 17px;
-			@apply(--qb-ui-node-input-controller-datalist);
-		}
-		:host(.collection-item[input-type="datalist"]) .controller{
-
-		}
-
-		#deleteButton{
+		.controller #deleteButton{
 			position: absolute;
-			right: -15px;
-			top: -15px;
+			right: -20px;
+			top: -20px;
 			border-radius: 100px;
 			color: white;
 			background-color: var(--qb-action-inactive-color-transparent);
@@ -151,39 +127,14 @@
 			--iron-icon-width: 22px;
 			transform: scale(0.8);
 		}
-		#deleteButton:hover{
+		.controller #deleteButton:hover{
 			background-color: var(--qb-action-color-transparent);
 			@apply(--qb-ui-node-delete-button-hover-theme);
 		}
-		@-webkit-keyframes pop-in{
-			0% {
-				opacity: 0;
-				-webkit-transform: translate(-10px,0);
-			}
-			100% {
-				opacity: 1;
-				-webkit-transform: translate(0,0);
-			}
-		}
-		@keyframes pop-in {
-			0% {
-				opacity: 0;
-				-webkit-transform: translate(-10px,0);
-			}
-			100% {
-				opacity: 1;
-				-webkit-transform: translate(0,0);
-			}
-		}
 
-		.slider{
-			width: 100%;
-			@apply(--qb-ui-node-input-controller-slider);
-		}
-		.text-input{
-
+		.controller .text-input{
 			display: block;
-
+			margin-left: -10px;
 			--qb-ui-input-text-input: {
 				text-align: left;
 				font-size: 12px;
@@ -191,12 +142,60 @@
 			};
 		}
 
-		.menu paper-item{
-			--paper-item-min-height: 30px;
+		:host([input-type="range"]) .controller{
+			width: 235px;
+			@apply(--qb-ui-node-input-controller-range);
+		}
+		:host([input-type="range"]) .controller .slider{
+			width: 210px;
+			position: absolute;
+			top: 5px;
+			right: 0;
+			@apply(--qb-ui-node-input-controller-slider);
+		}
+		:host([input-type="range"]) .controller .text-input{
+			width: 40px;
 		}
 
+		:host([input-type="text"]) .controller{
+			width: 100px;
+			@apply(--qb-ui-node-input-controller-text);
+		}
 
-
+		:host([input-type="datalist"]) .controller{
+			width: 155px;
+			@apply(--qb-ui-node-input-controller-datalist);
+		}
+		:host([input-type="datalist"]) .controller .text-input{
+			width: 100px;
+		}
+		:host([input-type="datalist"]) .controller .menu paper-item {
+			cursor: pointer;
+			--paper-item-min-height: 22px;
+			margin: 0;
+			font-size: 13px;
+			border-radius: 999px;
+			background-color: transparent;
+		}
+		:host([input-type="datalist"]) .controller .menu {
+			background-color: var(--qb-interactive-hover-color-transparent);
+			max-height: 143px;
+			overflow-y: scroll;
+			margin-top: 10px;
+			padding: 2px;
+			--paper-menu-focused-item-after:{
+				background-color: transparent;
+			};
+			--paper-menu-selected-item:{
+				background-color: var(--qb-interactive-color-hard-transparent);
+			};
+		}
+		:host([input-type="datalist"]) .controller  .menu paper-item:hover:not(.iron-selected){
+			background-color: var(--qb-interactive-hover-color-hard-transparent);
+		}
+		:host([input-type="datalist"]) .controller  .menu paper-item.iron-selected {
+			background-color: var(--qb-interactive-color-hard-transparent);
+		}
 
 
 	</style>
@@ -241,84 +240,55 @@
 				on-tap="_closeController">
 			</paper-icon-button>
 
+			<qb-ui-input-text
+				class="text-input"
+				value="{{data.value}}">
+			</qb-ui-input-text>
 
 			<template
 				is="dom-if"
-				if="[[_isEqual(connectionType, 'Output')]]">
+				if="{{datalistController}}"
+				restamp>
 
-				<paper-button
-					on-tap="_clearValue">
-					<iron-icon
-						icon="[[resolveIconName('disconnect-node', 'qb-buttons')]]"
-						hidden$="[[!resolveIconName('disconnect-node', 'qb-buttons')]]">
-					</iron-icon>
-					<qb-core-i18n
-						key="ide/node/disconnect"></qb-core-i18n>
-				</paper-button>
+				<paper-menu
+					id="menu"
+					class="menu"
+					selected="{{data.value}}"
+					attr-for-selected="name">
 
+					<template
+						is="dom-repeat"
+						items="{{datalist}}">
 
+						<paper-item
+							name="{{item.value}}">
+							<iron-icon
+								icon="[[resolveIconName(item._id, 'qb-datalists')]]"
+								hidden$="[[!resolveIconName(item._id, 'qb-datalists')]]">
+							</iron-icon>
+							<qb-core-i18n
+								key="{{item.translationKey}}"></qb-core-i18n>
+						</paper-item>
+					</template>
+				</paper-menu>
 			</template>
 
 			<template
 				is="dom-if"
-				if="[[!_isEqual(connectionType, 'Output')]]">
+				if="{{rangeController}}"
+				restamp>
 
-				<template
-					is="dom-if"
-					if="{{textController}}"
-					restamp>
-					<qb-ui-input-text
-						class="text-input"
-						value="{{data.value}}">
-					</qb-ui-input-text>
-
-				</template>
-
-				<template
-					is="dom-if"
-					if="{{datalistController}}"
-					restamp>
-
-					<paper-menu
-						id="menu"
-						class="menu"
-						selected="{{data.value}}"
-						attr-for-selected="name">
-
-						<template
-							is="dom-repeat"
-							items="{{datalist}}">
-
-							<paper-item
-								name="{{item.value}}">
-								<iron-icon
-									icon="[[resolveIconName(item._id, 'qb-datalists')]]"
-									hidden$="[[!resolveIconName(item._id, 'qb-datalists')]]">
-								</iron-icon>
-								<qb-core-i18n
-									key="{{item.translationKey}}"></qb-core-i18n>
-							</paper-item>
-						</template>
-					</paper-menu>
-				</template>
-
-				<template
-					is="dom-if"
-					if="{{rangeController}}"
-					restamp>
-
-					<paper-slider
-						id="slider"
-						class="slider"
-						on-value-change="_sliderValueChanged"
-						min="{{range.min}}"
-						max="{{range.max}}"
-						step="0.01"
-						pin>
-					</paper-slider>
-				</template>
-
+				<paper-slider
+					id="slider"
+					class="slider"
+					on-value-change="_sliderValueChanged"
+					min="{{range.min}}"
+					max="{{range.max}}"
+					step="0.01"
+					pin>
+				</paper-slider>
 			</template>
+
 		</div>
 
 		<qb-core-connection-line

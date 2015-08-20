@@ -153,8 +153,9 @@
 					var inlet;
 					if(typeof inputData.children === 'undefined'){
 						input = node.inputs[j].data.element;
+
 						inlet = input.inlet;
-						if(!this.hitTest(inlet, centerX, centerY)){
+						if(!this.hitTest(input, centerX, centerY) && !this.hitTest(inlet, centerX, centerY)){
 							continue;
 						}
 						// Matches input
@@ -166,7 +167,7 @@
 						for (var k = 0; k < inputData.children.length; k++) {
 							input = inputData.children[k].element;
 							inlet = input.inlet;
-							if(!this.hitTest(inlet, centerX, centerY)){
+							if(!this.hitTest(input, centerX, centerY) && !this.hitTest(inlet, centerX, centerY)){
 								continue;
 							}
 							// Matches input (in collection)
