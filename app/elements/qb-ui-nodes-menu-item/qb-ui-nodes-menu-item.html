@@ -11,15 +11,15 @@
 		:host{
 			display: block;
 		}
-		paper-item{
+		:host paper-item{
+			min-height: 0; /* auto doesnt work*/
 			display: block;
-			background-color: var(--qb-node-color-transparent);
 			border-radius: 20px;
 			padding: 6px 7px 7px 7px;
 			height: 20px;
-			min-height: auto;
 			cursor: move;
 			margin-top: 3px;
+			background-color: var(--qb-node-color-transparent);
 			@apply(--qb-ui-nodes-menu-item);
 		}
 		.type-container{

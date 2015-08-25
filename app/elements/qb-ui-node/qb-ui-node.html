@@ -368,6 +368,7 @@
 			return this.resolveIconName(definition._id, 'qb-nodes');
 		},
 		_onDeletePress: function(){
+			console.log(this.treeManager, this.data)
 			this.treeManager.remove(this.data._id);
 
 		},

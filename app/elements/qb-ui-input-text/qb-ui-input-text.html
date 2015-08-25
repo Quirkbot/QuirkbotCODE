@@ -47,6 +47,7 @@
 	<template>
 		<paper-input
 			class="variable"
+			id="input"
 			value="{{value}}"
 			no-label-float
 			size="[[calculateInputLength(value)]]">
@@ -73,7 +74,10 @@
 				return 1;
 			}
 			return string.length || 1;
- 		}
+ 		},
+		focus: function(){
+			this.$.input.$.input.focus();
+		}
 	});
 })();
 </script>

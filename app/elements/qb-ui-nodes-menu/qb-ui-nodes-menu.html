@@ -12,29 +12,32 @@
 			display: block;
 			overflow-y: scroll;
 			overflow-x: hidden;
+			padding-left: 5px;
 			 @apply(--layout-vertical);
 		}
 		.footer{
 			@apply(--layout-flex);
 			margin: 3px 0;
 			border-radius: 10px;
-			background-color: var(--qb-grey-transparent);
+			background-color: var(--qb-grey-light-transparent);
 		}
 	</style>
 	<template>
-		<template
-			is="dom-repeat"
-			items="{{categories}}"
-			sort="sortByName"
-			observe="name">
-			<qb-ui-nodes-menu-group
-				tree-manager="{{treeManager}}"
-				drop-area="{{dropArea}}"
-				visual-editor="{{visualEditor}}"
-				data="{{item}}"
-				tags="{{selectedTags}}">
-			</qb-ui-nodes-menu-group>
-		</template>
+		<div>
+			<template
+				is="dom-repeat"
+				items="{{categories}}"
+				sort="sortByName"
+				observe="name">
+				<qb-ui-nodes-menu-group
+					tree-manager="{{treeManager}}"
+					drop-area="{{dropArea}}"
+					visual-editor="{{visualEditor}}"
+					data="{{item}}"
+					tags="{{selectedTags}}">
+				</qb-ui-nodes-menu-group>
+			</template>
+		</div>
 		<div class="footer">
 		</div>
 	</template>

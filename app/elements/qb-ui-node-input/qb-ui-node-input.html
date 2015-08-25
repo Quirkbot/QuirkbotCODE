@@ -242,6 +242,7 @@
 
 			<qb-ui-input-text
 				class="text-input"
+				id="controllerTextInput"
 				value="{{data.value}}">
 			</qb-ui-input-text>
 
@@ -390,6 +391,7 @@
 		},
 		_openController: function(){
 			this.controllerOpenend = true;
+			this.$.controllerTextInput.focus();
 		},
 		_closeController: function(){
 			this.controllerOpenend = false;
