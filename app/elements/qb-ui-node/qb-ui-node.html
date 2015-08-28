@@ -26,11 +26,23 @@
 			padding: 13px;
 			min-width: 150px;
 			cursor: move;
+			cursor: grab;
+			cursor: -moz-grab;
+			cursor: -webkit-grab;
 			@apply(--qb-ui-node);
 		}
-
-
-
+		:host{
+			cursor: move;
+			cursor: grab;
+			cursor: -moz-grab;
+			cursor: -webkit-grab;
+		}
+		:host(:active){
+			cursor: move;
+			cursor: grabbing;
+			cursor: -moz-grabbing;
+			cursor: -webkit-grabbing;
+		}
 		.type-container{
 			text-align: center;
 			@apply(--qb-ui-node-type-container);
@@ -99,6 +111,7 @@
 		}
 
 		#deleteButton{
+			z-index: 1;
 			display: none;
 			position: absolute;
 			right: -15px;
@@ -136,6 +149,11 @@
 			id="uuid">
 		</qb-core-uuid>
 
+		<div
+			class="fit"
+			on-tap="_onBgTap">
+		</div>
+
 		<paper-icon-button
 			id="deleteButton"
 			icon="[[resolveIconName('delete-node', 'qb-buttons')]]"
@@ -161,7 +179,16 @@
 		</qb-ui-input-text>
 
 		<div class="connectors">
+			<div
+				class="fit"
+				on-tap="_onBgTap">
+			</div>
+
 			<div class="inputs">
+				<div
+					class="fit"
+					on-tap="_onBgTap">
+				</div>
 				<div class="inner">
 					<template
 						is="dom-repeat"
@@ -205,6 +232,10 @@
 			</div>
 
 			<div class="outputs">
+				<div
+					class="fit"
+					on-tap="_onBgTap">
+				</div>
 				<div class="inner">
 					<template
 						is="dom-repeat"
@@ -368,9 +399,14 @@
 			return this.resolveIconName(definition._id, 'qb-nodes');
 		},
 		_onDeletePress: function(){
-			console.log(this.treeManager, this.data)
 			this.treeManager.remove(this.data._id);
-
+		},
+		/**
+		 * If you tap the background, send a controller-open signal, so all input
+		 * controllers are closed.
+		 */
+		_onBgTap: function(){
+			this.fire('iron-signal', {name: 'controller-open', data: this});
 		},
 		/**
 		 * When a collection changes size, the node will resize. To make sure
@@ -388,57 +424,32 @@
 		 * @return {boolean} - 'true' if tracking should be disabled
 		 */
 		trackEventFilter: function(e){
-			if(e.target.id === 'sliderKnob') {
-				return true;
+			var ids = [
+				'sliderKnob',
+				'sliderKnobInner',
+				'sliderBar',
+				'inlet',
+				'inlet-icon',
+				'outlet-icon',
+				'input',
+				'templateContainer'
+			];
+			for (var i = 0; i < ids.length; i++) {
+				if(e.target.id === ids[i]) {
+					return true;
+				}
 			}
-			if(e.target.id === 'sliderKnobInner') {
-				return true;
-			}
-			if(e.target.id === 'sliderBar') {
-				return true;
-			}
-			if(e.target.id === 'dragOutlet') {
-				return true;
-			}
-			if(e.target.id === 'inlet') {
-				return true;
-			}
-			if(e.target.id === 'inlet-icon') {
-				return true;
-			}
-			if(e.target.id === 'outlet-icon') {
-				return true;
-			}
-
 			// This is for shadow dom only, since e.target will be the host
 			// element, regardless of how deep in was the targe.
 			// We have to check if e.path is falsey since it seems to be a
 			// chrome only thing.
-			if(e.path){
-				if(e.path.length && e.path[0].id === 'sliderKnob') {
-					return true;
-				}
-				if(e.path.length && e.path[0].id === 'sliderKnobInner') {
-					return true;
-				}
-				if(e.path.length && e.path[0].id === 'sliderBar') {
-					return true;
-				}
-				if(e.path.length && e.path[0].id === 'dragOutlet') {
-					return true;
-				}
-				if(e.path.length && e.path[0].id === 'inlet') {
-					return true;
-				}
-				if(e.path.length && e.path[0].id === 'inlet-icon') {
-					return true;
-				}
-				if(e.path.length && e.path[0].id === 'outlet-icon') {
-					return true;
+			if(e.path && e.path.length){
+				for (var j = 0; j < ids.length; j++) {
+					if(e.path[0].id === ids[j]) {
+						return true;
+					}
 				}
 			}
-
-
 			return false;
 		},
 		/**

@@ -20,12 +20,19 @@
 
 		<qb-ui-svg-canvas
 			class="fit"
-			self="{{canvas}}">
+			self="{{canvas}}"
+			>
 		</qb-ui-svg-canvas>
 
 		<div
 			class="fit"
 			id="container">
+
+			<div
+				class="fit"
+				on-tap="_onBgTap">
+			</div>
+
 			<template
 				id="nodesTemplate"
 				is="dom-repeat"
@@ -75,6 +82,13 @@
 				this.canvas.offsetY = this.$.container.scrollTop;
 				this.canvas.offsetX = this.$.container.scrollLeft;
 			}.bind(this));
+		},
+		/**
+		 * If you tap the background, send a controller-open signal, so all input
+		 * controllers are closed.
+		 */
+		_onBgTap: function(){
+			this.fire('iron-signal', {name: 'controller-open', data: this});
 		},
 		/**
 		 * For some reason the dom-repeat template is failing to re-render when

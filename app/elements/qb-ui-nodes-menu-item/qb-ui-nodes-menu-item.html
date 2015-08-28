@@ -15,16 +15,30 @@
 			min-height: 0; /* auto doesnt work*/
 			display: block;
 			border-radius: 20px;
-			padding: 6px 7px 7px 7px;
+			padding: 1px 7px 7px 5px;
 			height: 20px;
-			cursor: move;
 			margin-top: 3px;
 			background-color: var(--qb-node-color-transparent);
 			@apply(--qb-ui-nodes-menu-item);
 		}
+		:host paper-item{
+			cursor: move;
+			cursor: grab;
+			cursor: -moz-grab;
+			cursor: -webkit-grab;
+		}
+		:host paper-item:active{
+			cursor: move;
+			cursor: grabbing;
+			cursor: -moz-grabbing;
+			cursor: -webkit-grabbing;
+		}
 		.type-container{
 			text-align: left;
 			@apply(--qb-ui-nodes-menu-item-type-container);
+		}
+		:host([drag-status="dragmove"]) .type-container{
+			text-align: center;
 		}
 		.type{
 			background-color: var(--qb-text-background-color);

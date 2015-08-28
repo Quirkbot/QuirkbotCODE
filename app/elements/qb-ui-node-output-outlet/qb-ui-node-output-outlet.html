@@ -12,8 +12,20 @@
 		height: var(--size);
 		--iron-icon-width: calc(var(--size) + 20%);
 		--iron-icon-height: calc(var(--size) + 20%);
-		cursor: pointer;
 		@apply(--qb-ui-node-output-outlet);
+	}
+	:host{
+		cursor: move;
+		cursor: grab;
+		cursor: -moz-grab;
+		cursor: -webkit-grab;
+	}
+	:host(:active),
+	:host([drag-status="dragmove"]){
+		cursor: move;
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
 	}
 
 	div{
