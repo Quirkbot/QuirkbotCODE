@@ -49,18 +49,17 @@
 			<div
 				id="dropArea"
 				main>
-				<template is="dom-if" if="{{visualMode}}">
-					<qb-ui-editor-visual
-						class="editor"
-						self="{{visualEditor}}"
-						model="{{model}}"
-						model-controller="{{modelController}}"
-						tree-manager="{{treeManager}}"
-						node-definitions="{{nodeDefinitions}}"
-						tree-manager="{{treeManager}}"
-						constant-definitions="{{constantDefinitions}}">
-					</qb-ui-editor-visual>
-				</template>
+				<qb-ui-editor-visual
+					hidden$="[[!visualMode]]"
+					class="editor"
+					self="{{visualEditor}}"
+					model="{{model}}"
+					model-controller="{{modelController}}"
+					tree-manager="{{treeManager}}"
+					node-definitions="{{nodeDefinitions}}"
+					tree-manager="{{treeManager}}"
+					constant-definitions="{{constantDefinitions}}">
+				</qb-ui-editor-visual>
 				<template is="dom-if" if="{{textMode}}">
 					<qb-ui-editor-text
 						class="editor"

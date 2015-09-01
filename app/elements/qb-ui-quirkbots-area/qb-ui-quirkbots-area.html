@@ -427,10 +427,13 @@
 		},
 		open: function(){
 			this.extensionInstallationErrorCode = '';
-			this.$.dialog.open();
+
 			setTimeout(function(){
-				this.$.dialog.notifyResize();
-			}.bind(this), 0);
+				this.$.dialog.open();
+				setTimeout(function(){
+					this.$.dialog.notifyResize();
+				}.bind(this), 10);
+			}.bind(this), 10);
 		},
 		_onInstallExtensionTap: function(){
 			this.$.extension.install()

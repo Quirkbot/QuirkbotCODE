@@ -407,7 +407,7 @@
 				this.externalSlideChange = true;
 				slider.value = parseFloat(value);
 			}
-
+			this.externalSlideChange = false;
 			// Validate
 			clearTimeout(this.validateDebouncer);
 
@@ -424,11 +424,14 @@
 			}
 		},
 		_sliderValueChanged: function(){
-			var externernal = this.externalSlideChange;
+			var external = this.externalSlideChange;
+			
 			var slider = this.$.templateContainer.querySelector('#slider');
 
-			if(slider && !isNaN(slider.value) && !externernal){
+			if(slider && !isNaN(slider.value) && !external){
+
 				this._setTypedValue('Number', slider.value);
+
 			}
 
 		},

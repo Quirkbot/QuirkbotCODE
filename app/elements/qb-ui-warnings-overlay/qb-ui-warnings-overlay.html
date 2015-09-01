@@ -120,8 +120,14 @@
 			hasButtons: Boolean
 		},
 		observers:[
+			'_modelChanged(model.syncError)',
+			'_modelChanged(model.setupError)',
+			'_modelChanged(model.addToProfileError)',
 			'_computeDialog(model.syncError, model.setupError, model.addToProfileError)'
 		],
+		_modelChanged: function(){
+			this._computeDialog(this.model.syncError, this.model.setupError, this.model.addToProfileError);
+		},
 		_computeDialog: function (sync, setup, addToProfile) {
 			this.debounce('_computeHasError', function () {
 
@@ -144,6 +150,9 @@
 
 				if(this.currentError && !this.$.dialog.opened){
 					this.$.dialog.open();
+					setTimeout(function(){
+						this.$.dialog.notifyResize();
+					}.bind(this), 10);
 				}
 				else if(!this.currentError && this.$.dialog.opened){
 					this.$.dialog.close();
@@ -153,7 +162,7 @@
 					this.titleKey = base + 'title';
 					this.headerKey = base + 'header';
 					this.descriptionKey = base + 'description';
-					this.cancelKey = base + 'cancel';
+					this.dismissKey = base + 'cancel';
 					this.continueKey = base + 'continue';
 					this.confirmKey = base + 'confirm';
 
@@ -169,6 +178,11 @@
 								this.hasConfirm = true;
 								this.hasContinue = false;
 								break;
+						case 'setup/no-user':
+							this.hasDismiss = true;
+							this.hasConfirm = false;
+							this.hasContinue = true;
+						break;
 						default:
 							this.hasDismiss = false;
 							this.hasConfirm = false;
@@ -177,7 +191,6 @@
 					}
 					this.hasButtons = this.hasDismiss || this.hasConfirm || this.hasContinue;
 				}
-
 			}, 100);
 
 		},
