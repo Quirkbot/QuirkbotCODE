@@ -132,7 +132,10 @@
 				type: String,
 				value: 'ackaalhbfjagidmjlhlokoblhbnahegd'
 			},
-			modelController: Object,
+			modelController: {
+				type: Object,
+				observer: '_modelControllerChanged'
+			},
 			model: Object,
 			treeManager: Object,
 			nodeDefinitions: Array,
@@ -140,6 +143,9 @@
 			taxonomyDefinitions: Object,
 			editorMode: String,
 			quirkbotsArea: Object,
+		},
+		_modelControllerChanged: function (m) {
+			console.log('app-program','_modelControllerChanged', m);
 		},
 		_onQuirkbotsAreaButtonTap: function(){
 			this.quirkbotsArea.open();

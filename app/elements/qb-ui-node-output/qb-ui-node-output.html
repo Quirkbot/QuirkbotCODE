@@ -67,8 +67,7 @@
 			class="label">
 			<qb-core-i18n
 				key="{{nameKey}}"
-				value="{{nameValue}}"
-				></qb-core-i18n>
+				value="{{nameValue}}"></qb-core-i18n>
 		</div>
 		<div
 			class="outlet-container">
@@ -104,6 +103,10 @@
 			window.Quirkbot.UtilsBehavior
 		],
 		properties: {
+			modelController: {
+				type: Object,
+				observer: '_modelControllerChanged'
+			},
 			outlet:{
 				type: Object
 			},
@@ -113,6 +116,9 @@
 		},
 		listeners:{
 			'dragOutlet.dragend': '_onDragOutletDragend'
+		},
+		_modelControllerChanged: function (m) {
+			console.log('ui-node-output','_modelControllerChanged', m);
 		},
 		attached: function() {
 			this.outlet = this.$.outlet;

@@ -7,8 +7,8 @@
 	"ide/node/disconnect": "disconnect",
 
 	"IDE - Quirkbots Area -----------------------------------------------" : "",
-	"ide/quirkbots-area/open-button":	"My Quirkbots",
-	"ide/quirkbots-area/dialog/header":	"My Quirkbots",
+	"ide/quirkbots-area/tooltip":	"Upload code",
+	"ide/quirkbots-area/dialog/header":	"Quirkbots",
 
 	"ide/quirkbots-area/dialog/quirkbots/header" :			"Upload program",
 	"ide/quirkbots-area/dialog/quirkbots/description" : 	"The program will be uploaded to the selected Quirkbot",

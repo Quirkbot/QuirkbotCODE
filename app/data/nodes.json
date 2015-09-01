@@ -1126,7 +1126,6 @@
                 {
                     "_id": "type",
                     "default": "WAVE_SINE",
-                    "mandatory": true,
                     "validation": {
                         "type": "list",
                         "data": [

@@ -79,7 +79,10 @@
 		is: 'qb-ui-editor',
 		properties: {
 			model: Object,
-			modelController: Object,
+			modelController: {
+				type: Object,
+				observer: '_modelControllerChanged'
+			},
 			treeManager: Object,
 			computedCode: String,
 			nodeDefinitions: Object,
@@ -96,11 +99,16 @@
 			visualMode: Boolean,
 			textMode: Boolean
 		},
+		_modelControllerChanged: function (m) {
+			console.log('ui-editor','_modelControllerChanged', m);
+		},
 		_modeChanged: function (mode) {
 			if(mode === 'text'){
 				this.textMode = true;
 				this.visualMode = false;
-				this.treeManager.computeCode();
+				if(this.treeManager){
+					this.treeManager.computeCode();
+				}
 			}
 			else {
 				this.textMode = false;

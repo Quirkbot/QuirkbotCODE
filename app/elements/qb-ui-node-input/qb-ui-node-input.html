@@ -270,7 +270,8 @@
 			<qb-ui-input-text
 				class="text-input"
 				id="controllerTextInput"
-				value="{{data.value}}">
+				value="{{data.value}}"
+				on-keyup="_onInputKeyUp">
 			</qb-ui-input-text>
 
 			<template
@@ -399,7 +400,11 @@
 
 			// Change value in slider, if it exists
 			var slider = this.$.templateContainer.querySelector('#slider');
+			this.externalSlideChange = false;
 			if(slider && value !== '' && value !== null && !isNaN(value)){
+				// We need to flag that the change was externernal, so that we
+				// avoid overwriting the value on _sliderValueChanged
+				this.externalSlideChange = true;
 				slider.value = parseFloat(value);
 			}
 
@@ -415,14 +420,17 @@
 				this.validateDebouncer = setTimeout(function(){
 					var valid = this._computeValid(value);
 					this._setTypedValue(valid.type, valid.value);
-				}.bind(this), 1300);
+				}.bind(this), 4000);
 			}
 		},
 		_sliderValueChanged: function(){
+			var externernal = this.externalSlideChange;
 			var slider = this.$.templateContainer.querySelector('#slider');
-			if(slider && !isNaN(slider.value)){
+
+			if(slider && !isNaN(slider.value) && !externernal){
 				this._setTypedValue('Number', slider.value);
 			}
+
 		},
 		_openController: function(){
 			this.controllerOpenend = true;
@@ -437,6 +445,11 @@
 				return;
 			}
 			if(this.controllerOpenend){
+				this._closeController();
+			}
+		},
+		_onInputKeyUp: function(e){
+			if(e.keyCode === 13){
 				this._closeController();
 			}
 		},
@@ -533,6 +546,12 @@
 			this.async(function(){
 
 				var newValue = oldValue;
+
+				// Temporarly making everything mandatory, so the controolers
+				// are populated. TODO: Find a better solution for dealing
+				// with the defautl values
+				this.definition.mandatory = true;
+
 				if(typeof oldValue === 'undefined' && this.definition.mandatory	&& typeof this.definition.default !== 'undefined' && this.definition.default !== this.data.value){
 					newValue = this.definition.default;
 				}
@@ -711,7 +730,7 @@
 					return;
 				}
 			}
-			if(this.range.min < this.range.max){
+			/*if(this.range.min < this.range.max){
 				if(ref < this.range.min) {
 					return this.range.min;
 				}
@@ -732,7 +751,8 @@
 				else {
 					return ref;
 				}
-			}
+			}*/
+			return ref;
 		},
 		_constantMatch: function(value){
 			if(!value) {
@@ -741,6 +761,7 @@
 
 			var stringValue = value + '';
 			stringValue = stringValue.toUpperCase();
+			stringValue = stringValue.replace(/[^a-z0-9]/gmi, '_');
 			for (var i = 0; i < this.constantDefinitions.length; i++) {
 				if(this.constantDefinitions[i].toUpperCase() === stringValue){
 					return this.constantDefinitions[i];

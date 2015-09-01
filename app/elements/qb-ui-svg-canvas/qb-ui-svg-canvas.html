@@ -66,6 +66,7 @@
 			window.Quirkbot.SelfPropertyBehavior
 		],
 		add: function(child) {
+			child.style.transform = 'translateZ(0)';
 			Polymer.dom(this.$.root).appendChild(child);
 		},
 		remove: function(child) {
