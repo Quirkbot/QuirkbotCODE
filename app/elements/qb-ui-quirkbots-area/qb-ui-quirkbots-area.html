@@ -1,0 +1,653 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-browser-extension/qb-core-browser-extension.html">
+
+<link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
+
+<dom-module id='qb-ui-quirkbots-area'>
+	<style>
+
+		#dialog{
+			width: 300px;
+			padding: 25px;
+			border-radius: 10px;
+			border: solid 4px var(--qb-interactive-color-transparent);
+			box-shadow: 0 0 0 4px var(--qb-interactive-color-transparent);
+			--paper-dialog: {
+				box-shadow: none;
+			};
+		}
+		#dialog > *{
+			padding: 0;
+		}
+		.dialog-header{
+			margin:0;
+		}
+		.dialog-content{
+			margin: 10px 0 0 0;
+		}
+		.dialog-content .header{
+			margin: 0 0 10px 0;
+		}
+		.buttons{
+			margin: 25px 0 0 0;
+		}
+		.buttons paper-button{
+			border-radius: 10px;
+			color: var(--qb-white);
+		}
+		.buttons [dialog-dismiss]{
+			background: var(--qb-red-hard-transparent);
+		}
+		.buttons [dialog-confirm],
+		.buttons [dialog-continue]{
+			background: var(--qb-green-hard-transparent);
+
+		}
+
+		/deep/ pre {
+			display: block;
+			word-wrap: break-word;
+			font-size: 11px;
+			line-height: 13px;
+			background-color: black;
+			color: white;
+			padding: 5px 10px;
+			margin: 0;
+		}
+
+		.dialog-content paper-progress {
+			--paper-progress-transition-duration: 0.1s;
+			display: block;
+			width: 100%;
+		}
+
+		.quirkbot-upload-item{
+			cursor: pointer;
+			border-radius: 10px;
+			padding: 8px;
+			box-sizing: border-box;
+			border: 1px solid var(--qb-blue-transparent);
+			margin-bottom: 5px;
+
+		}
+		.quirkbot-upload-item paper-progress {
+			--paper-progress-container-color: var(--qb-white);
+			--paper-progress-active-color: var(--qb-blue);
+		}
+		.quirkbot-upload-item:last-child{
+			margin-bottom: 0;
+		}
+		.quirkbot-upload-item:hover{
+			background-color: var(--qb-blue-soft-transparent);
+		}
+		.quirkbot-upload-item.iron-selected{
+			border-color: var(--qb-blue);
+			background-color: var(--qb-blue-soft-transparent);
+		}
+		.quirkbot-upload-item .name{
+			font-size: 16px;
+		}
+		.quirkbot-upload-item .id{
+			@apply(--qb-font-code);
+			font-size: 10px;
+			opacity: 0.5;
+		}
+
+
+	</style>
+
+	<template>
+		<qb-core-browser-extension
+			id="extension"
+			extension-id="{{chromeWebstoreId}}"
+			connected="{{connectedToExtension}}"
+			model="{{extensionModel}}"
+			installing="{{installingExtension}}"
+			installation-error-code="{{extensionInstallationErrorCode}}">
+		</qb-core-browser-extension>
+
+		<paper-dialog
+			modal
+			entry-animation="scale-up-animation"
+			exit-animation="fade-out-animation"
+			id="dialog">
+			<h2
+				class="dialog-header">
+				<qb-core-i18n
+					key="ide/quirkbots-area/dialog/header"></qb-core-i18n>
+			</h2>
+
+			<template
+				is="dom-if"
+				if="{{browserChrome}}">
+				<template
+					is="dom-if"
+					if="{{connectedToExtension}}">
+					<template
+						is="dom-if"
+						if="{{extensionModel.platform.serialPermissionError}}">
+						<div
+							class="dialog-content">
+							<h3 class="header">
+								<qb-core-i18n
+									key="ide/quirkbots-area/dialog/warning/no-serial-permission/header"></qb-core-i18n>
+							</h3>
+
+							<qb-core-i18n
+								key="ide/quirkbots-area/dialog/warning/no-serial-permission/description"></qb-core-i18n>
+
+						</div>
+						<div
+							class="buttons">
+							<paper-button
+								dialog-dismiss>
+								<qb-core-i18n
+									key="ide/quirkbots-area/dialog/warning/no-serial-permission/dismiss"></qb-core-i18n>
+							</paper-button>
+						</div>
+					</template>
+					<template
+						is="dom-if"
+						if="{{!extensionModel.platform.serialPermissionError}}">
+						<template
+							is="dom-if"
+							if="{{extensionModel.quirkbots.length}}">
+							<template
+								is="dom-if"
+								if="{{pendingUploadProcess}}">
+
+								<template
+									is="dom-if"
+									if="{{!uploadCompleted}}">
+									<div
+										class="dialog-content">
+										<h3 class="header">
+											<qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/uploading/header"></qb-core-i18n>
+										</h3>
+
+										<div
+											class="quirkbot-upload-item iron-selected">
+											<div class="name">
+												<span><qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+											<div class="id"><span><qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>{{selectedQuirkbotUuid}}</span></span></div>
+											<paper-progress
+												class="transiting"
+												value="{{uploadProgress}}">
+											</paper-progress>
+										</div>
+
+										<qb-ui-notice>
+											<qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/uploading/description"></qb-core-i18n>
+										</qb-ui-notice>
+									</div>
+									<div
+										class="buttons">
+									</div>
+
+								</template>
+
+								<template
+									is="dom-if"
+									if="{{uploadCompleted}}">
+									<template
+										is="dom-if"
+										if="{{!uploadSucceeded}}">
+										<div
+											class="dialog-content">
+											<h3 class="header">
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-fail/header"></qb-core-i18n>
+											</h3>
+
+
+											<div
+												class="quirkbot-upload-item iron-selected">
+												<div class="name">
+													<span><qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+												<div class="id"><span><qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>{{selectedQuirkbotUuid}}</span></span></div>
+											</div>
+
+											<template
+												is="dom-if"
+												if="{{uploadErrorKey}}">
+												<qb-ui-notice
+													error>
+													<qb-core-i18n
+													key="{{uploadErrorKey}}"></qb-core-i18n>
+												</qb-ui-notice>
+											</template>
+										</div>
+										<div
+											class="buttons">
+											<paper-button
+												dialog-dismiss
+												on-tap="_onFailDismissButtonTap">
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-fail/dismiss"></qb-core-i18n>
+											</paper-button>
+											<paper-button
+												dialog-continue
+												on-tap="_onUploadButtonTap">
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-fail/retry"></qb-core-i18n>
+											</paper-button>
+										</div>
+									</template>
+									<template
+										is="dom-if"
+										if="{{uploadSucceeded}}">
+										<div
+											class="dialog-content">
+											<h3 class="header">
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-success/header"></qb-core-i18n>
+											</h3>
+
+											<div
+												class="quirkbot-upload-item iron-selected">
+												<div class="name">
+													<span><qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+												<div class="id"><span><qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>{{selectedQuirkbotUuid}}</span></span></div>
+											</div>
+
+											<qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/upload-success/description"></qb-core-i18n>
+
+
+										</div>
+										<div
+											class="buttons">
+											<paper-button
+												dialog-confirm
+												on-tap="_onFinalConfirmTap">
+												<qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/upload-success/confirm"></qb-core-i18n>
+											</paper-button>
+										</div>
+									</template>
+								</template>
+							</template>
+							<template
+								is="dom-if"
+								if="{{!pendingUploadProcess}}">
+								<div
+									class="dialog-content">
+									<h3 class="header">
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/header"></qb-core-i18n>
+									</h3>
+
+									<div>
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/description"></qb-core-i18n>
+									</div>
+
+									<iron-selector
+										attr-for-selected="name"
+										selected="{{selectedQuirkbotUuid}}">
+
+										<template
+											is="dom-repeat"
+											items="{{quirkbots}}"
+											sort="sortByUuid"
+											observe="uuid">
+											<div
+												class="quirkbot-upload-item"
+												name="{{item.uuid}}">
+												<div class="name">
+													<span><qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+												<div class="id"><span><qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>{{item.uuid}}</span></span></div>
+											</div>
+										</template>
+									</iron-selector>
+
+								</div>
+								<div
+									class="buttons">
+									<paper-button
+										dialog-dismiss>
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/dismiss"></qb-core-i18n>
+									</paper-button>
+									<paper-button
+										dialog-continue
+										on-tap="_onUploadButtonTap">
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/confirm"></qb-core-i18n>
+									</paper-button>
+								</div>
+							</template>
+						</template>
+						<template
+							is="dom-if"
+							if="{{!extensionModel.quirkbots.length}}">
+							<div
+								class="dialog-content">
+								<h3 class="header">
+									<qb-core-i18n
+										key="ide/quirkbots-area/dialog/warning/no-quirkbots/header"></qb-core-i18n>
+								</h3>
+								<qb-ui-notice>
+									<qb-core-i18n
+										key="ide/quirkbots-area/dialog/warning/no-quirkbots/description"></qb-core-i18n>
+								</qb-ui-notice>
+							</div>
+							<div
+								class="buttons">
+								<paper-button
+									dialog-dismiss>
+									<qb-core-i18n
+										key="ide/quirkbots-area/dialog/warning/no-quirkbots/dismiss"></qb-core-i18n>
+								</paper-button>
+							</div>
+						</template>
+					</template>
+
+				</template>
+				<template
+					is="dom-if"
+					if="{{!connectedToExtension}}">
+					<div
+						class="dialog-content">
+						<h3 class="header">
+							<qb-core-i18n
+								key="ide/quirkbots-area/dialog/warning/no-browser-extension/header"></qb-core-i18n>
+						</h3>
+						<div>
+							<qb-core-i18n
+								key="ide/quirkbots-area/dialog/warning/no-browser-extension/description"></qb-core-i18n>
+
+							<template
+								is="dom-if"
+								if="{{extensionInstallationErrorCode}}">
+								<qb-ui-notice
+									error>
+									<qb-core-i18n
+										key="{{extensionInstallationErrorKey}}"></qb-core-i18n>
+								</qb-ui-notice>
+							</template>
+						</div>
+					</div>
+					<div
+						class="buttons">
+						<paper-button
+							dialog-dismiss>
+							<qb-core-i18n
+								key="ide/quirkbots-area/dialog/warning/no-browser-extension/dismiss"></qb-core-i18n>
+						</paper-button>
+						<paper-button
+							dialog-continue
+							on-tap="_onInstallExtensionTap">
+							<template
+								is="dom-if"
+								if="{{installingExtension}}">
+								<paper-spinner
+									active>
+								</paper-spinner>
+							</template>
+							<template
+								is="dom-if"
+								if="{{!installingExtension}}">
+								<qb-core-i18n
+									key="ide/quirkbots-area/dialog/warning/no-browser-extension/confirm"></qb-core-i18n>
+							</template>
+						</paper-button>
+					</div>
+				</template>
+			</template>
+			<template
+				is="dom-if"
+				if="{{!browserChrome}}">
+				<div
+					class="dialog-content">
+					<h3 class="header">
+						<qb-core-i18n
+							key="ide/quirkbots-area/dialog/warning/wrong-browser/header"></qb-core-i18n>
+					</h3>
+
+					<qb-ui-notice
+						error>
+						<qb-core-i18n
+							key="ide/quirkbots-area/dialog/warning/wrong-browser/description"></qb-core-i18n>
+					</qb-ui-notice>
+				</div>
+				<div
+					class="buttons">
+					<paper-button
+						dialog-dismiss>
+						<qb-core-i18n
+							key="ide/quirkbots-area/dialog/warning/wrong-browser/dismiss"></qb-core-i18n>
+					</paper-button>
+					<a
+						href="https://www.google.com/chrome/browser"
+						target="_blank">
+						<paper-button
+							dialog-confirm>
+							<qb-core-i18n
+								key="ide/quirkbots-area/dialog/warning/wrong-browser/confirm"></qb-core-i18n>
+						</paper-button>
+					</a>
+				</div>
+			</template>
+		</paper-dialog>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIQuirkbotsArea = Polymer({
+		is: 'qb-ui-quirkbots-area',
+		properties: {
+			chromeWebstoreId:String,
+			treeManager: Object,
+			connectedToExtension: Boolean,
+			installingExtension: Boolean,
+			extensionInstallationErrorCode: String,
+			extensionInstallationErrorKey:{
+				type: String,
+				computed: '_computeExtensionInstallationErrorKey(extensionInstallationErrorCode)'
+			},
+			browserChrome: Boolean,
+			quirkbots: {
+				type: Array,
+				value: []
+			},
+			selectedQuirkbotUuid: {
+				type: String
+			},
+			pendingUploadProcess:{
+				type: String,
+				observer: '_pendingUploadProcessChanged',
+				value: false
+			},
+			uploadProgress:{
+				type: Number,
+				value: 0
+			},
+			uploadCompleted:{
+				type: Boolean,
+				value: false
+			},
+			uploadSucceeded:{
+				type: Boolean,
+				value: false
+			},
+			uploadErrorKey:{
+				type: String,
+				value: ''
+			}
+		},
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior,
+			window.Quirkbot.UtilsBehavior
+		],
+		observers:[
+			'_computeQuirkbots(extensionModel.quirkbots.splices)'
+		],
+		ready: function(){
+			this.browserChrome = typeof window.chrome !== 'undefined';
+		},
+		open: function(){
+			this.extensionInstallationErrorCode = '';
+
+			setTimeout(function(){
+				this.$.dialog.open();
+				setTimeout(function(){
+					this.$.dialog.notifyResize();
+				}.bind(this), 10);
+			}.bind(this), 10);
+		},
+		_onInstallExtensionTap: function(){
+			this.$.extension.install()
+			.then(function(){
+				this.$.dialog.notifyResize();
+			}.bind(this))
+			.catch(function(){
+				this.$.dialog.notifyResize();
+			}.bind(this));
+		},
+		_onUploadButtonTap: function(){
+			this.pendingUploadProcess = true;
+			this.uploadProgress = 0;
+			this.uploadProgress = 10;
+			this.uploadCompleted = false;
+			this.uploadSucceeded = false;
+			this.uploadErrorKey = '';
+
+			setTimeout(function(){
+				this.$.dialog.notifyResize();
+			}.bind(this), 10);
+			this.treeManager.compileHex()
+			.then(function(hexString){
+				var fakeUploadProgressTimer = setInterval(function(){
+					this.uploadProgress += 5;
+					if(this.uploadProgress >= 95){
+						clearInterval(fakeUploadProgressTimer);
+					}
+				}.bind(this), 300);
+				this.$.extension.upload(this.selectedQuirkbotUuid, hexString)
+				.then(function(){
+					clearInterval(fakeUploadProgressTimer);
+					setTimeout(function(){
+						this.uploadCompleted = true;
+						this.uploadSucceeded = true;
+						this.$.dialog.notifyResize();
+					}.bind(this), 1500);
+					this.uploadProgress = 100;
+
+				}.bind(this))
+				.catch(function(error){
+					clearInterval(fakeUploadProgressTimer);
+					console.error(error);
+					setTimeout(function(){
+						this.uploadCompleted = true;
+						this.uploadSucceeded = false;
+						this.uploadErrorKey = 'ide/quirkbots-area/dialog/quirkbots/upload-fail/uploader-description';
+						this.uploadProgress = 0;
+						this.$.dialog.notifyResize();
+					}.bind(this), 1500);
+				}.bind(this));
+
+			}.bind(this))
+			.catch(function(){
+				console.error(arguments);
+				setTimeout(function(){
+					this.uploadCompleted = true;
+					this.uploadSucceeded = false;
+					this.uploadErrorKey = 'ide/quirkbots-area/dialog/quirkbots/upload-fail/compiler-description';
+					this.uploadProgress = 0;
+					this.$.dialog.notifyResize();
+				}.bind(this), 1500);
+			}.bind(this));
+		},
+		_onFailDismissButtonTap: function(){
+			setTimeout(function () {
+				this.pendingUploadProcess = false;
+			}.bind(this), 500);
+		},
+		_onFinalConfirmTap: function(){
+			setTimeout(function () {
+				this.pendingUploadProcess = false;
+			}.bind(this), 500);
+		},
+		_computeExtensionInstallationErrorKey: function(code){
+
+			var base = 'ide/quirkbots-area/dialog/warning/no-browser-extension/error/';
+			var error;
+			switch (code) {
+				case '':
+					return '';
+				case 'userCancelled':
+				case 'aborted':
+
+					error = 'user-cancelled';
+					break;
+				case 'webstoreRequestError':
+				case 'invalidWebstoreResponse':
+					error = 'webstore';
+					break;
+				default:
+					error = 'unhanlded';
+			}
+			return base + error;
+		},
+		_computeQuirkbots: function(){
+			var newSelectedId;
+			if(!this.extensionModel.quirkbots.length){
+				newSelectedId = '';
+			}
+			else if(!this.findOneObjectByKey(this.extensionModel.quirkbots, 'uuid', this.selectedQuirkbotUuid)){
+				newSelectedId = this.extensionModel.quirkbots[0].uuid;
+			}
+
+			if(typeof newSelectedId !== 'undefined'){
+				this.selectedQuirkbotUuid = newSelectedId;
+				this.pendingUploadProcess = false;
+				this.uploadProgress = 0;
+				this.uploadCompleted = false;
+				this.uploadSucceeded = false;
+				this.uploadErrorKey = '';
+			}
+
+			setTimeout(function(){
+				this.splice('quirkbots', 0, this.quirkbots.length);
+				this.extensionModel.quirkbots.forEach(function(quirkbot){
+					this.push('quirkbots', quirkbot);
+				}.bind(this));
+				this.$.dialog.notifyResize();
+			}.bind(this), 10);
+
+		},
+		_pendingUploadProcessChanged: function(){
+			this.$.dialog.notifyResize();
+		},
+		_plusOne: function(value){
+			return value +1;
+		}
+	});
+})();
+</script>

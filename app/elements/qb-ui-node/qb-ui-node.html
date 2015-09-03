@@ -1,0 +1,469 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/observe-js/observe-js.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../qb-behavior-draggable/qb-behavior-draggable.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+
+<link rel="import" href="../qb-core-uuid/qb-core-uuid.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
+<link rel="import" href="../qb-ui-node-input/qb-ui-node-input.html">
+<link rel="import" href="../qb-ui-node-input-collection/qb-ui-node-input-collection.html">
+<link rel="import" href="../qb-ui-node-output/qb-ui-node-output.html">
+
+<dom-module id='qb-ui-node'>
+	<style>
+		:host{
+			display: block;
+			position: absolute;
+			background-color: var(--qb-node-color-transparent);
+			border-radius: 10px;
+			padding: 13px;
+			min-width: 150px;
+			cursor: move;
+			cursor: grab;
+			cursor: -moz-grab;
+			cursor: -webkit-grab;
+			@apply(--qb-ui-node);
+		}
+		:host{
+			cursor: move;
+			cursor: grab;
+			cursor: -moz-grab;
+			cursor: -webkit-grab;
+		}
+		:host(:active){
+			cursor: move;
+			cursor: grabbing;
+			cursor: -moz-grabbing;
+			cursor: -webkit-grabbing;
+		}
+		.type-container{
+			text-align: center;
+			@apply(--qb-ui-node-type-container);
+		}
+		.type{
+			background-color: var(--qb-text-background-color);
+			border-radius: 30px;
+			display: inline-block;
+			font-size: 12px;
+			line-height: 20px;
+			padding: 0em 1em;
+			margin-bottom: 5px;
+			--iron-icon-height: 12px;
+			--iron-icon-width: 12px;
+			@apply(--qb-ui-node-type);
+		}
+		.variable{
+			display: block;
+			text-align: center;
+			z-index: 1;
+			--qb-ui-input-text-input-container: {
+				display: inline-block;
+			};
+			--qb-ui-input-text-input: {
+				font-size: 12px;
+				line-height: 12px;
+			};
+			@apply(--qb-ui-node-variable);
+		}
+
+		.connectors{
+			@apply(--layout-horizontal);
+			@apply(--qb-ui-node-connectors);
+		}
+		.inputs{
+			position: relative;
+			@apply(--qb-ui-node-inputs);
+		}
+		.outputs .inner{
+			@apply(--qb-ui-node-inputs-inner);
+		}
+		qb-ui-node-input {
+			margin-top: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
+			margin-bottom: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
+			@apply(--qb-ui-node-node-input);
+		}
+		qb-ui-node-input-collection {
+			margin-top: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
+			margin-bottom: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
+			@apply(--qb-ui-node-node-input-collection);
+		}
+		.outputs{
+			position: relative;
+			@apply(--layout-flex);
+			@apply(--layout-center);
+			@apply(--layout-horizontal);
+			@apply(--qb-ui-node-outputs);
+		}
+		.outputs .inner{
+			width: 100%;
+			@apply(--qb-ui-node-outputs-inner);
+		}
+		qb-ui-node-output {
+			margin-top: calc(var(--qb-ui-node-output-gap, 30px)*0.5);
+			margin-bottom: calc(var(--qb-ui-node-output-gap, 30px)*0.5);
+			@apply(--qb-ui-node-node-output);
+		}
+
+		#deleteButton{
+			z-index: 1;
+			display: none;
+			position: absolute;
+			right: -15px;
+			top: -15px;
+			border-radius: 100px;
+			color: white;
+			background-color: var(--qb-action-inactive-color-transparent);
+			border: solid 3px;
+			border-color: var(--qb-white-transparent);
+			padding: 5px;
+			-moz-background-clip: padding;
+			-webkit-background-clip: padding;
+			background-clip: padding-box;
+			--iron-icon-height: 22px;
+			--iron-icon-width: 22px;
+			transform: scale(0.8);
+			@apply(--qb-ui-node-delete-button-theme);
+			@apply(--qb-ui-node-delete-button-inactive-theme);
+		}
+		:host(:hover) #deleteButton{
+			display: block;
+			@apply(--qb-ui-node-delete-button-active-theme);
+		}
+		#deleteButton:hover{
+			background-color: var(--qb-action-color-transparent);
+			@apply(--qb-ui-node-delete-button-hover-theme);
+		}
+
+
+	</style>
+
+	<template>
+
+		<qb-core-uuid
+			id="uuid">
+		</qb-core-uuid>
+
+		<div
+			class="fit"
+			on-tap="_onBgTap">
+		</div>
+
+		<paper-icon-button
+			id="deleteButton"
+			icon="[[resolveIconName('delete-node', 'qb-buttons')]]"
+			alt="remove"
+			on-tap="_onDeletePress">
+		</paper-icon-button>
+
+		<div class="type-container">
+			<div
+				class="type">
+				<iron-icon
+					icon="[[iconName]]"
+					hidden$="[[!iconName]]">
+				</iron-icon>
+				<qb-core-i18n
+					key="[[nameKey]]"></qb-core-i18n>
+			</div>
+		</div>
+
+		<qb-ui-input-text
+			class="variable"
+			value="{{data._id}}"
+			on-tap="_onBgTap">
+		</qb-ui-input-text>
+
+		<div class="connectors">
+
+
+			<div class="inputs">
+				<div
+					class="fit"
+					on-tap="_onBgTap">
+				</div>
+				<div class="inner">
+					<template
+						is="dom-repeat"
+						items="{{inputs}}">
+
+						<template
+							is="dom-if"
+							if="{{!item.definition.multiple}}"
+							restamp>
+							<qb-ui-node-input
+								svg-canvas="{{svgCanvas}}"
+								container-node="{{self}}"
+								model-controller="{{modelController}}"
+								tree-manager="{{treeManager}}"
+								node-definitions="{{nodeDefinitions}}"
+								constant-definitions="{{constantDefinitions}}"
+								definition="{{item.definition}}"
+								data="{{item.data}}">
+							</qb-ui-node-input>
+						</template>
+
+						<template
+							is="dom-if"
+							if="{{item.definition.multiple}}"
+							restamp>
+
+							<qb-ui-node-input-collection
+								svg-canvas="{{svgCanvas}}"
+								container-node="{{self}}"
+								model-controller="{{modelController}}"
+								tree-manager="{{treeManager}}"
+								node-definitions="{{nodeDefinitions}}"
+								constant-definitions="{{constantDefinitions}}"
+								definition="{{item.definition}}"
+								data="{{item.data}}"
+								on-items-splices="_onCollectionItemsSplices">
+							</qb-ui-node-input-collection>
+						</template>
+					</template>
+				</div>
+			</div>
+
+			<div class="outputs">
+				<div
+					class="fit"
+					on-tap="_onBgTap">
+				</div>
+				<div class="inner">
+					<template
+						is="dom-repeat"
+						items="{{outputs}}">
+
+						<qb-ui-node-output
+							svg-canvas="{{svgCanvas}}"
+							container-node="{{self}}"
+							model-controller="{{modelController}}"
+							node-definitions="{{nodeDefinitions}}"
+							constant-definitions="{{constantDefinitions}}"
+							definition="{{item.definition}}"
+							data="{{item.data}}">
+						</qb-ui-node-output>
+
+					</template>
+				</div>
+			</div>
+		</div>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINode = Polymer({
+		is: 'qb-ui-node',
+		properties: {
+			svgCanvas: Object,
+			modelController: {
+				type: Object
+			},
+			treeManager: Object,
+			nodeDefinitions: Object,
+			constantDefinitions: Object,
+			data: {
+				type: Object,
+				observer: '_dataChanged'
+			},
+			inputs: Array,
+			outputs: Array,
+			nameKey: {
+				type: String,
+				computed: '_computeNameKey(definition)'
+			},
+			iconName: {
+				type: String,
+				computed: '_computeIconName(definition)'
+			}
+		},
+		behaviors:[
+			window.Quirkbot.DraggableBehavior,
+			window.Quirkbot.SelfPropertyBehavior,
+			window.Quirkbot.UtilsBehavior
+		],
+		observers:[
+			'_dataAndNodeDefinitionsChanged(data, nodeDefinitions)',
+			'_constrainDrag(data.visualX, data.visualY)',
+			'__idChanged(data._id)'
+		],
+		_dataChanged: function(){
+			this.data.element = this;
+		},
+		__idChanged: function(newId){
+			clearTimeout(this.idValidationDebouncer);
+			// Validate the variable name;
+			var validId = newId;
+			validId = this.sanitizeVariableName(validId);
+
+			// Check if the id is already taken by another node
+			var existingMatch;
+			if(this.treeManager){
+				var foundNodes = this.treeManager.findNodesById(validId);
+				foundNodes.forEach(function(node){
+					if(node !== this.data){
+						existingMatch = node;
+					}
+				}.bind(this));
+			}
+			// Validade if empty or if it's taken
+			if(validId === '' || existingMatch){
+				var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', this.data.node);
+
+				validId = this.treeManager.generateVariableName(definition._id);
+			}
+			if(validId !== newId){
+				this.idValidationDebouncer = setTimeout(function(){
+					this.set('data._id', validId);
+				}.bind(this), 1000);
+			}
+			else{
+				// Check if any of the outputs is connected, and if so, updated them
+				if(this.data.outputs && this.treeManager){
+					this.data.outputs.forEach(function(output){
+						var inputs = this.treeManager.findInputsByValue(this.oldId + '.' + output._id);
+						inputs.forEach(function(inputData){
+							var element = inputData.input.element;
+							element.set('data.value', newId + '.' + output._id);
+						}.bind(this));
+					}.bind(this));
+
+				}
+				this.oldId = newId;
+			}
+
+		},
+		_dataAndNodeDefinitionsChanged: function(data, nodeDefinitions){
+			if(!data || !nodeDefinitions) {
+				return;
+			}
+			var definition = this.findOneObjectByKey(nodeDefinitions, '_id', data.node);
+
+			if(!definition) {
+				return;
+			}
+
+			this.definition = definition;
+
+			this.outputs = [];
+			definition.outputs.forEach(function(outputDefinition){
+				if(!data.outputs){
+					this.set('data.outputs',[]);
+				}
+
+				var outputData = this.findOneObjectByKey(data.outputs, '_id', outputDefinition._id);
+				if(!outputData) {
+					outputData = {_id: outputDefinition._id};
+					this.push('data.outputs',outputData);
+				}
+
+				this.push('outputs', {
+					definition : outputDefinition,
+					data : outputData
+				});
+			}.bind(this));
+
+			this.inputs = [];
+			definition.inputs.forEach(function(inputDefinition){
+				if(!data.inputs){
+					this.set('data.inputs',[]);
+				}
+
+				var inputData = this.findOneObjectByKey(data.inputs, '_id', inputDefinition._id);
+				if(!inputData) {
+					inputData = {_id: inputDefinition._id};
+					this.push('data.inputs',inputData);
+				}
+
+				if(inputDefinition.multiple && !inputData.children){
+					inputData.children = [];
+				}
+
+				this.push('inputs', {
+					definition : inputDefinition,
+					data: inputData
+				});
+			}.bind(this));
+		},
+		_computeNameKey: function(definition){
+			return 'node/name/'+definition._id;
+		},
+		_computeIconName: function(definition){
+			return this.resolveIconName(definition._id, 'qb-nodes');
+		},
+		_onDeletePress: function(){
+			this.treeManager.remove(this.data._id);
+		},
+		/**
+		 * If you tap the background, send a controller-open signal, so all input
+		 * controllers are closed.
+		 */
+		_onBgTap: function(){
+			this.fire('iron-signal', {name: 'controller-open', data: this});
+		},
+		/**
+		 * When a collection changes size, the node will resize. To make sure
+		 * that the connection lines will update their positions properly, we
+		 * fire a fake "dragmove" event;
+		 */
+		_onCollectionItemsSplices: function () {
+			this.async(function () {
+				this.fire('dragmove');
+			});
+		},
+		/**
+		 * Allows to disable/enable dragging by filtering the track event.
+		 *
+		 * @return {boolean} - 'true' if tracking should be disabled
+		 */
+		trackEventFilter: function(e){
+			var ids = [
+				'sliderKnob',
+				'sliderKnobInner',
+				'sliderBar',
+				'inlet',
+				'inlet-icon',
+				'outlet-icon',
+				'input',
+				'templateContainer'
+			];
+			for (var i = 0; i < ids.length; i++) {
+				if(e.target.id === ids[i]) {
+					return true;
+				}
+			}
+			// This is for shadow dom only, since e.target will be the host
+			// element, regardless of how deep in was the targe.
+			// We have to check if e.path is falsey since it seems to be a
+			// chrome only thing.
+			if(e.path && e.path.length){
+				for (var j = 0; j < ids.length; j++) {
+					if(e.path[0].id === ids[j]) {
+						return true;
+					}
+				}
+			}
+			return false;
+		},
+		/**
+		 * Don't allow the node to be dragged to a negative position;
+		 */
+		_constrainDrag: function(visualX, visualY){
+			if(visualX < 0 && this.data){
+				this.set('data.visualX', 0);
+			}
+			if(visualY < 0 && this.data){
+				this.set('data.visualY', 0);
+			}
+		}
+	});
+})();
+</script>

@@ -1,0 +1,107 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
+<link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
+
+
+<!-- Platinum elements -->
+<!--
+<link rel="import" href="../bower_components/platinum-sw/platinum-sw-cache.html">
+<link rel="import" href="../bower_components/platinum-sw/platinum-sw-registration.html">
+-->
+
+<dom-module id='qb-app-register'>
+	<style>
+		:host{
+			display: block;
+		}
+
+	</style>
+	<template>
+
+		<qb-core-i18n
+			url-format="{{stringsUrl}}"
+			locale="{{locale}}">
+		</qb-core-i18n>
+
+		<h2>
+			<paper-button
+				on-tap='_onResgisterCallToActionTap'>
+				<qb-core-i18n
+					key="register/registration/call-to-action"></qb-core-i18n>
+			</paper-button>
+		</h2>
+		<iron-collapse
+			id='registration-container'>
+			<qb-ui-registration-form
+				action="[[usersApiUrl]]"
+				go-to="[[usersAppUrl]]">
+			</qb-ui-registration-form>
+		</iron-collapse>
+
+
+		<h2>
+			<paper-button
+				on-tap='_onLoginCallToActionTap'>
+				<qb-core-i18n
+					key="register/login/call-to-action"></qb-core-i18n>
+			</paper-button>
+		</h2>
+		<iron-collapse
+			id='login-container'>
+			<qb-ui-login-form
+				action="[[loginApiUrl]]"
+				>
+			</qb-ui-login-form>
+		</iron-collapse>
+
+
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.AppRegister = Polymer({
+		is: 'qb-app-register',
+		properties: {
+			locale: {
+				type: String,
+				value: 'en_US'
+			},
+
+			usersAppUrl: {
+				type: String,
+				value: 'http://code.quirkbot.com/user/'
+			},
+			usersApiUrl: {
+				type: String,
+				value: 'http://localhost:8585/api/programs/'
+			},
+			loginApiUrl: {
+				type: String,
+				value: 'http://localhost:8585/api/login/'
+			},
+			stringsUrl: {
+				type: String,
+				value: 'data/strings/{{locale}}.json'
+			}
+		},
+		ready: function(){
+
+		},
+		_onResgisterCallToActionTap: function () {
+			this.$['registration-container'].toggle();
+		},
+		_onLoginCallToActionTap: function () {
+			this.$['login-container'].toggle();
+		}
+
+	});
+})();
+</script>

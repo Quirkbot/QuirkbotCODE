@@ -1,0 +1,117 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../qb-behavior-form-field/qb-behavior-form-field.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id='qb-ui-form-radiogroup'>
+	<style>
+		:host{
+			display: block;
+		}
+
+
+	</style>
+	<template>
+		<qb-core-i18n
+			key="[[_labelKey]]"
+			value="{{label}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_placeholderlKey]]"
+			value="{{placeholder}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_tipKey]]"
+			value="{{tip}}"
+			no-key-on-empty-value
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_ErrorKey]]"
+			value="{{error}}"
+			hidden></qb-core-i18n>
+
+
+		<paper-input-container
+			attr-for-value="value"
+			no-label-float$="[[noFloatLabel]]"
+			always-float-label$="[[alwaysFloatLabel]]"
+			disabled$="[[disabled]]">
+			<label>[[label]]</label>
+			<paper-radio-group
+				selected="{{value}}"
+				name$="[[name]]"
+				required$="[[required]]"
+				class="paper-input-input">
+				<template
+					is="dom-repeat"
+					items="[[list]]">
+					<paper-radio-button
+						name="[[item.value]]"
+						disabled$="[[disabled]]">
+						<qb-core-i18n
+							key="[[item.key]]"></qb-core-i18n>
+					</paper-radio-button>
+				</template>
+			</paper-radio-group>
+		</paper-input-container>
+
+		<paper-input
+			hidden
+			disabled$="[[disabled]]"
+			value="{{value}}"
+			invalid="{{invalid}}"
+			prevent-invalid-input="[[preventInvalidInput]]"
+			allowed-pattern="[[allowedPattern]]"
+			validator="[[validator]]"
+			type$="[[type]]"
+			pattern$="[[pattern]]"
+			required$="[[required]]"
+			autocomplete$="[[autocomplete]]"
+			auto-validate$="[[auto-validate]]"
+			inputmode$="[[inputmode]]"
+			minlength$="[[minlength]]"
+			maxlength$="[[maxlength]]"
+			min$="[[min]]"
+			max$="[[max]]"
+			step$="[[step]]"
+			name$="[[name]]"
+			placeholder$="[[placeholder]]"
+			readonly$="[[readonly]]"
+			list$="[[list]]"
+			size$="[[size]]"
+			autocapitalize$="[[autocapitalize]]"
+			autocorrect$="[[autocorrect]]">
+		</paper-input>
+
+		<template
+			is="dom-if"
+			if="[[tip]]">
+			<paper-tooltip>[[tip]]</paper-tooltip>
+		</template>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIFormRadiogroup = Polymer({
+		is: 'qb-ui-form-radiogroup',
+		properties:{
+			list: {
+				type: Array,
+				value: []
+			}
+		},
+		behaviors: [
+			window.Quirkbot.FormFieldBehavior
+		]
+
+	});
+})();
+</script>

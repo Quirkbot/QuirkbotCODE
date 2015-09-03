@@ -1,0 +1,78 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-behavior-draggable/qb-behavior-draggable.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<dom-module id='qb-ui-node-output-outlet'>
+	<style>
+	:host{
+		display: block;
+		--size: var(--qb-ui-node-output-outlet-size, 20px);
+		width: var(--size);
+		height: var(--size);
+		--iron-icon-width: calc(var(--size) + 20%);
+		--iron-icon-height: calc(var(--size) + 20%);
+		@apply(--qb-ui-node-output-outlet);
+	}
+	:host{
+		cursor: move;
+		cursor: grab;
+		cursor: -moz-grab;
+		cursor: -webkit-grab;
+	}
+	:host(:active),
+	:host([drag-status="dragmove"]){
+		cursor: move;
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+	}
+
+	div{
+		border-radius: 999px;
+		background-color: var(--qb-ui-node-output-outlet-background-color, --qb-interactive-color);
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+	}
+	iron-icon{
+		fill: var(--qb-ui-node-output-outlet-foreground-color, --qb-action-color-transparent);
+		position: absolute;
+		top: -10%;
+		left: -10%;
+		bottom: 0;
+		right: 0;
+	}
+
+	</style>
+
+	<template>
+
+		<div></div>
+		<iron-icon
+			id="outlet-icon"
+			icon="[[resolveIconName('connector-border-right', 'qb-buttons')]]">
+		</iron-icon>
+
+	</template>
+
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINodeOutputOutlet = Polymer({
+		is: 'qb-ui-node-output-outlet',
+		properties:{
+			containerOutput:{
+				type: Object
+			}
+		},
+		behaviors:[
+			window.Quirkbot.DraggableBehavior,
+			window.Quirkbot.UtilsBehavior
+		]
+	});
+})();
+</script>

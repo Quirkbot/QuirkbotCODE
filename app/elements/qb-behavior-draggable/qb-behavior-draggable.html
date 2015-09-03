@@ -1,0 +1,100 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function () {
+
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot._DraggableBehaviorZIndex = 0;
+	window.Quirkbot.DraggableBehavior = {
+		DraggableBehavior: true,
+		properties:{
+			drag:{
+				type: Boolean,
+				notify: true,
+				reflectToAttribute: true,
+				observer: '_dragChanged'
+			},
+			dragStatus:{
+				type: String,
+				notify: true,
+				reflectToAttribute: true
+			},
+			data:{
+				type: Object,
+				value: {}
+			}
+		},
+		observers: [
+			'_positionChanged(data.visualX, data.visualY)'
+		],
+		listeners: {
+			down: '_handleDown',
+			track: '_handleTrack',
+			touchmove: '_disableTouchScroll'
+		},
+		moveToFront: function(){
+			this.style.zIndex = window.Quirkbot._DraggableBehaviorZIndex++;
+		},
+		_handleDown: function(){
+			if(!this.drag){
+				return;
+			}
+			this.moveToFront();
+		},
+		_handleTrack: function(e) {
+			if(!this.drag){
+				return;
+			}
+			if(e.target !== this && e.target.drag){
+				return;
+			}
+			if(this.trackEventFilter && this.trackEventFilter(e)){
+				return;
+			}
+
+			switch(e.detail.state) {
+				case 'start':
+					this.fire('dragstart');
+					this.dragStatus = 'dragstart';
+					this.startX = this.data.visualX || 0;
+					this.startY = this.data.visualY || 0;
+					break;
+				case 'track':
+					if(this.data){
+						this.set('data.visualX', e.detail.dx + this.startX);
+						this.set('data.visualY', e.detail.dy + this.startY);
+					}
+					this.fire('dragmove');
+					this.dragStatus = 'dragmove';
+					break;
+				case 'end':
+					this.fire('dragend');
+					this.dragStatus = 'dragend';
+					break;
+			}
+		},
+		_dragChanged: function (drag) {
+			if(drag){
+				this._positionChanged(this.data.visualX, this.data.visualY);
+			}
+		},
+		_positionChanged: function(x,y){
+			if(!this.drag){
+				return;
+			}
+			this.translate3d(x+'px', y+'px', 0);
+		},
+		/**
+		 * We need to disable the touchstart event on this elements, otherwise
+		 * when the user drags it, the whole screen will also be dragged on
+		 * touch devices.
+		 */
+		_disableTouchScroll: function(e){
+			if(!this.drag){
+				return;
+			}
+			e.preventDefault();
+		}
+	};
+})();
+</script>

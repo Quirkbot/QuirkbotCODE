@@ -1,0 +1,387 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<dom-module id="qb-core-tree-manager">
+	<template>
+		<iron-ajax
+			id="loader"
+			handle-as="json">
+		</iron-ajax>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreTreeManager = Polymer({
+		is: 'qb-core-tree-manager',
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior,
+			window.Quirkbot.UtilsBehavior
+		],
+		properties: {
+			compilerUrl:{
+				type: String,
+				value: 'https://quirkbot-compiler.herokuapp.com/'
+			},
+			modelController: Object,
+			model: Object,
+			nodeDefinitions: Array,
+			computedCode: {
+				type: String,
+				notify: true
+			},
+			compiledHex: {
+				type: String,
+				notify: true
+			}
+		},
+		observers:[
+			'computeCode(model.tree.*)'
+		],
+		add: function (type, x, y, id) {
+			if(!type){
+				return;
+			}
+			if(!x){
+				x = 0;
+			}
+			if(!y){
+				y = 0;
+			}
+			if(!id){
+				id = this.generateVariableName(type);
+			}
+			this.modelController.push('model.tree', {
+				_id: id,
+				node: type,
+				visualX: x,
+				visualY: y
+			});
+		},
+		remove: function(id){
+			var index = this.findOneIndexByKey(this.model.tree, '_id', id);
+			if(index === -1) {
+				return;
+			}
+
+			// "Disconnect" this node from any inputs that is connected to id
+			var disconnectInput = function(input){
+				if(input.type !== 'Output') {
+					return;
+				}
+
+				if(!input.value) {
+					return;
+				}
+
+				var parts = input.value.split('.');
+
+				if(parts.length !== 2 || !isNaN(parseFloat(parts[0])) || !isNaN(parseFloat(parts[1])) ) {
+					return;
+				}
+
+				if(parts[0] === id){
+					this.async(function () {
+						input.element._setTypedValue.bind(input.element)('Number');
+					});
+				}
+			}.bind(this);
+			this.model.tree.forEach(function(node){
+				if(node === this.data) {
+					return;
+				}
+				node.inputs.forEach(function(input){
+					disconnectInput(input);
+					// check if the input is a collection
+					if(!input.children || !input.children.length){
+						return;
+					}
+					input.children.forEach(disconnectInput);
+				}.bind(this));
+			}.bind(this));
+
+			this.modelController.splice('model.tree', index, 1);
+		},
+		findInputsByValue: function(value){
+			var result = [];
+			var checkMatch = function(input, node){
+				if(input.value === value){
+					result.push({
+						input: input,
+						node: node
+					});
+				}
+			};
+			this.model.tree.forEach(function(node){
+				if(!node.inputs || !node.inputs.length){
+					return;
+				}
+				node.inputs.forEach(function(input){
+					if(input.children){
+						input.children.forEach(function(input){
+							checkMatch(input, node);
+						});
+					}
+					else {
+						checkMatch(input, node);
+					}
+				}.bind(this));
+			}.bind(this));
+
+			return result;
+		},
+		findOneNodeById: function(id) {
+			return this.findOneObjectByKey(this.model.tree, '_id', id);
+		},
+		findNodesById: function(id) {
+			return this.findObjectsByKey(this.model.tree, '_id', id);
+		},
+		generateVariableName: function(definitionId){
+			var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', definitionId);
+			if(!definition){
+				return;
+			}
+			var base = definition.type;
+			base = base.charAt(0).toLowerCase() + base.slice(1);
+
+			var count = 1;
+			var name = base + count;
+			while(this.findOneNodeById(name)){
+				count++;
+				name = base + count;
+			}
+			return name;
+		},
+		computeCode: function () {
+			if(!this.modelController){
+				return;
+			}
+
+			var tree = this.modelController.getRawModel().tree.splice(0);
+			tree.sort(this._nodesSort.bind(this));
+
+			var code = this._generateIncludes();
+			code += this._generateNewLine();
+			code += this._generateDeclares(tree);
+			code += this._generateNewLine();
+			code += this._generateFunctionOpenning();
+			code += this._generateNewLine();
+			code += this._generateConnections(tree);
+			code += this._generateFunctionClosing();
+
+			if(code !== this.computedCode){
+				this.computedCode = code;
+				this.compiledHex = '';
+			}
+		},
+		compileHex: function(){
+			return new Promise(function(resolve, reject){
+				var oldComputedCode = this.computedCode;
+				var oldCompiledHex = this.compiledHex;
+				this.computeCode();
+
+				if(oldComputedCode === this.computedCode){
+					this.compiledHex = oldCompiledHex;
+				}
+
+				if(this.compiledHex){
+					return resolve(this.compiledHex);
+				}
+				this._enterCompilationQueue(this.computedCode)
+				.then(this._verifyCompilation.bind(this))
+				.then(resolve)
+				.catch(reject);
+
+			}.bind(this));
+		},
+		_enterCompilationQueue: function(code){
+			return new Promise(function(resolve, reject){
+				var onResponse = function(event){
+					clearTimeout(timer);
+					this.$.loader.removeEventListener('response', onResponse);
+					if(!event || !event.detail || !event.detail.response || !event.detail.response._id){
+						return reject('BAD_RESPONSE');
+					}
+					resolve(event.detail.response._id);
+				}.bind(this);
+				var onError = function(){
+					clearTimeout(timer);
+					this.$.loader.removeEventListener('error', onError);
+					return reject('NETWORK_ERROR');
+				}.bind(this);
+				this.$.loader.addEventListener('response', onResponse);
+				this.$.loader.addEventListener('error', onError);
+				this.$.loader.url = this.compilerUrl + window.encodeURIComponent(code);
+				var request = this.$.loader.generateRequest();
+				var timer = setTimeout(function(){
+					request.abort();
+				}.bind(this), 10000);
+
+			}.bind(this));
+		},
+		_verifyCompilation: function(id){
+			return new Promise(function(resolve, reject){
+				// Try 3 times before giving up
+				this._verifySingleCompilation(id)
+				.then(resolve)
+				.catch(function(){
+					this._verifySingleCompilation(id)
+					.then(resolve)
+					.catch(function(){
+						this._verifySingleCompilation(id)
+						.then(resolve)
+						.catch(reject);
+					}.bind(this));
+				}.bind(this));
+			}.bind(this));
+		},
+		_verifySingleCompilation: function(id){
+			return new Promise(function(resolve, reject){
+				// Wait a bit before requesting
+				setTimeout(function() {
+					var onResponse = function(event){
+						clearTimeout(timer);
+						this.$.loader.removeEventListener('response', onResponse);
+						if(!event || !event.detail || !event.detail.response || !event.detail.response.hex){
+							return reject('BAD_RESPONSE');
+						}
+						this.compiledHex = event.detail.response.hex;
+						resolve(this.compiledHex);
+					}.bind(this);
+					var onError = function(){
+						clearTimeout(timer);
+						this.$.loader.removeEventListener('error', onError);
+						return reject('NETWORK_ERROR');
+					}.bind(this);
+					this.$.loader.addEventListener('response', onResponse);
+					this.$.loader.addEventListener('error', onError);
+					this.$.loader.url = this.compilerUrl + 'i' + id;
+					var request = this.$.loader.generateRequest();
+					var timer = setTimeout(function(){
+						request.abort();
+					}.bind(this), 10000);
+				}.bind(this), 2000);
+			}.bind(this));
+		},
+		_nodesSort: function(a, b){
+			var aDefinition = this.findOneObjectByKey(this.nodeDefinitions, '_id', a.node);
+			var bDefinition = this.findOneObjectByKey(this.nodeDefinitions, '_id', b.node);
+
+			if((aDefinition.outputs && aDefinition.outputs.length) && (bDefinition.outputs && bDefinition.outputs.length)){
+				if(aDefinition.type < bDefinition.type){
+					return -1;
+				}
+				else if(aDefinition.type > bDefinition.type){
+					return 1;
+				}
+			}
+			else if((aDefinition.outputs && aDefinition.outputs.length) && !(bDefinition.outputs && bDefinition.outputs.length)){
+				return -1;
+			}
+			else if(!(aDefinition.outputs && aDefinition.outputs.length) && (bDefinition.outputs && bDefinition.outputs.length)){
+				return 1;
+			}
+
+			if(aDefinition.type < bDefinition.type){
+				return -1;
+			}
+			else if(aDefinition.type > bDefinition.type){
+				return 1;
+			}
+			else{
+				if(a._id < b._id){
+					return -1;
+				}
+				else if(a._id > b._id){
+					return 1;
+				}
+			}
+			return 0;
+		},
+		_generateIncludes : function(){
+			var text  = '';
+			text += '#include "Quirkbot.h"';
+			text += this._generateNewLine();
+			return text;
+		},
+		_generateDeclares : function(tree){
+			var text = '';
+			tree.forEach(function(node){
+				var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', node.node);
+
+				text += definition.type + ' ' + node._id + ';';
+				text += this._generateNewLine();
+			}.bind(this));
+			return text;
+		},
+		_generateConnections: function(tree){
+			var text = '';
+
+			var processInput = function (input, node, isCollection){
+				var text = this._generateTabSpace() + node._id + '.';
+				if(isCollection){
+					var inputParts = input._id.split('.');
+					var base = inputParts[0];
+					var index = inputParts[1];
+					text += base + '[' + index + ']';
+				}
+				else{
+					text += input._id;
+				}
+				if(input.type === 'Output'){
+					text += '.connect(' + input.value + ')';
+				}
+				else{
+					text += ' = ' + input.value;
+				}
+				text += ';' + this._generateNewLine();
+				return text;
+
+			}.bind(this);
+			tree.forEach(function(node){
+				var nodeText = '';
+				if(node.inputs){
+					node.inputs.forEach(function(input){
+						if(input.children){
+							input.children.forEach(function(input){
+								nodeText += processInput(input, node, true);
+							}.bind(this));
+						}
+						else{
+							nodeText += processInput(input, node);
+						}
+					}.bind(this));
+				}
+				if(nodeText){
+					nodeText += this._generateNewLine();
+				}
+				text += nodeText;
+			}.bind(this));
+			return text;
+		},
+		_generateFunctionOpenning : function(){
+			var text = '';
+			text += 'void start(){';
+			text += this._generateNewLine();
+
+			return text;
+		},
+		_generateFunctionClosing : function(){
+			var text = '';
+			text += '}';
+
+			return text;
+		},
+		_generateNewLine : function(){
+			return '\n';
+		},
+		_generateTabSpace : function(){
+			return '	';
+		}
+	});
+
+})();
+</script>

@@ -1,0 +1,167 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-nodes-menu-item/qb-ui-nodes-menu-item.html">
+
+<dom-module id='qb-ui-nodes-menu-group'>
+	<style>
+		:host{
+			display: block;
+			margin-top: 3px;
+			@apply(--qb-ui-nodes-menu-group);
+		}
+		paper-toolbar{
+			cursor: pointer;
+			border-radius: 999px;
+			height: 30px;
+			--paper-toolbar-background: var(--qb-action-color-transparent);
+			@apply(--qb-ui-nodes-menu-group-toolbar);
+		}
+		:host paper-toolbar.toolbar .title{
+			/**
+			* the redundant paper-toolbar.toolbar is just so the selector is
+			* deep enought to take priority over polymer selector
+			**/
+			@apply(--qb-font-text);
+			font-size: 14px ;
+			margin: 0;
+		}
+		.nodes-container{
+			position: relative;
+		}
+		.nodes-container qb-ui-nodes-menu-item[drag]{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1;
+		}
+		.nodes-container qb-ui-nodes-menu-item[drag]{
+			opacity:0;
+		}
+		.nodes-container qb-ui-nodes-menu-item[drag][drag-status="dragmove"]{
+			opacity:1;
+			width: 200px;
+		}
+
+	</style>
+	<template>
+		<paper-toolbar
+		 	class="toolbar"
+			on-tap="toggleItems">
+			<div class="title">
+				<qb-core-i18n
+					key="{{nameKey}}"
+					value="{{name}}"></qb-core-i18n>
+			</div>
+			<iron-icon icon="{{collapseIcon}}"></iron-icon>
+		</paper-toolbar>
+
+		<iron-collapse
+			opened$="{{opened}}">
+			<template
+				is="dom-repeat"
+				items="{{data.nodes}}"
+				sort="sortByName"
+				observe="name">
+				<div class="nodes-container">
+					<qb-ui-nodes-menu-item
+						data="{{item}}">
+					</qb-ui-nodes-menu-item>
+					<qb-ui-nodes-menu-item
+						drag
+						on-dragstart="_onNodeDragStart"
+						on-dragend="_onNodeDragEnd"
+						data="{{item}}">
+					</qb-ui-nodes-menu-item>
+				</div>
+
+			</template>
+		</iron-collapse>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINodesMenuGroup = Polymer({
+		is: 'qb-ui-nodes-menu-group',
+		properties: {
+			dropArea: Object,
+			visualEditor: Object,
+			treeManager: Object,
+			data: Object,
+
+			nameKey: {
+				type: String,
+				computed: '_computeNameKey(data)'
+			},
+			name: {
+				type: String,
+				observer: '_nameChanged'
+			},
+			opened: {
+				type: Boolean,
+				value: true
+			},
+			collapseIcon: {
+				type: String,
+				computed: '_computeCollapseIcon(opened)'
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		toggleItems: function () {
+			this.opened = !this.opened;
+		},
+		_computeNameKey: function(data) {
+			return 'category/' + data.definition._id;
+		},
+		_nameChanged: function (name) {
+			this.set('data.name', name);
+		},
+		_computeCollapseIcon: function(opened){
+			return (opened) ? 'qb-buttons:collapse' : 'qb-buttons:expand';
+		},
+		_onNodeDragStart: function(e){
+			var node = e.model.item.element;
+			var bounding = node.getBoundingClientRect();
+			node.style.position = 'fixed';
+			node.style.left = bounding.left + 'px';
+			node.style.top = bounding.top + 'px';
+		},
+		_onNodeDragEnd: function(e){
+			var node = e.model.item.element;
+
+			node.style.removeProperty('position');
+			node.style.left = 0;
+			node.style.top = 0;
+			// Store the position of the outlet
+			var bounding = node.getBoundingClientRect();
+			var centerX = bounding.left + bounding.width * 0.5;
+			var centerY = bounding.top + bounding.height * 0.5;
+
+			// Reset the position
+			node.set('data.visualX', 0);
+			node.set('data.visualY', 0);
+			node.fire('dragmove');
+
+			// Check if dropped inside drop area
+			var dropAreaBounding = this.dropArea.getBoundingClientRect();
+			if(centerX >= dropAreaBounding.left && centerX <= (dropAreaBounding.left + dropAreaBounding.width) && centerY >= dropAreaBounding.top && centerY <= (dropAreaBounding.top + dropAreaBounding.height)){
+				var type = e.model.item.definition._id;
+				var x = bounding.left - dropAreaBounding.left + this.visualEditor.canvas.offsetX;
+				var y = bounding.top - dropAreaBounding.top + this.visualEditor.canvas.offsetY;
+
+				this.treeManager.add(type, x, y);
+			}
+		}
+	});
+})();
+</script>

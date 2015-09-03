@@ -1,0 +1,175 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../qb-behavior-form-field/qb-behavior-form-field.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id='qb-ui-form-dropdown'>
+	<style>
+		:host{
+			display: block;
+
+		}
+		paper-dropdown-menu{
+			width: 100%;
+			--paper-dropdown-menu-button: {
+				padding: 0;
+			};
+		}
+		paper-menu{
+			width: 210px;
+		}
+		paper-item {
+			--paper-item-min-height: 25px;
+		}
+		paper-item:nth-child(odd) {
+			background-color: rgba(0,0,0,0.05);
+		}
+
+
+	</style>
+	<template>
+		<qb-core-i18n
+			key="[[_labelKey]]"
+			value="{{label}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_placeholderlKey]]"
+			value="{{placeholder}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_tipKey]]"
+			value="{{tip}}"
+			no-key-on-empty-value
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_ErrorKey]]"
+			value="{{error}}"
+			hidden></qb-core-i18n>
+
+
+		<paper-dropdown-menu
+			id="dropdown"
+			label="[[label]]"
+			placeholder="[[placeholder]]"
+			no-label-float$="[[noFloatLabel]]"
+			always-float-label$="[[alwaysFloatLabel]]"
+			selected-item="{{_selected}}">
+			<paper-menu
+				class="dropdown-content">
+				<template
+					is="dom-repeat"
+					items="[[list]]">
+					<paper-item
+						value="[[item.value]]">
+						<qb-core-i18n
+							key="[[item.key]]"></qb-core-i18n>
+					</paper-item>
+				</template>
+			</paper-menu>
+		</paper-dropdown-menu>
+
+		<paper-input
+			hidden
+			disabled$="[[disabled]]"
+			value="{{value}}"
+			invalid="{{invalid}}"
+			prevent-invalid-input="[[preventInvalidInput]]"
+			allowed-pattern="[[allowedPattern]]"
+			validator="[[validator]]"
+			type$="[[type]]"
+			pattern$="[[pattern]]"
+			required$="[[required]]"
+			autocomplete$="[[autocomplete]]"
+			auto-validate$="[[auto-validate]]"
+			inputmode$="[[inputmode]]"
+			minlength$="[[minlength]]"
+			maxlength$="[[maxlength]]"
+			min$="[[min]]"
+			max$="[[max]]"
+			step$="[[step]]"
+			name$="[[name]]"
+			placeholder$="[[placeholder]]"
+			readonly$="[[readonly]]"
+			list$="[[list]]"
+			size$="[[size]]"
+			autocapitalize$="[[autocapitalize]]"
+			autocorrect$="[[autocorrect]]">
+		</paper-input>
+
+		<template
+			is="dom-if"
+			if="[[tip]]">
+			<paper-tooltip>[[tip]]</paper-tooltip>
+		</template>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIFormDropdown = Polymer({
+		is: 'qb-ui-form-dropdown',
+		properties:{
+			value: {
+				computed: '_computeValue(_selected)',
+				notify: true,
+				value: ''
+			},
+			invalid:{
+				type: Boolean,
+				observer: '_invalidChanged'
+			},
+			list: {
+				type: Array,
+				value: []
+			},
+			_selected: {
+				type: Object
+			}
+		},
+		behaviors: [
+			window.Quirkbot.FormFieldBehavior
+		],
+		observers: [
+			'_modifyInternalInput(_input, name, required, error)'
+		],
+		attached: function(){
+			var input = this.$.dropdown.querySelector('paper-input');
+			if(!input){
+				input = this.$.dropdown.shadowRoot.querySelector('paper-input');
+			}
+			if(input){
+				this._input = input;
+			}
+
+			//setInterval(function(){console.log(this.invalid)}.bind(this), 1000)
+		},
+		_modifyInternalInput: function(input, name, required, error){
+			if(!input){
+				return;
+			}
+			if(typeof required !== 'undefined'){
+				input.name = name + '_ignore';
+			}
+			if(typeof required !== 'undefined'){
+				input.required = required;
+				if(required){
+					input.removeAttribute('readonly');
+				}
+			}
+			//input.invalid = invalid;
+			input.errorMessage = error;
+		},
+		_computeValue: function(item) {
+			return item.value;
+		}
+
+	});
+})();
+</script>

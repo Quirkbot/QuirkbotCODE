@@ -1,0 +1,218 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
+
+
+
+<dom-module id='qb-ui-toolbar'>
+	<style>
+		:host{
+
+		}
+		paper-toolbar{
+			background-color: var(--qb-blue-transparent);
+		}
+		.logo{
+			margin-left: 24px;
+			margin-top: 0;
+			width: 153px;
+			height: 64px;
+		}
+		.editor-mode {
+			background-color: var(--qb-grey-light-transparent);
+			border-radius: 10px;
+			padding: 7px 10px;
+			margin: 42px 0 0 20px;
+			z-index: 1;
+			color: var(--qb-black);
+			font-style: 14px;
+		}
+		.editor-mode .code {
+			width: 116px;
+			height: 46px;
+		}
+		.editor-mode .controls{
+			padding: 0 5px;
+			margin-top: 9px;
+			cursor: pointer;
+		}
+		.editor-mode paper-toggle-button{
+			cursor: pointer;
+			margin: 3px 10px;
+			padding: 0;
+			--paper-toggle-button-unchecked-button-color: var(--qb-yellow);
+			--paper-toggle-button-checked-button-color: var(--qb-yellow);
+			--paper-toggle-button-unchecked-bar-color:  var(--qb-blue-transparent);
+			--paper-toggle-button-checked-bar-color:  var(--qb-pink-transparent);
+			--paper-toggle-button-unchecked-ink-color:  var(--qb-pink-transparent);
+			--paper-toggle-button-checked-ink-color:  var(--qb-pink-transparent);
+
+
+			--paper-toggle-button-unchecked-button:{
+				box-shadow: 0 0 0 3px var(--qb-pink-transparent) !important;
+				top: -2px !important;
+				height: 18px !important;
+				width: 18px !important;
+			};
+			--paper-toggle-button-unchecked-bar:{
+				opacity: 1 !important;
+			};
+		}
+
+		paper-button.qb-toolbar-button{
+			background-color: var(--qb-white);
+			min-width: 0;
+			min-height: 0;
+			padding: 2px;
+			border-radius: 10px;
+			border: solid 2px var(--qb-interactive-color-transparent);
+			box-shadow: 0 0 0 2px var(--qb-interactive-color-transparent);
+			height: 38px;
+			width: 38px;
+		}
+		paper-button.qb-toolbar-button iron-icon{
+			--iron-icon-width: 30px;
+			--iron-icon-height: 30px;
+		}
+		paper-button.qb-toolbar-button paper-tooltip{
+			--paper-tooltip:{
+				z-index: 999;
+			};
+		}
+		paper-button.qb-toolbar-button .hover{
+			display: none;
+		}
+		paper-button.qb-toolbar-button .hover{
+			display: none;
+		}
+		paper-button.qb-toolbar-button:hover .hover{
+			display: block;
+		}
+		paper-button.qb-toolbar-button .normal{
+			display: block;
+		}
+		paper-button.qb-toolbar-button:hover .normal{
+			display: none;
+		}
+
+	</style>
+	<template>
+
+		<qb-core-i18n
+			key="ide/name"
+			value="{{_ideName}}"
+			hidden>Quirkbot CODE</qb-core-i18n>
+
+		<paper-toolbar>
+			<iron-image
+				class="logo"
+				sizing="contain"
+				src="[[resolveUrl('../../images/logo/white-outline.svg')]]">
+			</iron-image>
+
+
+			<div class="editor-mode layout vertical">
+				<iron-image
+					class="code"
+					sizing="contain"
+					src="[[resolveUrl('../../images/logo/code.svg')]]">
+				</iron-image>
+
+				<div
+					class="controls layout horizontal center-justified">
+					<qb-core-i18n
+						on-tap="_setVisualModeFlag"
+						key="ide/editor/visual"></qb-core-i18n>
+					<paper-toggle-button
+						checked="{{editorModeFlag}}">
+					</paper-toggle-button>
+					<qb-core-i18n
+						on-tap="_setTextModeFlag"
+						key="ide/editor/text"></qb-core-i18n>
+				</div>
+
+			</div>
+
+			<div class="flex"></div>
+			<qb-ui-input-text
+				value="{{model.title}}">
+			</qb-ui-input-text>
+
+			<paper-button
+				class="qb-toolbar-button"
+				on-tap="_onQuirkbotsAreaButtonTap">
+				<iron-icon
+					class="normal"
+					icon="[[resolveIconName('quirkbots', 'qb-toolbar-buttons')]]">
+				</iron-icon>
+				<iron-icon
+					class="hover"
+					icon="[[resolveIconName('quirkbots-hover', 'qb-toolbar-buttons')]]">
+				</iron-icon>
+				<paper-tooltip>
+					<qb-core-i18n
+						key="ide/quirkbots-area/tooltip"></qb-core-i18n>
+				</paper-tooltip>
+			</paper-button>
+		</paper-toolbar>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIToolbar = Polymer({
+		is: 'qb-ui-toolbar',
+		properties: {
+			model: Object,
+			windowTitle: {
+				type: String,
+				computed: '_computeWindowTitle(model.title, _ideName)',
+				observer: '_windowTitleChanged'
+			},
+			editorMode: {
+				type: String,
+				notify: true
+			},
+			editorModeFlag:{
+				type: Boolean,
+				observer:'_editorModeFlagChanged'
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		_onQuirkbotsAreaButtonTap: function(){
+			this.fire('quirkbots-area-button-tap');
+		},
+		_editorModeFlagChanged: function(value){
+			if(value){
+				this.editorMode = 'text';
+			}
+			else{
+				this.editorMode = 'visual';
+			}
+		},
+		_setVisualModeFlag: function(){
+			this.editorModeFlag = false;
+		},
+		_setTextModeFlag: function(){
+			this.editorModeFlag = true;
+		},
+		_computeWindowTitle: function (title, _ideName) {
+			return title + ' - ' + _ideName;
+		},
+		_windowTitleChanged: function (title) {
+			window.document.title = title;
+		}
+	});
+})();
+</script>

@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/ace-element/ace-element.html">
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+
+<dom-module id='qb-ui-editor-text'>
+	<style>
+		:host{
+			display: block;
+			position: relative;
+		}
+
+		#editor{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			@apply(--qb-font-code);
+		}
+
+	</style>
+
+	<template>
+		<ace-element
+			id="editor"
+			mode="c_cpp"
+			theme="monokai"
+			font-size="14px"
+			readonly="true"
+			value="[[computedCode]]"></ace-element>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIEditorText = Polymer({
+		is: 'qb-ui-editor-text',
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior
+		],
+		properties: {
+			computedCode: String
+		}
+
+	});
+})();
+</script>

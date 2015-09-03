@@ -1,0 +1,77 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.FormFieldBehavior = {
+		FormFieldBehavior: true,
+		properties: {
+			name: {
+				type: String
+			},
+			value: {
+				type: String,
+				notify: true
+			},
+			invalid: {
+				type: Boolean,
+				notify: true
+			},
+			required: {
+				type: Boolean,
+				notify: true
+			},
+			stringsBase: {
+				type: String
+			},
+			apiErrors:{
+				type: Array,
+				observer: '_apiErrorsChanged',
+				value: []
+			},
+			_labelKey: {
+				type: String,
+				computed: '_computeLabelKey(stringsBase)'
+			},
+			_placeholderlKey: {
+				type: String,
+				computed: '_computePlaceholderlKey(stringsBase)'
+			},
+			_tipKey: {
+				type: String,
+				computed: '_computeTipKey(stringsBase)'
+			},
+			_ErrorKey: {
+				type: String,
+				computed: '_computeErrorKey(stringsBase, apiErrors)'
+			}
+		},
+		_computeLabelKey: function(base){
+			return base + '/label';
+		},
+		_computePlaceholderlKey: function(base){
+			return base + '/placeholder';
+		},
+		_computeTipKey: function(base){
+			return base + '/tip';
+		},
+		_computeErrorKey: function(base, apiErrors){
+			base += '/error/';
+			if(!apiErrors || !apiErrors.length){
+				return base + 'pre-validation';
+			}
+			var lastError = apiErrors[apiErrors.length-1];
+			return base + lastError.rule;
+		},
+		_apiErrorsChanged: function(errors){
+			if(!errors || errors.length){
+				this.invalid = false;
+				setInterval(function () {
+					this.invalid = true;
+				}.bind(this), 50);
+			}
+		}
+
+	};
+})();
+</script>

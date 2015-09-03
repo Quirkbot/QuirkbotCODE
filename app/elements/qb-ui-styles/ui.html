@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<style is="custom-style">
+:root {
+	--paper-progress-container:{
+		border-radius: 999px;
+	};
+
+}
+body /deep/ .paper-slider::shadow #sliderBar {
+	top: 30%;
+	height: 40%;
+	padding: 0;
+	margin: 0;
+}
+body /deep/ .paper-slider::shadow #sliderKnobInner {
+	height: 60%;
+	width: 60%;
+}
+body /deep/ .paper-slider::shadow #sliderKnobInner::before {
+	border: solid 1px var(--qb-white);
+}
+body /deep/ qb-ui-nodes-menu paper-toolbar::shadow .toolbar-tools  {
+  height: 100%;
+}
+body /deep/ paper-button.qb-toolbar-button::shadow paper-material.content{
+	padding: 0;
+}
+
+body /deep/ paper-button .keyboard-focus {
+  font-weight: inherit;
+}
+</style>

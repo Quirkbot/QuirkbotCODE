@@ -1,0 +1,210 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/chrome-extension-api/chrome-extension-api-client.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<script>
+(function () {
+
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreBrowserExtension = Polymer({
+		is: 'qb-core-browser-extension',
+		hostAttributes:{
+			hidden: true
+		},
+		properties: {
+			extensionId: {
+				type: String,
+				value: 'ackaalhbfjagidmjlhlokoblhbnahegd',
+				observer: '_extensionIdChanged',
+			},
+			model: {
+				type: Object,
+				value: {quirkbots:[]},
+				notify: true
+			},
+			connected: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			installing: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			installationErrorCode: {
+				type: String,
+				notify: true
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		adapter: {},
+		created: function(){
+			// Start monitoring extension
+			this._monitorExtensionConnection();
+		},
+		install: function(){
+			this.installing = true;
+			this.installationErrorCode = '';
+			return new Promise(function(resolve, reject){
+				window.chrome.webstore.install(
+					'https://chrome.google.com/webstore/detail/' + this.extensionId,
+					function(){
+						var args = arguments;
+						// After the installation is complete, we still need to
+						// give 5 seconds for the extension to start up
+						setTimeout(function() {
+							this.installing = false;
+							this.installationErrorCode = '';
+							resolve.apply(this, args);
+						}.bind(this), 5500);
+
+					}.bind(this),
+					function(error, errorCode){
+						this.installing = false;
+						this.installationErrorCode = errorCode;
+						reject.apply(this, [errorCode]);
+					}.bind(this)
+				);
+			}.bind(this));
+		},
+		upload: function( quirkbotUuid, hexString ){
+			return this.adapter.upload(quirkbotUuid, hexString);
+		},
+		_extensionIdChanged : function(){
+			var link = document.createElement('LINK');
+			link.rel='chrome-webstore-item';
+			link.href='https://chrome.google.com/webstore/detail/' + this.extensionId;
+			window.document.head.appendChild(link);
+			this._connectToExtension();
+		},
+		_connectToExtension: function(){
+			this.connected = false;
+			// Clear previous event listeners
+			if(this.adapter.modelChange){
+				this.adapter.modelChange.remove(this._onAdapterModelChange);
+			}
+
+			// Google Chrome
+			if(typeof window.chrome !== 'undefined'){
+				var api = new window.ChromeExtensionAPIClient(this.extensionId);
+				this.adapter.ping = api.generateMethod('ping');
+				this.adapter.getModel = api.generateMethod('getModel');
+				this.adapter.upload = api.generateMethod('upload');
+				this.adapter.modelChange = api.generateEvent('modelChange');
+			}
+		},
+		_monitorExtensionConnection: function(){
+			var interval = 1000;
+			// Ping the extension to see if we are connected. We will not get
+			// an error in case we can't access to extension (eg. running from
+			// an unauthrized domain), so we need to timeout to notify failure
+			var timeout = setTimeout(function () {
+				if(this.connected){
+					console.log('Disconnected from extensionId: ' + this.extensionId);
+					this.connected = false;
+					if(this.model.quirkbots.length){
+						this.splice('model.quirkbots', 0, this.model.quirkbots.length);
+					}
+				}
+				this._monitorExtensionConnection();
+			}.bind(this), interval);
+			if(!this.adapter.ping) {
+				return;
+			}
+			this.adapter.ping()
+			.then(function(){
+				if(!this.connected){
+					console.log('Connected to extensionId: ' + this.extensionId);
+					this.connected = true;
+					// Now we are save to bind the adapter to the extension
+					this.adapter.modelChange.add(this._onAdapterModelChange.bind(this));
+					// Get the initial model
+					this.adapter.getModel()
+					.then(this._onAdapterModelChange.bind(this));
+				}
+				clearTimeout(timeout);
+				setTimeout(this._monitorExtensionConnection.bind(this), interval);
+			}.bind(this))
+			.catch(function(error){
+				// If we were explitly rejected, the extension must be booting up
+				console.log(error);
+				if(this.connected){
+					console.log('Disconnected from extensionId: ' + this.extensionId);
+					this.connected = false;
+					if(this.model.quirkbots.length){
+						this.splice('model.quirkbots', 0, this.model.quirkbots.length);
+					}
+				}
+				clearTimeout(timeout);
+				setTimeout(this._monitorExtensionConnection.bind(this), interval);
+			}.bind(this));
+		},
+		_onAdapterModelChange: function(model){
+
+			// Manage quirkbots
+			if(!model.quirkbots.length && this.model.quirkbots.length){
+				this.splice('model.quirkbots', 0, this.model.quirkbots.length);
+			}
+			model.quirkbots.forEach(function(newQuirkbot){
+				var index = this.findOneIndexByKey(this.model.quirkbots, 'uuid', newQuirkbot.uuid);
+				if(index === -1){
+					index = this.model.quirkbots.length;
+					this.push('model.quirkbots', newQuirkbot);
+				}
+				else{
+					Object.keys(newQuirkbot).forEach(function(key){
+						if(typeof newQuirkbot[key] === 'object'){
+							if(!this.model.quirkbots[index][key]){
+								this.set('model.quirkbots.'+index+'.'+key, {});
+							}
+							Object.keys(newQuirkbot[key]).forEach(function(subKey){
+								if(this.model.quirkbots[index][key][subKey] !==  newQuirkbot[key][subKey]){
+									this.set('model.quirkbots.'+index+'.'+key+'.'+subKey, newQuirkbot[key][subKey]);
+								}
+							}.bind(this));
+						}
+						else{
+							if(this.model.quirkbots[index][key] !==  newQuirkbot[key]){
+								this.set('model.quirkbots.'+index+'.'+key, newQuirkbot[key]);
+							}
+
+						}
+					}.bind(this));
+				}
+			}.bind(this));
+			if(model.quirkbots.length !== this.model.quirkbots.length){
+				for(var i = this.model.quirkbots.length-1; i >=0 ; i--){
+					var quirkbot = this.model.quirkbots[i];
+					var newIndex = this.findOneIndexByKey(model.quirkbots, 'uuid', quirkbot.uuid);
+					if(newIndex === -1){
+						this.splice('model.quirkbots', i, 1);
+					}
+				}
+			}
+
+			// Manage all the other properties
+			Object.keys(model).forEach(function(key){
+				if(key === 'quirkbots'){
+					return;
+				}
+				var value = model[key];
+				if(typeof value === 'object'){
+					if(typeof this.model[key] !== 'object'){
+						this.set('model.'+key, {});
+					}
+					Object.keys(value).forEach(function(subKey){
+						this.set('model.' + key + '.' + subKey, value[subKey]);
+					}.bind(this));
+				}
+				else{
+					this.set('model.'+key, value);
+				}
+			}.bind(this));
+		}
+	});
+})();
+</script>

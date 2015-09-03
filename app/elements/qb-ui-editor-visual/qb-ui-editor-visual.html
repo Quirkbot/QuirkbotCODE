@@ -1,0 +1,120 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+<link rel="import" href="../qb-ui-svg-canvas/qb-ui-svg-canvas.html">
+<link rel="import" href="../qb-ui-node/qb-ui-node.html">
+
+<dom-module id='qb-ui-editor-visual'>
+	<style>
+		:host{
+			display: block;
+		}
+		#container{
+			overflow: scroll;
+		}
+
+	</style>
+
+	<template>
+
+		<qb-ui-svg-canvas
+			class="fit"
+			self="{{canvas}}"
+			>
+		</qb-ui-svg-canvas>
+
+		<div
+			class="fit"
+			id="container">
+
+			<div
+				class="fit"
+				on-tap="_onBgTap">
+			</div>
+
+			<template
+				id="nodesTemplate"
+				is="dom-repeat"
+				items="{{tree}}">
+
+				<qb-ui-node
+					drag
+					svg-canvas="{{canvas}}"
+					model-controller="{{modelController}}"
+					tree-manager="{{treeManager}}"
+					node-definitions="{{nodeDefinitions}}"
+					constant-definitions="{{constantDefinitions}}"
+					data="{{item}}">
+				</qb-ui-node>
+
+			</template>
+		</div>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIEditorVisual = Polymer({
+		is: 'qb-ui-editor-visual',
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior
+		],
+		properties: {
+			canvas: Object,
+			model: Object,
+			modelController: {
+				type: Object
+			},
+			treeManager: Object,
+			nodeDefinitions: Object,
+			constantDefinitions: Object,
+			tree: Array
+		},
+		observers:[
+
+			'_refreshNodesTemplate(model.tree.length)',
+			'_refreshTree(model._id)'
+
+		],
+		ready: function(){
+			this.$.container.addEventListener('scroll', function(){
+				this.canvas.offsetY = this.$.container.scrollTop;
+				this.canvas.offsetX = this.$.container.scrollLeft;
+			}.bind(this));
+		},
+		/**
+		 * If you tap the background, send a controller-open signal, so all input
+		 * controllers are closed.
+		 */
+		_onBgTap: function(){
+			this.fire('iron-signal', {name: 'controller-open', data: this});
+		},
+		/**
+		 * For some reason the dom-repeat template is failing to re-render when
+		 * there is a splice in tree. Let's give it a litle poke.
+		 */
+		_refreshNodesTemplate: function(lenght){
+			if(this.oldTreeLength > lenght){
+				this._refreshTree();
+			}
+			else{
+				this.$.nodesTemplate.render();
+			}
+			this.oldTreeLength = lenght;
+
+		},
+		/**
+		 * Force dom-repeat template to destroy and recreate all items.
+		 */
+		_refreshTree: function(){
+			this.tree = [];
+			this.async(function(){
+				this.set('tree', this.model.tree);
+			}.bind(this));
+
+		}
+	});
+})();
+</script>

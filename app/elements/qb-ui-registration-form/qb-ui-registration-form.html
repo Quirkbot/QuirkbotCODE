@@ -1,0 +1,212 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+
+
+<link rel="import" href="../qb-behavior-form/qb-behavior-form.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-form-input/qb-ui-form-input.html">
+<link rel="import" href="../qb-ui-form-dropdown/qb-ui-form-dropdown.html">
+<link rel="import" href="../qb-ui-form-radiogroup/qb-ui-form-radiogroup.html">
+<link rel="import" href="../qb-ui-form-date/qb-ui-form-date.html">
+
+
+
+<dom-module id='qb-ui-registration-form'>
+	<style>
+		:host{
+			display: block;
+
+		}
+		.notice{
+			background-color: rgba(255,0,0,0.1);
+			border-radius: 10px;
+			padding: 20px;
+
+		}
+		form{
+			position: relative;
+		}
+		.loading-indicator{
+			background-color: rgba(255,255,255, 0.7);
+		}
+
+	</style>
+	<template>
+
+		<form
+			is="iron-form"
+			id="form"
+			method="post"
+			action="[[action]]"
+			disable-Native-Validation-Ui
+			on-iron-form-submit='_onSubmit'
+			on-iron-form-response='_onResponse'
+			on-iron-form-error='_onError'>
+
+			<qb-ui-form-input
+				id="nickname"
+				name="nickname"
+				value="{{nickname}}"
+				hidden$="{{nicknameHidden}}"
+				strings-base="register/registration/nickname"
+				required
+				char-counter
+				maxlength="45">
+			</qb-ui-form-input>
+
+			<qb-ui-form-date
+				id="birthdate"
+				name="birthdate"
+				value="{{birthdate}}"
+				hidden$="{{birthdateHidden}}"
+				strings-base="register/registration/birthdate"
+				always-float-label
+				no-float-inner-label
+				required>
+			</qb-ui-form-date>
+
+			<div
+				class="notice"
+				hidden$="{{!under13}}">
+				<qb-core-i18n
+					key="register/registration/copa-notice"></qb-core-i18n>
+			</div>
+
+			<qb-ui-form-input
+				id="email"
+				name="email"
+				value="{{email}}"
+				hidden$="{{emailHidden}}"
+				strings-base="{{emailStringBase}}"
+				required
+				type="email">
+			</qb-ui-form-input>
+
+			<!--<qb-ui-form-dropdown
+				id="country"
+				name="country"
+				value="{{country}}"
+				hidden$="{{countryHidden}}"
+				strings-base="register/registration/country"
+				list="[[countriesList]]"
+				required>
+			</qb-ui-form-dropdown>
+
+			<qb-ui-form-radiogroup
+				id="gender"
+				name="gender"
+				value="{{gender}}"
+				hidden$="{{genderHidden}}"
+				strings-base="register/registration/gender"
+				list="[[genderList]]"
+				always-float-label
+				required>
+			</qb-ui-form-radiogroup>-->
+
+			<qb-ui-form-input
+				id="password"
+				name="password"
+				value="{{password}}"
+				hidden$="{{passwordHidden}}"
+				strings-base="register/registration/password"
+				required
+				type="password"
+				value="{{passwordValue}}"
+				minlength="6">
+			</qb-ui-form-input>
+
+			<qb-ui-form-input
+				id="password-confirmation"
+				name="password"
+				value="{{passwordConfirmation}}"
+				hidden$="{{passwordConfirmationHidden}}"
+				strings-base="register/registration/password-confirmation"
+				required
+				pattern="{{_exactMatchRegex(passwordValue)}}"
+				type="password"
+				minlength="6">
+			</qb-ui-form-input>
+
+			<paper-button
+				on-tap='_onSubmitTap'
+				disabled$="{{registerLoading}}">
+				<qb-core-i18n
+					key="register/registration/submit"></qb-core-i18n>
+			</paper-button>
+
+			<template
+				is="dom-if"
+				if="{{registerLoading}}">
+				<div
+					class="loading-indicator fit horizontal layout center center-justified"
+					>
+					<paper-spinner
+						active>
+					</paper-spinner>
+				</div>
+			</template>
+
+		</form>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIRegistrationForm = Polymer({
+		is: 'qb-ui-registration-form',
+		properties: {
+
+			under13: {
+				type: Boolean,
+				value: false,
+				computed: '_computeUnder13(birthdate)'
+			},
+			emailStringBase: {
+				type: String,
+				computed: '_computeEmailStringBase(under13)'
+			}
+		},
+		behaviors:[
+			window.Quirkbot.FormBehavior
+		],
+		ready: function () {
+			var countries = ['AF','AL','DZ','AS','AD','AO','AI','AQ','AG','AR','AM','AW','AU','AT','AZ','BS','BH','BD','BB','BY','BE','BZ','BJ','BM','BT','BO','BA','BW','BV','BR','BQ','IO','VG','BN','BG','BF','BI','KH','CM','CA','CT','CV','KY','CF','TD','CL','CN','CX','CC','CO','KM','CG','CD','CK','CR','HR','CU','CY','CZ','CI','DK','DJ','DM','DO','NQ','DD','EC','EG','SV','GQ','ER','EE','ET','FK','FO','FJ','FI','FR','GF','PF','TF','FQ','GA','GM','GE','DE','GH','GI','GR','GL','GD','GP','GU','GT','GG','GN','GW','GY','HT','HM','HN','HK','HU','IS','IN','ID','IR','IQ','IE','IM','IL','IT','JM','JP','JE','JT','JO','KZ','KE','KI','KW','KG','LA','LV','LB','LS','LR','LY','LI','LT','LU','MO','MK','MG','MW','MY','MV','ML','MT','MH','MQ','MR','MU','YT','FX','MX','FM','MI','MD','MC','MN','ME','MS','MA','MZ','MM','NA','NR','NP','NL','AN','NT','NC','NZ','NI','NE','NG','NU','NF','KP','VD','MP','NO','OM','PC','PK','PW','PS','PA','PZ','PG','PY','YD','PE','PH','PN','PL','PT','PR','QA','RO','RU','RW','RE','BL','SH','KN','LC','MF','PM','VC','WS','SM','SA','SN','RS','CS','SC','SL','SG','SK','SI','SB','SO','ZA','GS','KR','ES','LK','SD','SR','SJ','SZ','SE','CH','SY','ST','TW','TJ','TZ','TH','TL','TG','TK','TO','TT','TN','TR','TM','TC','TV','UM','PU','VI','UG','UA','SU','AE','GB','US','ZZ','UY','UZ','VU','VA','VE','VN','WK','WF','EH','YE','ZM','ZW','AX'];
+			this.countriesList = countries.map(function(code){
+				return {
+					value: code,
+					key: 'country/' + code
+				};
+			});
+			var genders = ['female', 'male', 'other', 'undefined'];
+			this.genderList = genders.map(function(code){
+				return {
+					value: code,
+					key: 'gender/' + code
+				};
+			});
+			this.gender = 'undefined';
+		},
+		_computeUnder13: function (date) {
+			var millis = new Date() - new Date(date);
+			var s = millis / 1000;
+			var m = s / 60;
+			var h = m / 60;
+			var d = h / 24;
+			var y = d / 365;
+
+			return (y < 13);
+		},
+		_computeEmailStringBase: function (under13) {
+			if(under13){
+				return 'register/registration/guardian-email';
+			}
+			return 'register/registration/email';
+		}
+	});
+})();
+</script>

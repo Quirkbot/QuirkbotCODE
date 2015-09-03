@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="qb-core-node-definitions">
+	<template>
+		<iron-ajax
+			id="dataLoader"
+			handle-as="json"
+			url="{{url}}"
+			on-response="onResponse">
+		</iron-ajax>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreNodeDefinitions = Polymer({
+		is: 'qb-core-node-definitions',
+		properties: {
+			url: {
+				type: String,
+				observer: '_urlChanged'
+			},
+			nodes: {
+				type: Array,
+				notify: true
+			},
+			taxonomies: {
+				type: Array,
+				notify: true
+			},
+			constants: {
+				type: Array,
+				notify: true
+			}
+		},
+		_urlChanged: function(){
+			this.$.dataLoader.generateRequest();
+		},
+		onResponse: function(event){
+			this.nodes = event.detail.response.nodes;
+			this.constants = event.detail.response.constants;
+			this.taxonomies = event.detail.response.taxonomies;
+		}
+	});
+})();
+</script>

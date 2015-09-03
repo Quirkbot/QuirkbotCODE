@@ -1,0 +1,161 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-node-input/qb-ui-node-input.html">
+
+<dom-module id='qb-ui-node-input-collection'>
+
+	<style>
+		:host{
+			display: block;
+		}
+		:host{
+			display: block;
+
+			--label-offset: var(--qb-ui-node-input-label-offset, 6px);
+			--label-font-size: var(--qb-ui-node-input-label-font-size, 12px);
+			@apply(--qb-ui-node-input-collection);
+		};
+		.label{
+			font-size: var(--label-font-size);
+			color: var(--qb-text-background-color);
+			margin-left: var(--label-offset);
+			display: inline-block;
+			@apply(--qb-ui-node-input-label);
+		}
+		paper-icon-button{
+			border-radius: 999px;
+			padding: 0;
+			background-color: var(--qb-text-background-color);
+			--iron-icon-width: var(--qb-ui-node-input-collection-button-size, 25px);
+			--iron-icon-height: var(--qb-ui-node-input-collection-button-size, 25px);
+			transform: scale(0.65);
+			@apply(--qb-ui-node-input-collection-button);
+		}
+		.input-inner-wrapper{
+			display: inline-block;
+		}
+		paper-icon-button.delete{
+			display: inline-block;
+			transform: translate3d(0,-6px,0	) scale(0.65);
+		}
+
+		qb-ui-node-input{
+			--qb-ui-node-input:{
+				display:flex;
+			};
+			--qb-ui-node-input-label:{
+				order:2;
+				margin-left: 8px;
+				margin-top: 1px;
+			};
+			--qb-ui-node-input-handle:{
+				order:1;
+			};
+		}
+	</style>
+
+	<template>
+		<div class="header">
+			<div class="label">
+				<qb-core-i18n
+					key="{{nameKey}}"
+					value="{{nameValue}}"></qb-core-i18n>
+			</div>
+
+			<paper-icon-button
+				class="add"
+				icon="[[resolveIconName('add-input', 'qb-buttons')]]"
+				alt="add"
+				on-down="_onAddPress">
+			</paper-icon-button>
+		</div>
+
+		<template
+			is="dom-repeat"
+			items="{{children}}">
+
+			<div class="input-wrapper">
+				<div class="input-inner-wrapper">
+					<qb-ui-node-input
+						class="collection-item"
+						svg-canvas="{{svgCanvas}}"
+						model-controller="{{modelController}}"
+						tree-manager="{{treeManager}}"
+						node-definitions="{{nodeDefinitions}}"
+						constant-definitions="{{constantDefinitions}}"
+						definition="{{item.definition}}"
+						data="{{item.data}}">
+					</qb-ui-node-input>
+				</div>
+				<paper-icon-button
+					class="delete"
+					icon="[[resolveIconName('delete-input', 'qb-buttons')]]"
+					alt="remove"
+					on-down="_onRemovePress">
+				</paper-icon-button>
+			</div>
+		</template>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINodeInputCollection = Polymer({
+		is: 'qb-ui-node-input-collection',
+		properties:{
+			children: Array,
+			treeManager: Object
+		},
+		behaviors:[
+			window.Quirkbot.NodeConnectorBehavior,
+			window.Quirkbot.UtilsBehavior
+		],
+		observers:[
+			'_computeChildren(data, definition)',
+			'_computeChildren(data.children.splices)'
+		],
+		_onAddPress: function(){
+			this.push('data.children', {
+				_id : this.definition._id + '.' + this.children.length
+			});
+		},
+		_onRemovePress: function(e){
+			var index = this.findOneIndexByKey(this.data.children, '_id', e.model.item.data._id);
+			if(index === -1) {
+				return;
+			}
+
+			this.splice('data.children', index, 1);
+
+			this.data.children.forEach(function(child, index){
+				child._id =  this.definition._id + '.' + index;
+			}.bind(this));
+		},
+		/*_createChild: function(){
+			return {
+				definition: this.definition,
+				data: {
+					_id : this.definition._id + '.' + this.children.length
+				}
+			};
+		},*/
+		_computeChildren: function(){
+			if(!this.definition){
+				return;
+			}
+			this.children = [];
+			//console.log(this)
+			this.data.children.forEach(function(data){
+				this.push('children', {
+					definition: this.definition,
+					data: data
+				});
+			}.bind(this));
+			this.fire('items-splices');
+		}
+	});
+})();
+</script>

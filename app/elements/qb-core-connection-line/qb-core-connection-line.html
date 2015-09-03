@@ -1,0 +1,149 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function () {
+
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreConnectionLine = Polymer({
+		is: 'qb-core-connection-line',
+		properties: {
+			canvas: {
+				type: Object,
+				observer: '_canvasChanged'
+			},
+			source: {
+				type: Object,
+				observer: '_sourceChanged'
+			},
+			destination: {
+				type: Object,
+				observer: '_destinationChanged'
+			}
+		},
+		line: null,
+		commonParent: null,
+		created: function() {
+			this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
+		},
+		detached: function() {
+			if(typeof this.canvas !== 'undefined'){
+				this.canvas.remove(this.line);
+			}
+			if(typeof this.source !== 'undefined'){
+				this.removeDragListeners(this.source);
+			}
+			if(typeof this.destination !== 'undefined'){
+				this.removeDragListeners(this.destination);
+			}
+		},
+		sharesCommonParent: function(node){
+			var parent = this._findParent(node);
+			if(!parent) {
+				return false;
+			}
+			if(parent === this.commonParent) {
+				return true;
+			}
+			return this.sharesCommonParent(parent);
+		},
+		computePositionRelativeToCanvas: function(node){
+			var boundingRect = node.getBoundingClientRect();
+			var canvasBoundingRect = this.canvas.getBoundingClientRect();
+			var position = {
+				x:boundingRect.left + boundingRect.width/2 - canvasBoundingRect.left + this.canvas.offsetX,
+				y:boundingRect.top + boundingRect.height/2	- canvasBoundingRect.top + this.canvas.offsetY
+			};
+			return position;
+		},
+		addDragListeners: function(node){
+			if(node === this.commonParent) {
+				return;
+			}
+			if(node.DraggableBehavior){
+				this.listen(node, 'dragmove', 'postionUpdated');
+			}
+			var parent = this._findParent(node);
+			if(parent) {
+				return this.addDragListeners(parent);
+			}
+		},
+		removeDragListeners: function(node){
+			if(node === this.commonParent){
+				return;
+			}
+			if(node.DraggableBehavior){
+				this.unlisten(node, 'dragmove', 'postionUpdated');
+			}
+			var parent = this._findParent(node);
+			if(parent) {
+				return this.removeDragListeners(parent);
+			}
+		},
+		postionUpdated: function(){
+			if(!this.source || !this.destination || !this.canvas){
+				return;
+			}
+
+			var sourcePosition = this.computePositionRelativeToCanvas(this.source);
+			var destinationPosition = this.computePositionRelativeToCanvas(this.destination);
+
+			this.line.setAttributeNS(null, 'x1', sourcePosition.x);
+			this.line.setAttributeNS(null, 'y1', sourcePosition.y);
+			this.line.setAttributeNS(null, 'x2', destinationPosition.x);
+			this.line.setAttributeNS(null, 'y2', destinationPosition.y);
+		},
+		_hideLine: function(){
+			this.line.removeAttributeNS(null, 'x1');
+			this.line.removeAttributeNS(null, 'y1');
+			this.line.removeAttributeNS(null, 'x2');
+			this.line.removeAttributeNS(null, 'y2');
+		},
+		_canvasChanged: function(canvas, oldCanvas){
+			if(oldCanvas){
+				oldCanvas.remove(this.line);
+			}
+			canvas.add(this.line);
+			this.commonParent = Polymer.dom(canvas).parentNode;
+			this.postionUpdated();
+		},
+		_sourceChanged: function(source, oldSource){
+			if(oldSource){
+				this.removeDragListeners(oldSource);
+			}
+			if(!source) {
+				return this._hideLine();
+			}
+			if(!this.sharesCommonParent(source)){
+				console.warn('"qb-core-connection-line": "source" do not share a commonParent with "canvas".');
+				return;
+			}
+			this.addDragListeners(source);
+			this.postionUpdated();
+		},
+		_destinationChanged: function(destination, oldDestination){
+			if(oldDestination){
+				this.removeDragListeners(oldDestination);
+			}
+			if(!destination) {
+				return this._hideLine();
+			}
+			if(!this.sharesCommonParent(destination)){
+				console.warn('"qb-core-connection-line": "destination" do not share a commonParent with "canvas".');
+				return;
+			}
+			this.addDragListeners(destination);
+			setTimeout(this.postionUpdated.bind(this), 10);
+		},
+		_findParent: function(node){
+			var parent = Polymer.dom(node).parentNode;
+			if(!parent){
+				if(node.host){
+					parent = node.host;
+				}
+			}
+			return parent;
+		}
+	});
+})();
+</script>

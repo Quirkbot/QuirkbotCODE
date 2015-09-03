@@ -1,0 +1,92 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/observe-js/observe-js.html">
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot._CoreIl8nCache = {};
+	window.Quirkbot._CoreIl8nCurrent = {};
+	window.Quirkbot.CoreIl8n = Polymer({
+		is: 'qb-core-i18n',
+		properties: {
+			urlFormat: {
+				type: String,
+				value: '/data/strings/{{locale}}.json'
+			},
+			locale: {
+				type: String
+			},
+			key:{
+				type: String,
+				observer: '_computeValue'
+			},
+			/**
+			 * Don't use the key as the value, in case the value is undefined
+			 **/
+			noKeyOnEmptyValue:{
+				type: Boolean,
+				value: false
+			},
+			value:{
+				type: String,
+				notify: true,
+				observer: '_valueChanged'
+			}
+		},
+		observers:[
+			'_changeLocale(locale, urlFormat)'
+		],
+		originalTextContent: '',
+		created: function(){
+			this.originalTextContent = this.textContent;
+			// Bind to changes in cache
+			var observer = new window.ObjectObserver(window.Quirkbot._CoreIl8nCurrent);
+			observer.open(function() {
+				this._computeValue();
+			}.bind(this));
+		},
+		_changeLocale: function(locale, urlFormat){
+
+			if(!locale || !urlFormat) {
+				return;
+			}
+
+			if(window.Quirkbot._CoreIl8nCache[locale]) {
+				window.Quirkbot._CoreIl8nCurrent.locale = window.Quirkbot._CoreIl8nCache[locale];
+				return;
+			}
+
+			if(!this.loader){
+				this.loader = document.createElement('iron-ajax');
+				this.listen(this.loader, 'response', '_onLocaleResponse');
+			}
+			this.loader.url = urlFormat.replace('{{locale}}', locale);
+			this.loader.generateRequest();
+		},
+		_onLocaleResponse: function(event){
+			window.Quirkbot._CoreIl8nCache[this.locale] = event.detail.response;
+			window.Quirkbot._CoreIl8nCurrent.locale = window.Quirkbot._CoreIl8nCache[this.locale];
+			Platform.performMicrotaskCheckpoint();
+		},
+		_computeValue: function(){
+
+			if(window.Quirkbot._CoreIl8nCurrent.locale && typeof window.Quirkbot._CoreIl8nCurrent.locale[this.key] !== 'undefined'){
+				this.value = window.Quirkbot._CoreIl8nCurrent.locale[this.key];
+			}
+			else if(this.originalTextContent){
+				this.value = this.originalTextContent;
+			}
+			else if(!this.noKeyOnEmptyValue) {
+				this.value = this.key;
+			}
+			else{
+				this.value = '';
+			}
+		},
+		_valueChanged: function(value){
+			this.innerHTML = value;
+		}
+	});
+})();
+</script>

@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.NodeConnectorBehavior = {
+		NodeConnectorBehavior: true,
+		properties: {
+			svgCanvas: {
+				type: Object
+			},
+			containerNode:{
+				type: Object
+			},
+			modelController:{
+				type: Object
+			},
+			nodeDefinitions: {
+				type: Object
+			},
+			constantDefinitions: {
+				type: Object
+			},
+			definition: {
+				type: Object
+			},
+			data: {
+				type: Object,
+				observer: '_dataChanged'
+			},
+			nameKey: {
+				type: String,
+				computed: '_computeNameKey(definition)'
+			},
+			nameValue: {
+				type: String
+			},
+			name: {
+				type: String,
+				computed: '_computeName(nameValue)'
+			}
+		},
+		_computeNameKey: function(definition){
+			return 'node/connection/name/'+definition._id;
+		},
+		_dataChanged: function(){
+			this.data.element = this;
+		},
+		_computeName: function(nameValue){
+			var idParts = this.data._id.split('.');
+			if(idParts.length === 2){
+				return idParts[1];
+			}
+			return nameValue;
+		}
+	};
+})();
+</script>
