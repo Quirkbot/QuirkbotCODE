@@ -26,6 +26,7 @@
     "gulp-html-minifier": "*",
     "gulp-minify-inline": "*",
     "gulp-debug" : "*",
+    "gulp-rev-hash" : "*",
     "polybuild" : "*",
     "jshint-stylish": "^2.0.0",
     "merge-stream": "^0.1.7",

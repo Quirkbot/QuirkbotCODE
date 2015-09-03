@@ -9,7 +9,7 @@
 	window.Quirkbot.CoreRouter = Polymer({
 		is: 'qb-core-router',
 		properties: {
-			programId: {
+			entry: {
 				type: String,
 				notify: true
 			}
@@ -23,7 +23,7 @@
 				if(id.length && id[0] === '/'){
 					id = id.substr(1);
 				}
-				this.programId = id;
+				this.entry = id;
 			}.bind(this));
 			page({});
 

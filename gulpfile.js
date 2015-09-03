@@ -130,6 +130,8 @@ gulp.task('html', function () {
   return gulp.src(['app/**/*.html','app/**/*.css','app/**/*.js'])
     // Replace path for vulcanized assets
     .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.build.html')))
+    // Replace path for minimized webcomponentsjs
+    .pipe($.if('*.html', $.replace('bower_components/webcomponentsjs/webcomponents-lite.js', 'bower_components/webcomponentsjs/webcomponents-lite.min.js')))
     .pipe(assets)
     // Concatenate And Minify JavaScript
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
@@ -145,44 +147,28 @@ gulp.task('html', function () {
     .pipe($.size({title: 'html'}));
 });
 
+
 // Vulcanize imports
-gulp.task('vulcanize', function () {
+gulp.task('revision', function () {
+    var fs = require('fs');
+    var manifest = JSON.parse(fs.readFileSync('dist/manifest.json'));
+    return gulp.src(['dist/**/*.html'])
+      .pipe($.replace('elements.vulcanized.build.html', 'elements.vulcanized.build.html?'+manifest.version))
+      .pipe($.replace('elements.vulcanized.build.js', 'elements.vulcanized.build.js?'+manifest.version))
+      .pipe($.replace('data/nodes.json', 'data/nodes.json?'+manifest.version))
+      .pipe($.replace('data/strings/{{locale}}.json', 'data/strings/{{locale}}.json?'+manifest.version))
+      .pipe(gulp.dest('dist'))
+      .pipe($.size({title: 'revision'}));
+});
+gulp.task('polybuild', function () {
   var DEST_DIR = 'dist/elements';
 
   return gulp.src('dist/elements/elements.vulcanized.html')
     .pipe(polybuild({maximumCrush: true}))
-    /*.pipe($.vulcanize({
-      stripComments: true,
-      inlineCss: true,
-      inlineScripts: true
-  }))*/
     .pipe(gulp.dest(DEST_DIR))
-    .pipe($.size({title: 'vulcanize'}));
+    .pipe($.size({title: 'polybuild'}));
 });
 
-// Compress
-/*gulp.task('compress', function () {
-  var DEST_DIR = 'dist/elements';
-
-  return gulp.src('dist/elements/elements.vulcanized.html')
-    //.pipe($.crisper())
-    //.pipe($.if('*.js', $.uglify()))
-    //.pipe($.if('*.html', $.minifyHtml()))
-    .pipe($.if('*.html', $.minifyInline()))
-    //.pipe($.if('*.html', $.htmlMinifier()))
-    .pipe(gulp.dest(DEST_DIR))
-    .pipe($.size({title: 'compress'}));
-});*/
-
-// Crisper
-/*gulp.task('crisper', function () {
-  var DEST_DIR = 'dist/elements';
-
-  return gulp.src('dist/elements/elements.vulcanized.html')
-    .pipe($.crisper())
-    .pipe(gulp.dest(DEST_DIR))
-    .pipe($.size({title: 'compress'}));
-});*/
 
 // Generate a list of files that should be precached when serving from 'dist'.
 // The list will be consumed by the <platinum-sw-cache> element.
@@ -201,7 +187,7 @@ gulp.task('precache', function (callback) {
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+gulp.task('clean', del.bind(null, ['.tmp', 'dist', 'static']));
 
 // Watch Files For Changes & Reload
 gulp.task('serve', ['styles', 'elements', 'images'], function () {
@@ -258,15 +244,88 @@ gulp.task('serve:dist', ['default'], function () {
   });
 });
 
+
+
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function (cb) {
   runSequence(
     ['copy', 'styles'],
     'elements',
     ['jshint', 'images', 'fonts', 'html'],
-    'vulcanize',
+    'polybuild',
+    'revision',
     cb);
     // Note: add , 'precache' , after 'vulcanize', if your are going to use Service Worker
+});
+
+// Prepare for serving the static files
+// Resolve static paths
+gulp.task('static-copy', function () {
+  return gulp.src(['dist/**/*'])
+    .pipe(gulp.dest('static/_static'))
+    .pipe($.size({title: 'static-copy'}));
+});
+gulp.task('static-path', function () {
+  return gulp.src(['static/_static/_static_*.html'])
+    // Replace path for static entrypoints
+    .pipe($.replace('./data', '../_static/data'))
+    .pipe($.replace('./bower_components', '../_static/bower_components'))
+    .pipe($.replace('./elements', '../_static/elements'))
+    .pipe($.replace('./fonts', '../_static/fonts'))
+    .pipe($.replace('./images', '../_static/images'))
+    .pipe($.replace('./scripts', '../_static/scripts'))
+    .pipe($.replace('./styles', '../_static/styles'))
+    .pipe(gulp.dest('static/_static'))
+    .pipe($.size({title: 'static-path'}));
+});
+gulp.task('static-entrypoints', function () {
+  return gulp.src('static/_static/_static_*.html')
+    .pipe($.rename(function (path) {
+        path.basename = path.basename.replace('_static_', '') + '/index';
+    }))
+    .pipe(gulp.dest('static/'))
+    .pipe($.size({title: 'static-entrypoints'}));
+});
+gulp.task('static-clean',
+    del.bind(null, [
+        'static/_static/bower_components/**/*',
+        '!static/_static/bower_components/webcomponentsjs',
+        'static/_static/bower_components/webcomponentsjs/**/*',
+        '!static/_static/bower_components/webcomponentsjs/webcomponents-lite.min.js',
+        'static/_static/elements/**/*',
+        '!static/_static/elements/elements.vulcanized.build.html',
+        '!static/_static/elements/elements.vulcanized.build.js'
+    ]
+));
+
+// Prepare for static
+gulp.task('static', ['default'], function (cb) {
+  runSequence(
+    'static-copy',
+    'static-clean',
+    'static-path',
+    'static-entrypoints',
+    cb);
+});
+gulp.task('serve:static', ['static'], function () {
+  browserSync({
+    notify: false,
+    logPrefix: 'PSK',
+    snippetOptions: {
+      rule: {
+        match: '<span id="browser-sync-binding"></span>',
+        fn: function (snippet) {
+          return snippet;
+        }
+      }
+    },
+    // Run as an https by uncommenting 'https: true'
+    // Note: this uses an unsigned certificate which on first access
+    //       will present a certificate warning in the browser.
+    // https: true,
+    server: 'static',
+    middleware: [ historyApiFallback() ]
+  });
 });
 
 // Load tasks for web-component-tester

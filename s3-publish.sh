@@ -1,18 +1,4 @@
-gulp
-rm -r s3_publish
-cp -r dist s3_publish
+gulp static
 
-rm -r s3_publish/bower_components
-mkdir -p s3_publish/bower_components/webcomponentsjs
-cp dist/bower_components/webcomponentsjs/webcomponents-lite.min.js \
-s3_publish/bower_components/webcomponentsjs/webcomponents-lite.min.js
-
-rm -r s3_publish/elements
-mkdir -p s3_publish/elements
-cp  dist/elements/elements.vulcanized.build.html \
-s3_publish/elements/elements.vulcanized.build.html
-cp  dist/elements/elements.vulcanized.build.js \
-s3_publish/elements/elements.vulcanized.build.js
-
-aws s3 sync s3_publish s3://code.quirkbot.com/program --delete --exclude *.DS_Store
-#rm -r s3_publish
+aws s3 sync static/_static s3://code.quirkbot.com/_static --delete --exclude *.DS_Store
+aws s3 sync static/program s3://code.quirkbot.com/program --delete --exclude *.DS_Store
