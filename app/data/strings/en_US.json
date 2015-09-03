@@ -59,15 +59,15 @@
 	"ide/quirkbots-area/dialog/confirm":	"OK",
 
 	"IDE - Warnings Overlay ---------------------------------------------" : "",
-	"ide/warnings/setup/offline/title": "Can't open program",
+	"ide/warnings/setup/offline/title": "Can't open CODE",
 	"ide/warnings/setup/offline/header": "Connection error",
 	"ide/warnings/setup/offline/description": "We can't reach the data servers. This could be a problem with your internet connection.",
-	"ide/warnings/setup/offline/continue": "Create new program",
+	"ide/warnings/setup/offline/continue": "Create new CODE",
 
-	"ide/warnings/setup/not-found/title": "Can't open program",
-	"ide/warnings/setup/not-found/header": "Program not found",
-	"ide/warnings/setup/not-found/description": "The program you are trying to access doesn't exist.",
-	"ide/warnings/setup/not-found/continue": "Create new program",
+	"ide/warnings/setup/not-found/title": "Can't open CODE",
+	"ide/warnings/setup/not-found/header": "CODE not found",
+	"ide/warnings/setup/not-found/description": "The CODE you are trying to access doesn't exist.",
+	"ide/warnings/setup/not-found/continue": "Create new CODE",
 
 	"ide/warnings/setup/no-user/title": "Access denied",
 	"ide/warnings/setup/no-user/header": "You are not logged in",

@@ -1,5 +1,55 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
+<dom-module id="qb-dialog-styles">
+	<template>
+		<style>
+			#dialog{
+				width: 300px;
+				padding: 25px;
+				border-radius: 10px;
+				border: solid 4px var(--qb-interactive-color-transparent);
+				box-shadow: 0 0 0 4px var(--qb-interactive-color-transparent);
+				--paper-dialog: {
+					box-shadow: none;
+				};
+			}
+			#dialog > *{
+				padding: 0;
+			}
+			.dialog-header{
+				margin:0;
+			}
+			.dialog-content{
+				margin: 10px 0 0 0;
+			}
+			.dialog-content .header{
+				margin: 0 0 10px 0;
+			}
+			.buttons{
+				margin: 25px 0 0 0;
+			}
+			.buttons paper-button{
+				border-radius: 10px;
+				color: var(--qb-white);
+			}
+			.buttons [dialog-dismiss]{
+				background: var(--qb-red-hard-transparent);
+			}
+			.buttons [dialog-confirm],
+			.buttons [dialog-continue]{
+				background: var(--qb-green-hard-transparent);
+
+			}
+			.dialog-content paper-progress {
+				--paper-progress-transition-duration: 0.1s;
+				display: block;
+				width: 100%;
+			}
+		</style>
+	</template>
+</dom-module>
+
+
 <style is="custom-style">
 :root {
 	--paper-progress-container:{

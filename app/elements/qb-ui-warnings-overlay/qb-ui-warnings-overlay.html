@@ -17,28 +17,13 @@
 <link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
 
 <dom-module id='qb-ui-warnings-overlay'>
-	<style>
-
-		#dialog{
-			width: 300px;
-			border-radius: 10px;
-			--paper-dialog: {
-				box-shadow: none;
-			};
-		}
-		[dialog-dismiss]{
-			color: red;
-		}
-		[dialog-confirm],
-		[dialog-continue]{
-			color: green;
-		}
-
-
-
-	</style>
-
 	<template>
+		<style include="qb-dialog-styles"></style>
+		<style>
+			:host{
+
+			}
+		</style>
 		<paper-dialog
 			modal
 			no-cancel-on-esc-key
