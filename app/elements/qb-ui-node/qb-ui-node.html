@@ -265,8 +265,7 @@
 		properties: {
 			svgCanvas: Object,
 			modelController: {
-				type: Object,
-				observer: '_modelControllerChanged'
+				type: Object
 			},
 			treeManager: Object,
 			nodeDefinitions: Object,
@@ -296,9 +295,6 @@
 			'_constrainDrag(data.visualX, data.visualY)',
 			'__idChanged(data._id)'
 		],
-		_modelControllerChanged: function (m) {
-			console.log('ui-node','_modelControllerChanged', m);
-		},
 		_dataChanged: function(){
 			this.data.element = this;
 		},

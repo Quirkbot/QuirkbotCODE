@@ -45,8 +45,7 @@
 					tree-manager="{{treeManager}}"
 					node-definitions="{{nodeDefinitions}}"
 					constant-definitions="{{constantDefinitions}}"
-					data="{{item}}"
-					>
+					data="{{item}}">
 				</qb-ui-node>
 
 			</template>
@@ -66,8 +65,7 @@
 			canvas: Object,
 			model: Object,
 			modelController: {
-				type: Object,
-				observer: '_modelControllerChanged'
+				type: Object
 			},
 			treeManager: Object,
 			nodeDefinitions: Object,
@@ -80,9 +78,6 @@
 			'_refreshTree(model._id)'
 
 		],
-		_modelControllerChanged: function (m) {
-			console.log('ui-editor-visual','_modelControllerChanged', m);
-		},
 		ready: function(){
 			this.$.container.addEventListener('scroll', function(){
 				this.canvas.offsetY = this.$.container.scrollTop;

@@ -104,8 +104,7 @@
 		],
 		properties: {
 			modelController: {
-				type: Object,
-				observer: '_modelControllerChanged'
+				type: Object
 			},
 			outlet:{
 				type: Object
@@ -116,9 +115,6 @@
 		},
 		listeners:{
 			'dragOutlet.dragend': '_onDragOutletDragend'
-		},
-		_modelControllerChanged: function (m) {
-			console.log('ui-node-output','_modelControllerChanged', m);
 		},
 		attached: function() {
 			this.outlet = this.$.outlet;

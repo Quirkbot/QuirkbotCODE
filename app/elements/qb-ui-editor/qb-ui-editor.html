@@ -60,13 +60,12 @@
 					tree-manager="{{treeManager}}"
 					constant-definitions="{{constantDefinitions}}">
 				</qb-ui-editor-visual>
-				<template is="dom-if" if="{{textMode}}">
-					<qb-ui-editor-text
-						class="editor"
-						self="{{textEditor}}"
-						computed-code="{{computedCode}}">
-					</qb-ui-editor-text>
-				</template>
+				<qb-ui-editor-text
+					hidden$="[[!textMode]]"
+					class="editor"
+					self="{{textEditor}}"
+					computed-code="{{computedCode}}">
+				</qb-ui-editor-text>
 			</div>
 		</paper-drawer-panel>
 	</template>
@@ -79,8 +78,7 @@
 		properties: {
 			model: Object,
 			modelController: {
-				type: Object,
-				observer: '_modelControllerChanged'
+				type: Object
 			},
 			treeManager: Object,
 			computedCode: String,
@@ -97,9 +95,6 @@
 			textEditor: Object,
 			visualMode: Boolean,
 			textMode: Boolean
-		},
-		_modelControllerChanged: function (m) {
-			console.log('ui-editor','_modelControllerChanged', m);
 		},
 		_modeChanged: function (mode) {
 			if(mode === 'text'){

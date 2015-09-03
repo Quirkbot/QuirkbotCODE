@@ -19,212 +19,209 @@
 <link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
 
 <dom-module id='qb-ui-node-input'>
-	<style>
-		:host{
-			display: block;
-			position: relative;
-			--handle-height: var(--qb-ui-node-input-handle-height, 20px);
-			--handle-offset: var(--qb-ui-node-input-handle-offset, -23px);
-			--value-font-size: var(--qb-ui-node-input-value-font-size, 12px);
-			--label-offset: var(--qb-ui-node-input-label-offset, 6px);
-			--label-font-size: var(--qb-ui-node-input-label-font-size, 12px);
-			@apply(--qb-ui-node-input);
-		};
-		.label{
-			font-size: var(--label-font-size);
-			color: var(--qb-text-background-color);
-			margin-left: var(--label-offset);
-			margin-bottom: 2px;
-			@apply(--qb-ui-node-input-label);
-		}
-		.handle{
-			cursor: pointer;
-			position: relative;
-			display: inline-block;
-
-			height: var(--handle-height);
-			margin-left: var(--handle-offset);
-			@apply(--qb-ui-node-input-handle);
-		}
-		.handle:hover{
-			@apply(--qb-ui-node-input-handle-hover);
-		}
-		.inlet{
-			position: absolute;
-			top: 0;
-			left: 0;
-			@apply(--qb-ui-node-input-inlet);
-
-			--qb-ui-node-input-inlet:{
-				width: var(--handle-height);
-				height: var(--handle-height);
-			};
-		}
-		:host([connection-type="Output"]) .inlet{
-			cursor: move;
-			cursor: grab;
-			cursor: -moz-grab;
-			cursor: -webkit-grab;
-		}
-		:host([connection-type="Output"]) .inlet:active{
-			cursor: move;
-			cursor: grabbing;
-			cursor: -moz-grabbing;
-			cursor: -webkit-grabbing;
-		}
-
-		.value-container{
-			border-radius: 999px;
-			background-color:  var(--qb-text-background-color);
-			padding: 0 1em 0 2em;
-			display: inline-block;
-			@apply(--qb-font-code);
-			@apply(--qb-ui-node-input-label-theme);
-			font-size: var(--value-font-size);
-			line-height: var(--handle-height);
-			height: var(--handle-height);
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			max-width: 100px;
-		}
-		.handle:hover .value-container,
-		:host([controller-openend]) .value-container{
-			background-color:  var(--qb-interactive-color);
-		}
-
-		:host([connection-type="Output"]) .value-container{
-			color: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color);
-		}
-
-
-		/* controller */
-		:host([controller-openend]) .controller{
-			display: block;
-			@apply(--qb-ui-node-input-controller-active);
-		}
-		.controller{
-			z-index: 1;
-			position: absolute;
-			top: 6px;
-			left: 7px;
-			width: 180px;
-			cursor: auto;
-			background-color: var(--qb-text-background-color-hard-transparent);
-			border-radius: 10px;
-			padding: 10px;
-			box-shadow: 0 0 0 7px var(--qb-interactive-color-hard-transparent);
-			animation: pop-in 0.1s ease-out;
-			-webkit-animation: pop-in 0.1s ease-out;
-			@apply(--qb-ui-node-input-controller);
-			display: none;
-			@apply(--qb-ui-node-input-controller-inactive);
-		}
-		:host(.collection-item) .controller{
-			top: -11px;
-		}
-
-		.controller #deleteButton{
-			position: absolute;
-			right: -20px;
-			top: -20px;
-			border-radius: 100px;
-			color: white;
-			background-color: var(--qb-action-inactive-color-transparent);
-			border: solid 3px;
-			border-color: var(--qb-white-transparent);
-			padding: 5px;
-			-moz-background-clip: padding;
-			-webkit-background-clip: padding;
-			background-clip: padding-box;
-			--iron-icon-height: 22px;
-			--iron-icon-width: 22px;
-			transform: scale(0.8);
-		}
-		.controller #deleteButton:hover{
-			background-color: var(--qb-action-color-transparent);
-			@apply(--qb-ui-node-delete-button-hover-theme);
-		}
-
-		.controller .text-input{
-			display: block;
-			margin-left: -10px;
-			--qb-ui-input-text-input: {
-				text-align: left;
-				font-size: 12px;
-				line-height: 12px;
-			};
-		}
-
-		:host([input-type="range"]) .controller{
-			width: 235px;
-			@apply(--qb-ui-node-input-controller-range);
-		}
-		:host([input-type="range"]) .controller .slider{
-			width: 210px;
-			position: absolute;
-			top: 5px;
-			right: 0;
-			@apply(--qb-ui-node-input-controller-slider);
-		}
-		:host([input-type="range"]) .controller .text-input{
-			width: 46px;
-		}
-
-		:host([input-type="text"]) .controller{
-			width: 100px;
-			@apply(--qb-ui-node-input-controller-text);
-		}
-
-		:host([input-type="datalist"]) .controller{
-			width: 155px;
-			@apply(--qb-ui-node-input-controller-datalist);
-		}
-		:host([input-type="datalist"]) .controller .text-input{
-			width: 100px;
-		}
-		:host([input-type="datalist"]) .controller .menu paper-item {
-			--paper-item-min-height: 22px;
-			--paper-item:{
-				cursor: pointer;
-				margin: 0;
-				font-size: 13px;
-				background-color: transparent;
-			};
-		}
-		:host([input-type="datalist"]) .controller .menu paper-item:nth-child(odd) {
-			--paper-item:{
-				cursor: pointer;
-				margin: 0;
-				font-size: 13px;
-				background-color: var(--qb-white-transparent);
-			};
-		}
-
-		:host([input-type="datalist"]) .controller .menu {
-			background-color: var(--qb-interactive-hover-color-transparent);
-			max-height: 143px;
-			overflow-y: scroll;
-			margin-top: 10px;
-			padding: 0;
-			border: solid 1px rgba(0,0,0, 0.1);
-			--paper-menu-focused-item-after:{
-				background-color: transparent;
-			};
-			--paper-menu-selected-item:{
-				background-color: var(--qb-interactive-color-hard-transparent) !important;
-			};
-		}
-
-		/*
-		:host([input-type="datalist"]) .controller  .menu paper-item.iron-selected {
-			background-color: var(--qb-interactive-color-hard-transparent);
-		}*/
-
-
-	</style>
-
 	<template>
+		<style>
+			:host{
+				display: block;
+				position: relative;
+				--handle-height: var(--qb-ui-node-input-handle-height, 20px);
+				--handle-offset: var(--qb-ui-node-input-handle-offset, -23px);
+				--value-font-size: var(--qb-ui-node-input-value-font-size, 12px);
+				--label-offset: var(--qb-ui-node-input-label-offset, 6px);
+				--label-font-size: var(--qb-ui-node-input-label-font-size, 12px);
+				@apply(--qb-ui-node-input);
+			};
+			.label{
+				font-size: var(--label-font-size);
+				color: var(--qb-text-background-color);
+				margin-left: var(--label-offset);
+				margin-bottom: 2px;
+				@apply(--qb-ui-node-input-label);
+			}
+			.handle{
+				cursor: pointer;
+				position: relative;
+				display: inline-block;
+
+				height: var(--handle-height);
+				margin-left: var(--handle-offset);
+				@apply(--qb-ui-node-input-handle);
+			}
+			.handle:hover{
+				@apply(--qb-ui-node-input-handle-hover);
+			}
+			.inlet{
+				position: absolute;
+				top: 0;
+				left: 0;
+				@apply(--qb-ui-node-input-inlet);
+
+				--qb-ui-node-input-inlet:{
+					width: var(--handle-height);
+					height: var(--handle-height);
+				};
+			}
+			:host([connection-type="Output"]) .inlet{
+				cursor: move;
+				cursor: grab;
+				cursor: -moz-grab;
+				cursor: -webkit-grab;
+			}
+			:host([connection-type="Output"]) .inlet:active{
+				cursor: move;
+				cursor: grabbing;
+				cursor: -moz-grabbing;
+				cursor: -webkit-grabbing;
+			}
+
+			.value-container{
+				border-radius: 999px;
+				background-color:  var(--qb-text-background-color);
+				padding: 0 1em 0 2em;
+				display: inline-block;
+				@apply(--qb-font-code);
+				@apply(--qb-ui-node-input-label-theme);
+				font-size: var(--value-font-size);
+				line-height: var(--handle-height);
+				height: var(--handle-height);
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				max-width: 100px;
+			}
+			.handle:hover .value-container,
+			:host([controller-openend]) .value-container{
+				background-color:  var(--qb-interactive-color);
+			}
+
+			:host([connection-type="Output"]) .value-container{
+				color: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color);
+			}
+
+
+			/* controller */
+			:host([controller-openend]) .controller{
+				display: block;
+				@apply(--qb-ui-node-input-controller-active);
+			}
+			.controller{
+				z-index: 1;
+				position: absolute;
+				top: 6px;
+				left: 7px;
+				width: 180px;
+				cursor: auto;
+				background-color: var(--qb-text-background-color-hard-transparent);
+				border-radius: 10px;
+				padding: 10px;
+				box-shadow: 0 0 0 7px var(--qb-interactive-color-hard-transparent);
+				animation: pop-in 0.1s ease-out;
+				-webkit-animation: pop-in 0.1s ease-out;
+				@apply(--qb-ui-node-input-controller);
+				display: none;
+				@apply(--qb-ui-node-input-controller-inactive);
+			}
+			:host(.collection-item) .controller{
+				top: -11px;
+			}
+
+			.controller #deleteButton{
+				position: absolute;
+				right: -20px;
+				top: -20px;
+				border-radius: 100px;
+				color: white;
+				background-color: var(--qb-action-inactive-color-transparent);
+				border: solid 3px;
+				border-color: var(--qb-white-transparent);
+				padding: 5px;
+				-moz-background-clip: padding;
+				-webkit-background-clip: padding;
+				background-clip: padding-box;
+				--iron-icon-height: 22px;
+				--iron-icon-width: 22px;
+				transform: scale(0.8);
+			}
+			.controller #deleteButton:hover{
+				background-color: var(--qb-action-color-transparent);
+				@apply(--qb-ui-node-delete-button-hover-theme);
+			}
+
+			.controller .text-input{
+				display: block;
+				margin-left: -10px;
+				--qb-ui-input-text-input: {
+					text-align: left;
+					font-size: 12px;
+					line-height: 12px;
+				};
+			}
+
+			:host([input-type="range"]) .controller{
+				width: 235px;
+				@apply(--qb-ui-node-input-controller-range);
+			}
+			:host([input-type="range"]) .controller .slider{
+				width: 210px;
+				position: absolute;
+				top: 5px;
+				right: 0;
+				@apply(--qb-ui-node-input-controller-slider);
+			}
+			:host([input-type="range"]) .controller .text-input{
+				width: 46px;
+			}
+
+			:host([input-type="text"]) .controller{
+				width: 100px;
+				@apply(--qb-ui-node-input-controller-text);
+			}
+
+			:host([input-type="datalist"]) .controller{
+				width: 155px;
+				@apply(--qb-ui-node-input-controller-datalist);
+			}
+			:host([input-type="datalist"]) .controller .text-input{
+				width: 100px;
+			}
+			:host([input-type="datalist"]) .controller .menu paper-item {
+				--paper-item-min-height: 22px;
+				--paper-item:{
+					cursor: pointer;
+					margin: 0;
+					font-size: 13px;
+					background-color: transparent;
+				};
+			}
+			:host([input-type="datalist"]) .controller .menu paper-item:nth-child(odd) {
+				--paper-item:{
+					cursor: pointer;
+					margin: 0;
+					font-size: 13px;
+					background-color: var(--qb-white-transparent);
+				};
+			}
+
+			:host([input-type="datalist"]) .controller .menu {
+				background-color: var(--qb-interactive-hover-color-transparent);
+				max-height: 143px;
+				overflow-y: scroll;
+				margin-top: 10px;
+				padding: 0;
+				border: solid 1px rgba(0,0,0, 0.1);
+				--paper-menu-focused-item-after:{
+					background-color: transparent;
+				};
+				--paper-menu-selected-item:{
+					background-color: var(--qb-interactive-color-hard-transparent) !important;
+				};
+			}
+
+			/*
+			:host([input-type="datalist"]) .controller  .menu paper-item.iron-selected {
+				background-color: var(--qb-interactive-color-hard-transparent);
+			}*/
+		</style>
 
 		<qb-core-i18n
 			key="{{nameKey}}"
@@ -257,8 +254,7 @@
 			</qb-ui-node-input-inlet>
 		</div>
 
-		<div class="controller"
-			id="templateContainer">
+		<div class="controller">
 
 			<paper-icon-button
 				id="deleteButton"
@@ -274,11 +270,7 @@
 				on-keyup="_onInputKeyUp">
 			</qb-ui-input-text>
 
-			<template
-				is="dom-if"
-				if="{{datalistController}}"
-				restamp>
-
+			<div hidden$="{{!datalistController}}">
 				<paper-menu
 					id="menu"
 					class="menu"
@@ -300,13 +292,9 @@
 						</paper-item>
 					</template>
 				</paper-menu>
-			</template>
+			</div>
 
-			<template
-				is="dom-if"
-				if="{{rangeController}}"
-				restamp>
-
+			<div hidden$="{{!rangeController}}">
 				<paper-slider
 					id="slider"
 					class="slider"
@@ -316,7 +304,7 @@
 					step="0.01"
 					pin>
 				</paper-slider>
-			</template>
+			</div>
 
 		</div>
 
@@ -399,9 +387,9 @@
 			}
 
 			// Change value in slider, if it exists
-			var slider = this.$.templateContainer.querySelector('#slider');
+			var slider = this.$.slider;
 			this.externalSlideChange = false;
-			if(slider && value !== '' && value !== null && !isNaN(value)){
+			if(this.rangeController && slider && value !== '' && value !== null && !isNaN(value)){
 				// We need to flag that the change was externernal, so that we
 				// avoid overwriting the value on _sliderValueChanged
 				this.externalSlideChange = true;
@@ -425,10 +413,10 @@
 		},
 		_sliderValueChanged: function(){
 			var external = this.externalSlideChange;
-			
-			var slider = this.$.templateContainer.querySelector('#slider');
 
-			if(slider && !isNaN(slider.value) && !external){
+			var slider = this.$.slider;
+
+			if(this.rangeController && slider && !isNaN(slider.value) && !external){
 
 				this._setTypedValue('Number', slider.value);
 
@@ -559,8 +547,8 @@
 					newValue = this.definition.default;
 				}
 
-				var slider = this.$.templateContainer.querySelector('#slider');
-				if(slider && typeof newValue !== 'undefined'){
+				var slider = this.$.slider;
+				if(this.rangeController && slider && typeof newValue !== 'undefined'){
 					slider.value = newValue;
 				}
 

@@ -135,8 +135,7 @@
 				value: 'ackaalhbfjagidmjlhlokoblhbnahegd'
 			},
 			modelController: {
-				type: Object,
-				observer: '_modelControllerChanged'
+				type: Object
 			},
 			model: Object,
 			treeManager: Object,
@@ -145,9 +144,6 @@
 			taxonomyDefinitions: Object,
 			editorMode: String,
 			quirkbotsArea: Object,
-		},
-		_modelControllerChanged: function (m) {
-			console.log('app-program','_modelControllerChanged', m);
 		},
 		_onQuirkbotsAreaButtonTap: function(){
 			this.quirkbotsArea.open();

@@ -15,7 +15,7 @@
     "observe-js": "Polymer/observe-js",
     "node-uuid": "broofa/node-uuid",
     "chrome-extension-api": "https://github.com/Quirkbot/ChromeExtensionAPI.git",
-    "juicy-ace-editor": "Quirkbot/juicy-ace-editor"
+    "ace-element": "Quirkbot/ace-element"
   },
   "devDependencies": {
     "web-component-tester": "*",

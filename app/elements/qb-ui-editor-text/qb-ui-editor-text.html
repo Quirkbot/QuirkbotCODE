@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/juicy-ace-editor/src/juicy-ace-editor.html">
+<link rel="import" href="../../bower_components/ace-element/ace-element.html">
 <link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 
 <dom-module id='qb-ui-editor-text'>
@@ -21,12 +21,13 @@
 	</style>
 
 	<template>
-		<juicy-ace-editor
+		<ace-element
 			id="editor"
-			theme="ace/theme/monokai"
-			mode="ace/mode/c_cpp"
-			fontsize="14px"
-			readonly="true">{{computedCode}}</juicy-ace-editor>
+			mode="c_cpp"
+			theme="monokai"
+			font-size="14px"
+			readonly="true"
+			value="[[computedCode]]"></ace-element>
 	</template>
 </dom-module>
 <script>
@@ -40,6 +41,7 @@
 		properties: {
 			computedCode: String
 		}
+
 	});
 })();
 </script>
