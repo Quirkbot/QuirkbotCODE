@@ -6,10 +6,15 @@
 
 <link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 <link rel="import" href="../qb-core-uuid/qb-core-uuid.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 
 <dom-module id="qb-core-model-controller">
 	<template>
 
+		<qb-core-i18n
+			key="ide/untitled-program"
+			value="{{_ideUntitledProgramName}}"
+			hidden>Untitled CODE</qb-core-i18n>
 
 		<iron-localstorage
 			name="qb_user"
@@ -360,7 +365,7 @@
 				var doingAddToProfile = this.model.doingAddToProfile;
 				this._replaceModel({
 					_id: '',
-					title: '',
+					title: this._ideUntitledProgramName,
 					userId: '',
 					modifiedAt: 0,
 					doingSync: doingSync,

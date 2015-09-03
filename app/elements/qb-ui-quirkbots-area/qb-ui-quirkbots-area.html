@@ -21,17 +21,38 @@
 
 		#dialog{
 			width: 300px;
+			padding: 25px;
 			border-radius: 10px;
 			--paper-dialog: {
 				box-shadow: none;
 			};
 		}
-		[dialog-dismiss]{
-			color: red;
+		#dialog > *{
+			padding: 0;
 		}
-		[dialog-confirm],
-		[dialog-continue]{
-			color: green;
+		.dialog-header{
+			margin:0;
+		}
+		.dialog-content{
+			margin: 10px 0 0 0;
+		}
+		.dialog-content .header{
+			margin: 0 0 10px 0;
+		}
+		.buttons{
+			margin: 25px 0 0 0;
+		}
+		.buttons paper-button{
+			border-radius: 10px;
+			color: var(--qb-white);
+		}
+		.buttons [dialog-dismiss]{
+			background: var(--qb-red-hard-transparent);
+		}
+		.buttons [dialog-confirm],
+		.buttons [dialog-continue]{
+			background: var(--qb-green-hard-transparent);
+
 		}
 
 		/deep/ pre {
@@ -45,10 +66,42 @@
 			margin: 0;
 		}
 
-		paper-progress {
+		.dialog-content paper-progress {
 			--paper-progress-transition-duration: 0.1s;
 			display: block;
 			width: 100%;
+		}
+
+		.quirkbot-upload-item{
+			cursor: pointer;
+			border-radius: 10px;
+			padding: 8px;
+			box-sizing: border-box;
+			border: 1px solid var(--qb-blue-transparent);
+			margin-bottom: 5px;
+
+		}
+		.quirkbot-upload-item paper-progress {
+			--paper-progress-container-color: var(--qb-white);
+			--paper-progress-active-color: var(--qb-blue);
+		}
+		.quirkbot-upload-item:last-child{
+			margin-bottom: 0;
+		}
+		.quirkbot-upload-item:hover{
+			background-color: var(--qb-blue-soft-transparent);
+		}
+		.quirkbot-upload-item.iron-selected{
+			border-color: var(--qb-blue);
+			background-color: var(--qb-blue-soft-transparent);
+		}
+		.quirkbot-upload-item .name{
+			font-size: 16px;
+		}
+		.quirkbot-upload-item .id{
+			@apply(--qb-font-code);
+			font-size: 10px;
+			opacity: 0.5;
 		}
 
 
@@ -86,7 +139,7 @@
 						if="{{extensionModel.platform.serialPermissionError}}">
 						<div
 							class="dialog-content">
-							<h3>
+							<h3 class="header">
 								<qb-core-i18n
 									key="ide/quirkbots-area/dialog/warning/no-serial-permission/header"></qb-core-i18n>
 							</h3>
@@ -119,16 +172,24 @@
 									if="{{!uploadCompleted}}">
 									<div
 										class="dialog-content">
-										<h3>
+										<h3 class="header">
 											<qb-core-i18n
 												key="ide/quirkbots-area/dialog/quirkbots/uploading/header"></qb-core-i18n>
 										</h3>
 
-										<div>{{selectedQuirkbotUuid}}</div>
-										<paper-progress
-											class="transiting"
-											value="{{uploadProgress}}">
-										</paper-progress>
+										<div
+											class="quirkbot-upload-item iron-selected">
+											<div class="name">
+												<span><qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+											<div class="id"><span><qb-core-i18n
+											key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>{{selectedQuirkbotUuid}}</span></span></div>
+											<paper-progress
+												class="transiting"
+												value="{{uploadProgress}}">
+											</paper-progress>
+										</div>
+
 										<qb-ui-notice>
 											<qb-core-i18n
 												key="ide/quirkbots-area/dialog/quirkbots/uploading/description"></qb-core-i18n>
@@ -148,13 +209,20 @@
 										if="{{!uploadSucceeded}}">
 										<div
 											class="dialog-content">
-											<h3>
+											<h3 class="header">
 												<qb-core-i18n
 													key="ide/quirkbots-area/dialog/quirkbots/upload-fail/header"></qb-core-i18n>
 											</h3>
 
 
-											<div>{{selectedQuirkbotUuid}}</div>
+											<div
+												class="quirkbot-upload-item iron-selected">
+												<div class="name">
+													<span><qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+												<div class="id"><span><qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>{{selectedQuirkbotUuid}}</span></span></div>
+											</div>
 
 											<template
 												is="dom-if"
@@ -187,12 +255,20 @@
 										if="{{uploadSucceeded}}">
 										<div
 											class="dialog-content">
-											<h3>
+											<h3 class="header">
 												<qb-core-i18n
 													key="ide/quirkbots-area/dialog/quirkbots/upload-success/header"></qb-core-i18n>
 											</h3>
 
-											<div>{{selectedQuirkbotUuid}}</div>
+											<div
+												class="quirkbot-upload-item iron-selected">
+												<div class="name">
+													<span><qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+												<div class="id"><span><qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>{{selectedQuirkbotUuid}}</span></span></div>
+											</div>
+
 											<qb-core-i18n
 												key="ide/quirkbots-area/dialog/quirkbots/upload-success/description"></qb-core-i18n>
 
@@ -215,29 +291,37 @@
 								if="{{!pendingUploadProcess}}">
 								<div
 									class="dialog-content">
-									<h3>
+									<h3 class="header">
 										<qb-core-i18n
 											key="ide/quirkbots-area/dialog/quirkbots/header"></qb-core-i18n>
 									</h3>
-
-									<paper-radio-group
-										selected="{{selectedQuirkbotUuid}}">
-										<template
-											is="dom-repeat"
-											items="{{quirkbots}}"
-											sort="sortByUuid"
-											observe="uuid">
-											<paper-radio-button
-												name="{{item.uuid}}">
-												<span>{{item.uuid}}</span>
-											</paper-radio-button>
-										</template>
-									</paper-radio-group>
 
 									<div>
 										<qb-core-i18n
 											key="ide/quirkbots-area/dialog/quirkbots/description"></qb-core-i18n>
 									</div>
+
+									<iron-selector
+										attr-for-selected="name"
+										selected="{{selectedQuirkbotUuid}}">
+
+										<template
+											is="dom-repeat"
+											items="{{quirkbots}}"
+											sort="sortByUuid"
+											observe="uuid">
+											<div
+												class="quirkbot-upload-item"
+												name="{{item.uuid}}">
+												<div class="name">
+													<span><qb-core-i18n
+													key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+												<div class="id"><span><qb-core-i18n
+												key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>{{item.uuid}}</span></span></div>
+											</div>
+										</template>
+									</iron-selector>
+
 								</div>
 								<div
 									class="buttons">
@@ -260,7 +344,7 @@
 							if="{{!extensionModel.quirkbots.length}}">
 							<div
 								class="dialog-content">
-								<h3>
+								<h3 class="header">
 									<qb-core-i18n
 										key="ide/quirkbots-area/dialog/warning/no-quirkbots/header"></qb-core-i18n>
 								</h3>
@@ -286,7 +370,7 @@
 					if="{{!connectedToExtension}}">
 					<div
 						class="dialog-content">
-						<h3>
+						<h3 class="header">
 							<qb-core-i18n
 								key="ide/quirkbots-area/dialog/warning/no-browser-extension/header"></qb-core-i18n>
 						</h3>
@@ -337,7 +421,7 @@
 				if="{{!browserChrome}}">
 				<div
 					class="dialog-content">
-					<h3>
+					<h3 class="header">
 						<qb-core-i18n
 							key="ide/quirkbots-area/dialog/warning/wrong-browser/header"></qb-core-i18n>
 					</h3>
@@ -558,6 +642,9 @@
 		},
 		_pendingUploadProcessChanged: function(){
 			this.$.dialog.notifyResize();
+		},
+		_plusOne: function(value){
+			return value +1;
 		}
 	});
 })();
