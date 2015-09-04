@@ -9,6 +9,7 @@
 				border-radius: 10px;
 				border: solid 4px var(--qb-interactive-color-transparent);
 				box-shadow: 0 0 0 4px var(--qb-interactive-color-transparent);
+				color: var(--qb-text-color);
 				--paper-dialog: {
 					box-shadow: none;
 				};
@@ -18,12 +19,16 @@
 			}
 			.dialog-header{
 				margin:0;
+				font-weight: normal;
+				color: var(--qb-text-color-transparent);
 			}
 			.dialog-content{
 				margin: 10px 0 0 0;
+				font-style: italic;
 			}
 			.dialog-content .header{
 				margin: 0 0 10px 0;
+				font-style:normal;
 			}
 			.buttons{
 				margin: 25px 0 0 0;
@@ -31,6 +36,9 @@
 			.buttons paper-button{
 				border-radius: 10px;
 				color: var(--qb-white);
+			}
+			.buttons paper-button:last-child{
+				margin-right: 0;
 			}
 			.buttons [dialog-dismiss]{
 				background: var(--qb-red-hard-transparent);
