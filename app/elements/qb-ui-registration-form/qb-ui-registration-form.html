@@ -11,6 +11,7 @@
 <link rel="import" href="../qb-ui-form-dropdown/qb-ui-form-dropdown.html">
 <link rel="import" href="../qb-ui-form-radiogroup/qb-ui-form-radiogroup.html">
 <link rel="import" href="../qb-ui-form-date/qb-ui-form-date.html">
+<link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
 
 
 
@@ -53,7 +54,6 @@
 				hidden$="{{nicknameHidden}}"
 				strings-base="register/registration/nickname"
 				required
-				char-counter
 				maxlength="45">
 			</qb-ui-form-input>
 
@@ -68,12 +68,12 @@
 				required>
 			</qb-ui-form-date>
 
-			<div
-				class="notice"
+			<qb-ui-notice
+				error
 				hidden$="{{!under13}}">
 				<qb-core-i18n
 					key="register/registration/copa-notice"></qb-core-i18n>
-			</div>
+			</qb-ui-notice>
 
 			<qb-ui-form-input
 				id="email"

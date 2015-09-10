@@ -3,7 +3,7 @@
 <dom-module id="qb-dialog-styles">
 	<template>
 		<style>
-			#dialog{
+			.dialog{
 				width: 300px;
 				padding: 25px;
 				border-radius: 10px;
@@ -14,7 +14,7 @@
 					box-shadow: none;
 				};
 			}
-			#dialog > *{
+			.dialog > *{
 				padding: 0;
 			}
 			.dialog-header{
@@ -57,6 +57,101 @@
 	</template>
 </dom-module>
 
+<dom-module id="qb-form-input-styles">
+	<template>
+		<style>
+			:host{
+				box-sizing: border-box;
+				padding: 0px 10px 0px;
+				margin-bottom: 0.4em;
+			}
+			paper-input{
+
+				--paper-input-container-invalid-color: var(--qb-red);
+				--paper-input-container-input: {
+					font-size: inherit;
+					font-family: var(--qb-font-familiy-code);
+					background-color: var(--qb-interactive-color);
+					box-sizing: border-box;
+					padding: 0.5em;
+				};
+				--paper-input-container-underline:{
+					display: none;
+				};
+				--paper-input-container-underline-focus:{
+					display: none;
+				};
+				--paper-input-container-underline-disabled:{
+					display: none;
+				};
+				--paper-input-container-color: var(--qb-black) !important;
+				--paper-input-container-label:{
+					font-size: 1.3em;
+				}
+				--paper-input-container-label-focus:{
+					font-size: 1.3em;
+				}
+			}
+			 .paper-input-input{
+				background-color: var(--qb-interactive-color) !important;
+				box-sizing: border-box !important;
+				padding:  0 0.5em !important;
+			}
+			paper-dropdown-menu{
+				width: 80px;
+				--paper-dropdown-menu-button: {
+					padding: 0;
+					margin-right: 4px;
+				};
+
+				--paper-input-container-input: {
+					font-family: var(--qb-font-familiy-code)  !important;
+					font-size: inherit;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					max-width: 100%;
+					box-sizing: border-box;
+					cursor: pointer;
+				};
+				--paper-dropdown-menu-ripple: {
+					top:0;
+					left:0;
+					right:0;
+					bottom:0;
+				};
+			}
+			paper-input-container{
+				--paper-input-container-label:{
+					font-size: 1.3em;
+				}
+				--paper-input-container-label-focus:{
+					font-size: 1.3em;
+				}
+				--paper-input-container-underline: {
+					display: none;
+				};
+				--paper-input-container-underline-focus: {
+					display: none;
+				};
+				--paper-input-container-underline-disabled: {
+					display: none;
+				};
+				--paper-input-container-color: var(--qb-black) !important;
+			}
+			paper-dropdown-menu	paper-menu{
+				width: 75px;
+			}
+			paper-dropdown-menu paper-item {
+				--paper-item-min-height: 25px;
+			}
+			paper-dropdown-menu paper-item:nth-child(odd) {
+				background-color: rgba(0,0,0,0.05);
+			}
+
+		</style>
+	</template>
+</dom-module>
 
 <style is="custom-style">
 :root {

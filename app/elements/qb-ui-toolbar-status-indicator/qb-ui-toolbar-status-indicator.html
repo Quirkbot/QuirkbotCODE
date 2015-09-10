@@ -1,0 +1,184 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<link rel="import" href="../qb-ui-toolbar-button/qb-ui-toolbar-button-styles.html">
+
+<dom-module id='qb-ui-toolbar-status-indicator'>
+
+	<template>
+		<style include="qb-ui-toolbar-button-styles"></style>
+		<style>
+			:host{
+				display: inline-block;
+				margin-top: -4px;
+			}
+			:host .qb-toolbar-button{
+				padding: 4px;
+				background-color: var(--qb-white-hard-transparent);
+				border: none !important;
+				box-shadow: none !important;
+			}
+			.inner{
+				width: 30px;
+				height: 30px;
+				position: relative;
+			}
+			iron-icon{
+				position: absolute;
+				top: 0;
+				left: 0;
+				color: white;
+			}
+			.circle {
+				width: 20px;
+				height: 20px;
+				margin-top: -10px;
+				margin-left: -10px;
+				border-radius: 999px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transition: left 1s;
+			}
+			.circle.a {
+				background-color: var(--qb-yellow);
+			}
+			.circle.b {
+				background-color: var(--qb-blue-transparent);
+			}
+			:host([state="pending"]) .circle.a,
+			:host([state="pending"]) .circle.b {
+				-webkit-animation-duration: 2s;
+  				-webkit-animation-name: slide;
+				-webkit-animation-iteration-count: infinite;
+				-webkit-animation-timing-function: ease-in-out;
+
+				-moz-animation-duration: 2s;
+  				-moz-animation-name: slide;
+				-moz-animation-iteration-count: infinite;
+				-moz-animation-timing-function: ease-in-out;
+
+				-ms-animation-duration: 2s;
+  				-ms-animation-name: slide;
+				-ms-animation-iteration-count: infinite;
+				-ms-animation-timing-function: ease-in-out;
+
+				-o-animation-duration: 2s;
+  				-o-animation-name: slide;
+				-o-animation-iteration-count: infinite;
+				-o-animation-timing-function: ease-in-out;
+
+				animation-duration: 2s;
+  				animation-name: slide;
+				animation-iteration-count: infinite;
+				animation-timing-function: ease-in-out;
+			}
+			:host([state="pending"]) .circle.a{
+				-webkit-animation-direction: normal;
+				-moz-animation-direction: normal;
+				-ms-animation-direction: normal;
+				-o-animation-direction: normal;
+				animation-direction: normal;
+			}
+			:host([state="pending"]) .circle.b{
+				-webkit-animation-direction: reverse;
+				-moz-animation-direction: reverse;
+				-ms-animation-direction: reverse;
+				-o-animation-direction: reverse;
+				animation-direction: reverse;
+			}
+			:host([state="fail"]) .circle.b {
+				background-color: var(--qb-pink-transparent);
+			}
+			:host([state="success"]) .circle.b {
+				box-shadow: 0 0 0 2px var(--qb-yellow);
+			}
+			@-webkit-keyframes slide{
+				0% { left: 50%; }
+				25% { left: 65%; }
+				50% { left: 50%; }
+				75% { left: 35%; }
+				100% { left: 50%; }
+			}
+			@-moz-keyframes slide{
+				0% { left: 50%; }
+				25% { left: 65%; }
+				50% { left: 50%; }
+				75% { left: 35%; }
+				100% { left: 50%; }
+			}
+			@-ms-keyframes slide{
+				0% { left: 50%; }
+				25% { left: 65%; }
+				50% { left: 50%; }
+				75% { left: 35%; }
+				100% { left: 50%; }
+			}
+			@keyframes slide {
+				0% { left: 50%; }
+				25% { left: 65%; }
+				50% { left: 50%; }
+				75% { left: 35%; }
+				100% { left: 50%; }
+			}
+		</style>
+		<div class="qb-toolbar-button">
+			<div class="inner">
+				<div class="circle a"></div>
+				<div class="circle b"></div>
+				<iron-icon
+					hidden$="[[_isStatePending(state)]]"
+					icon="[[resolveIconName(icon, 'qb-toolbar-buttons')]]">
+				</iron-icon>
+			</div>
+
+			<paper-tooltip hidden$="[[!tooltipKey]]">
+				<qb-core-i18n
+					key="[[tooltipKey]]"></qb-core-i18n>
+			</paper-tooltip>
+		</div>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIToolbarStatusIndicator = Polymer({
+		is: 'qb-ui-toolbar-status-indicator',
+		properties: {
+			state: String,
+			icon: String,
+			tooltipKey: {
+				type: String,
+				computed: '_computeTooltipKey(state)'
+			},
+			icon: {
+				type: String,
+				computed: '_computeIcon(state)'
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		_computeTooltipKey: function(state){
+			return 'ide/toolbar/status/' + state;
+		},
+		_computeIcon: function(state){
+			return 'state-' + state;
+		},
+		_isStatePending: function(state){
+			if(state === 'pending'){
+				return true;
+			}
+			return false;
+		}
+	});
+})();
+</script>

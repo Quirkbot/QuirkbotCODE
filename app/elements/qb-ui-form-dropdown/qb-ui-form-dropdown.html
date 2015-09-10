@@ -10,30 +10,29 @@
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 
 <dom-module id='qb-ui-form-dropdown'>
-	<style>
-		:host{
-			display: block;
-
-		}
-		paper-dropdown-menu{
-			width: 100%;
-			--paper-dropdown-menu-button: {
-				padding: 0;
-			};
-		}
-		paper-menu{
-			width: 210px;
-		}
-		paper-item {
-			--paper-item-min-height: 25px;
-		}
-		paper-item:nth-child(odd) {
-			background-color: rgba(0,0,0,0.05);
-		}
-
-
-	</style>
 	<template>
+		<style include="qb-form-input-styles"></style>
+		<style>
+			:host{
+				display: block;
+
+			}
+			paper-dropdown-menu{
+				width: 100%;
+				--paper-dropdown-menu-button: {
+					padding: 0;
+				};
+			}
+			paper-menu{
+				width: 210px;
+			}
+			paper-item {
+				--paper-item-min-height: 25px;
+			}
+			paper-item:nth-child(odd) {
+				background-color: rgba(0,0,0,0.05);
+			}
+		</style>
 		<qb-core-i18n
 			key="[[_labelKey]]"
 			value="{{label}}"

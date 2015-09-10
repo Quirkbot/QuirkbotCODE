@@ -9,13 +9,16 @@
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 
 <dom-module id='qb-ui-form-input'>
-	<style>
-		:host{
-			display: block;
-		}
-
-	</style>
 	<template>
+		<style include="qb-form-input-styles"></style>
+		<style>
+			:host{
+				display: block;
+			}
+
+
+		</style>
+
 		<qb-core-i18n
 			key="[[_labelKey]]"
 			value="{{label}}"
@@ -34,11 +37,10 @@
 			value="{{error}}"
 			hidden></qb-core-i18n>
 		<paper-input
+			always-float-label
 			name="[[name]]"
 			error-message="[[error]]"
 			label$="[[label]]"
-			no-label-float$="[[noFloatLabel]]"
-			always-float-label$="[[alwaysFloatLabel]]"
 			char-counter$="[[charCounter]]"
 			disabled$="[[disabled]]"
 			value="{{value}}"
@@ -69,7 +71,7 @@
 		<template
 			is="dom-if"
 			if="[[tip]]">
-			<paper-tooltip>[[tip]]</paper-tooltip>
+			<paper-tooltip offset="2px">[[tip]]</paper-tooltip>
 		</template>
 	</template>
 </dom-module>

@@ -8,8 +8,14 @@
 	"ide/editor/text": 		"Text",
 	"ide/node/disconnect": "disconnect",
 
+	"IDE - Toolbar ------------------------------------------------------" : "",
+	"ide/toolbar/clone/tooltip":	"Clone CODE",
+	"ide/toolbar/quirkbots-area/tooltip":	"Upload CODE",
+	"ide/toolbar/status/pending":	"Saving CODE...",
+	"ide/toolbar/status/success":	"CODE Saved!",
+	"ide/toolbar/status/fail":		"Offline, can't save CODE",
+
 	"IDE - Quirkbots Area -----------------------------------------------" : "",
-	"ide/quirkbots-area/tooltip":	"Upload CODE",
 	"ide/quirkbots-area/dialog/header":	"CODE Upload",
 
 	"ide/quirkbots-area/dialog/quirkbots/header" :			"Select a Quirkbot",
@@ -400,7 +406,7 @@
 	"register/registration/email/error/required": "E-mail  is required.",
 	"register/registration/email/error/unique": "This e-mail is already registered.",
 
-	"register/registration/copa-notice": "Since you are under 13 years old, you cannot use this service without the consent of your parents or guardians.<br>Enter their e-mail below and we will send them an email to confirm this account.",
+	"register/registration/copa-notice": "Since you are under 13 years old, you cannot use Quirkbot CODE without the consent of your parents or guardians.<br>Enter their e-mail below and we will send them an email to confirm this account.",
 	"register/registration/guardian-email/label": "Parent's or guardian's e-mail",
 	"register/registration/guardian-email/placeholder": "",
 	"register/registration/guardian-email/tip": "",

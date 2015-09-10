@@ -1,16 +1,14 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../bower_components/iron-image/iron-image.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
-
-
+<link rel="import" href="../qb-ui-toolbar-button/qb-ui-toolbar-button.html">
+<link rel="import" href="../qb-ui-toolbar-status-indicator/qb-ui-toolbar-status-indicator.html">
 
 <dom-module id='qb-ui-toolbar'>
 	<style>
@@ -67,41 +65,10 @@
 			};
 		}
 
-		paper-button.qb-toolbar-button{
-			background-color: var(--qb-white);
-			min-width: 0;
-			min-height: 0;
-			padding: 2px;
-			border-radius: 10px;
-			border: solid 2px var(--qb-interactive-color-transparent);
-			box-shadow: 0 0 0 2px var(--qb-interactive-color-transparent);
-			height: 38px;
-			width: 38px;
+		.name {
+			margin-right: 5px;
 		}
-		paper-button.qb-toolbar-button iron-icon{
-			--iron-icon-width: 30px;
-			--iron-icon-height: 30px;
-		}
-		paper-button.qb-toolbar-button paper-tooltip{
-			--paper-tooltip:{
-				z-index: 999;
-			};
-		}
-		paper-button.qb-toolbar-button .hover{
-			display: none;
-		}
-		paper-button.qb-toolbar-button .hover{
-			display: none;
-		}
-		paper-button.qb-toolbar-button:hover .hover{
-			display: block;
-		}
-		paper-button.qb-toolbar-button .normal{
-			display: block;
-		}
-		paper-button.qb-toolbar-button:hover .normal{
-			display: none;
-		}
+
 
 	</style>
 	<template>
@@ -142,26 +109,30 @@
 			</div>
 
 			<div class="flex"></div>
+
 			<qb-ui-input-text
+				class="name"
 				value="{{model.title}}">
 			</qb-ui-input-text>
 
-			<paper-button
-				class="qb-toolbar-button"
-				on-tap="_onQuirkbotsAreaButtonTap">
-				<iron-icon
-					class="normal"
-					icon="[[resolveIconName('quirkbots', 'qb-toolbar-buttons')]]">
-				</iron-icon>
-				<iron-icon
-					class="hover"
-					icon="[[resolveIconName('quirkbots-hover', 'qb-toolbar-buttons')]]">
-				</iron-icon>
-				<paper-tooltip>
-					<qb-core-i18n
-						key="ide/quirkbots-area/tooltip"></qb-core-i18n>
-				</paper-tooltip>
-			</paper-button>
+			<qb-ui-toolbar-status-indicator state="pending">
+			</qb-ui-toolbar-status-indicator>
+
+			<qb-ui-toolbar-button
+				hidden$="[[notInProfile]]"
+				icon="clone"
+				icon-hover="clone-hover"
+				tooltip-key="ide/toolbar/clone/tooltip">
+			</qb-ui-toolbar-button>
+
+			<qb-ui-toolbar-button
+				hidden$="[[notInProfile]]"
+				on-tap="_onQuirkbotsAreaButtonTap"
+				icon="quirkbots"
+				icon-hover="quirkbots-hover"
+				tooltip-key="ide/toolbar/quirkbots-area/tooltip">
+			</qb-ui-toolbar-button>
+
 		</paper-toolbar>
 	</template>
 </dom-module>
@@ -177,6 +148,10 @@
 				type: String,
 				computed: '_computeWindowTitle(model.title, _ideName)',
 				observer: '_windowTitleChanged'
+			},
+			notInProfile: {
+				type: Boolean,
+				computed: '_computeNotInProfile(model.userId)',
 			},
 			editorMode: {
 				type: String,
@@ -212,6 +187,12 @@
 		},
 		_windowTitleChanged: function (title) {
 			window.document.title = title;
+		},
+		_computeNotInProfile: function(userId){
+			if(userId){
+				return true;
+			}
+			return false;
 		}
 	});
 })();

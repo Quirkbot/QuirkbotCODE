@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<link rel="import" href="qb-ui-toolbar-button-styles.html">
+
+<dom-module id='qb-ui-toolbar-button'>
+
+	<template>
+		<style include="qb-ui-toolbar-button-styles"></style>
+		<style>
+			:host{
+				display: inline-block;
+			}
+		</style>
+		<paper-button class="qb-toolbar-button">
+			<iron-icon
+				class="normal"
+				icon="[[resolveIconName(icon, 'qb-toolbar-buttons')]]">
+			</iron-icon>
+			<iron-icon
+				class="hover"
+				icon="[[resolveIconName(iconHover, 'qb-toolbar-buttons')]]">
+			</iron-icon>
+			<paper-tooltip hidden$="[[!tooltipKey]]">
+				<qb-core-i18n
+					key="[[tooltipKey]]"></qb-core-i18n>
+			</paper-tooltip>
+		</paper-button>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIToolbarButton = Polymer({
+		is: 'qb-ui-toolbar-button',
+		properties: {
+			icon: String,
+			iconHover: String,
+			tooltipKey: String
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		]
+	});
+})();
+</script>

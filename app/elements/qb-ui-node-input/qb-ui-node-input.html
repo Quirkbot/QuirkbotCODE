@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/iron-behaviors/iron-button-state.html">
 <link rel="import" href="../../bower_components/iron-behaviors/iron-control-state.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/iron-signals/iron-signals.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
@@ -216,6 +217,13 @@
 					background-color: var(--qb-interactive-color-hard-transparent) !important;
 				};
 			}
+			:host([input-type="datalist"]) .controller iron-list {
+				background-color: var(--qb-interactive-hover-color-transparent);
+				height: 140px;
+				width: 100px;
+				border: solid 1px rgba(0,0,0, 0.1);
+
+			}
 
 			/*
 			:host([input-type="datalist"]) .controller  .menu paper-item.iron-selected {
@@ -271,6 +279,23 @@
 			</qb-ui-input-text>
 
 			<div hidden$="{{!datalistController}}">
+				<iron-list
+					class="menu"
+					items="[[ironDatalist]]"
+					as="item">
+					<template>
+						<paper-item
+							name="{{item.value}}">
+							<iron-icon
+								icon="[[resolveIconName(item._id, 'qb-datalists')]]"
+								hidden$="[[!resolveIconName(item._id, 'qb-datalists')]]">
+							</iron-icon>
+							<qb-core-i18n
+								key="{{item.translationKey}}"></qb-core-i18n>
+						</paper-item>
+					</template>
+				</iron-list>
+
 				<paper-menu
 					id="menu"
 					class="menu"
@@ -353,6 +378,10 @@
 			datalist:{
 				type: Array,
 				computed: '_computeDatalist(definition)'
+			},
+			ironDatalist:{
+				type: Array,
+				computed: '_computeIronDatalist(definition)'
 			},
 			range:{
 				type: Object,
@@ -500,6 +529,23 @@
 					_id: item._id,
 					value: item.value,
 					translationKey: 'node/connection/datalist/' + item._id
+				});
+			});
+			return datalist;
+		},
+		_computeIronDatalist: function(definition){
+			if(!definition || !definition.validation || definition.validation.type !== 'list' || !definition.validation.data.length) {
+				return;
+			}
+			var datalist = [];
+			definition.validation.data.forEach(function(item,index){
+				datalist.push({
+					index: index,
+					item:{
+						_id: item._id,
+						value: item.value,
+						translationKey: 'node/connection/datalist/' + item._id
+					}
 				});
 			});
 			return datalist;
