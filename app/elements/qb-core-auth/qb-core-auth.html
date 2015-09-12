@@ -77,17 +77,13 @@
 			}
 		},
 		observers:[
-			'authenticate(user, password)',
-			'_scheduleRefresh(expires)'
+			'_scheduleRefresh(expires)',
+			'_processInitialValues(expires,accessToken,refreshToken)'
 		],
 		behaviors:[
 			window.Quirkbot.SelfPropertyBehavior
 		],
-		attached: function(){
-			if(this.expires > Date.now() && this.accessToken && this.refreshToken){
-				this.fire('authenticate', this);
-			}
-		},
+
 		authenticate: function(user, password){
 			this.$.tokenAjax.body = {
 				'grant_type': 'password',
@@ -117,7 +113,7 @@
 				this._request(this.$.apiAjax)
 				.then(resolve)
 				.catch(reject);
-			});
+			}.bind(this));
 		},
 		_requestToken: function () {
 			clearTimeout(this._scheduleRefreshTimer);
@@ -159,7 +155,7 @@
 					request.abort();
 				}.bind(this), 10000);
 				var request = ajax.generateRequest();
-			});
+			}.bind(this));
 		},
 		_computeTokenUrl: function(authUrl){
 			return authUrl + '/token';
@@ -189,7 +185,15 @@
 			}
 
 			this._scheduleRefreshTimer =  setTimeout(this.refresh.bind(this), delay);
-		}
+		},
+		_processInitialValues: function(){
+			setTimeout(function () {
+				if(this.expires > Date.now() && this.accessToken && this.refreshToken){
+					this.fire('authenticate', this);
+				}
+			}.bind(this), 10);
+
+		},
 
 	});
 })();

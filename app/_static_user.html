@@ -44,25 +44,26 @@
 
 	<template is="dom-bind">
 
-		<script>
-			window.localStorage.setItem('qb_user', '{"_id" : "p"}');
-		</script>
 		<qb-core-router
-			entry="{{programId}}">
+			entry="{{userId}}">
 		</qb-core-router>
 
-		<qb-app-program
-			program-id="[[programId]]"
+		<qb-app-user
+			user-id="{{userId}}"
+
 			locale="en_US"
+
 			client-id="YWJjMTphc2Q="
+
 			auth-url="http://localhost:1337/auth"
 			api-url="http://localhost:1337"
+
+			program-app-url="http://ide-local.quirkbot.com:3000/_static_program.html"
+			register-app-url="http://ide-local.quirkbot.com:3000/_static_register.html"
 			user-app-url="http://ide-local.quirkbot.com:3000/_static_user.html"
-			nodes-url="./data/nodes.json"
-			strings-url="./data/strings/{{locale}}.json"
-			compiler-url="https://quirkbot-compiler.herokuapp.com/"
-			chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd">
-		</qb-app-program>
+
+			strings-url="./data/strings/{{locale}}.json">
+		</qb-app-user>
 
 		<!-- Uncomment next block to enable Service Worker support (1/2) -->
 		<!--

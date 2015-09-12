@@ -1,0 +1,87 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-auth/qb-core-auth.html">
+<link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+<link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
+<link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
+<link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
+
+
+<!-- Platinum elements -->
+<!--
+<link rel="import" href="../bower_components/platinum-sw/platinum-sw-cache.html">
+<link rel="import" href="../bower_components/platinum-sw/platinum-sw-registration.html">
+-->
+
+<dom-module id='qb-app-user'>
+	<style>
+		:host{
+			display: block;
+		}
+	</style>
+	<template>
+
+		<qb-core-i18n
+			url-format="[[stringsUrl]]"
+			locale="[[locale]]">
+		</qb-core-i18n>
+
+		<qb-core-auth
+			id="auth"
+			auth-url="[[authUrl]]"
+			api-url="[[apiUrl]]"
+			client-id="[[clientId]]"
+			on-authenticate="_onAuthenticate">
+		</qb-core-auth>
+
+		<iron-localstorage
+			name="qb-user"
+			value="{{user}}">
+		</iron-localstorage>
+
+
+
+
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.AppUser = Polymer({
+		is: 'qb-app-user',
+		properties: {
+			userId: String,
+			locale: String,
+			clientId: String,
+			authUrl: String,
+			apiUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			stringsUrl: String
+		},
+		observers:[
+		],
+		listeners:{
+		},
+		_onAuthenticate: function(){
+			this.$.auth	.apiCall('GET', 'user/'+this.userId)
+			.then(function (user) {
+				console.log(user)
+			})
+			.catch(function () {
+				console.log(arguments)
+			})
+
+		}
+
+	});
+})();
+</script>
