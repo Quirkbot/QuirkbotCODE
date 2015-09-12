@@ -7,6 +7,7 @@
 <link rel="import" href="../qb-behavior-form/qb-behavior-form.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-form-checkbox/qb-ui-form-checkbox.html">
 <link rel="import" href="../qb-ui-form-input/qb-ui-form-input.html">
 <link rel="import" href="../qb-ui-form-dropdown/qb-ui-form-dropdown.html">
 <link rel="import" href="../qb-ui-form-radiogroup/qb-ui-form-radiogroup.html">
@@ -42,35 +43,28 @@
 			id="form"
 			method="post"
 			action="[[action]]"
-			disable-Native-Validation-Ui
-			on-iron-form-submit='_onSubmit'
-			on-iron-form-response='_onResponse'
-			on-iron-form-error='_onError'>
+			disable-native-validation-ui>
 
 			<qb-ui-form-input
-				id="nickname"
-				name="nickname"
-				value="{{nickname}}"
-				hidden$="{{nicknameHidden}}"
-				strings-base="register/registration/nickname"
+				id="age"
+				name="_age"
+				value="{{age}}"
+				hidden$="{{ageHidden}}"
+				strings-base="register/registration/age"
 				required
-				maxlength="45">
+				type="number"
+				min="1"
+				max="120">
 			</qb-ui-form-input>
-
-			<qb-ui-form-date
-				id="birthdate"
+			<input
 				name="birthdate"
-				value="{{birthdate}}"
-				hidden$="{{birthdateHidden}}"
-				strings-base="register/registration/birthdate"
-				always-float-label
-				no-float-inner-label
-				required>
-			</qb-ui-form-date>
+				value$="[[birthdate]]"
+				hidden>
+			</intpu>
 
 			<qb-ui-notice
 				error
-				hidden$="{{!under13}}">
+				hidden$="[[!under13]]">
 				<qb-core-i18n
 					key="register/registration/copa-notice"></qb-core-i18n>
 			</qb-ui-notice>
@@ -84,6 +78,28 @@
 				required
 				type="email">
 			</qb-ui-form-input>
+
+			<qb-ui-form-input
+				id="nickname"
+				name="nickname"
+				value="{{nickname}}"
+				hidden$="{{nicknameHidden}}"
+				strings-base="register/registration/nickname"
+				required
+				maxlength="30">
+			</qb-ui-form-input>
+
+			<!--<qb-ui-form-date
+				id="birthdate"
+				name="birthdate"
+				value="{{birthdate}}"
+				hidden$="{{birthdateHidden}}"
+				strings-base="register/registration/birthdate"
+				always-float-label
+				no-float-inner-label
+				required>
+			</qb-ui-form-date>-->
+
 
 			<!--<qb-ui-form-dropdown
 				id="country"
@@ -120,7 +136,7 @@
 
 			<qb-ui-form-input
 				id="password-confirmation"
-				name="password"
+				name="_password"
 				value="{{passwordConfirmation}}"
 				hidden$="{{passwordConfirmationHidden}}"
 				strings-base="register/registration/password-confirmation"
@@ -130,19 +146,26 @@
 				minlength="6">
 			</qb-ui-form-input>
 
+			<qb-ui-form-checkbox
+				id="terms"
+				name="terms"
+				checked="{{terms}}"
+				strings-base="register/registration/terms"
+				required>
+			</qb-ui-form-checkbox>
+
 			<paper-button
-				on-tap='_onSubmitTap'
-				disabled$="{{registerLoading}}">
+				on-tap='_submitForm'
+				disabled$="[[loading]]">
 				<qb-core-i18n
 					key="register/registration/submit"></qb-core-i18n>
 			</paper-button>
 
 			<template
 				is="dom-if"
-				if="{{registerLoading}}">
+				if="[[loading]]">
 				<div
-					class="loading-indicator fit horizontal layout center center-justified"
-					>
+					class="loading-indicator fit horizontal layout center center-justified">
 					<paper-spinner
 						active>
 					</paper-spinner>
@@ -160,15 +183,21 @@
 	window.Quirkbot.UIRegistrationForm = Polymer({
 		is: 'qb-ui-registration-form',
 		properties: {
-
+			auth: {
+				type: Object
+			},
 			under13: {
 				type: Boolean,
 				value: false,
-				computed: '_computeUnder13(birthdate)'
+				computed: '_computeUnder13(age)'
 			},
 			emailStringBase: {
 				type: String,
 				computed: '_computeEmailStringBase(under13)'
+			},
+			birthdate: {
+				type: String,
+				computed: '_computeBirthdate(age)'
 			}
 		},
 		behaviors:[
@@ -190,16 +219,40 @@
 				};
 			});
 			this.gender = 'undefined';
+
+			this.nickname = Date.now();
+			this.age = '13';
+			this.password = '111111';
+			this.passwordConfirmation = '111111';
+			this.email = 'paulo.barcelos+'+this.nickname+'@oakwood.se';
+			this.terms = true;
 		},
-		_computeUnder13: function (date) {
-			var millis = new Date() - new Date(date);
+		_computeUnder13: function (age) {
+			if(!age){
+				return undefined;
+			}
+			/*var millis = new Date() - new Date(date);
 			var s = millis / 1000;
 			var m = s / 60;
 			var h = m / 60;
 			var d = h / 24;
 			var y = d / 365;
 
-			return (y < 13);
+			return (y < 13);*/
+
+			return age < 13;
+		},
+		_computeBirthdate: function (age) {
+			if(!age){
+				return undefined;
+			}
+			var birth = new Date(new Date().setYear(new Date().getFullYear() - age));
+			var month = birth.getUTCMonth() + 1; //months from 1-12
+			var day = birth.getUTCDate();
+			var year = birth.getUTCFullYear();
+
+			var birthdate = year + '-' + month + '-' + day;
+			return birthdate;
 		},
 		_computeEmailStringBase: function (under13) {
 			if(under13){

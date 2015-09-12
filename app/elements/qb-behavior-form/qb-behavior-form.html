@@ -13,18 +13,24 @@
 				type: String
 			}
 		},
-		_onSubmitTap: function(){
+		listeners:{
+			'iron-form-submit' : '_onIronFormSubmit',
+			'iron-form-response' : '_onIronFormResponse',
+			'iron-form-error' : '_onIronFormError'
+		},
+		_submitForm: function(){
 			this.$.form.submit();
 		},
-		_onSubmit: function(){
-			this.registerLoading = true;
+		_onIronFormSubmit: function(){
+			this.loading = true;
 		},
-		_onResponse: function(e){
+		_onIronFormResponse: function(e){
+			this.loading = false;
+			this.fire('response', e.detail);
 			var params = {};
 			window.location.search.slice(1).split('&').forEach(function (o) {
 				o = o.split('=');
 				params[o[0]] = o[1];
-				//o[0] && (params[o[0]] = o[1] || true);
 			});
 			if(params.goto){
 				window.location = params.goto;
@@ -35,10 +41,10 @@
 				return;
 			}
 
-			this.registerLoading = false;
+
 		},
-		_onError: function(e){
-			this.registerLoading = false;
+		_onIronFormError: function(e){
+			this.loading = false;
 			var apiError;
 			try{
 				apiError = e.detail.request.xhr.response;
@@ -59,6 +65,7 @@
 
 				}.bind(this));
 			}
+			this.fire('error', e.detail);
 		},
 		_exactMatchRegex: function (str) {
 			var scaped = str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');

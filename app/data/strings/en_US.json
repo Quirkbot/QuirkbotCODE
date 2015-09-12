@@ -384,12 +384,17 @@
 
 	"register/registration/call-to-action": "Register",
 
+	"register/registration/age/label": "How old are you?",
+	"register/registration/age/placeholder": "",
+	"register/registration/age/error/pre-validation": "For legal reasons, we need to know your age.",
+	"register/registration/age/error/required": "For legal reasons, we need to know your age.",
+
 	"register/registration/nickname/label": "Nickname",
 	"register/registration/nickname/placeholder": "",
 	"register/registration/nickname/tip": "Pick a nickname that doesn't give away your real name.",
 	"register/registration/nickname/error/pre-validation": "Nickname is required.",
 	"register/registration/nickname/error/required": "Nickname is required.",
-	"register/registration/nickname/error/unique": "This nickname was already taken.",
+	"register/registration/nickname/error/uniqueNickname": "This nickname was already taken.",
 
 	"register/registration/country/label": "Country",
 	"register/registration/country/placeholder": "",
@@ -404,7 +409,7 @@
 	"register/registration/email/error/pre-validation": "E-mail is invalid.",
 	"register/registration/email/error/email": "E-mail is invalid.",
 	"register/registration/email/error/required": "E-mail  is required.",
-	"register/registration/email/error/unique": "This e-mail is already registered.",
+	"register/registration/email/error/uniqueEmail": "This e-mail is already registered.",
 
 	"register/registration/copa-notice": "Since you are under 13 years old, you cannot use Quirkbot CODE without the consent of your parents or guardians.<br>Enter their e-mail below and we will send them an email to confirm this account.",
 	"register/registration/guardian-email/label": "Parent's or guardian's e-mail",
@@ -442,6 +447,11 @@
 	"register/registration/birthdate/month/placeholder": "Month",
 	"register/registration/birthdate/year/placeholder": "Year",
 
+	"register/registration/terms/label": "Terms and conditions",
+	"register/registration/terms/placeholder": "I've read and accepted the <a href='../terms-and-conditions' target='_blank'>terms and conditions</a>.",
+	"register/registration/terms/tip": "",
+	"register/registration/terms/error/pre-validation": "You must read and agree to the terms and conditions.",
+
 	"register/registration/submit": "Register",
 
 	"register/login/call-to-action": "Login",
@@ -456,6 +466,7 @@
 	"register/login/password/tip": "",
 	"register/login/password/error/pre-validation": "Password must be at least 6 characters long.",
 	"register/login/password/error/required": "Password is required.",
+
 	"register/login/submit": "Login",
 
 	"gender/male": "Male",

@@ -45,9 +45,12 @@
 
 		<qb-app-register
 			locale="en_US"
-			user-app-url="http://docker:32770/user/"
-			users-api-url="http://docker:32770/user/"
-			login-api-url="http://docker:32770/login/"
+			client-id="YWJjMTphc2Q="
+			auth-url="http://localhost:1337/auth/token"
+			user-app-url="http://localhost:1337/user/"
+			users-api-url="http://localhost:1337/user/"
+			login-api-url="http://localhost:1337/login/"
+			auth-url="http://localhost:1337/oauth/token/"
 			strings-url="./data/strings/{{locale}}.json">
 		</qb-app-register>
 

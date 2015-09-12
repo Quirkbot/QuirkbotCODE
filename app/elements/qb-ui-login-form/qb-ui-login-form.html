@@ -59,14 +59,14 @@
 
 			<paper-button
 				on-tap='_onSubmitTap'
-				disabled$="{{registerLoading}}">
+				disabled$="{{loading}}">
 				<qb-core-i18n
 					key="register/login/submit"></qb-core-i18n>
 			</paper-button>
 
 			<template
 				is="dom-if"
-				if="{{registerLoading}}">
+				if="{{loading}}">
 				<div
 					class="loading-indicator fit horizontal layout center center-justified"
 					>

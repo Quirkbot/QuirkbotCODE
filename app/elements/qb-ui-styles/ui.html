@@ -66,7 +66,6 @@
 				margin-bottom: 0.4em;
 			}
 			paper-input{
-
 				--paper-input-container-invalid-color: var(--qb-red);
 				--paper-input-container-input: {
 					font-size: inherit;
@@ -87,15 +86,18 @@
 				--paper-input-container-color: var(--qb-black) !important;
 				--paper-input-container-label:{
 					font-size: 1.3em;
-				}
+				};
 				--paper-input-container-label-focus:{
 					font-size: 1.3em;
-				}
+				};
 			}
-			 .paper-input-input{
+			.paper-input-input:not(.checkbox){
 				background-color: var(--qb-interactive-color) !important;
 				box-sizing: border-box !important;
 				padding:  0 0.5em !important;
+			}
+			paper-checkbox{
+				font-size: 0.8em;
 			}
 			paper-dropdown-menu{
 				width: 80px;
@@ -148,6 +150,18 @@
 			paper-dropdown-menu paper-item:nth-child(odd) {
 				background-color: rgba(0,0,0,0.05);
 			}
+
+			paper-checkbox{
+				--paper-checkbox-unchecked-background-color: var(--qb-yellow);
+				--paper-checkbox-unchecked-color: transparent;
+				--paper-checkbox-unchecked-ink-color: var(--qb-yellow);
+				--paper-checkbox-checked-color: var(--qb-yellow);
+				--paper-checkbox-checked-ink-color: var(--qb-yellow);
+				--paper-checkbox-checkmark-color: var(--qb-black);
+				--paper-checkbox-label-color: inherit;
+				--paper-checkbox-error-color: var(--qb-red);
+			}
+
 
 		</style>
 	</template>

@@ -1,0 +1,83 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+
+<dom-module id="qb-core-auth">
+	<template>
+		<iron-ajax
+			method="POST"
+			content-type="application/x-www-form-urlencoded"
+			id="ajax">
+		</iron-ajax>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreAuth = Polymer({
+		is: 'qb-core-auth',
+		properties: {
+			url: {
+				type: String
+			},
+			clientId: {
+				type: String
+			},
+			user: {
+				type: String
+			},
+			password: {
+				type: String
+			},
+			bearer: {
+				type: String,
+				notify: true
+			},
+			refreshToken: {
+				type: String,
+				notify: true
+			}
+		},
+		observers:[
+			'authenticate( user, password)'
+		],
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior
+		],
+		authenticate: function( user, password){
+			this.$.ajax.url = this.url;
+			this.$.ajax.headers = {
+				'Authorization' : 'Basic '+ this.clientId
+			}
+
+			this.$.ajax.body = {
+				'grant_type': 'password',
+				'username' : user,
+				'password': password
+			}
+			var onResponse = function(e){
+				console.log(e)
+				clearTimeout(timer);
+				this.$.ajax.removeEventListener('response', onResponse);
+			}.bind(this);
+			this.$.ajax.addEventListener('response', onResponse);
+
+			var onError = function(e){
+				console.log('eror',	e)
+				clearTimeout(timer);
+				this.$.ajax.removeEventListener('error', onError);
+
+			}.bind(this);
+
+			this.$.ajax.addEventListener('error', onError);
+			var timer = setTimeout(function(){
+				request.abort();
+			}.bind(this), 10000);
+			var request = this.$.ajax.generateRequest();
+		}
+	});
+})();
+</script>
