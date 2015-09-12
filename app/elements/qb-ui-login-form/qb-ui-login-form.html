@@ -35,14 +35,12 @@
 			id="form"
 			method="post"
 			action="[[action]]"
-			disable-Native-Validation-Ui
-			on-iron-form-submit='_onSubmit'
-			on-iron-form-response='_onResponse'
-			on-iron-form-error='_onError'>
+			disable-Native-Validation-Ui>
 
 			<qb-ui-form-input
 				id="email"
 				name="email"
+				value="{{email}}"
 				strings-base="register/login/email"
 				required
 				type="email">
@@ -51,6 +49,7 @@
 			<qb-ui-form-input
 				id="password"
 				name="password"
+				value="{{password}}"
 				strings-base="register/login/password"
 				required
 				type="password"
@@ -58,18 +57,17 @@
 			</qb-ui-form-input>
 
 			<paper-button
-				on-tap='_onSubmitTap'
-				disabled$="{{loading}}">
+				on-tap='_submitForm'
+				disabled$="[[loading]]">
 				<qb-core-i18n
 					key="register/login/submit"></qb-core-i18n>
 			</paper-button>
 
 			<template
 				is="dom-if"
-				if="{{loading}}">
+				if="[[loading]]">
 				<div
-					class="loading-indicator fit horizontal layout center center-justified"
-					>
+					class="loading-indicator fit horizontal layout center center-justified">
 					<paper-spinner
 						active>
 					</paper-spinner>

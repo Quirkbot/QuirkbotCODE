@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
 
 <link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 
@@ -9,9 +10,28 @@
 	<template>
 		<iron-ajax
 			method="POST"
-			content-type="application/x-www-form-urlencoded"
-			id="ajax">
+			url="[[tokenUrl]]"
+			headers="[[tokenHeaders]]"
+			id="tokenAjax">
 		</iron-ajax>
+
+		<iron-ajax
+			id="apiAjax">
+		</iron-ajax>
+
+		<iron-localstorage
+			name="qb-accessToken"
+			value="{{accessToken}}">
+		</iron-localstorage>
+		<iron-localstorage
+			name="qb-refreshToken"
+			value="{{refreshToken}}">
+		</iron-localstorage>
+		<iron-localstorage
+			name="qb-tokenExpires"
+			value="{{expires}}">
+		</iron-localstorage>
+
 	</template>
 </dom-module>
 <script>
@@ -20,8 +40,19 @@
 	window.Quirkbot.CoreAuth = Polymer({
 		is: 'qb-core-auth',
 		properties: {
-			url: {
+			authUrl: {
 				type: String
+			},
+			apiUrl: {
+				type: String
+			},
+			tokenUrl:{
+				type: String,
+				computed: '_computeTokenUrl(authUrl)'
+			},
+			tokenHeaders:{
+				type: String,
+				computed: '_computeTokenHeaders(clientId)'
 			},
 			clientId: {
 				type: String
@@ -32,52 +63,134 @@
 			password: {
 				type: String
 			},
-			bearer: {
+			accessToken: {
 				type: String,
 				notify: true
 			},
 			refreshToken: {
 				type: String,
 				notify: true
+			},
+			expires: {
+				type: Number,
+				notify: true
 			}
 		},
 		observers:[
-			'authenticate( user, password)'
+			'authenticate(user, password)',
+			'_scheduleRefresh(expires)'
 		],
 		behaviors:[
 			window.Quirkbot.SelfPropertyBehavior
 		],
-		authenticate: function( user, password){
-			this.$.ajax.url = this.url;
-			this.$.ajax.headers = {
-				'Authorization' : 'Basic '+ this.clientId
+		attached: function(){
+			if(this.expires > Date.now() && this.accessToken && this.refreshToken){
+				this.fire('authenticate', this);
 			}
-
-			this.$.ajax.body = {
+		},
+		authenticate: function(user, password){
+			this.$.tokenAjax.body = {
 				'grant_type': 'password',
 				'username' : user,
 				'password': password
+			};
+			this._requestToken();
+		},
+		refresh: function(){
+			this.$.tokenAjax.body = {
+				'grant_type': 'refresh_token',
+				'refresh_token' : this.refreshToken
+			};
+			this._requestToken();
+		},
+		apiCall: function (method, path, data) {
+			return new Promise(function (resolve, reject) {
+				this.$.apiAjax.headers = {
+					'Content-Type' : 'application/x-www-form-urlencoded',
+					'Authorization' : 'Bearer '+ this.accessToken
+				};
+				this.$.apiAjax.method = method;
+				this.$.apiAjax.url = this.apiUrl + '/' + path;
+				if(data){
+					this.$.apiAjax.body = data;
+				}
+				this._request(this.$.apiAjax)
+				.then(resolve)
+				.catch(reject);
+			});
+		},
+		_requestToken: function () {
+			clearTimeout(this._scheduleRefreshTimer);
+			this._request(this.$.tokenAjax)
+			.then(function(response){
+				// Annoying juggle to get around lint problems with underscore_names
+				var accessTokenKey = 'access_token';
+				this.accessToken = response[accessTokenKey];
+
+				var refreshTokenKey = 'refresh_token';
+				this.refreshToken = response[refreshTokenKey];
+
+				var expiresKey = 'expires_in';
+				this.expires = Date.now() + (response[expiresKey] * 1000);
+
+				this.fire('authenticate', this);
+			}.bind(this))
+			.catch(function(error){
+				this.fire('authenticate-error', error);
+			}.bind(this));
+		},
+		_request: function (ajax) {
+			return new Promise(function(resolve, reject) {
+				var onResponse = function(e){
+					clearTimeout(timer);
+					ajax.removeEventListener('response', onResponse);
+					resolve(e.detail.response);
+				}.bind(this);
+				ajax.addEventListener('response', onResponse);
+
+				var onError = function(e){
+					clearTimeout(timer);
+					ajax.removeEventListener('error', onError);
+					reject(e.detail.response);
+				}.bind(this);
+
+				ajax.addEventListener('error', onError);
+				var timer = setTimeout(function(){
+					request.abort();
+				}.bind(this), 10000);
+				var request = ajax.generateRequest();
+			});
+		},
+		_computeTokenUrl: function(authUrl){
+			return authUrl + '/token';
+		},
+		_computeTokenHeaders: function(clientId){
+			return {
+				'Content-Type' : 'application/x-www-form-urlencoded',
+				'Authorization' : 'Basic '+ clientId
+			};
+		},
+		_scheduleRefresh: function(expires, force){
+			if(!expires && !force){
+				return;
 			}
-			var onResponse = function(e){
-				console.log(e)
-				clearTimeout(timer);
-				this.$.ajax.removeEventListener('response', onResponse);
-			}.bind(this);
-			this.$.ajax.addEventListener('response', onResponse);
+			var delay;
+			if(force){
+				delay = 0;
+			}
+			else{
+				var expiration = expires - 30000;
+				if(expiration < Date.now()){
+					delay = 0;
+				}
+				else{
+					delay = expiration - Date.now();
+				}
+			}
 
-			var onError = function(e){
-				console.log('eror',	e)
-				clearTimeout(timer);
-				this.$.ajax.removeEventListener('error', onError);
-
-			}.bind(this);
-
-			this.$.ajax.addEventListener('error', onError);
-			var timer = setTimeout(function(){
-				request.abort();
-			}.bind(this), 10000);
-			var request = this.$.ajax.generateRequest();
+			this._scheduleRefreshTimer =  setTimeout(this.refresh.bind(this), delay);
 		}
+
 	});
 })();
 </script>

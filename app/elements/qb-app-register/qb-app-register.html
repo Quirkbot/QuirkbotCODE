@@ -34,9 +34,16 @@
 
 		<qb-core-auth
 			id="auth"
-			url="[[authUrl]]"
-			client-id="[[clientId]]">
+			auth-url="[[authUrl]]"
+			api-url="[[apiUrl]]"
+			client-id="[[clientId]]"
+			on-authenticate="_onAuthenticate">
 		</qb-core-auth>
+
+		<iron-localstorage
+			name="qb-user"
+			value="{{user}}">
+		</iron-localstorage>
 
 		<h2>
 			<paper-button
@@ -49,7 +56,7 @@
 			id='registration-container' opened>
 			<qb-ui-registration-form
 				id="registration"
-				action="[[usersApiUrl]]">
+				action="[[_resolveApiUrl(apiUrl, 'user')]]">
 			</qb-ui-registration-form>
 		</iron-collapse>
 
@@ -65,7 +72,7 @@
 			id='login-container'>
 			<qb-ui-login-form
 				id="login"
-				action="[[loginApiUrl]]">
+				action="[[_resolveApiUrl(apiUrl, 'login')]]">
 			</qb-ui-login-form>
 		</iron-collapse>
 
@@ -84,36 +91,33 @@
 				type: String,
 				value: 'en_US'
 			},
-			userAppUrl: {
-				type: String,
-				value: 'http://code.quirkbot.com/user/'
-			},
 			clientId: {
 				type: String,
 				value: 'YWJjMTphc2Q='
 			},
 			authUrl: {
 				type: String,
-				value: 'http://localhost:8585/auth/token/'
+				value: 'http://localhost:8585/auth'
 			},
-			usersApiUrl: {
+			userAppUrl: {
 				type: String,
-				value: 'http://localhost:8585/api/programs/'
+				value: 'http://code.quirkbot.com/user'
 			},
-			loginApiUrl: {
+			apiUrl: {
 				type: String,
-				value: 'http://localhost:8585/api/login/'
+				value: 'http://localhost:8585'
 			},
 			stringsUrl: {
 				type: String,
 				value: 'data/strings/{{locale}}.json'
 			},
-			auth: {
+			user: {
 				type: Object
 			}
 		},
 		listeners:{
-			'registration.response' : '_onRegistrationResponse'
+			'registration.response' : '_onRegistrationResponse',
+			'login.response' : '_onLoginResponse'
 		},
 		ready: function(){
 
@@ -125,10 +129,30 @@
 			this.$['login-container'].toggle();
 		},
 		_onRegistrationResponse: function(e){
-			// after registration, keep the loader going until the user is logged in
 			this.$.registration.loading = true;
+			this.user = e.detail;
 			this.$.auth.authenticate(this.$.registration.email, this.$.registration.password);
-
+		},
+		_onLoginResponse: function(e){
+			this.$.login.loading = true;
+			this.user = e.detail;
+			this.$.auth.authenticate(this.$.login.email, this.$.login.password);
+		},
+		_onAuthenticate: function(){
+			//this.$.auth.apiCall('GET', 'users')
+			if(this.user){
+				var url = this.userAppUrl;
+				if (url.charAt(url.length - 1) === '/') {
+					url = url.substr(0, url.length - 1);
+				}
+				window.location = url + '/#/' + this.user.id;
+			}
+		},
+		_resolveApiUrl: function(url, path){
+			if (url.charAt(url.length - 1) === '/') {
+				url = url.substr(0, url.length - 1);
+			}
+			return url + '/' + path;
 		}
 
 	});
