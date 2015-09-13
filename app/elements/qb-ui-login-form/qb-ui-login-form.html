@@ -3,7 +3,6 @@
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 
-
 <link rel="import" href="../qb-behavior-form/qb-behavior-form.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
@@ -12,24 +11,14 @@
 <link rel="import" href="../qb-ui-form-radiogroup/qb-ui-form-radiogroup.html">
 <link rel="import" href="../qb-ui-form-date/qb-ui-form-date.html">
 
-
-
 <dom-module id='qb-ui-login-form'>
-	<style>
-		:host{
-			display: block;
-
-		}
-		form{
-			position: relative;
-		}
-		.loading-indicator{
-			background-color: rgba(255,255,255, 0.7);
-		}
-
-	</style>
 	<template>
+		<style include="qb-form-styles"></style>
+		<style>
+			:host{
 
+			}
+		</style>
 		<form
 			is="iron-form"
 			id="form"
@@ -38,12 +27,11 @@
 			disable-Native-Validation-Ui>
 
 			<qb-ui-form-input
-				id="email"
-				name="email"
-				value="{{email}}"
-				strings-base="register/login/email"
-				required
-				type="email">
+				id="nickname"
+				name="nickname"
+				value="{{nickname}}"
+				strings-base="register/login/nickname"
+				required>
 			</qb-ui-form-input>
 
 			<qb-ui-form-input
@@ -52,8 +40,7 @@
 				value="{{password}}"
 				strings-base="register/login/password"
 				required
-				type="password"
-				minlength="6">
+				type="password">
 			</qb-ui-form-input>
 
 			<paper-button
@@ -62,6 +49,13 @@
 				<qb-core-i18n
 					key="register/login/submit"></qb-core-i18n>
 			</paper-button>
+
+			<div
+				class="form-error"
+				hidden$="[[!errorCode]]">
+				<qb-core-i18n
+					key="[[_buildKey('register/login/error/',errorCode)]]"></qb-core-i18n>
+			</div>
 
 			<template
 				is="dom-if"

@@ -3,7 +3,6 @@
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 
-
 <link rel="import" href="../qb-behavior-form/qb-behavior-form.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
@@ -14,30 +13,15 @@
 <link rel="import" href="../qb-ui-form-date/qb-ui-form-date.html">
 <link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
 
-
-
 <dom-module id='qb-ui-registration-form'>
-	<style>
-		:host{
-			display: block;
 
-		}
-		.notice{
-			background-color: rgba(255,0,0,0.1);
-			border-radius: 10px;
-			padding: 20px;
-
-		}
-		form{
-			position: relative;
-		}
-		.loading-indicator{
-			background-color: rgba(255,255,255, 0.7);
-		}
-
-	</style>
 	<template>
+		<style include="qb-form-styles"></style>
+		<style>
+			:host{
 
+			}
+		</style>
 		<form
 			is="iron-form"
 			id="form"
@@ -85,6 +69,8 @@
 				value="{{nickname}}"
 				hidden$="{{nicknameHidden}}"
 				strings-base="register/registration/nickname"
+				pattern="[a-zA-Z0-9-_]*"
+				prevent-invalid-input
 				required
 				maxlength="30">
 			</qb-ui-form-input>
@@ -161,6 +147,13 @@
 					key="register/registration/submit"></qb-core-i18n>
 			</paper-button>
 
+			<div
+				class="form-error"
+				hidden$="[[!errorCode]]">
+				<qb-core-i18n
+					key="[[_buildKey('register/registration/error/',errorCode)]]"></qb-core-i18n>
+			</div>
+
 			<template
 				is="dom-if"
 				if="[[loading]]">
@@ -220,12 +213,6 @@
 			});
 			this.gender = 'undefined';
 
-			this.nickname = Date.now();
-			this.age = '13';
-			this.password = '111111';
-			this.passwordConfirmation = '111111';
-			this.email = 'paulo.barcelos+'+this.nickname+'@oakwood.se';
-			this.terms = true;
 		},
 		_computeUnder13: function (age) {
 			if(!age){

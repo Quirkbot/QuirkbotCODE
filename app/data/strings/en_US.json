@@ -383,6 +383,8 @@
 	"REGISTER ###########################################################" : "",
 
 	"register/registration/call-to-action": "Register",
+	"register/registration/error/E_VALIDATION" : "There is an error in the inputs.",
+	"register/registration/error/CONNECTION_REFUSED" : "Problem connecting, try again later.",
 
 	"register/registration/age/label": "How old are you?",
 	"register/registration/age/placeholder": "",
@@ -455,17 +457,18 @@
 	"register/registration/submit": "Register",
 
 	"register/login/call-to-action": "Login",
-	"register/login/email/label": "E-mail",
-	"register/login/email/placeholder": "",
-	"register/login/email/tip": "",
-	"register/login/email/error/pre-validation": "E-mail is invalid.",
-	"register/login/email/error/email": "E-mail is invalid.",
-	"register/login/email/error/required": "E-mail  is required.",
+	"register/login/error/E_VALIDATION" : "There is an error in the inputs.",
+	"register/login/error/AUTH_GRANT" : "You have entered an invalid username or password.",
+	"register/login/error/CONNECTION_REFUSED" : "Problem connecting, try again later.",
+
+	"register/login/nickname/label": "Nickname",
+	"register/login/nickname/placeholder": "",
+	"register/login/nickname/tip": "",
+	"register/login/nickname/error/pre-validation": "Nickname is required.",
 	"register/login/password/label": "Password",
 	"register/login/password/placeholder": "",
 	"register/login/password/tip": "",
-	"register/login/password/error/pre-validation": "Password must be at least 6 characters long.",
-	"register/login/password/error/required": "Password is required.",
+	"register/login/password/error/pre-validation": "Password is required.",
 
 	"register/login/submit": "Login",
 

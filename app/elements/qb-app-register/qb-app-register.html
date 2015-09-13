@@ -11,13 +11,6 @@
 <link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
 <link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
 
-
-<!-- Platinum elements -->
-<!--
-<link rel="import" href="../bower_components/platinum-sw/platinum-sw-cache.html">
-<link rel="import" href="../bower_components/platinum-sw/platinum-sw-registration.html">
--->
-
 <dom-module id='qb-app-register'>
 	<style>
 		:host{
@@ -53,7 +46,7 @@
 			</paper-button>
 		</h2>
 		<iron-collapse
-			id='registration-container' opened>
+			id='registration-container'>
 			<qb-ui-registration-form
 				id="registration"
 				action="[[_resolveApiUrl(apiUrl, 'user')]]">
@@ -72,6 +65,8 @@
 			id='login-container'>
 			<qb-ui-login-form
 				id="login"
+				cancel-submit
+				on-submit="_onLoginSubmit"
 				action="[[_resolveApiUrl(apiUrl, 'login')]]">
 			</qb-ui-login-form>
 		</iron-collapse>
@@ -131,22 +126,57 @@
 		_onRegistrationResponse: function(e){
 			this.$.registration.loading = true;
 			this.user = e.detail;
-			this.$.auth.authenticate(this.$.registration.email, this.$.registration.password);
+			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password);
 		},
-		_onLoginResponse: function(e){
+		_onLoginSubmit: function(e){
 			this.$.login.loading = true;
-			this.user = e.detail;
-			this.$.auth.authenticate(this.$.login.email, this.$.login.password);
+			this._nickname = this.$.login.nickname;
+
+			// Try to authenticate directly, but if there is an error, use it
+			// for feeback on the login form
+			var onSuccess = function (e) {
+				this.$.auth.removeEventListener('authenticate', onSuccess);
+				this.$.auth.removeEventListener('authenticate-error', onError);
+			}.bind(this);
+			var onError = function (e) {
+				this.$.auth.removeEventListener('authenticate', onSuccess);
+				this.$.auth.removeEventListener('authenticate-error', onError);
+				this.$.login.loading = false;
+				this.$.login.errorCode = e.detail.code;
+			}.bind(this);
+			this.$.auth.addEventListener('authenticate', onSuccess);
+			this.$.auth.addEventListener('authenticate-error', onError);
+
+			this.$.auth.authenticate(this.$.login.nickname, this.$.login.password);
 		},
 		_onAuthenticate: function(){
-			//this.$.auth.apiCall('GET', 'users')
-			if(this.user){
-				var url = this.userAppUrl;
-				if (url.charAt(url.length - 1) === '/') {
-					url = url.substr(0, url.length - 1);
-				}
-				window.location = url + '#/' + this.user.id;
+			if(this.user && this.user.nickname){
+				this._goToProfile();
 			}
+			else{
+				this.$.auth.apiCall('GET', 'user/?nickname=' + this._nickname)
+				.then(function (users) {
+					if(users.length === 1){
+						this.user = users[0];
+						this._goToProfile();
+					}
+					else{
+						console.log('Strange result getting user', users)
+					}
+
+
+				}.bind(this))
+				.catch(function(){
+					console.log('Error getting user', arguments)
+				});
+			}
+		},
+		_goToProfile: function(){
+			var url = this.userAppUrl;
+			if (url.charAt(url.length - 1) === '/') {
+				url = url.substr(0, url.length - 1);
+			}
+			window.location = url + '#/' + this.user.nickname;
 		},
 		_resolveApiUrl: function(url, path){
 			if (url.charAt(url.length - 1) === '/') {

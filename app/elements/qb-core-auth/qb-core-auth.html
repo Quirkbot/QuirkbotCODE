@@ -77,14 +77,17 @@
 			}
 		},
 		observers:[
-			'_scheduleRefresh(expires)',
-			'_processInitialValues(expires,accessToken,refreshToken)'
+			'_scheduleRefresh(expires)'
 		],
 		behaviors:[
 			window.Quirkbot.SelfPropertyBehavior
 		],
-
+		attached: function(){
+			this._processInitialValues();
+		},
 		authenticate: function(user, password){
+			user = user || '';
+			password = password || '';
 			this.$.tokenAjax.body = {
 				'grant_type': 'password',
 				'username' : user,
@@ -112,7 +115,11 @@
 				}
 				this._request(this.$.apiAjax)
 				.then(resolve)
-				.catch(reject);
+				.catch(function (error) {
+					console.log('api-error', error)
+					this.fire('api-error', error);
+					reject(error);
+				});
 			}.bind(this));
 		},
 		_requestToken: function () {
@@ -132,6 +139,7 @@
 				this.fire('authenticate', this);
 			}.bind(this))
 			.catch(function(error){
+				console.log('authenticate-error', error);
 				this.fire('authenticate-error', error);
 			}.bind(this));
 		},
@@ -140,21 +148,40 @@
 				var onResponse = function(e){
 					clearTimeout(timer);
 					ajax.removeEventListener('response', onResponse);
-					resolve(e.detail.response);
+					ajax.removeEventListener('error', onError);
+					if(!e.detail.response){
+						reject({
+							"message": "Could not get any response",
+							"code": "CONNECTION_REFUSED",
+							"data": {}
+						});
+					}
+					else{
+						resolve(e.detail.response);
+					}
 				}.bind(this);
 				ajax.addEventListener('response', onResponse);
 
 				var onError = function(e){
 					clearTimeout(timer);
+					ajax.removeEventListener('response', onResponse);
 					ajax.removeEventListener('error', onError);
-					reject(e.detail.response);
+					var response;
+					if(e.detail.response){
+						response = e.detail.response;
+					}
+					else if(e.detail.request && e.detail.request.xhr && e.detail.request.xhr.response){
+						response = e.detail.request.xhr.response;
+					}
+					reject(response);
 				}.bind(this);
 
 				ajax.addEventListener('error', onError);
+				var request = ajax.generateRequest();
 				var timer = setTimeout(function(){
 					request.abort();
 				}.bind(this), 10000);
-				var request = ajax.generateRequest();
+
 			}.bind(this));
 		},
 		_computeTokenUrl: function(authUrl){

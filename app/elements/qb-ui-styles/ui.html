@@ -62,7 +62,7 @@
 		<style>
 			:host{
 				box-sizing: border-box;
-				padding: 0px 10px 0px;
+				padding: 0px;
 				margin-bottom: 0.4em;
 			}
 			paper-input{
@@ -163,6 +163,40 @@
 			}
 
 
+		</style>
+	</template>
+</dom-module>
+
+<dom-module id="qb-form-styles">
+	<template>
+		<style>
+			:host{
+				display: block;
+				padding: 0 10px;
+			}
+			.notice{
+				background-color: rgba(255,0,0,0.1);
+				border-radius: 10px;
+				padding: 20px;
+			}
+			form{
+				position: relative;
+			}
+			.loading-indicator{
+				background-color: rgba(255,255,255, 0.7);
+			}
+			a {
+				color: inherit !important;
+			}
+			paper-button{
+				display: block;
+			}
+			.form-error{
+				display: block;
+				text-align: center;
+				color: var(--qb-red);
+				font-size: 0.8em;
+			}
 		</style>
 	</template>
 </dom-module>

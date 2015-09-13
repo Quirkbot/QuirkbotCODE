@@ -11,6 +11,17 @@
 			},
 			goTo: {
 				type: String
+			},
+			/**
+			 * If true, will cancel the submission of the form. The 'submit' event
+			 * will still be called.
+			 */
+			cancelSubmit: {
+				type: Boolean
+			},
+			errorCode: {
+				type: String,
+				value: ''
 			}
 		},
 		listeners:{
@@ -19,13 +30,32 @@
 			'iron-form-error' : '_onIronFormError'
 		},
 		_submitForm: function(){
-			this.$.form.submit();
+			this.errorCode = '';
+			if(!this.cancelSubmit){
+				this.$.form.submit();
+			}
+			this.fire('submit', this);
+
 		},
 		_onIronFormSubmit: function(){
 			this.loading = true;
 		},
 		_onIronFormResponse: function(e){
 			this.loading = false;
+
+			// On chrome, if the internt is down, we won't get an error, but
+			// instead an empty reponse. Check for it here, and construct a
+			// useful error message
+			if(!e.detail || !Object.keys(e.detail).length){
+				return this.fire('iron-form-error', {
+					response: {
+						"message": "Could not get any response",
+						"code": "CONNECTION_REFUSED",
+						"data": {}
+					}
+				});
+			}
+
 			this.fire('response', e.detail);
 			var params = {};
 			window.location.search.slice(1).split('&').forEach(function (o) {
@@ -40,36 +70,42 @@
 				window.location = this.goTo + '#/' + e.detail.id;
 				return;
 			}
-
-
 		},
 		_onIronFormError: function(e){
 			this.loading = false;
-			var apiError;
-			try{
-				apiError = e.detail.request.xhr.response;
+			var response;
+
+			if(e.detail.response){
+				response = e.detail.response;
 			}
-			catch(e){
-				console.error(e);
+			else if(e.detail.request && e.detail.request.xhr && e.detail.request.xhr.response){
+				response = e.detail.request.xhr.response;
 			}
-			if(apiError.error === 'E_VALIDATION' && typeof apiError.invalidAttributes === 'object'){
-				Object.keys(apiError.invalidAttributes).forEach(function (id) {
+			if(response && response.error === 'E_VALIDATION' && typeof response.invalidAttributes === 'object'){
+				this.errorCode = response.error;
+				Object.keys(response.invalidAttributes).forEach(function (id) {
 					var field = this.$[id];
 					if(!field) {
 						return;
 					}
 					field.apiErrors = [];
 					this.async(function () {
-						field.apiErrors = apiError.invalidAttributes[id];
+						field.apiErrors = response.invalidAttributes[id];
 					});
 
 				}.bind(this));
+			}
+			else if(response && response.code === 'CONNECTION_REFUSED'){
+				this.errorCode = response.code;
 			}
 			this.fire('error', e.detail);
 		},
 		_exactMatchRegex: function (str) {
 			var scaped = str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 			return '^'+scaped+'$';
+		},
+		_buildKey: function (a,b) {
+			return a+b;
 		}
 
 	};
