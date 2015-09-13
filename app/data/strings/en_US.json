@@ -8,6 +8,16 @@
 	"ide/editor/text": 		"Text",
 	"ide/node/disconnect": "disconnect",
 
+	"AVATAR -------------------------------------------------------------" : "",
+	"ide/avatar/login": "login",
+	"ide/avatar/logout": "logout",
+	"ide/avatar/profile": "profile",
+
+	"USER ---------------------------------------------------------------" : "",
+	"ide/user/programs/title": "CODEs",
+	"ide/user/programs/empty": "No CODE created.",
+	"ide/user/programs/create-new": "Create new CODE",
+
 	"IDE - Toolbar ------------------------------------------------------" : "",
 	"ide/toolbar/clone/tooltip":	"Clone CODE",
 	"ide/toolbar/quirkbots-area/tooltip":	"Upload CODE",
@@ -80,6 +90,7 @@
 	"ide/warnings/setup/no-user/description": "To use Quirkbot CODE, you need to be logged in.",
 	"ide/warnings/setup/no-user/cancel": "Continue as guest",
 	"ide/warnings/setup/no-user/continue": "Login",
+	"ide/warnings/setup/no-user/continue/link": "/",
 
 	"CATEGORIES ---------------------------------------------------------" : "",
 	"category/connect":		"Connect",

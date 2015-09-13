@@ -7,8 +7,9 @@
 <link rel="import" href="../qb-core-auth/qb-core-auth.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
-<link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
-<link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
+<link rel="import" href="../qb-ui-avatar/qb-ui-avatar.html">
+<link rel="import" href="../qb-ui-warnings-overlay/qb-ui-warnings-overlay.html">
+
 
 <dom-module id='qb-app-user'>
 	<style>
@@ -27,14 +28,58 @@
 			id="auth"
 			auth-url="[[authUrl]]"
 			api-url="[[apiUrl]]"
-			client-id="[[clientId]]"
-			on-authenticate="_onAuthenticate">
+			client-id="[[clientId]]">
 		</qb-core-auth>
+
+		<qb-ui-avatar
+			home-url="[[homeUrl]]"
+			register-app-url="[[registerAppUrl]]"
+			user-app-url="[[userAppUrl]]"
+			program-app-url="[[programAppUrl]]">
+		</qb-ui-avatar>
 
 		<iron-localstorage
 			name="qb-user"
-			value="{{user}}">
+			value="{{loggedUser}}">
 		</iron-localstorage>
+
+		<qb-ui-warnings-overlay
+			model="[[warningModel]]">
+		</qb-ui-warnings-overlay>
+
+		<h1>[[user.nickname]]</h1>
+
+		<h2>
+			<qb-core-i18n
+				key="ide/user/programs/title"></qb-core-i18n>
+		</h2>
+
+
+		<template
+			is="dom-if"
+			if="[[!programs.length]]">
+			<qb-core-i18n
+				key="ide/user/programs/empty"></qb-core-i18n>
+		</template>
+
+
+		<template
+			is="dom-repeat"
+			items="[[programs]]">
+
+
+		</template>
+
+		<template
+			is="dom-if"
+			if="[[ownProfile]]">
+			<a href="[[programAppUrl]]">
+				<paper-button>
+					<qb-core-i18n
+						key="ide/user/programs/create-new"></qb-core-i18n>
+				</paper-button>
+			</a>
+		</template>
 
 	</template>
 </dom-module>
@@ -45,29 +90,72 @@
 	window.Quirkbot.AppUser = Polymer({
 		is: 'qb-app-user',
 		properties: {
-			userId: String,
 			locale: String,
 			clientId: String,
 			authUrl: String,
 			apiUrl: String,
+			homeUrl: String,
 			programAppUrl: String,
 			registerAppUrl: String,
 			userAppUrl: String,
-			stringsUrl: String
+			stringsUrl: String,
+			authenticated: Boolean,
+
+			model: Object,
+			userNickname: String,
+			user: Object,
+			programs: Array,
+
+			warningModel:{
+				type: Object,
+				value:{}
+			},
+
+			ownProfile: {
+				type: Boolean,
+				computed: '_computeOwnProfile(loggedUser, user)'
+			}
 		},
 		observers:[
+			'_fetchUser(userNickname)',
+			'_fetchPrograms(user.id)'
 		],
 		listeners:{
-		},
-		_onAuthenticate: function(){
-			this.$.auth	.apiCall('GET', 'user/'+this.userId)
-			.then(function (user) {
-				console.log(user)
-			})
-			.catch(function () {
-				console.log(arguments)
-			})
 
+		},
+		attached: function(loggedUser){
+			setTimeout(function(){
+				if(!this.loggedUser){
+					this.set('warningModel.setupError', 'no-user');
+				}
+
+			}.bind(this), 200);
+
+
+			//this.authenticated = true;
+		},
+		_fetchUser: function(userNickname){
+			if(!userNickname){
+				return;
+			}
+			this.$.auth.apiCall('GET', 'user/?nickname='+userNickname)
+			.then(function (users) {
+				if(users.length === 1){
+					this.user = users[0];
+				}
+			}.bind(this));
+		},
+		_fetchPrograms: function(userId){
+			if(!userId){
+				return;
+			}
+			this.$.auth.apiCall('GET', 'program/?author='+userId)
+			.then(function (programs) {
+				this.programs = programs;
+			}.bind(this));
+		},
+		_computeOwnProfile: function(loggedUser, user){
+			return loggedUser.id === user.id;
 		}
 
 	});

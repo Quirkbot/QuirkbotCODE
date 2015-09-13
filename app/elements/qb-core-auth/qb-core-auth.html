@@ -93,16 +93,17 @@
 				'username' : user,
 				'password': password
 			};
-			this._requestToken();
+			return this._requestToken();
 		},
 		refresh: function(){
+			var refreshToken = this.refreshToken || '';
 			this.$.tokenAjax.body = {
 				'grant_type': 'refresh_token',
-				'refresh_token' : this.refreshToken
+				'refresh_token' : refreshToken
 			};
-			this._requestToken();
+			return this._requestToken();
 		},
-		apiCall: function (method, path, data) {
+		apiCall: function (method, path, data, blockAuthRetry) {
 			return new Promise(function (resolve, reject) {
 				this.$.apiAjax.headers = {
 					'Content-Type' : 'application/x-www-form-urlencoded',
@@ -116,31 +117,50 @@
 				this._request(this.$.apiAjax)
 				.then(resolve)
 				.catch(function (error) {
-					console.log('api-error', error)
-					this.fire('api-error', error);
-					reject(error);
-				});
+					if(!blockAuthRetry && error.code === 'NOT_AUTHENTICATED'){
+						// Try to refresh the access token...
+						this.refresh()
+						.then(function() {
+							// Got access, now remake the call
+							this.apiCall(method, path, data, true)
+							.then(resolve)
+							.catch(function(error){
+								this.fire('api-error', error);
+								reject(error);
+							}.bind(this));
+						}.bind(this))
+						.catch(reject);
+					}
+					else{
+						this.fire('api-error', error);
+						reject(error);
+					}
+
+				}.bind(this));
 			}.bind(this));
 		},
 		_requestToken: function () {
 			clearTimeout(this._scheduleRefreshTimer);
-			this._request(this.$.tokenAjax)
-			.then(function(response){
-				// Annoying juggle to get around lint problems with underscore_names
-				var accessTokenKey = 'access_token';
-				this.accessToken = response[accessTokenKey];
+			return new Promise(function (resolve, reject) {
+				this._request(this.$.tokenAjax)
+				.then(function(response){
+					// Annoying juggle to get around lint problems with underscore_names
+					var accessTokenKey = 'access_token';
+					this.accessToken = response[accessTokenKey];
 
-				var refreshTokenKey = 'refresh_token';
-				this.refreshToken = response[refreshTokenKey];
+					var refreshTokenKey = 'refresh_token';
+					this.refreshToken = response[refreshTokenKey];
 
-				var expiresKey = 'expires_in';
-				this.expires = Date.now() + (response[expiresKey] * 1000);
+					var expiresKey = 'expires_in';
+					this.expires = Date.now() + (response[expiresKey] * 1000);
 
-				this.fire('authenticate', this);
-			}.bind(this))
-			.catch(function(error){
-				console.log('authenticate-error', error);
-				this.fire('authenticate-error', error);
+					this.fire('authenticate', this);
+					resolve();
+				}.bind(this))
+				.catch(function(error){
+					this.fire('authenticate-error', error);
+					reject(error);
+				}.bind(this));
 			}.bind(this));
 		},
 		_request: function (ajax) {

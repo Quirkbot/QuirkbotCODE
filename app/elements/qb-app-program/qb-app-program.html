@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 
+<link rel="import" href="../qb-core-auth/qb-core-auth.html">
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-router/qb-core-router.html">
 <link rel="import" href="../qb-core-node-definitions/qb-core-node-definitions.html">
@@ -35,6 +36,12 @@
 			locale="{{locale}}">
 		</qb-core-i18n>
 
+		<qb-core-auth
+			id="auth"
+			auth-url="[[authUrl]]"
+			api-url="[[apiUrl]]"
+			client-id="[[clientId]]">
+		</qb-core-auth>
 
 		<qb-core-node-definitions
 			url="{{nodesUrl}}"

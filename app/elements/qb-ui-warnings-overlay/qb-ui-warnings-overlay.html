@@ -68,7 +68,11 @@
 							dialog-continue
 							on-tap='_onContinueTap'>
 							<qb-core-i18n
-								key="{{continueKey}}"></qb-core-i18n>
+								key="[[continueKey]]"></qb-core-i18n>
+							<qb-core-i18n
+								key="[[continueLinkKey]]"
+								value="{{continueLinkValue}}"
+								hidden></qb-core-i18n>
 						</paper-button>
 					</template>
 					<template
@@ -151,6 +155,7 @@
 					this.dismissKey = base + 'cancel';
 					this.continueKey = base + 'continue';
 					this.confirmKey = base + 'confirm';
+					this.continueLinkKey = base + 'continue/link';
 
 					switch (this.currentError) {
 						case 'setup/offline':
@@ -184,7 +189,10 @@
 			switch (this.currentError) {
 				case 'setup/offline':
 				case 'setup/not-found':
-					location.hash = '#/';
+					window.location.hash = '#/';
+					break;
+				case 'setup/no-user':
+					window.location = this.continueLinkValue;
 					break;
 			}
 		}

@@ -45,11 +45,11 @@
 	<template is="dom-bind">
 
 		<qb-core-router
-			entry="{{userId}}">
+			entry="{{userNickname}}">
 		</qb-core-router>
 
 		<qb-app-user
-			user-id="{{userId}}"
+			user-nickname="[[userNickname]]"
 
 			locale="en_US"
 
@@ -58,9 +58,10 @@
 			auth-url="http://localhost:1337/auth"
 			api-url="http://localhost:1337"
 
-			program-app-url="http://ide-local.quirkbot.com:3000/_static_program.html"
-			register-app-url="http://ide-local.quirkbot.com:3000/_static_register.html"
-			user-app-url="http://ide-local.quirkbot.com:3000/_static_user.html"
+			home-url="/"
+			program-app-url="/program"
+			register-app-url="/register"
+			user-app-url="/user"
 
 			strings-url="./data/strings/{{locale}}.json">
 		</qb-app-user>

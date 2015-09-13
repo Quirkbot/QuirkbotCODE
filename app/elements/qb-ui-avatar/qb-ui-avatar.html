@@ -1,0 +1,88 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id='qb-ui-avatar'>
+	<template>
+		<style>
+			:host{
+
+			}
+			paper-button{
+				display: block;
+			}
+		</style>
+		<iron-localstorage
+			name="qb-user"
+			value="{{user}}">
+		</iron-localstorage>
+
+		<template
+			is="dom-if"
+			if="[[user.nickname]]">
+			<h2>[[user.nickname]]</h2>
+			<a href="[[profileUrl]]">
+				<paper-button>
+					<qb-core-i18n
+						key="ide/avatar/profile"></qb-core-i18n>
+				</paper-button>
+			</a>
+			<paper-button
+				on-tap="logout">
+				<qb-core-i18n
+					key="ide/avatar/logout"></qb-core-i18n>
+			</paper-button>
+
+		</template>
+
+		<template
+			is="dom-if"
+			if="[[!user.nickname]]">
+			<a href="[[registerAppUrl]]">
+				<paper-button>
+					<qb-core-i18n
+						key="ide/avatar/login"></qb-core-i18n>
+				</paper-button>
+			</a>
+		</template>
+
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIAvatar = Polymer({
+		is: 'qb-ui-avatar',
+		properties:{
+			user: Object,
+			homeUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			profileUrl: {
+				type: String,
+				computed: '_computeProfileUrl(userAppUrl, user.nickname)'
+			}
+		},
+		logout: function(){
+			window.localStorage.removeItem('qb-user');
+			window.localStorage.removeItem('qb-accessToken');
+			window.localStorage.removeItem('qb-refreshToken');
+			window.localStorage.removeItem('qb-tokenExpires');
+			window.location = this.homeUrl;
+		},
+		_computeProfileUrl: function(userAppUrl, nickname){
+			return userAppUrl + '#/' + nickname;
+		},
+		goToProfile: function(){
+			window.location = this.profileUrl;
+		},
+		goToLogin: function(){
+			window.location = this.registerAppUrl;
+		}
+	});
+})();
+</script>
