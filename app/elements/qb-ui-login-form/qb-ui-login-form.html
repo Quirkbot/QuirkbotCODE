@@ -10,6 +10,7 @@
 <link rel="import" href="../qb-ui-form-dropdown/qb-ui-form-dropdown.html">
 <link rel="import" href="../qb-ui-form-radiogroup/qb-ui-form-radiogroup.html">
 <link rel="import" href="../qb-ui-form-date/qb-ui-form-date.html">
+<link rel="import" href="../qb-ui-toolbar-status-indicator/qb-ui-toolbar-status-indicator.html">
 
 <dom-module id='qb-ui-login-form'>
 	<template>
@@ -62,9 +63,9 @@
 				if="[[loading]]">
 				<div
 					class="loading-indicator fit horizontal layout center center-justified">
-					<paper-spinner
-						active>
-					</paper-spinner>
+					<qb-ui-toolbar-status-indicator
+						state="pending">
+					</qb-ui-toolbar-status-indicator>
 				</div>
 			</template>
 
