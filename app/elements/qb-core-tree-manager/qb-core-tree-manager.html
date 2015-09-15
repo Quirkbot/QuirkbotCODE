@@ -55,14 +55,14 @@
 				id = this.generateVariableName(type);
 			}
 			this.modelController.push('model.tree', {
-				_id: id,
+				id: id,
 				node: type,
 				visualX: x,
 				visualY: y
 			});
 		},
 		remove: function(id){
-			var index = this.findOneIndexByKey(this.model.tree, '_id', id);
+			var index = this.findOneIndexByKey(this.model.tree, 'id', id);
 			if(index === -1) {
 				return;
 			}
@@ -134,13 +134,13 @@
 			return result;
 		},
 		findOneNodeById: function(id) {
-			return this.findOneObjectByKey(this.model.tree, '_id', id);
+			return this.findOneObjectByKey(this.model.tree, 'id', id);
 		},
 		findNodesById: function(id) {
-			return this.findObjectsByKey(this.model.tree, '_id', id);
+			return this.findObjectsByKey(this.model.tree, 'id', id);
 		},
 		generateVariableName: function(definitionId){
-			var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', definitionId);
+			var definition = this.findOneObjectByKey(this.nodeDefinitions, 'id', definitionId);
 			if(!definition){
 				return;
 			}
@@ -202,10 +202,10 @@
 				var onResponse = function(event){
 					clearTimeout(timer);
 					this.$.loader.removeEventListener('response', onResponse);
-					if(!event || !event.detail || !event.detail.response || !event.detail.response._id){
+					if(!event || !event.detail || !event.detail.response || !event.detail.response.id){
 						return reject('BAD_RESPONSE');
 					}
-					resolve(event.detail.response._id);
+					resolve(event.detail.response.id);
 				}.bind(this);
 				var onError = function(){
 					clearTimeout(timer);
@@ -267,8 +267,8 @@
 			}.bind(this));
 		},
 		_nodesSort: function(a, b){
-			var aDefinition = this.findOneObjectByKey(this.nodeDefinitions, '_id', a.node);
-			var bDefinition = this.findOneObjectByKey(this.nodeDefinitions, '_id', b.node);
+			var aDefinition = this.findOneObjectByKey(this.nodeDefinitions, 'id', a.node);
+			var bDefinition = this.findOneObjectByKey(this.nodeDefinitions, 'id', b.node);
 
 			if((aDefinition.outputs && aDefinition.outputs.length) && (bDefinition.outputs && bDefinition.outputs.length)){
 				if(aDefinition.type < bDefinition.type){
@@ -292,10 +292,10 @@
 				return 1;
 			}
 			else{
-				if(a._id < b._id){
+				if(a.id < b.id){
 					return -1;
 				}
-				else if(a._id > b._id){
+				else if(a.id > b.id){
 					return 1;
 				}
 			}
@@ -310,9 +310,9 @@
 		_generateDeclares : function(tree){
 			var text = '';
 			tree.forEach(function(node){
-				var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', node.node);
+				var definition = this.findOneObjectByKey(this.nodeDefinitions, 'id', node.node);
 
-				text += definition.type + ' ' + node._id + ';';
+				text += definition.type + ' ' + node.id + ';';
 				text += this._generateNewLine();
 			}.bind(this));
 			return text;
@@ -321,15 +321,15 @@
 			var text = '';
 
 			var processInput = function (input, node, isCollection){
-				var text = this._generateTabSpace() + node._id + '.';
+				var text = this._generateTabSpace() + node.id + '.';
 				if(isCollection){
-					var inputParts = input._id.split('.');
+					var inputParts = input.id.split('.');
 					var base = inputParts[0];
 					var index = inputParts[1];
 					text += base + '[' + index + ']';
 				}
 				else{
-					text += input._id;
+					text += input.id;
 				}
 				if(input.type === 'Output'){
 					text += '.connect(' + input.value + ')';

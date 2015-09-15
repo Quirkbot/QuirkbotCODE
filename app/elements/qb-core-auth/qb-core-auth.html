@@ -106,7 +106,7 @@
 		apiCall: function (method, path, data, blockAuthRetry) {
 			return new Promise(function (resolve, reject) {
 				this.$.apiAjax.headers = {
-					'Content-Type' : 'application/x-www-form-urlencoded',
+					'Content-Type' : 'application/json',
 					'Authorization' : 'Bearer '+ this.accessToken
 				};
 				this.$.apiAjax.method = method;
@@ -117,7 +117,7 @@
 				this._request(this.$.apiAjax)
 				.then(resolve)
 				.catch(function (error) {
-					if(!blockAuthRetry && error.code === 'NOT_AUTHENTICATED'){
+					if(!blockAuthRetry && error && error.code === 'NOT_AUTHENTICATED'){
 						// Try to refresh the access token...
 						this.refresh()
 						.then(function() {
@@ -138,6 +138,9 @@
 
 				}.bind(this));
 			}.bind(this));
+		},
+		isAuthenticated: function(){
+			return this.accessToken && this.refreshToken && this.expires > Date.now();
 		},
 		_requestToken: function () {
 			clearTimeout(this._scheduleRefreshTimer);
@@ -237,6 +240,9 @@
 			setTimeout(function () {
 				if(this.expires > Date.now() && this.accessToken && this.refreshToken){
 					this.fire('authenticate', this);
+				}
+				else if(this.refreshToken){
+					this.refresh();
 				}
 			}.bind(this), 10);
 

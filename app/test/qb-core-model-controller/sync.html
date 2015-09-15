@@ -7,9 +7,9 @@
 	<script src="../../bower_components/web-component-tester/browser.js"></script>
 	<script src="../../bower_components/iron-test-helpers/test-helpers.js"></script>
 	<script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
-	
+
 	<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
-	
+
 	<link rel="import" href="../../elements/qb-core-model-controller/qb-core-model-controller.html">
 
 </head>
@@ -18,7 +18,7 @@
 	<test-fixture id="data-model">
 		<template>
 			<qb-core-model-controller
-				_id="remote-id"
+				id="remote-id"
 				verbose='log'
 			></qb-core-model-controller>
 		</template>
@@ -39,7 +39,7 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "remote-id", "modifiedAt" : 50, "userId" : "user-a" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "remote-id", "modifiedAt" : 50, "author" : "user-a" }}'
 				]
 			);
 
@@ -49,10 +49,10 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "remote-id", "modifiedAt" : 50, "userId" : "user-b" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "remote-id", "modifiedAt" : 50, "author" : "user-b" }}'
 				]
 			);
-			
+
 			server.respondWith(
 				'PUT',
 				/\/responds_with_invalid_status.*/,
@@ -86,7 +86,7 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "new-remote-id", "modifiedAt" : 50, "userId" : "user-a" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "new-remote-id", "modifiedAt" : 50, "author" : "user-a" }}'
 				]
 			);
 
@@ -96,7 +96,7 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "remote-id", "modifiedAt" : 100, "userId" : "user-a" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "remote-id", "modifiedAt" : 100, "author" : "user-a" }}'
 				]
 			);
 
@@ -106,12 +106,12 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "remote-id", "modifiedAt" : 1, "userId" : "user-a" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "remote-id", "modifiedAt" : 1, "author" : "user-a" }}'
 				]
 			);
 
 			window.localStorage.setItem('qb_user', JSON.stringify({
-				_id: 'user-a',
+				id: 'user-a',
 				programs : [
 					'remote-id'
 				]
@@ -128,19 +128,19 @@
 
 			var data = fixture('data-model');
 			data.api = '/responds_with_success_user_a'
-			var oldId = data._id;
+			var oldId = data.id;
 
 			data.addEventListener('setupSuccess', function(event){
 				assert.equal(event.detail, 'existing-program');
 				data.api = '/responds_with_new'
 				data.addEventListener('syncSuccess', function(event){
 					assert.equal(event.detail, 'created-on-server');
-					assert.notEqual(oldId, data._id);
-					assert.include(data.user.programs, data._id, 'user.programs do not contains new id');
+					assert.notEqual(oldId, data.id);
+					assert.include(data.user.programs, data.id, 'user.programs do not contains new id');
 					assert.notInclude(data.user.programs, oldId, 'user.programs contains old id');
 
 					var localUser = JSON.parse(window.localStorage.getItem('qb_user'));
-					assert.include(localUser.programs, data._id, 'user in localStorage do not contains new id');
+					assert.include(localUser.programs, data.id, 'user in localStorage do not contains new id');
 					assert.notInclude(localUser.programs, oldId, 'user in localStorage contains old id');
 					done()
 				})
@@ -281,7 +281,7 @@
 				})
 			})
 		});
-	
+
 	});
 	</script>
 

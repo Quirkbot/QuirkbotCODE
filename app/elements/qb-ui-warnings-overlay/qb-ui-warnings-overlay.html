@@ -164,15 +164,17 @@
 							this.hasConfirm = false;
 							this.hasContinue = true;
 							break;
-						case 'sync/offline':
-								this.hasDismiss = false;
-								this.hasConfirm = true;
-								this.hasContinue = false;
-								break;
 						case 'setup/no-user':
 							this.hasDismiss = true;
 							this.hasConfirm = false;
 							this.hasContinue = true;
+							break;
+						case 'sync/offline':
+						case 'sync/forbidden':
+						case 'sync/NOT_CONFIRMED':
+							this.hasDismiss = true;
+							this.hasConfirm = false;
+							this.hasContinue = false;
 							break;
 						default:
 							this.hasDismiss = false;

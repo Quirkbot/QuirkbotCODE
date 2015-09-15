@@ -36,8 +36,14 @@
 			locale="{{locale}}">
 		</qb-core-i18n>
 
+		<iron-localstorage
+			name="qb-user"
+			value="{{user}}">
+		</iron-localstorage>
+
 		<qb-core-auth
 			id="auth"
+			self="{{auth}}"
 			auth-url="[[authUrl]]"
 			api-url="[[apiUrl]]"
 			client-id="[[clientId]]">
@@ -52,10 +58,14 @@
 		</qb-core-node-definitions>
 
 		<qb-core-model-controller
-			_id="{{programId}}"
-			api="{{programsApiUrl}}"
+			program-id="{{programId}}"
+			api="[[programsApiUrl]]"
 			self="{{modelController}}"
-			model="{{model}}">
+			model="{{model}}"
+			user="[[user]]"
+			auth="[[auth]]"
+			verbose="log"
+			>
 		</qb-core-model-controller>
 
 		<qb-core-tree-manager
@@ -84,7 +94,9 @@
 				class="paper-header"
 				editor-mode={{editorMode}}
 				model="{{model}}"
-				on-quirkbots-area-button-tap="_onQuirkbotsAreaButtonTap">
+				user="[[user]]"
+				on-quirkbots-area-button-tap="_onQuirkbotsAreaButtonTap"
+				on-add-to-profile-button-tap="_onAddToProfileButtonTap">
 			</qb-ui-toolbar>
 
 			<qb-ui-editor
@@ -110,7 +122,10 @@
 	window.Quirkbot.AppProgram = Polymer({
 		is: 'qb-app-program',
 		properties: {
-			programId: String,
+			programId: {
+				type: String,
+				notify: true
+			},
 			locale: {
 				type: String,
 				value: 'en_US'
@@ -145,6 +160,9 @@
 			taxonomyDefinitions: Object,
 			editorMode: String,
 			quirkbotsArea: Object,
+		},
+		_onAddToProfileButtonTap: function(){
+			this.modelController.addToProfile();
 		},
 		_onQuirkbotsAreaButtonTap: function(){
 			this.quirkbotsArea.open();

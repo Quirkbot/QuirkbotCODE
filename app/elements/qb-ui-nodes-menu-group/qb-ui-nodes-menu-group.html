@@ -124,7 +124,7 @@
 			this.opened = !this.opened;
 		},
 		_computeNameKey: function(data) {
-			return 'category/' + data.definition._id;
+			return 'category/' + data.definition.id;
 		},
 		_nameChanged: function (name) {
 			this.set('data.name', name);
@@ -158,7 +158,7 @@
 			// Check if dropped inside drop area
 			var dropAreaBounding = this.dropArea.getBoundingClientRect();
 			if(centerX >= dropAreaBounding.left && centerX <= (dropAreaBounding.left + dropAreaBounding.width) && centerY >= dropAreaBounding.top && centerY <= (dropAreaBounding.top + dropAreaBounding.height)){
-				var type = e.model.item.definition._id;
+				var type = e.model.item.definition.id;
 				var x = bounding.left - dropAreaBounding.left + this.visualEditor.canvas.offsetX;
 				var y = bounding.top - dropAreaBounding.top + this.visualEditor.canvas.offsetY;
 

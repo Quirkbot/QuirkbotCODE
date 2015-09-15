@@ -287,8 +287,8 @@
 						<paper-item
 							name="{{item.value}}">
 							<iron-icon
-								icon="[[resolveIconName(item._id, 'qb-datalists')]]"
-								hidden$="[[!resolveIconName(item._id, 'qb-datalists')]]">
+								icon="[[resolveIconName(item.id, 'qb-datalists')]]"
+								hidden$="[[!resolveIconName(item.id, 'qb-datalists')]]">
 							</iron-icon>
 							<qb-core-i18n
 								key="{{item.translationKey}}"></qb-core-i18n>
@@ -309,8 +309,8 @@
 						<paper-item
 							name="{{item.value}}">
 							<iron-icon
-								icon="[[resolveIconName(item._id, 'qb-datalists')]]"
-								hidden$="[[!resolveIconName(item._id, 'qb-datalists')]]">
+								icon="[[resolveIconName(item.id, 'qb-datalists')]]"
+								hidden$="[[!resolveIconName(item.id, 'qb-datalists')]]">
 							</iron-icon>
 							<qb-core-i18n
 								key="{{item.translationKey}}"></qb-core-i18n>
@@ -526,9 +526,9 @@
 			var datalist = [];
 			definition.validation.data.forEach(function(item){
 				datalist.push({
-					_id: item._id,
+					id: item.id,
 					value: item.value,
-					translationKey: 'node/connection/datalist/' + item._id
+					translationKey: 'node/connection/datalist/' + item.id
 				});
 			});
 			return datalist;
@@ -542,9 +542,9 @@
 				datalist.push({
 					index: index,
 					item:{
-						_id: item._id,
+						id: item.id,
 						value: item.value,
-						translationKey: 'node/connection/datalist/' + item._id
+						translationKey: 'node/connection/datalist/' + item.id
 					}
 				});
 			});
@@ -703,24 +703,24 @@
 			}
 			// String looks like a connection
 
-			var node = this.findOneObjectByKey(this.modelController.model.tree, '_id', parts[0]);
+			var node = this.findOneObjectByKey(this.modelController.model.tree, 'id', parts[0]);
 			if(!node) {
 				return;
 			}
 			// Node found
-			var output = this.findOneObjectByKey(node.outputs, '_id', parts[1]);
+			var output = this.findOneObjectByKey(node.outputs, 'id', parts[1]);
 			if(!output) {
 				return;
 			}
 			// Output found
 
-			var nodeDefinition = this.findOneObjectByKey(this.nodeDefinitions, '_id', node.node);
+			var nodeDefinition = this.findOneObjectByKey(this.nodeDefinitions, 'id', node.node);
 			if(!nodeDefinition) {
 				return;
 			}
 			// Node definition found
 
-			var outputDefinition = this.findOneObjectByKey(nodeDefinition.outputs, '_id', parts[1]);
+			var outputDefinition = this.findOneObjectByKey(nodeDefinition.outputs, 'id', parts[1]);
 			if(!outputDefinition) {
 				return;
 			}

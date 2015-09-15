@@ -92,6 +92,21 @@
 	"ide/warnings/setup/no-user/continue": "Login",
 	"ide/warnings/setup/no-user/continue/link": "/",
 
+	"ide/warnings/sync/offline/title": "Can't sync CODE",
+	"ide/warnings/sync/offline/header": "Connection error",
+	"ide/warnings/sync/offline/description": "We can't reach the data servers. This could be a problem with your internet connection.",
+	"ide/warnings/sync/offline/cancel": "close",
+
+	"ide/warnings/sync/forbidden/title": "Can't sync CODE",
+	"ide/warnings/sync/forbidden/header": "Access denied",
+	"ide/warnings/sync/forbidden/description": "This CODE does not belong to you.",
+	"ide/warnings/sync/forbidden/cancel": "close",
+
+	"ide/warnings/sync/NOT_CONFIRMED/title": "Access denied",
+	"ide/warnings/sync/NOT_CONFIRMED/header": "Your email is not cofirmed",
+	"ide/warnings/sync/NOT_CONFIRMED/description": "You can only sync your CODE after your email is confirmed.",
+	"ide/warnings/sync/NOT_CONFIRMED/cancel": "Close",
+
 	"CATEGORIES ---------------------------------------------------------" : "",
 	"category/connect":		"Connect",
 	"category/backpack": 	"Backpack",

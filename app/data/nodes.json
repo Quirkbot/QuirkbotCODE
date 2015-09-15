@@ -2,7 +2,7 @@
     "version": "0.0.0",
     "nodes": [
         {
-            "_id": "led",
+            "id": "led",
             "taxonomy": {
                 "categories": [
                     "connect"
@@ -12,7 +12,7 @@
             "type": "Led",
             "inputs": [
                 {
-                    "_id": "light",
+                    "id": "light",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -23,49 +23,49 @@
                     }
                 },
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-left-eye",
+                                "id": "place-left-eye",
                                 "value": "LE"
                             },
                             {
-                                "_id": "place-right-eye",
+                                "id": "place-right-eye",
                                 "value": "RE"
                             },
                             {
-                                "_id": "place-left-mouth",
+                                "id": "place-left-mouth",
                                 "value": "LM"
                             },
                             {
-                                "_id": "place-right-mouth",
+                                "id": "place-right-mouth",
                                 "value": "RM"
                             },
                             {
-                                "_id": "place-horn",
+                                "id": "place-horn",
                                 "value": "H"
                             },
                             {
-                                "_id": "place-left-arm",
+                                "id": "place-left-arm",
                                 "value": "LA"
                             },
                             {
-                                "_id": "place-right-arm",
+                                "id": "place-right-arm",
                                 "value": "RA"
                             },
                             {
-                                "_id": "place-left-leg",
+                                "id": "place-left-leg",
                                 "value": "LL"
                             },
                             {
-                                "_id": "place-right-leg",
+                                "id": "place-right-leg",
                                 "value": "RL"
                             }
                         ]
@@ -75,7 +75,7 @@
             "outputs": []
         },
         {
-            "_id": "dual-color-led",
+            "id": "dual-color-led",
             "taxonomy": {
                 "categories": [
                     "connect"
@@ -85,7 +85,7 @@
             "type": "DualColorLed",
             "inputs": [
                 {
-                    "_id": "light",
+                    "id": "light",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -96,7 +96,7 @@
                     }
                 },
                 {
-                    "_id": "color",
+                    "id": "color",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -107,33 +107,33 @@
                     }
                 },
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-horn",
+                                "id": "place-horn",
                                 "value": "H"
                             },
                             {
-                                "_id": "place-left-arm",
+                                "id": "place-left-arm",
                                 "value": "LA"
                             },
                             {
-                                "_id": "place-right-arm",
+                                "id": "place-right-arm",
                                 "value": "RA"
                             },
                             {
-                                "_id": "place-left-leg",
+                                "id": "place-left-leg",
                                 "value": "LL"
                             },
                             {
-                                "_id": "place-right-leg",
+                                "id": "place-right-leg",
                                 "value": "RL"
                             }
                         ]
@@ -143,7 +143,7 @@
             "outputs": []
         },
         {
-            "_id": "squeeze-sensor",
+            "id": "squeeze-sensor",
             "taxonomy": {
                 "categories": [
                     "connect"
@@ -153,40 +153,40 @@
             "type": "SqueezeSensor",
             "inputs": [
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-horn",
+                                "id": "place-horn",
                                 "value": "H"
                             },
                             {
-                                "_id": "place-left-arm",
+                                "id": "place-left-arm",
                                 "value": "LA"
                             },
                             {
-                                "_id": "place-right-arm",
+                                "id": "place-right-arm",
                                 "value": "RA"
                             },
                             {
-                                "_id": "place-left-leg",
+                                "id": "place-left-leg",
                                 "value": "LL"
                             },
                             {
-                                "_id": "place-right-leg",
+                                "id": "place-right-leg",
                                 "value": "RL"
                             }
                         ]
                     }
                 },
                 {
-                    "_id": "min",
+                    "id": "min",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -197,7 +197,7 @@
                     }
                 },
                 {
-                    "_id": "max",
+                    "id": "max",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -210,12 +210,12 @@
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "makey-touch",
+            "id": "makey-touch",
             "taxonomy": {
                 "categories": [
                     "connect"
@@ -225,40 +225,40 @@
             "type": "MakeyTouch",
             "inputs": [
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-horn",
+                                "id": "place-horn",
                                 "value": "H"
                             },
                             {
-                                "_id": "place-left-arm",
+                                "id": "place-left-arm",
                                 "value": "LA"
                             },
                             {
-                                "_id": "place-right-arm",
+                                "id": "place-right-arm",
                                 "value": "RA"
                             },
                             {
-                                "_id": "place-left-leg",
+                                "id": "place-left-leg",
                                 "value": "LL"
                             },
                             {
-                                "_id": "place-right-leg",
+                                "id": "place-right-leg",
                                 "value": "RL"
                             }
                         ]
                     }
                 },
                 {
-                    "_id": "min",
+                    "id": "min",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -269,7 +269,7 @@
                     }
                 },
                 {
-                    "_id": "max",
+                    "id": "max",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -282,12 +282,12 @@
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "analog-sensor",
+            "id": "analog-sensor",
             "taxonomy": {
                 "categories": [
                     "connect"
@@ -297,56 +297,56 @@
             "type": "AnalogSensor",
             "inputs": [
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-horn-back",
+                                "id": "place-horn-back",
                                 "value": "HB"
                             },
                             {
-                                "_id": "place-left-arm-back",
+                                "id": "place-left-arm-back",
                                 "value": "LAB"
                             },
                             {
-                                "_id": "place-right-arm-back",
+                                "id": "place-right-arm-back",
                                 "value": "RAB"
                             },
                             {
-                                "_id": "place-left-leg-back",
+                                "id": "place-left-leg-back",
                                 "value": "LLB"
                             },
                             {
-                                "_id": "place-right-leg-back",
+                                "id": "place-right-leg-back",
                                 "value": "RLB"
                             },
                             {
-                                "_id": "place-backpack-1",
+                                "id": "place-backpack-1",
                                 "value": "BP1"
                             },
                             {
-                                "_id": "place-backpack-2",
+                                "id": "place-backpack-2",
                                 "value": "BP2"
                             },
                             {
-                                "_id": "place-left-leg-front",
+                                "id": "place-left-leg-front",
                                 "value": "LLF"
                             },
                             {
-                                "_id": "place-left-arm-front",
+                                "id": "place-left-arm-front",
                                 "value": "LAF"
                             }
                         ]
                     }
                 },
                 {
-                    "_id": "min",
+                    "id": "min",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -357,7 +357,7 @@
                     }
                 },
                 {
-                    "_id": "max",
+                    "id": "max",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -370,12 +370,12 @@
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "digital-sensor",
+            "id": "digital-sensor",
             "taxonomy": {
                 "categories": [
                     "connect"
@@ -385,84 +385,84 @@
             "type": "DigitalSensor",
             "inputs": [
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-horn-back",
+                                "id": "place-horn-back",
                                 "value": "HB"
                             },
                             {
-                                "_id": "place-left-arm-back",
+                                "id": "place-left-arm-back",
                                 "value": "LAB"
                             },
                             {
-                                "_id": "place-right-arm-back",
+                                "id": "place-right-arm-back",
                                 "value": "RAB"
                             },
                             {
-                                "_id": "place-left-leg-back",
+                                "id": "place-left-leg-back",
                                 "value": "LLB"
                             },
                             {
-                                "_id": "place-right-leg-back",
+                                "id": "place-right-leg-back",
                                 "value": "RLB"
                             },
                             {
-                                "_id": "place-backpack-1",
+                                "id": "place-backpack-1",
                                 "value": "BP1"
                             },
                             {
-                                "_id": "place-backpack-2",
+                                "id": "place-backpack-2",
                                 "value": "BP2"
                             },
                             {
-                                "_id": "place-backpack-3",
+                                "id": "place-backpack-3",
                                 "value": "BP3"
                             },
                             {
-                                "_id": "place-backpack-4",
+                                "id": "place-backpack-4",
                                 "value": "BP4"
                             },
                             {
-                                "_id": "place-backpack-5",
+                                "id": "place-backpack-5",
                                 "value": "BP5"
                             },
                             {
-                                "_id": "place-backpack-6",
+                                "id": "place-backpack-6",
                                 "value": "BP6"
                             },
                             {
-                                "_id": "place-horn-front",
+                                "id": "place-horn-front",
                                 "value": "HF"
                             },
                             {
-                                "_id": "place-left-arm-front",
+                                "id": "place-left-arm-front",
                                 "value": "LAF"
                             },
                             {
-                                "_id": "place-right-arm-front",
+                                "id": "place-right-arm-front",
                                 "value": "RAF"
                             },
                             {
-                                "_id": "place-left-leg-front",
+                                "id": "place-left-leg-front",
                                 "value": "LLF"
                             },
                             {
-                                "_id": "place-right-leg-front",
+                                "id": "place-right-leg-front",
                                 "value": "RLF"
                             }
                         ]
                     }
                 },
                 {
-                    "_id": "min",
+                    "id": "min",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -473,7 +473,7 @@
                     }
                 },
                 {
-                    "_id": "max",
+                    "id": "max",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -486,12 +486,12 @@
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "voltage-output",
+            "id": "voltage-output",
             "taxonomy": {
                 "categories": [
                     "connect"
@@ -501,7 +501,7 @@
             "type": "VoltageOutput",
             "inputs": [
                 {
-                    "_id": "in",
+                    "id": "in",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -512,77 +512,77 @@
                     }
                 },
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-horn-back",
+                                "id": "place-horn-back",
                                 "value": "HB"
                             },
                             {
-                                "_id": "place-left-arm-back",
+                                "id": "place-left-arm-back",
                                 "value": "LAB"
                             },
                             {
-                                "_id": "place-right-arm-back",
+                                "id": "place-right-arm-back",
                                 "value": "RAB"
                             },
                             {
-                                "_id": "place-left-leg-back",
+                                "id": "place-left-leg-back",
                                 "value": "LLB"
                             },
                             {
-                                "_id": "place-right-leg-back",
+                                "id": "place-right-leg-back",
                                 "value": "RLB"
                             },
                             {
-                                "_id": "place-backpack-1",
+                                "id": "place-backpack-1",
                                 "value": "BP1"
                             },
                             {
-                                "_id": "place-backpack-2",
+                                "id": "place-backpack-2",
                                 "value": "BP2"
                             },
                             {
-                                "_id": "place-backpack-3",
+                                "id": "place-backpack-3",
                                 "value": "BP3"
                             },
                             {
-                                "_id": "place-backpack-4",
+                                "id": "place-backpack-4",
                                 "value": "BP4"
                             },
                             {
-                                "_id": "place-backpack-5",
+                                "id": "place-backpack-5",
                                 "value": "BP5"
                             },
                             {
-                                "_id": "place-backpack-6",
+                                "id": "place-backpack-6",
                                 "value": "BP6"
                             },
                             {
-                                "_id": "place-horn-front",
+                                "id": "place-horn-front",
                                 "value": "HF"
                             },
                             {
-                                "_id": "place-left-arm-front",
+                                "id": "place-left-arm-front",
                                 "value": "LAF"
                             },
                             {
-                                "_id": "place-right-arm-front",
+                                "id": "place-right-arm-front",
                                 "value": "RAF"
                             },
                             {
-                                "_id": "place-left-leg-front",
+                                "id": "place-left-leg-front",
                                 "value": "LLF"
                             },
                             {
-                                "_id": "place-right-leg-front",
+                                "id": "place-right-leg-front",
                                 "value": "RLF"
                             }
                         ]
@@ -592,7 +592,7 @@
             "outputs": []
         },
         {
-            "_id": "servo-motor",
+            "id": "servo-motor",
             "taxonomy": {
                 "categories": [
                     "backpack"
@@ -602,7 +602,7 @@
             "type": "ServoMotor",
             "inputs": [
                 {
-                    "_id": "position",
+                    "id": "position",
                     "default": 0.5,
                     "validation": {
                         "type": "range",
@@ -613,21 +613,21 @@
                     }
                 },
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "servo-bp1",
+                                "id": "servo-bp1",
                                 "value": "SERVO_BP1"
                             },
                             {
-                                "_id": "servo-bp2",
+                                "id": "servo-bp2",
                                 "value": "SERVO_BP2"
                             }
                         ]
@@ -637,7 +637,7 @@
             "outputs": []
         },
         {
-            "_id": "buzzer",
+            "id": "buzzer",
             "taxonomy": {
                 "categories": [
                     "backpack"
@@ -647,366 +647,366 @@
             "type": "Buzzer",
             "inputs": [
                 {
-                    "_id": "note",
+                    "id": "note",
                     "default": "NO_NOTE",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-note",
+                                "id": "no-note",
                                 "value": "NO_NOTE"
                             },
                             {
-                                "_id": "note-a1",
+                                "id": "note-a1",
                                 "value": "NOTE_A1"
                             },
                             {
-                                "_id": "note-as1",
+                                "id": "note-as1",
                                 "value": "NOTE_AS1"
                             },
                             {
-                                "_id": "note-b1",
+                                "id": "note-b1",
                                 "value": "NOTE_B1"
                             },
                             {
-                                "_id": "note-c2",
+                                "id": "note-c2",
                                 "value": "NOTE_C2"
                             },
                             {
-                                "_id": "note-cs2",
+                                "id": "note-cs2",
                                 "value": "NOTE_CS2"
                             },
                             {
-                                "_id": "note-d2",
+                                "id": "note-d2",
                                 "value": "NOTE_D2"
                             },
                             {
-                                "_id": "note-ds2",
+                                "id": "note-ds2",
                                 "value": "NOTE_DS2"
                             },
                             {
-                                "_id": "note-e2",
+                                "id": "note-e2",
                                 "value": "NOTE_E2"
                             },
                             {
-                                "_id": "note-f2",
+                                "id": "note-f2",
                                 "value": "NOTE_F2"
                             },
                             {
-                                "_id": "note-fs2",
+                                "id": "note-fs2",
                                 "value": "NOTE_FS2"
                             },
                             {
-                                "_id": "note-g2",
+                                "id": "note-g2",
                                 "value": "NOTE_G2"
                             },
                             {
-                                "_id": "note-gs2",
+                                "id": "note-gs2",
                                 "value": "NOTE_GS2"
                             },
                             {
-                                "_id": "note-a2",
+                                "id": "note-a2",
                                 "value": "NOTE_A2"
                             },
                             {
-                                "_id": "note-as2",
+                                "id": "note-as2",
                                 "value": "NOTE_AS2"
                             },
                             {
-                                "_id": "note-b2",
+                                "id": "note-b2",
                                 "value": "NOTE_B2"
                             },
                             {
-                                "_id": "note-c3",
+                                "id": "note-c3",
                                 "value": "NOTE_C3"
                             },
                             {
-                                "_id": "note-cs3",
+                                "id": "note-cs3",
                                 "value": "NOTE_CS3"
                             },
                             {
-                                "_id": "note-d3",
+                                "id": "note-d3",
                                 "value": "NOTE_D3"
                             },
                             {
-                                "_id": "note-ds3",
+                                "id": "note-ds3",
                                 "value": "NOTE_DS3"
                             },
                             {
-                                "_id": "note-e3",
+                                "id": "note-e3",
                                 "value": "NOTE_E3"
                             },
                             {
-                                "_id": "note-f3",
+                                "id": "note-f3",
                                 "value": "NOTE_F3"
                             },
                             {
-                                "_id": "note-fs3",
+                                "id": "note-fs3",
                                 "value": "NOTE_FS3"
                             },
                             {
-                                "_id": "note-g3",
+                                "id": "note-g3",
                                 "value": "NOTE_G3"
                             },
                             {
-                                "_id": "note-gs3",
+                                "id": "note-gs3",
                                 "value": "NOTE_GS3"
                             },
                             {
-                                "_id": "note-a3",
+                                "id": "note-a3",
                                 "value": "NOTE_A3"
                             },
                             {
-                                "_id": "note-as3",
+                                "id": "note-as3",
                                 "value": "NOTE_AS3"
                             },
                             {
-                                "_id": "note-b3",
+                                "id": "note-b3",
                                 "value": "NOTE_B3"
                             },
                             {
-                                "_id": "note-c4",
+                                "id": "note-c4",
                                 "value": "NOTE_C4"
                             },
                             {
-                                "_id": "note-cs4",
+                                "id": "note-cs4",
                                 "value": "NOTE_CS4"
                             },
                             {
-                                "_id": "note-d4",
+                                "id": "note-d4",
                                 "value": "NOTE_D4"
                             },
                             {
-                                "_id": "note-ds4",
+                                "id": "note-ds4",
                                 "value": "NOTE_DS4"
                             },
                             {
-                                "_id": "note-e4",
+                                "id": "note-e4",
                                 "value": "NOTE_E4"
                             },
                             {
-                                "_id": "note-f4",
+                                "id": "note-f4",
                                 "value": "NOTE_F4"
                             },
                             {
-                                "_id": "note-fs4",
+                                "id": "note-fs4",
                                 "value": "NOTE_FS4"
                             },
                             {
-                                "_id": "note-g4",
+                                "id": "note-g4",
                                 "value": "NOTE_G4"
                             },
                             {
-                                "_id": "note-gs4",
+                                "id": "note-gs4",
                                 "value": "NOTE_GS4"
                             },
                             {
-                                "_id": "note-a4",
+                                "id": "note-a4",
                                 "value": "NOTE_A4"
                             },
                             {
-                                "_id": "note-as4",
+                                "id": "note-as4",
                                 "value": "NOTE_AS4"
                             },
                             {
-                                "_id": "note-b4",
+                                "id": "note-b4",
                                 "value": "NOTE_B4"
                             },
                             {
-                                "_id": "note-c5",
+                                "id": "note-c5",
                                 "value": "NOTE_C5"
                             },
                             {
-                                "_id": "note-cs5",
+                                "id": "note-cs5",
                                 "value": "NOTE_CS5"
                             },
                             {
-                                "_id": "note-d5",
+                                "id": "note-d5",
                                 "value": "NOTE_D5"
                             },
                             {
-                                "_id": "note-ds5",
+                                "id": "note-ds5",
                                 "value": "NOTE_DS5"
                             },
                             {
-                                "_id": "note-e5",
+                                "id": "note-e5",
                                 "value": "NOTE_E5"
                             },
                             {
-                                "_id": "note-f5",
+                                "id": "note-f5",
                                 "value": "NOTE_F5"
                             },
                             {
-                                "_id": "note-fs5",
+                                "id": "note-fs5",
                                 "value": "NOTE_FS5"
                             },
                             {
-                                "_id": "note-g5",
+                                "id": "note-g5",
                                 "value": "NOTE_G5"
                             },
                             {
-                                "_id": "note-gs5",
+                                "id": "note-gs5",
                                 "value": "NOTE_GS5"
                             },
                             {
-                                "_id": "note-a5",
+                                "id": "note-a5",
                                 "value": "NOTE_A5"
                             },
                             {
-                                "_id": "note-as5",
+                                "id": "note-as5",
                                 "value": "NOTE_AS5"
                             },
                             {
-                                "_id": "note-b5",
+                                "id": "note-b5",
                                 "value": "NOTE_B5"
                             },
                             {
-                                "_id": "note-c6",
+                                "id": "note-c6",
                                 "value": "NOTE_C6"
                             },
                             {
-                                "_id": "note-cs6",
+                                "id": "note-cs6",
                                 "value": "NOTE_CS6"
                             },
                             {
-                                "_id": "note-d6",
+                                "id": "note-d6",
                                 "value": "NOTE_D6"
                             },
                             {
-                                "_id": "note-ds6",
+                                "id": "note-ds6",
                                 "value": "NOTE_DS6"
                             },
                             {
-                                "_id": "note-e6",
+                                "id": "note-e6",
                                 "value": "NOTE_E6"
                             },
                             {
-                                "_id": "note-f6",
+                                "id": "note-f6",
                                 "value": "NOTE_F6"
                             },
                             {
-                                "_id": "note-fs6",
+                                "id": "note-fs6",
                                 "value": "NOTE_FS6"
                             },
                             {
-                                "_id": "note-g6",
+                                "id": "note-g6",
                                 "value": "NOTE_G6"
                             },
                             {
-                                "_id": "note-gs6",
+                                "id": "note-gs6",
                                 "value": "NOTE_GS6"
                             },
                             {
-                                "_id": "note-a6",
+                                "id": "note-a6",
                                 "value": "NOTE_A6"
                             },
                             {
-                                "_id": "note-as6",
+                                "id": "note-as6",
                                 "value": "NOTE_AS6"
                             },
                             {
-                                "_id": "note-b6",
+                                "id": "note-b6",
                                 "value": "NOTE_B6"
                             },
                             {
-                                "_id": "note-c7",
+                                "id": "note-c7",
                                 "value": "NOTE_C7"
                             },
                             {
-                                "_id": "note-cs7",
+                                "id": "note-cs7",
                                 "value": "NOTE_CS7"
                             },
                             {
-                                "_id": "note-d7",
+                                "id": "note-d7",
                                 "value": "NOTE_D7"
                             },
                             {
-                                "_id": "note-ds7",
+                                "id": "note-ds7",
                                 "value": "NOTE_DS7"
                             },
                             {
-                                "_id": "note-e7",
+                                "id": "note-e7",
                                 "value": "NOTE_E7"
                             },
                             {
-                                "_id": "note-f7",
+                                "id": "note-f7",
                                 "value": "NOTE_F7"
                             },
                             {
-                                "_id": "note-fs7",
+                                "id": "note-fs7",
                                 "value": "NOTE_FS7"
                             },
                             {
-                                "_id": "note-g7",
+                                "id": "note-g7",
                                 "value": "NOTE_G7"
                             },
                             {
-                                "_id": "note-gs7",
+                                "id": "note-gs7",
                                 "value": "NOTE_GS7"
                             },
                             {
-                                "_id": "note-a7",
+                                "id": "note-a7",
                                 "value": "NOTE_A7"
                             },
                             {
-                                "_id": "note-as7",
+                                "id": "note-as7",
                                 "value": "NOTE_AS7"
                             },
                             {
-                                "_id": "note-b7",
+                                "id": "note-b7",
                                 "value": "NOTE_B7"
                             },
                             {
-                                "_id": "note-c8",
+                                "id": "note-c8",
                                 "value": "NOTE_C8"
                             },
                             {
-                                "_id": "note-cs8",
+                                "id": "note-cs8",
                                 "value": "NOTE_CS8"
                             },
                             {
-                                "_id": "note-d8",
+                                "id": "note-d8",
                                 "value": "NOTE_D8"
                             },
                             {
-                                "_id": "note-ds8",
+                                "id": "note-ds8",
                                 "value": "NOTE_DS8"
                             }
                         ]
                     }
                 },
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-backpack-1",
+                                "id": "place-backpack-1",
                                 "value": "BP1"
                             },
                             {
-                                "_id": "place-backpack-2",
+                                "id": "place-backpack-2",
                                 "value": "BP2"
                             },
                             {
-                                "_id": "place-backpack-3",
+                                "id": "place-backpack-3",
                                 "value": "BP3"
                             },
                             {
-                                "_id": "place-backpack-4",
+                                "id": "place-backpack-4",
                                 "value": "BP4"
                             },
                             {
-                                "_id": "place-backpack-5",
+                                "id": "place-backpack-5",
                                 "value": "BP5"
                             },
                             {
-                                "_id": "place-backpack-6",
+                                "id": "place-backpack-6",
                                 "value": "BP6"
                             }
                         ]
@@ -1016,7 +1016,7 @@
             "outputs": []
         },
         {
-            "_id": "sonar",
+            "id": "sonar",
             "taxonomy": {
                 "categories": [
                     "backpack"
@@ -1026,44 +1026,44 @@
             "type": "Sonar",
             "inputs": [
                 {
-                    "_id": "place",
+                    "id": "place",
                     "default": "NO_LOCATION",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-location",
+                                "id": "no-location",
                                 "value": "NO_LOCATION"
                             },
                             {
-                                "_id": "place-backpack-1",
+                                "id": "place-backpack-1",
                                 "value": "BP1"
                             },
                             {
-                                "_id": "place-backpack-2",
+                                "id": "place-backpack-2",
                                 "value": "BP2"
                             },
                             {
-                                "_id": "place-backpack-3",
+                                "id": "place-backpack-3",
                                 "value": "BP3"
                             },
                             {
-                                "_id": "place-backpack-4",
+                                "id": "place-backpack-4",
                                 "value": "BP4"
                             },
                             {
-                                "_id": "place-backpack-5",
+                                "id": "place-backpack-5",
                                 "value": "BP5"
                             },
                             {
-                                "_id": "place-backpack-6",
+                                "id": "place-backpack-6",
                                 "value": "BP6"
                             }
                         ]
                     }
                 },
                 {
-                    "_id": "meters",
+                    "id": "meters",
                     "default": 4,
                     "validation": {
                         "type": "range",
@@ -1074,7 +1074,7 @@
                     }
                 },
                 {
-                    "_id": "min",
+                    "id": "min",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -1085,7 +1085,7 @@
                     }
                 },
                 {
-                    "_id": "max",
+                    "id": "max",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -1098,12 +1098,12 @@
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "wave",
+            "id": "wave",
             "taxonomy": {
                 "categories": [
                     "brains"
@@ -1113,7 +1113,7 @@
             "type": "Wave",
             "inputs": [
                 {
-                    "_id": "length",
+                    "id": "length",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -1124,40 +1124,40 @@
                     }
                 },
                 {
-                    "_id": "type",
+                    "id": "type",
                     "default": "WAVE_SINE",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "sine-wave",
+                                "id": "sine-wave",
                                 "value": "WAVE_SINE"
                             },
                             {
-                                "_id": "square-wave",
+                                "id": "square-wave",
                                 "value": "WAVE_SQUARE"
                             },
                             {
-                                "_id": "triangle-wave",
+                                "id": "triangle-wave",
                                 "value": "WAVE_TRIANGLE"
                             },
                             {
-                                "_id": "pulse-wave",
+                                "id": "pulse-wave",
                                 "value": "WAVE_PULSE"
                             },
                             {
-                                "_id": "ramp-up-wave",
+                                "id": "ramp-up-wave",
                                 "value": "WAVE_RAMP_UP"
                             },
                             {
-                                "_id": "ramp-down-wave",
+                                "id": "ramp-down-wave",
                                 "value": "WAVE_RAMP_DOWN"
                             }
                         ]
                     }
                 },
                 {
-                    "_id": "min",
+                    "id": "min",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -1168,7 +1168,7 @@
                     }
                 },
                 {
-                    "_id": "max",
+                    "id": "max",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -1179,7 +1179,7 @@
                     }
                 },
                 {
-                    "_id": "offset",
+                    "id": "offset",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -1192,12 +1192,12 @@
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "randomizer",
+            "id": "randomizer",
             "taxonomy": {
                 "categories": [
                     "brains"
@@ -1207,7 +1207,7 @@
             "type": "Randomizer",
             "inputs": [
                 {
-                    "_id": "interval",
+                    "id": "interval",
                     "default": 0.5,
                     "validation": {
                         "type": "range",
@@ -1218,7 +1218,7 @@
                     }
                 },
                 {
-                    "_id": "min",
+                    "id": "min",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -1229,7 +1229,7 @@
                     }
                 },
                 {
-                    "_id": "max",
+                    "id": "max",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -1242,12 +1242,12 @@
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "list",
+            "id": "list",
             "taxonomy": {
                 "categories": [
                     "brains"
@@ -1257,23 +1257,23 @@
             "type": "List",
             "inputs": [
                 {
-                    "_id": "in",
+                    "id": "in",
                     "default": 0
                 },
                 {
-                    "_id": "items",
+                    "id": "items",
                     "default": 0,
                     "multiple": true
                 }
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "sequence",
+            "id": "sequence",
             "taxonomy": {
                 "categories": [
                     "brains"
@@ -1283,27 +1283,27 @@
             "type": "Sequence",
             "inputs": [
                 {
-                    "_id": "trigger",
+                    "id": "trigger",
                     "default": 0
                 },
                 {
-                    "_id": "duration",
+                    "id": "duration",
                     "default": 1
                 },
                 {
-                    "_id": "items",
+                    "id": "items",
                     "default": 0,
                     "multiple": true
                 }
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "converter",
+            "id": "converter",
             "taxonomy": {
                 "categories": [
                     "brains"
@@ -1313,11 +1313,11 @@
             "type": "Converter",
             "inputs": [
                 {
-                    "_id": "in",
+                    "id": "in",
                     "default": 0
                 },
                 {
-                    "_id": "inMin",
+                    "id": "inMin",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -1328,7 +1328,7 @@
                     }
                 },
                 {
-                    "_id": "inMax",
+                    "id": "inMax",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -1339,7 +1339,7 @@
                     }
                 },
                 {
-                    "_id": "outMin",
+                    "id": "outMin",
                     "default": 0,
                     "validation": {
                         "type": "range",
@@ -1350,7 +1350,7 @@
                     }
                 },
                 {
-                    "_id": "outMax",
+                    "id": "outMax",
                     "default": 1,
                     "validation": {
                         "type": "range",
@@ -1363,12 +1363,12 @@
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "gate",
+            "id": "gate",
             "taxonomy": {
                 "categories": [
                     "brains"
@@ -1378,22 +1378,22 @@
             "type": "Gate",
             "inputs": [
                 {
-                    "_id": "in",
+                    "id": "in",
                     "default": 0
                 },
                 {
-                    "_id": "trigger",
+                    "id": "trigger",
                     "default": 0
                 }
             ],
             "outputs": [
                 {
-                    "_id": "out"
+                    "id": "out"
                 }
             ]
         },
         {
-            "_id": "key-press",
+            "id": "key-press",
             "taxonomy": {
                 "categories": [
                     "usb"
@@ -1403,433 +1403,433 @@
             "type": "KeyPress",
             "inputs": [
                 {
-                    "_id": "trigger",
+                    "id": "trigger",
                     "default": 0
                 },
                 {
-                    "_id": "key",
+                    "id": "key",
                     "default": "NO_KEY",
                     "validation": {
                         "type": "list",
                         "data": [
                             {
-                                "_id": "no-key",
+                                "id": "no-key",
                                 "value": "NO_KEY"
                             },
                             {
-                                "_id": "key-space",
+                                "id": "key-space",
                                 "value": "KEY_SPACE"
                             },
                             {
-                                "_id": "key-up",
+                                "id": "key-up",
                                 "value": "KEY_UP"
                             },
                             {
-                                "_id": "key-down",
+                                "id": "key-down",
                                 "value": "KEY_DOWN"
                             },
                             {
-                                "_id": "key-left",
+                                "id": "key-left",
                                 "value": "KEY_LEFT"
                             },
                             {
-                                "_id": "key-right",
+                                "id": "key-right",
                                 "value": "KEY_RIGHT"
                             },
                             {
-                                "_id": "key-0",
+                                "id": "key-0",
                                 "value": "KEY_0"
                             },
                             {
-                                "_id": "key-1",
+                                "id": "key-1",
                                 "value": "KEY_1"
                             },
                             {
-                                "_id": "key-2",
+                                "id": "key-2",
                                 "value": "KEY_2"
                             },
                             {
-                                "_id": "key-3",
+                                "id": "key-3",
                                 "value": "KEY_3"
                             },
                             {
-                                "_id": "key-4",
+                                "id": "key-4",
                                 "value": "KEY_4"
                             },
                             {
-                                "_id": "key-5",
+                                "id": "key-5",
                                 "value": "KEY_5"
                             },
                             {
-                                "_id": "key-6",
+                                "id": "key-6",
                                 "value": "KEY_6"
                             },
                             {
-                                "_id": "key-7",
+                                "id": "key-7",
                                 "value": "KEY_7"
                             },
                             {
-                                "_id": "key-8",
+                                "id": "key-8",
                                 "value": "KEY_8"
                             },
                             {
-                                "_id": "key-9",
+                                "id": "key-9",
                                 "value": "KEY_9"
                             },
                             {
-                                "_id": "key-a",
+                                "id": "key-a",
                                 "value": "KEY_A"
                             },
                             {
-                                "_id": "key-b",
+                                "id": "key-b",
                                 "value": "KEY_B"
                             },
                             {
-                                "_id": "key-c",
+                                "id": "key-c",
                                 "value": "KEY_C"
                             },
                             {
-                                "_id": "key-d",
+                                "id": "key-d",
                                 "value": "KEY_D"
                             },
                             {
-                                "_id": "key-e",
+                                "id": "key-e",
                                 "value": "KEY_E"
                             },
                             {
-                                "_id": "key-f",
+                                "id": "key-f",
                                 "value": "KEY_F"
                             },
                             {
-                                "_id": "key-g",
+                                "id": "key-g",
                                 "value": "KEY_G"
                             },
                             {
-                                "_id": "key-h",
+                                "id": "key-h",
                                 "value": "KEY_H"
                             },
                             {
-                                "_id": "key-i",
+                                "id": "key-i",
                                 "value": "KEY_I"
                             },
                             {
-                                "_id": "key-j",
+                                "id": "key-j",
                                 "value": "KEY_J"
                             },
                             {
-                                "_id": "key-k",
+                                "id": "key-k",
                                 "value": "KEY_K"
                             },
                             {
-                                "_id": "key-l",
+                                "id": "key-l",
                                 "value": "KEY_L"
                             },
                             {
-                                "_id": "key-m",
+                                "id": "key-m",
                                 "value": "KEY_M"
                             },
                             {
-                                "_id": "key-n",
+                                "id": "key-n",
                                 "value": "KEY_N"
                             },
                             {
-                                "_id": "key-o",
+                                "id": "key-o",
                                 "value": "KEY_O"
                             },
                             {
-                                "_id": "key-p",
+                                "id": "key-p",
                                 "value": "KEY_P"
                             },
                             {
-                                "_id": "key-q",
+                                "id": "key-q",
                                 "value": "KEY_Q"
                             },
                             {
-                                "_id": "key-r",
+                                "id": "key-r",
                                 "value": "KEY_R"
                             },
                             {
-                                "_id": "key-s",
+                                "id": "key-s",
                                 "value": "KEY_S"
                             },
                             {
-                                "_id": "key-t",
+                                "id": "key-t",
                                 "value": "KEY_T"
                             },
                             {
-                                "_id": "key-u",
+                                "id": "key-u",
                                 "value": "KEY_U"
                             },
                             {
-                                "_id": "key-v",
+                                "id": "key-v",
                                 "value": "KEY_V"
                             },
                             {
-                                "_id": "key-w",
+                                "id": "key-w",
                                 "value": "KEY_W"
                             },
                             {
-                                "_id": "key-x",
+                                "id": "key-x",
                                 "value": "KEY_X"
                             },
                             {
-                                "_id": "key-y",
+                                "id": "key-y",
                                 "value": "KEY_Y"
                             },
                             {
-                                "_id": "key-z",
+                                "id": "key-z",
                                 "value": "KEY_Z"
                             },
                             {
-                                "_id": "key-left_ctrl",
+                                "id": "key-left_ctrl",
                                 "value": "KEY_LEFT_CTRL"
                             },
                             {
-                                "_id": "key-left_shift",
+                                "id": "key-left_shift",
                                 "value": "KEY_LEFT_SHIFT"
                             },
                             {
-                                "_id": "key-left_alt",
+                                "id": "key-left_alt",
                                 "value": "KEY_LEFT_ALT"
                             },
                             {
-                                "_id": "key-left_gui",
+                                "id": "key-left_gui",
                                 "value": "KEY_LEFT_GUI"
                             },
                             {
-                                "_id": "key-right_ctrl",
+                                "id": "key-right_ctrl",
                                 "value": "KEY_RIGHT_CTRL"
                             },
                             {
-                                "_id": "key-right_shift",
+                                "id": "key-right_shift",
                                 "value": "KEY_RIGHT_SHIFT"
                             },
                             {
-                                "_id": "key-right_alt",
+                                "id": "key-right_alt",
                                 "value": "KEY_RIGHT_ALT"
                             },
                             {
-                                "_id": "key-right_gui",
+                                "id": "key-right_gui",
                                 "value": "KEY_RIGHT_GUI"
                             },
                             {
-                                "_id": "key-backspace",
+                                "id": "key-backspace",
                                 "value": "KEY_BACKSPACE"
                             },
                             {
-                                "_id": "key-tab",
+                                "id": "key-tab",
                                 "value": "KEY_TAB"
                             },
                             {
-                                "_id": "key-return",
+                                "id": "key-return",
                                 "value": "KEY_RETURN"
                             },
                             {
-                                "_id": "key-esc",
+                                "id": "key-esc",
                                 "value": "KEY_ESC"
                             },
                             {
-                                "_id": "key-insert",
+                                "id": "key-insert",
                                 "value": "KEY_INSERT"
                             },
                             {
-                                "_id": "key-delete",
+                                "id": "key-delete",
                                 "value": "KEY_DELETE"
                             },
                             {
-                                "_id": "key-page_up",
+                                "id": "key-page_up",
                                 "value": "KEY_PAGE_UP"
                             },
                             {
-                                "_id": "key-page_down",
+                                "id": "key-page_down",
                                 "value": "KEY_PAGE_DOWN"
                             },
                             {
-                                "_id": "key-home",
+                                "id": "key-home",
                                 "value": "KEY_HOME"
                             },
                             {
-                                "_id": "key-end",
+                                "id": "key-end",
                                 "value": "KEY_END"
                             },
                             {
-                                "_id": "key-caps_lock",
+                                "id": "key-caps_lock",
                                 "value": "KEY_CAPS_LOCK"
                             },
                             {
-                                "_id": "key-f1",
+                                "id": "key-f1",
                                 "value": "KEY_F1"
                             },
                             {
-                                "_id": "key-f2",
+                                "id": "key-f2",
                                 "value": "KEY_F2"
                             },
                             {
-                                "_id": "key-f3",
+                                "id": "key-f3",
                                 "value": "KEY_F3"
                             },
                             {
-                                "_id": "key-f4",
+                                "id": "key-f4",
                                 "value": "KEY_F4"
                             },
                             {
-                                "_id": "key-f5",
+                                "id": "key-f5",
                                 "value": "KEY_F5"
                             },
                             {
-                                "_id": "key-f6",
+                                "id": "key-f6",
                                 "value": "KEY_F6"
                             },
                             {
-                                "_id": "key-f7",
+                                "id": "key-f7",
                                 "value": "KEY_F7"
                             },
                             {
-                                "_id": "key-f8",
+                                "id": "key-f8",
                                 "value": "KEY_F8"
                             },
                             {
-                                "_id": "key-f9",
+                                "id": "key-f9",
                                 "value": "KEY_F9"
                             },
                             {
-                                "_id": "key-f10",
+                                "id": "key-f10",
                                 "value": "KEY_F10"
                             },
                             {
-                                "_id": "key-f11",
+                                "id": "key-f11",
                                 "value": "KEY_F11"
                             },
                             {
-                                "_id": "key-f12",
+                                "id": "key-f12",
                                 "value": "KEY_F12"
                             },
                             {
-                                "_id": "key-exclamation_point",
+                                "id": "key-exclamation_point",
                                 "value": "KEY_EXCLAMATION_POINT"
                             },
                             {
-                                "_id": "key-double_quotes",
+                                "id": "key-double_quotes",
                                 "value": "KEY_DOUBLE_QUOTES"
                             },
                             {
-                                "_id": "key-number_sign",
+                                "id": "key-number_sign",
                                 "value": "KEY_NUMBER_SIGN"
                             },
                             {
-                                "_id": "key-dollar_sign",
+                                "id": "key-dollar_sign",
                                 "value": "KEY_DOLLAR_SIGN"
                             },
                             {
-                                "_id": "key-percent_sign",
+                                "id": "key-percent_sign",
                                 "value": "KEY_PERCENT_SIGN"
                             },
                             {
-                                "_id": "key-ampersand",
+                                "id": "key-ampersand",
                                 "value": "KEY_AMPERSAND"
                             },
                             {
-                                "_id": "key-single_quote",
+                                "id": "key-single_quote",
                                 "value": "KEY_SINGLE_QUOTE"
                             },
                             {
-                                "_id": "key-opening_parenthesis",
+                                "id": "key-opening_parenthesis",
                                 "value": "KEY_OPENING_PARENTHESIS"
                             },
                             {
-                                "_id": "key-closing_parenthesis",
+                                "id": "key-closing_parenthesis",
                                 "value": "KEY_CLOSING_PARENTHESIS"
                             },
                             {
-                                "_id": "key-asterisk",
+                                "id": "key-asterisk",
                                 "value": "KEY_ASTERISK"
                             },
                             {
-                                "_id": "key-plus_sign",
+                                "id": "key-plus_sign",
                                 "value": "KEY_PLUS_SIGN"
                             },
                             {
-                                "_id": "key-comma",
+                                "id": "key-comma",
                                 "value": "KEY_COMMA"
                             },
                             {
-                                "_id": "key-minus_sign",
+                                "id": "key-minus_sign",
                                 "value": "KEY_MINUS_SIGN"
                             },
                             {
-                                "_id": "key-period",
+                                "id": "key-period",
                                 "value": "KEY_PERIOD"
                             },
                             {
-                                "_id": "key-slash",
+                                "id": "key-slash",
                                 "value": "KEY_SLASH"
                             },
                             {
-                                "_id": "key-colon",
+                                "id": "key-colon",
                                 "value": "KEY_COLON"
                             },
                             {
-                                "_id": "key-semicolon",
+                                "id": "key-semicolon",
                                 "value": "KEY_SEMICOLON"
                             },
                             {
-                                "_id": "key-less_than_sign",
+                                "id": "key-less_than_sign",
                                 "value": "KEY_LESS_THAN_SIGN"
                             },
                             {
-                                "_id": "key-equal_sign",
+                                "id": "key-equal_sign",
                                 "value": "KEY_EQUAL_SIGN"
                             },
                             {
-                                "_id": "key-greater_than_sign",
+                                "id": "key-greater_than_sign",
                                 "value": "KEY_GREATER_THAN_SIGN"
                             },
                             {
-                                "_id": "key-question_mark",
+                                "id": "key-question_mark",
                                 "value": "KEY_QUESTION_MARK"
                             },
                             {
-                                "_id": "key-at_symbol",
+                                "id": "key-at_symbol",
                                 "value": "KEY_AT_SYMBOL"
                             },
                             {
-                                "_id": "key-opening_bracket",
+                                "id": "key-opening_bracket",
                                 "value": "KEY_OPENING_BRACKET"
                             },
                             {
-                                "_id": "key-backslash",
+                                "id": "key-backslash",
                                 "value": "KEY_BACKSLASH"
                             },
                             {
-                                "_id": "key-closing_bracket",
+                                "id": "key-closing_bracket",
                                 "value": "KEY_CLOSING_BRACKET"
                             },
                             {
-                                "_id": "key-caret",
+                                "id": "key-caret",
                                 "value": "KEY_CARET"
                             },
                             {
-                                "_id": "key-underscore",
+                                "id": "key-underscore",
                                 "value": "KEY_UNDERSCORE"
                             },
                             {
-                                "_id": "key-grave_accent",
+                                "id": "key-grave_accent",
                                 "value": "KEY_GRAVE_ACCENT"
                             },
                             {
-                                "_id": "key-opening_brace",
+                                "id": "key-opening_brace",
                                 "value": "KEY_OPENING_BRACE"
                             },
                             {
-                                "_id": "key-vertical_bar",
+                                "id": "key-vertical_bar",
                                 "value": "KEY_VERTICAL_BAR"
                             },
                             {
-                                "_id": "key-closing_brace",
+                                "id": "key-closing_brace",
                                 "value": "KEY_CLOSING_BRACE"
                             },
                             {
-                                "_id": "key-tilde",
+                                "id": "key-tilde",
                                 "value": "KEY_TILDE"
                             }
                         ]
@@ -1839,7 +1839,7 @@
             "outputs": []
         },
         {
-            "_id": "key-sequence",
+            "id": "key-sequence",
             "taxonomy": {
                 "categories": [
                     "usb"
@@ -1849,11 +1849,11 @@
             "type": "KeySequence",
             "inputs": [
                 {
-                    "_id": "key",
+                    "id": "key",
                     "default": "NO_KEY"
                 },
                 {
-                    "_id": "holdTime",
+                    "id": "holdTime",
                     "default": 0.3,
                     "validation": {
                         "type": "range",
@@ -1870,16 +1870,16 @@
     "taxonomies": {
         "categories": [
             {
-                "_id": "connect"
+                "id": "connect"
             },
             {
-                "_id": "backpack"
+                "id": "backpack"
             },
             {
-                "_id": "brains"
+                "id": "brains"
             },
             {
-                "_id": "usb"
+                "id": "usb"
             }
         ],
         "tags": []

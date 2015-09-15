@@ -112,21 +112,23 @@
 
 			<qb-ui-input-text
 				class="name"
-				value="{{model.title}}">
+				value="{{model.name}}">
 			</qb-ui-input-text>
 
-			<qb-ui-toolbar-status-indicator state="pending">
+			<qb-ui-toolbar-status-indicator
+				hidden$="[[notInProfile]]"
+				state="pending">
 			</qb-ui-toolbar-status-indicator>
 
 			<qb-ui-toolbar-button
-				hidden$="[[notInProfile]]"
+				hidden$="[[!notInProfile]]"
+				on-tap="_onAddToProfileButtonTap"
 				icon="clone"
 				icon-hover="clone-hover"
 				tooltip-key="ide/toolbar/clone/tooltip">
 			</qb-ui-toolbar-button>
 
 			<qb-ui-toolbar-button
-				hidden$="[[notInProfile]]"
 				on-tap="_onQuirkbotsAreaButtonTap"
 				icon="quirkbots"
 				icon-hover="quirkbots-hover"
@@ -144,14 +146,15 @@
 		is: 'qb-ui-toolbar',
 		properties: {
 			model: Object,
+			user: Object,
 			windowTitle: {
 				type: String,
-				computed: '_computeWindowTitle(model.title, _ideName)',
+				computed: '_computeWindowTitle(model.name, _ideName)',
 				observer: '_windowTitleChanged'
 			},
 			notInProfile: {
 				type: Boolean,
-				computed: '_computeNotInProfile(model.userId)',
+				computed: '_computeNotInProfile(model.author.id, user.id)',
 			},
 			editorMode: {
 				type: String,
@@ -168,6 +171,9 @@
 		_onQuirkbotsAreaButtonTap: function(){
 			this.fire('quirkbots-area-button-tap');
 		},
+		_onAddToProfileButtonTap: function(){
+			this.fire('add-to-profile-button-tap');
+		},
 		_editorModeFlagChanged: function(value){
 			if(value){
 				this.editorMode = 'text';
@@ -182,17 +188,17 @@
 		_setTextModeFlag: function(){
 			this.editorModeFlag = true;
 		},
-		_computeWindowTitle: function (title, _ideName) {
-			return title + ' - ' + _ideName;
+		_computeWindowTitle: function (name, _ideName) {
+			return name + ' - ' + _ideName;
 		},
-		_windowTitleChanged: function (title) {
-			window.document.title = title;
+		_windowTitleChanged: function (name) {
+			window.document.title = name;
 		},
-		_computeNotInProfile: function(userId){
-			if(userId){
-				return true;
+		_computeNotInProfile: function(author, userId){
+			if(author && userId && author === userId){
+				return false;
 			}
-			return false;
+			return true;
 		}
 	});
 })();

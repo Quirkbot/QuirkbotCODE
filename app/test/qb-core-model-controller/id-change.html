@@ -7,9 +7,9 @@
 	<script src="../../bower_components/web-component-tester/browser.js"></script>
 	<script src="../../bower_components/iron-test-helpers/test-helpers.js"></script>
 	<script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
-	
+
 	<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
-	
+
 	<link rel="import" href="../../elements/qb-core-model-controller/qb-core-model-controller.html">
 
 </head>
@@ -24,7 +24,7 @@
 	<test-fixture id="local-program">
 		<template>
 			<qb-core-model-controller
-				_id="local-id"
+				id="local-id"
 				verbose="error">
 			</qb-core-model-controller>
 		</template>
@@ -33,7 +33,7 @@
 	<test-fixture id="remote-program">
 		<template>
 			<qb-core-model-controller
-				_id="remote-id"
+				id="remote-id"
 				verbose="log"
 				api="/responds_with_success">
 			</qb-core-model-controller>
@@ -43,7 +43,7 @@
 	<test-fixture id="offline-invalid">
 		<template>
 			<qb-core-model-controller
-				_id="bogus-id"
+				id="bogus-id"
 				verbose="error"
 				api="/responds_with_invalid_status">
 			</qb-core-model-controller>
@@ -53,7 +53,7 @@
 	<test-fixture id="offline-404">
 		<template>
 			<qb-core-model-controller
-				_id="bogus-id"
+				id="bogus-id"
 				verbose="error"
 				api="/responds_with_404">
 			</qb-core-model-controller>
@@ -63,7 +63,7 @@
 	<test-fixture id="not-found">
 		<template>
 			<qb-core-model-controller
-				_id="bogus-id"
+				id="bogus-id"
 				verbose="error"
 				api="/responds_with_not_successful">
 			</qb-core-model-controller>
@@ -77,7 +77,7 @@
 			server = sinon.fakeServer.create();
 			server.autoRespond = true;
 			server.autoRespondAfter = 500;
-			
+
 			server.respondWith(
 				'GET',
 				/\/responds_with_invalid_status.*/,
@@ -112,13 +112,13 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "userId": "bogus-user" }}'
+					'{"status": "ok", "success": true, "result" : { "author": "bogus-user" }}'
 				]
 			);
 
 			window.localStorage.setItem('qb_local-id', JSON.stringify({
-				_id: 'local-id',
-				userId : 'bogus-user'
+				id: 'local-id',
+				author : 'bogus-user'
 			}));
 		});
 
@@ -147,7 +147,7 @@
 				count++;
 			});
 
-			setTimeout(function(){data._id = 'local-id';}, 10)
+			setTimeout(function(){data.id = 'local-id';}, 10)
 		});
 
 		test('from local-id, to no-id', function(done) {
@@ -168,7 +168,7 @@
 				count++;
 			});
 
-			setTimeout(function(){data._id = '';}, 10)
+			setTimeout(function(){data.id = '';}, 10)
 		});
 
 		test('from remote-id, to no-id (id changed during setup-process)', function(done) {
@@ -189,7 +189,7 @@
 				count++;
 			});
 
-			data._id = '';
+			data.id = '';
 		});
 
 		test('from remote-id, to another remote-id (id changed during setup-process)', function(done) {
@@ -210,7 +210,7 @@
 				count++;
 			});
 
-			data._id = 'another-id';
+			data.id = 'another-id';
 		});
 		test('from remote-id, to another remote-id, but in between quickly change to no id (id changed during setup-process)', function(done) {
 			var data = fixture('remote-program');
@@ -230,12 +230,12 @@
 				count++;
 			});
 
-			setTimeout(function(){data._id = '';}, 10)
-			setTimeout(function(){data._id = 'another-id';}, 100)
+			setTimeout(function(){data.id = '';}, 10)
+			setTimeout(function(){data.id = 'another-id';}, 100)
 		});
 
 
-	
+
 	});
 	</script>
 
