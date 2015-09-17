@@ -85,9 +85,9 @@
 	"ide/warnings/setup/not-found/description": "The CODE you are trying to access doesn't exist.",
 	"ide/warnings/setup/not-found/continue": "Create new CODE",
 
-	"ide/warnings/setup/no-user/title": "Access denied",
+	"ide/warnings/setup/no-user/title": "Restricted access",
 	"ide/warnings/setup/no-user/header": "You are not logged in",
-	"ide/warnings/setup/no-user/description": "To use Quirkbot CODE, you need to be logged in.",
+	"ide/warnings/setup/no-user/description": "To use Quirkbot CODE, you need to be logged in. You can continue as a guest, but you won't be able to save your CODE.",
 	"ide/warnings/setup/no-user/cancel": "Continue as guest",
 	"ide/warnings/setup/no-user/continue": "Login",
 	"ide/warnings/setup/no-user/continue/link": "/",

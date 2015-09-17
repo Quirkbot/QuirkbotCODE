@@ -9,9 +9,6 @@
 			:host{
 
 			}
-			paper-button{
-				display: block;
-			}
 		</style>
 		<iron-localstorage
 			name="qb-user"
@@ -21,17 +18,17 @@
 		<template
 			is="dom-if"
 			if="[[user.nickname]]">
-			<h2>[[user.nickname]]</h2>
-			<a href="[[profileUrl]]">
-				<paper-button>
-					<qb-core-i18n
-						key="ide/avatar/profile"></qb-core-i18n>
-				</paper-button>
-			</a>
+			<span>[[user.nickname]]</span>
+			<a href="[[profileUrl]]"><paper-button>
+				<qb-core-i18n
+					key="ide/avatar/profile">
+				</qb-core-i18n>
+			</paper-button></a>
 			<paper-button
 				on-tap="logout">
 				<qb-core-i18n
-					key="ide/avatar/logout"></qb-core-i18n>
+					key="ide/avatar/logout">
+				</qb-core-i18n>
 			</paper-button>
 
 		</template>
@@ -42,7 +39,8 @@
 			<a href="[[registerAppUrl]]">
 				<paper-button>
 					<qb-core-i18n
-						key="ide/avatar/login"></qb-core-i18n>
+						key="ide/avatar/login">
+					</qb-core-i18n>
 				</paper-button>
 			</a>
 		</template>

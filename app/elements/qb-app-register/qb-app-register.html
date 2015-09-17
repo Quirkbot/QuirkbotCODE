@@ -129,13 +129,13 @@
 			this.user = e.detail;
 			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password);
 		},
-		_onLoginSubmit: function(e){
+		_onLoginSubmit: function(){
 			this.$.login.loading = true;
 			this._nickname = this.$.login.nickname;
 
 			// Try to authenticate directly, but if there is an error, use it
 			// for feeback on the login form
-			var onSuccess = function (e) {
+			var onSuccess = function () {
 				this.$.auth.removeEventListener('authenticate', onSuccess);
 				this.$.auth.removeEventListener('authenticate-error', onError);
 			}.bind(this);
@@ -162,13 +162,13 @@
 						this._goToProfile();
 					}
 					else{
-						console.log('Strange result getting user', users)
+						console.log('Strange result getting user', users);
 					}
 
 
 				}.bind(this))
 				.catch(function(){
-					console.log('Error getting user', arguments)
+					console.log('Error getting user', arguments);
 				});
 			}
 		},

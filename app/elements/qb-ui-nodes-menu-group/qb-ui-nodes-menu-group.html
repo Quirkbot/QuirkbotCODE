@@ -14,18 +14,21 @@
 			margin-top: 3px;
 			@apply(--qb-ui-nodes-menu-group);
 		}
-		paper-toolbar{
+		.toolbar{
 			cursor: pointer;
 			border-radius: 999px;
 			height: 30px;
-			--paper-toolbar-background: var(--qb-action-color-transparent);
+			color: var(--qb-white);
+			background-color: var(--qb-action-color-transparent);
+			--paper-item-min-height: 30px;
 			@apply(--qb-ui-nodes-menu-group-toolbar);
 		}
-		:host paper-toolbar.toolbar .title{
+		:host .toolbar .title{
 			/**
 			* the redundant paper-toolbar.toolbar is just so the selector is
 			* deep enought to take priority over polymer selector
 			**/
+			@apply(--layout-flex);
 			@apply(--qb-font-text);
 			font-size: 14px ;
 			margin: 0;
@@ -54,7 +57,7 @@
 
 	</style>
 	<template>
-		<paper-toolbar
+		<paper-item
 		 	class="toolbar"
 			on-tap="toggleItems">
 			<div class="title">
@@ -63,7 +66,7 @@
 					value="{{name}}"></qb-core-i18n>
 			</div>
 			<iron-icon icon="{{collapseIcon}}"></iron-icon>
-		</paper-toolbar>
+		</paper-item>
 
 		<iron-collapse
 			opened$="{{opened}}">

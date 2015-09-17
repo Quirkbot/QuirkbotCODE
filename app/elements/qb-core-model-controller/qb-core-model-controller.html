@@ -141,7 +141,7 @@
 					if(!programId){
 						// No program ID
 						this._createEmptyProgram()
-						.then(this._createNewId.bind(this))
+						//.then(this._createNewId.bind(this))
 						.then(function(){
 							this.fire('setupSuccess', 'new-program');
 							resolve('new-program');
@@ -160,12 +160,12 @@
 						}.bind(this))
 						.catch(function(){
 							// User doesn't own the program
-							this._createNewId()
+							//this._createNewId()
 							// End of process
-							.then(function(){
+							//.then(function(){
 								this.fire('setupSuccess', 'not-in-profile');
 								resolve('not-in-profile');
-							}.bind(this));
+							//}.bind(this));
 						}.bind(this));
 					}.bind(this))
 					.catch(function(error){
@@ -226,7 +226,7 @@
 					// User is logged in
 					//this.set('model',this.user);
 					this.userOwnsProgramLocally = true;
-					console.log(this.userOwnsProgramLocally )
+					console.log(this.userOwnsProgramLocally );
 					this.fire('addToProfileSuccess', '');
 					resolve();
 				}.bind(this))
@@ -283,7 +283,7 @@
 								message: 'Error trying to put data on server',
 								payload: arguments
 							};
-							console.log(error.errorCode)
+							console.log(error.errorCode);
 							this._log('error', rejectMessage);
 							this.fire('syncError', error.errorCode);
 							reject(rejectMessage);
@@ -406,7 +406,7 @@
 									payload: arguments
 								};
 								this._log('log', rejectMessageAccessFailed);
-								reject(rejectMessageAccessFailed)
+								reject(rejectMessageAccessFailed);
 							}.bind(this));
 						}
 					}
@@ -549,7 +549,7 @@
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: '_putRemotely',
-						errorCode: 2, // unhadled
+						errorCode: 'API_NOT_DEFINED',
 						message: '{{api}} is not defined.'
 					};
 					this._log('error', rejectMessage);
@@ -562,6 +562,7 @@
 					var currentVersion = this.model.version;
 					this._replaceModel(this._rawDataToModel(result));
 					// Loaded successfully!
+					var resultType;
 					if(result.id !== this.programId){
 						// The id from the server is different, this means that
 						// the program only existed locally, and now was created
@@ -597,90 +598,6 @@
 					this._log('error', rejectMessage);
 					reject(rejectMessage);
 				}.bind(this));
-
-				// Try to load data from the api endpoint
-				/*this.$.updater.url = this.api + '/' + this.programId;
-				this.$.updater.body = JSON.stringify(this._modelToRawData(this.model));
-
-				var onResponse = function(event){
-					clearTimeout(timer);
-					this.$.updater.removeEventListener('response', onResponse);
-					if(!event.detail.response || event.detail.response.status !== 'ok'){
-						var rejectMessageNullResponse = {
-							element: 'qb-core-model-controller',
-							method: '_putRemotely.onResponse',
-							errorCode: 2, // unhanlded
-							message: 'Response was null or invalid. Server is not responding correctly.'
-						};
-						this._log('error', rejectMessageNullResponse);
-						reject(rejectMessageNullResponse);
-						return;
-					}
-					if(!event.detail.response.success){
-						var rejectMessage404 = {
-							element: 'qb-core-model-controller',
-							method: '_putRemotely.onResponse',
-							errorCode: 1, // server error
-							message: 'Not successful response.'
-						};
-						this._log('error', rejectMessage404);
-						reject(rejectMessage404);
-						return;
-					}
-
-					// Loaded successfully!
-					var result = event.detail.response.result;
-					var resultType;
-					if(result.id !== this.programId){
-						// The id from the server is different, this means that
-						// the program only existed locally, and now was created
-						// on the server too.
-						// We replace the local id with the server one.
-						resultType = 'created-on-server';
-						this.set('model.id', result.id);
-						this.programId = result.id;
-					}
-					else if(result.version > this.model.version){
-						// Server data is more recent, so we replace the local
-						// data with it.
-						resultType = 'from-server';
-						this._replaceModel(this._rawDataToModel(event.detail.response.result));
-					}
-					else{
-						// Local data is more recent then server's data.
-						// (Server should have replaced it's data)
-						resultType = 'to-server';
-					}
-					resolve(resultType);
-
-				}.bind(this);
-
-				this.$.updater.addEventListener('response', onResponse);
-
-				var onError = function(event){
-					clearTimeout(timer);
-					this.$.updater.removeEventListener('error', onError);
-
-
-					var rejectMessage = {
-						element: 'qb-core-model-controller',
-						method: '_putRemotely.onError',
-						errorCode: 2, // unhadled
-						message: 'Request failed.',
-						payload: event.detail
-					};
-					this._log('error', rejectMessage);
-					reject(rejectMessage);
-				}.bind(this);
-
-				this.$.updater.addEventListener('error', onError);
-
-				var timer = setTimeout(function(){
-					request.abort();
-				}.bind(this), 5000);
-
-				var request = this.$.updater.generateRequest();*/
-
 			}.bind(this);
 			return new Promise(promise);
 		},

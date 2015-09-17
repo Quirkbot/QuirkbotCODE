@@ -17,7 +17,9 @@
 <link rel="import" href="../qb-core-connection-line/qb-core-connection-line.html">
 
 <link rel="import" href="../qb-ui-node-input-inlet/qb-ui-node-input-inlet.html">
+<link rel="import" href="../qb-ui-node-input-datalist/qb-ui-node-input-datalist.html">
 <link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
+
 
 <dom-module id='qb-ui-node-input'>
 	<template>
@@ -185,7 +187,7 @@
 			:host([input-type="datalist"]) .controller .text-input{
 				width: 100px;
 			}
-			:host([input-type="datalist"]) .controller .menu paper-item {
+			/*:host([input-type="datalist"]) .controller .menu paper-item {
 				--paper-item-min-height: 22px;
 				--paper-item:{
 					cursor: pointer;
@@ -205,7 +207,7 @@
 
 			:host([input-type="datalist"]) .controller .menu {
 				background-color: var(--qb-interactive-hover-color-transparent);
-				max-height: 143px;
+				height: 143px;
 				overflow-y: scroll;
 				margin-top: 10px;
 				padding: 0;
@@ -216,19 +218,17 @@
 				--paper-menu-selected-item:{
 					background-color: var(--qb-interactive-color-hard-transparent) !important;
 				};
-			}
-			:host([input-type="datalist"]) .controller iron-list {
-				background-color: var(--qb-interactive-hover-color-transparent);
-				height: 140px;
-				width: 100px;
-				border: solid 1px rgba(0,0,0, 0.1);
-
-			}
+			}*/
 
 			/*
 			:host([input-type="datalist"]) .controller  .menu paper-item.iron-selected {
 				background-color: var(--qb-interactive-color-hard-transparent);
 			}*/
+
+			:host([input-type="datalist"]) .controller .menu {
+				height: 143px;
+
+			}
 		</style>
 
 		<qb-core-i18n
@@ -272,31 +272,25 @@
 			</paper-icon-button>
 
 			<qb-ui-input-text
-				class="text-input"
 				id="controllerTextInput"
+				class="text-input"
 				value="{{data.value}}"
 				on-keyup="_onInputKeyUp">
 			</qb-ui-input-text>
 
-			<div hidden$="{{!datalistController}}">
-				<iron-list
-					class="menu"
-					items="[[ironDatalist]]"
-					as="item">
-					<template>
-						<paper-item
-							name="{{item.value}}">
-							<iron-icon
-								icon="[[resolveIconName(item.id, 'qb-datalists')]]"
-								hidden$="[[!resolveIconName(item.id, 'qb-datalists')]]">
-							</iron-icon>
-							<qb-core-i18n
-								key="{{item.translationKey}}"></qb-core-i18n>
-						</paper-item>
-					</template>
-				</iron-list>
+			<qb-ui-node-input-datalist
+				id="menu"
+				class="menu"
+				hidden$="[[!datalistController]]"
+				items="[[datalist]]"
+				selected-value="{{data.value}}">
+			</qb-ui-node-input-datalist>
 
-				<paper-menu
+			<div>
+
+
+
+				<!--<paper-menu
 					id="menu"
 					class="menu"
 					selected="{{data.value}}"
@@ -316,7 +310,7 @@
 								key="{{item.translationKey}}"></qb-core-i18n>
 						</paper-item>
 					</template>
-				</paper-menu>
+				</paper-menu>-->
 			</div>
 
 			<div hidden$="{{!rangeController}}">
@@ -456,6 +450,8 @@
 			this.controllerOpenend = true;
 			this.$.controllerTextInput.focus();
 			this.fire('iron-signal', {name: 'controller-open', data: this});
+			// Needed by the internal iron-list
+			this.$.menu.resize();
 		},
 		_closeController: function(){
 			this.controllerOpenend = false;
@@ -478,6 +474,8 @@
 				this.datalistController = true;
 				this.rangeController = false;
 				this.textController = false;
+
+
 			}
 			else if( definition.validation && definition.validation.type === 'range' && typeof definition.validation.data.min !== 'undefined' && typeof definition.validation.data.max !== 'undefined') {
 				this.datalistController = false;
@@ -497,7 +495,7 @@
 			return  (typeof value !== 'undefined' && value !== '');
 		},
 		_computeConnectionType: function(){
-			if(typeof this.definition === 'undefined'){
+			if(typeof this.definition === 'undefined' || !this.data){
 				return;
 			}
 			if(typeof this.data.type === 'undefined' && (typeof this.data.value === 'undefined' || this.data.value === '')){

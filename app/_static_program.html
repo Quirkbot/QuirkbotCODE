@@ -36,11 +36,15 @@
 
 
 	<!-- will be replaced with elements/elements.vulcanized.html -->
-	<link rel="import" href="./elements/elements.html">
+	<script>
+		window.Polymer = window.Polymer || {};
+		window.Polymer.dom = 'shadow';
+	</script>
+	<link rel="import" href="./elements/elements.html" async>
 	<!-- endreplace -->
 </head>
 
-<body unresolved class="fullbleed layout vertical">
+<body class="fullbleed layout vertical">
 
 	<template is="dom-bind">
 

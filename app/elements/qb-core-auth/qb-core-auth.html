@@ -174,9 +174,9 @@
 					ajax.removeEventListener('error', onError);
 					if(!e.detail.response){
 						reject({
-							"message": "Could not get any response",
-							"code": "CONNECTION_REFUSED",
-							"data": {}
+							'message': 'Could not get any response',
+							'code': 'CONNECTION_REFUSED',
+							'data': {}
 						});
 					}
 					else{

@@ -47,10 +47,13 @@
 			this.data.element = this;
 		},
 		_computeName: function(nameValue){
-			var idParts = this.data.id.split('.');
-			if(idParts.length === 2){
-				return idParts[1];
+			if(this.data && this.data.id){
+				var idParts = this.data.id.split('.');
+				if(idParts.length === 2){
+					return idParts[1];
+				}
 			}
+
 			return nameValue;
 		}
 	};

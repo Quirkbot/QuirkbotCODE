@@ -6,6 +6,7 @@
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-avatar/qb-ui-avatar.html">
 <link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
 <link rel="import" href="../qb-ui-toolbar-button/qb-ui-toolbar-button.html">
 <link rel="import" href="../qb-ui-toolbar-status-indicator/qb-ui-toolbar-status-indicator.html">
@@ -97,13 +98,15 @@
 					class="controls layout horizontal center-justified">
 					<qb-core-i18n
 						on-tap="_setVisualModeFlag"
-						key="ide/editor/visual"></qb-core-i18n>
+						key="ide/editor/visual">
+					</qb-core-i18n>
 					<paper-toggle-button
 						checked="{{editorModeFlag}}">
 					</paper-toggle-button>
 					<qb-core-i18n
 						on-tap="_setTextModeFlag"
-						key="ide/editor/text"></qb-core-i18n>
+						key="ide/editor/text">
+					</qb-core-i18n>
 				</div>
 
 			</div>
@@ -134,6 +137,13 @@
 				icon-hover="quirkbots-hover"
 				tooltip-key="ide/toolbar/quirkbots-area/tooltip">
 			</qb-ui-toolbar-button>
+
+			<qb-ui-avatar
+				home-url="[[homeUrl]]"
+				register-app-url="[[registerAppUrl]]"
+				user-app-url="[[userAppUrl]]"
+				program-app-url="[[programAppUrl]]">
+			</qb-ui-avatar>
 
 		</paper-toolbar>
 	</template>
