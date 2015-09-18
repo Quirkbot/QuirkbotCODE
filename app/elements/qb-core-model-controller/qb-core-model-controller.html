@@ -76,7 +76,7 @@
 				type: String,
 				observer: '_modelHashChanged'
 			},
-			syncStatus:{
+			processingStatus:{
 				type: String,
 				notify: true,
 				value: ''
@@ -376,14 +376,14 @@
 		},
 		_continuosSync: function () {
 			this.cancelDebouncer('_continuosSync');
-			this.syncStatus = 'pending';
+			this.processingStatus = 'pending';
 			this.debounce('_continuosSync', function () {
 				this.sync()
 				.then(function() {
-					this.syncStatus = 'success';
+					this.processingStatus = 'success';
 				}.bind(this))
 				.catch(function() {
-					this.syncStatus = 'fail';
+					this.processingStatus = 'fail';
 				}.bind(this));
 			}, 5000);
 
@@ -420,14 +420,14 @@
 			console.log(version );
 			// If the version changes, sync
 			this.cancelDebouncer('versions sync');
-			this.syncStatus = 'pending';
+			this.processingStatus = 'pending';
 			this.debounce('versions sync', function () {
 				this.sync()
 				.then(function() {
-					this.syncStatus = 'success';
+					this.processingStatus = 'success';
 				}.bind(this))
 				.catch(function() {
-					this.syncStatus = 'fail';
+					this.processingStatus = 'fail';
 				}.bind(this));
 			}, 5000);
 		},
@@ -851,7 +851,7 @@
 		},
 		_onSetupStart: function(event){
 			this.set('model.doingSetup', true);
-			this.syncStatus = 'pending';
+			this.processingStatus = 'pending';
 			if(this.model.setupError){
 				this.set('model.setupError', '');
 			}
@@ -859,7 +859,7 @@
 		},
 		_onSetupSuccess: function(event){
 			this.set('model.doingSetup', false);
-			this.syncStatus = 'success';
+			this.processingStatus = 'success';
 			if(this.model.setupError){
 				this.set('model.setupError', '');
 			}
@@ -872,7 +872,7 @@
 		_onSetupError: function(event){
 			this.set('model.doingSetup', false);
 			this.set('model.setupError', event.detail);
-			this.syncStatus = 'fail';
+			this.processingStatus = 'fail';
 			this._log('error', { event: 'setupError', detail: event.detail });
 			if(this._reapplyPendingId()){
 				return;
@@ -880,7 +880,7 @@
 		},
 		_onSyncStart: function(event){
 			this.set('model.doingSync', true);
-			this.syncStatus = 'pending';
+			this.processingStatus = 'pending';
 			if(this.model.syncError){
 				this.set('model.syncError', '');
 			}
@@ -888,7 +888,7 @@
 		},
 		_onSyncSuccess: function(event){
 			this.set('model.doingSync', false);
-			this.syncStatus = 'success';
+			this.processingStatus = 'success';
 			if(this.model.syncError){
 				this.set('model.syncError', '');
 			}
@@ -897,12 +897,12 @@
 		_onSyncError: function(event){
 			this.set('model.doingSync', false);
 			this.set('model.syncError', event.detail);
-			this.syncStatus = 'fail';
+			this.processingStatus = 'fail';
 			this._log('error', { event: 'syncError', detail: event.detail });
 		},
 		_onAddToProfileStart: function(event){
 			this.set('model.doingAddToProfile', true);
-			this.syncStatus = 'pending';
+			this.processingStatus = 'pending';
 			if(this.model.addToProfileError){
 				this.set('model.addToProfileError', '');
 			}
@@ -910,7 +910,7 @@
 		},
 		_onAddToProfileSuccess: function(event){
 			this.set('model.doingAddToProfile', false);
-			this.syncStatus = 'success';
+			this.processingStatus = 'success';
 			if(this.model.addToProfileError){
 				this.set('model.addToProfileError', '');
 			}
@@ -921,7 +921,7 @@
 		_onAddToProfileError: function(event){
 			this.set('model.doingAddToProfile', false);
 			this.set('model.addToProfileError', event.detail);
-			this.syncStatus = 'fail';
+			this.processingStatus = 'fail';
 			this._log('error', { event: 'addToProfileError', detail: event.detail });
 		},
 		_log: function(){

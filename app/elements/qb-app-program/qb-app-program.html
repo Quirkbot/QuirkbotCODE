@@ -66,7 +66,7 @@
 			api="[[programsApiUrl]]"
 			self="{{modelController}}"
 			model="{{model}}"
-			sync-status="{{syncStatus}}"
+			processing-status="{{processingStatus}}"
 			user="[[user]]"
 			auth="[[auth]]"
 			verbose="log">
@@ -98,7 +98,7 @@
 				class="paper-header"
 				editor-mode={{editorMode}}
 				model="{{model}}"
-				sync-status="[[syncStatus]]"
+				processing-status="[[processingStatus]]"
 				user="[[user]]"
 				home-url="[[homeUrl]]"
 				register-app-url="[[registerAppUrl]]"
@@ -152,7 +152,7 @@
 				type: Object
 			},
 			model: Object,
-			syncStatus: String,
+			processingStatus: String,
 			treeManager: Object,
 			nodeDefinitions: Array,
 			constantDefinitions: Array,

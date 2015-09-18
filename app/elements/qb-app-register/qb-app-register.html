@@ -30,8 +30,7 @@
 			id="auth"
 			auth-url="[[authUrl]]"
 			api-url="[[apiUrl]]"
-			client-id="[[clientId]]"
-			on-authenticate="_onAuthenticate">
+			client-id="[[clientId]]">
 		</qb-core-auth>
 
 		<iron-localstorage
@@ -127,7 +126,8 @@
 		_onRegistrationResponse: function(e){
 			this.$.registration.loading = true;
 			this.user = e.detail;
-			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password);
+			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password)
+			.then(this._goToProfile.bind(this));
 		},
 		_onLoginSubmit: function(){
 			this.$.login.loading = true;
@@ -148,29 +148,30 @@
 			this.$.auth.addEventListener('authenticate', onSuccess);
 			this.$.auth.addEventListener('authenticate-error', onError);
 
-			this.$.auth.authenticate(this.$.login.nickname, this.$.login.password);
+
+			this.$.auth.authenticate(this.$.login.nickname, this.$.login.password)
+			.then(function(){
+				return this._getUserByNickname(this.$.login.nickname);
+			}.bind(this))
+			.then(function(user){
+				this.user = user;
+				return this._getUserByNickname(this.$.login.nickname);
+			}.bind(this))
+			.then(this._goToProfile.bind(this));
 		},
-		_onAuthenticate: function(){
-			if(this.user && this.user.nickname){
-				this._goToProfile();
-			}
-			else{
-				this.$.auth.apiCall('GET', 'user/?nickname=' + this._nickname)
+		_getUserByNickname: function(nickname){
+			return new Promise(function(resolve, reject){
+				this.$.auth.apiCall('GET', 'user/?nickname=' + nickname)
 				.then(function (users) {
 					if(users.length === 1){
-						this.user = users[0];
-						this._goToProfile();
+						resolve(users[0]);
 					}
 					else{
-						console.log('Strange result getting user', users);
+						reject('Strange result getting user');
 					}
-
-
 				}.bind(this))
-				.catch(function(){
-					console.log('Error getting user', arguments);
-				});
-			}
+				.catch(reject)
+			}.bind(this));
 		},
 		_goToProfile: function(){
 			var url = this.userAppUrl;

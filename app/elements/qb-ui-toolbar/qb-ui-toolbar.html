@@ -125,7 +125,7 @@
 
 			<qb-ui-toolbar-status-indicator
 				hidden$="[[_hideStatus]]"
-				state="[[syncStatus]]">
+				state="[[processingStatus]]">
 			</qb-ui-toolbar-status-indicator>
 
 			<qb-ui-toolbar-button
@@ -183,13 +183,13 @@
 				type: Boolean,
 				observer:'_editorModeFlagChanged'
 			},
-			syncStatus: {
+			processingStatus: {
 				type: Boolean
 			}
 		},
 		observers:[
 			'_computeHideAddToProfile(model.author, user.id)',
-			'_computeHideStatus(syncStatus, user.id, program.id)'
+			'_computeHideStatus(processingStatus, user.id, program.id)'
 		],
 		behaviors:[
 			window.Quirkbot.UtilsBehavior

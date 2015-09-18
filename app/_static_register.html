@@ -39,20 +39,26 @@
 	<!-- endreplace -->
 </head>
 
-<body unresolved class="fullbleed layout vertical">
+<body class="fullbleed layout vertical">
 
-	<template is="dom-bind">
+	<qb-app-register
+		locale="en_US"
 
-		<qb-app-register
-			locale="en_US"
-			client-id="YWJjMTphc2Q="
-			auth-url="http://localhost:1337/auth"
-			api-url="http://localhost:1337"
-			user-app-url="/user/"
-			strings-url="./data/strings/{{locale}}.json">
-		</qb-app-register>
+		client-id="YWJjMTphc2Q="
+		chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd"
 
-	</template>
+		compiler-url="https://quirkbot-compiler.herokuapp.com/"
+		auth-url="http://ec2contai-ecselast-1aa8efo9kdp65-1013516278.us-east-1.elb.amazonaws.com/auth"
+		api-url="http://ec2contai-ecselast-1aa8efo9kdp65-1013516278.us-east-1.elb.amazonaws.com/"
+
+		home-url="/"
+		program-app-url="/_static_program.html"
+		register-app-url="/_static_register.html"
+		user-app-url="/_static_user.html"
+
+		strings-url="./data/strings/{{locale}}.json"
+		nodes-url="./data/nodes.json">
+	</qb-app-register>
 
 </body>
 

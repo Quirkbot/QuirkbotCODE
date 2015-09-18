@@ -14,6 +14,12 @@
 	"ide/avatar/profile": "View profile",
 
 	"USER ---------------------------------------------------------------" : "",
+	"ide/user/forbidden/title": "Access denied.",
+	"ide/user/forbidden/description": "You can only access a user profile if you are logged in.",
+
+	"ide/user/not-found/title": "User not found.",
+	"ide/user/not-found/description": "We couldn't find the user you are looking for.",
+
 	"ide/user/programs/title": "CODEs",
 	"ide/user/programs/empty": "No CODE created.",
 	"ide/user/programs/create-new": "Create new CODE",

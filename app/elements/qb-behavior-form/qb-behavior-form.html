@@ -27,7 +27,14 @@
 		listeners:{
 			'iron-form-submit' : '_onIronFormSubmit',
 			'iron-form-response' : '_onIronFormResponse',
-			'iron-form-error' : '_onIronFormError'
+			'iron-form-error' : '_onIronFormError',
+			'keyup': '_onKeyUp'
+		},
+		_onKeyUp: function(e){
+			if(e.keyCode === 13){
+				this._submitForm();
+			}
+
 		},
 		_submitForm: function(){
 			this.errorCode = '';
