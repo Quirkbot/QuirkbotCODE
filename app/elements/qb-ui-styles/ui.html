@@ -5,7 +5,7 @@
 		<style>
 			.dialog{
 				width: 300px;
-				padding: 25px;
+				padding: 25px 0;
 				border-radius: 10px;
 				border: solid 4px var(--qb-interactive-color-transparent);
 				box-shadow: 0 0 0 4px var(--qb-interactive-color-transparent);
@@ -14,24 +14,23 @@
 					box-shadow: none;
 				};
 			}
-			.dialog > *{
-				padding: 0;
-			}
+
 			.dialog-header{
-				margin:0;
-				font-weight: normal;
+				margin:0 !important;
+				font-weight: normal !important;
 				color: var(--qb-text-color-transparent);
 			}
 			.dialog-content{
-				margin: 10px 0 0 0;
+				margin: 10px 0 0 0 !important;
 				font-style: italic;
 			}
 			.dialog-content .header{
-				margin: 0 0 10px 0;
-				font-style:normal;
+				margin: 0 0 10px 0 !important;
+				font-style: normal !important;
 			}
 			.buttons{
-				margin: 25px 0 0 0;
+				margin: 25px 0 0 0 !important;
+				padding: 0 25px !important;
 			}
 			.buttons paper-button{
 				border-radius: 10px;

@@ -17,12 +17,14 @@
 			:host{
 				display: inline-block;
 				margin-top: -4px;
+				border-radius: 999px;
 			}
 			:host .qb-toolbar-button{
 				padding: 4px;
 				background-color: var(--qb-white-hard-transparent);
 				border: none !important;
 				box-shadow: none !important;
+				border-radius: 999px;
 			}
 			.inner{
 				width: 30px;
@@ -44,7 +46,8 @@
 				position: absolute;
 				top: 50%;
 				left: 50%;
-				transition: left 1s;
+				transition: transform 1s;
+				-webkit-transition: -webkit-transform 1s;
 			}
 			.circle.a {
 				background-color: var(--qb-yellow);
@@ -57,40 +60,19 @@
 				-webkit-animation-duration: 2s;
   				-webkit-animation-name: slide;
 				-webkit-animation-iteration-count: infinite;
-				-webkit-animation-timing-function: ease-in-out;
-
-				-moz-animation-duration: 2s;
-  				-moz-animation-name: slide;
-				-moz-animation-iteration-count: infinite;
-				-moz-animation-timing-function: ease-in-out;
-
-				-ms-animation-duration: 2s;
-  				-ms-animation-name: slide;
-				-ms-animation-iteration-count: infinite;
-				-ms-animation-timing-function: ease-in-out;
-
-				-o-animation-duration: 2s;
-  				-o-animation-name: slide;
-				-o-animation-iteration-count: infinite;
-				-o-animation-timing-function: ease-in-out;
+				-webkit-animation-timing-function: linear;
 
 				animation-duration: 2s;
   				animation-name: slide;
 				animation-iteration-count: infinite;
-				animation-timing-function: ease-in-out;
+				animation-timing-function: linear;
 			}
 			:host([state="pending"]) .circle.a{
 				-webkit-animation-direction: normal;
-				-moz-animation-direction: normal;
-				-ms-animation-direction: normal;
-				-o-animation-direction: normal;
 				animation-direction: normal;
 			}
 			:host([state="pending"]) .circle.b{
 				-webkit-animation-direction: reverse;
-				-moz-animation-direction: reverse;
-				-ms-animation-direction: reverse;
-				-o-animation-direction: reverse;
 				animation-direction: reverse;
 			}
 			:host([state="fail"]) .circle.b {
@@ -100,32 +82,18 @@
 				box-shadow: 0 0 0 2px var(--qb-yellow);
 			}
 			@-webkit-keyframes slide{
-				0% { left: 50%; }
-				25% { left: 65%; }
-				50% { left: 50%; }
-				75% { left: 35%; }
-				100% { left: 50%; }
-			}
-			@-moz-keyframes slide{
-				0% { left: 50%; }
-				25% { left: 65%; }
-				50% { left: 50%; }
-				75% { left: 35%; }
-				100% { left: 50%; }
-			}
-			@-ms-keyframes slide{
-				0% { left: 50%; }
-				25% { left: 65%; }
-				50% { left: 50%; }
-				75% { left: 35%; }
-				100% { left: 50%; }
+				0% { -webkit-transform: translate3d(0,0,0); }
+				25% { -webkit-transform: translate3d(7px,0,0) scale3d(0.7,0.7,1); }
+				50% { -webkit-transform: translate3d(0,0,0); }
+				75% { -webkit-transform: translate3d(-7,0,0) scale3d(0.7,0.7,1); }
+				100% { -webkit-transform: translate3d(0,0,0); }
 			}
 			@keyframes slide {
-				0% { left: 50%; }
-				25% { left: 65%; }
-				50% { left: 50%; }
-				75% { left: 35%; }
-				100% { left: 50%; }
+				0% { transform: translate3d(0,0,0); }
+				25% { transform: translate3d(7px,0,0) scale3d(0.7,0.7,1); }
+				50% { transform: translate3d(0,0,0); }
+				75% { transform: translate3d(-7px,0,0) scale3d(0.7,0.7,1); }
+				100% { transform: translate3d(0,0,0); }
 			}
 		</style>
 		<div class="qb-toolbar-button">
@@ -153,7 +121,10 @@
 	window.Quirkbot.UIToolbarStatusIndicator = Polymer({
 		is: 'qb-ui-toolbar-status-indicator',
 		properties: {
-			state: String,
+			state: {
+				type: String,
+				reflectToAttribute: true
+			},
 			tooltipKey: {
 				type: String,
 				computed: '_computeTooltipKey(state)'

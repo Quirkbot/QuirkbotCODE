@@ -119,7 +119,7 @@
 			this._computeDialog(this.model.syncError, this.model.setupError, this.model.addToProfileError);
 		},
 		_computeDialog: function (sync, setup, addToProfile) {
-			this.debounce('_computeHasError', function () {
+			this.debounce('_computeDialog', function () {
 
 				if(sync){
 					this.currentErrorType = 'sync';
@@ -165,13 +165,17 @@
 							this.hasContinue = true;
 							break;
 						case 'setup/no-user':
+						case 'setup/forbidden':
+						case 'sync/AUTH_GRANT':
 							this.hasDismiss = true;
 							this.hasConfirm = false;
 							this.hasContinue = true;
 							break;
+
 						case 'sync/offline':
 						case 'sync/forbidden':
 						case 'sync/NOT_CONFIRMED':
+						case 'sync/CONNECTION_REFUSED':
 							this.hasDismiss = true;
 							this.hasConfirm = false;
 							this.hasContinue = false;
@@ -194,6 +198,8 @@
 					window.location.hash = '#/';
 					break;
 				case 'setup/no-user':
+				case 'setup/forbidden':
+				case 'sync/AUTH_GRANT':
 					window.location = this.continueLinkValue;
 					break;
 			}

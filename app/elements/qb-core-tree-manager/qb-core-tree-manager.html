@@ -202,10 +202,10 @@
 				var onResponse = function(event){
 					clearTimeout(timer);
 					this.$.loader.removeEventListener('response', onResponse);
-					if(!event || !event.detail || !event.detail.response || !event.detail.response.id){
+					if(!event || !event.detail || !event.detail.response || !event.detail.response._id){
 						return reject('BAD_RESPONSE');
 					}
-					resolve(event.detail.response.id);
+					resolve(event.detail.response._id);
 				}.bind(this);
 				var onError = function(){
 					clearTimeout(timer);

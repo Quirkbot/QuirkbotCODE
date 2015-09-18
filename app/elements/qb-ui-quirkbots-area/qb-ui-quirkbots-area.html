@@ -3,7 +3,6 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
-<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
@@ -16,6 +15,8 @@
 
 <link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
 <link rel="import" href="../qb-ui-quirkbot-upload-item/qb-ui-quirkbot-upload-item.html">
+<link rel="import" href="../qb-ui-toolbar-status-indicator/qb-ui-toolbar-status-indicator.html">
+
 
 
 <dom-module id='qb-ui-quirkbots-area'>
@@ -42,13 +43,9 @@
 			iron-selector qb-ui-quirkbot-upload-item{
 				cursor: pointer;
 			}
-			paper-spinner{
+			qb-ui-toolbar-status-indicator{
 				margin: 0 10px;
 				@apply(--layout-self-center);
-				--paper-spinner-layer-1-color: var(--qb-green-hard-transparent);
-				--paper-spinner-layer-2-color: var(--qb-green-hard-transparent);
-				--paper-spinner-layer-3-color: var(--qb-green-hard-transparent);
-				--paper-spinner-layer-4-color: var(--qb-green-hard-transparent);
 			}
 		</style>
 		<qb-core-browser-extension
@@ -134,9 +131,9 @@
 									</div>
 									<div
 										class="buttons">
-										<paper-spinner
-											active>
-										</paper-spinner>
+										<qb-ui-toolbar-status-indicator
+											state="pending">
+										</qb-ui-toolbar-status-indicator>
 									</div>
 
 								</template>
@@ -320,9 +317,9 @@
 						<template
 							is="dom-if"
 							if="{{installingExtension}}">
-							<paper-spinner
-								active>
-							</paper-spinner>
+							<qb-ui-toolbar-status-indicator
+								state="pending">
+							</qb-ui-toolbar-status-indicator>
 						</template>
 						<template
 							is="dom-if"

@@ -70,6 +70,10 @@
 			margin-right: 5px;
 		}
 
+		qb-ui-avatar{
+			width: 180px;
+		}
+
 
 	</style>
 	<template>
@@ -115,20 +119,21 @@
 
 			<qb-ui-input-text
 				class="name"
+				hidden$="[[!model.name]]"
 				value="{{model.name}}">
 			</qb-ui-input-text>
 
 			<qb-ui-toolbar-status-indicator
-				hidden$="[[notInProfile]]"
-				state="pending">
+				hidden$="[[_hideStatus]]"
+				state="[[syncStatus]]">
 			</qb-ui-toolbar-status-indicator>
 
 			<qb-ui-toolbar-button
-				hidden$="[[!notInProfile]]"
+				hidden$="[[_hideAddToProfile]]"
 				on-tap="_onAddToProfileButtonTap"
-				icon="clone"
-				icon-hover="clone-hover"
-				tooltip-key="ide/toolbar/clone/tooltip">
+				icon="add-to-profile"
+				icon-hover="add-to-profile-hover"
+				tooltip-key="ide/toolbar/add-to-profile/tooltip">
 			</qb-ui-toolbar-button>
 
 			<qb-ui-toolbar-button
@@ -162,9 +167,13 @@
 				computed: '_computeWindowTitle(model.name, _ideName)',
 				observer: '_windowTitleChanged'
 			},
-			notInProfile: {
+			_hideStatus: {
 				type: Boolean,
-				computed: '_computeNotInProfile(model.author.id, user.id)',
+				value: true
+			},
+			_hideAddToProfile: {
+				type: Boolean,
+				value: true
 			},
 			editorMode: {
 				type: String,
@@ -173,8 +182,15 @@
 			editorModeFlag:{
 				type: Boolean,
 				observer:'_editorModeFlagChanged'
+			},
+			syncStatus: {
+				type: Boolean
 			}
 		},
+		observers:[
+			'_computeHideAddToProfile(model.author, user.id)',
+			'_computeHideStatus(syncStatus, user.id, program.id)'
+		],
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
 		],
@@ -204,12 +220,21 @@
 		_windowTitleChanged: function (name) {
 			window.document.title = name;
 		},
-		_computeNotInProfile: function(author, userId){
-			if(author && userId && author === userId){
-				return false;
+		_computeHideAddToProfile:function( author, userId){
+			console.log(author, userId)
+			if(userId && author !== userId){
+				this._hideAddToProfile = false;
+				return;
 			}
-			return true;
-		}
+			this._hideAddToProfile = true;
+		},
+		_computeHideStatus:function(status, userId, programId){
+			if(!userId || !status || !programId){
+				this._hideStatus = true;
+				return;
+			}
+			this._hideStatus = false;
+		},
 	});
 })();
 </script>

@@ -41,6 +41,10 @@
 			value="{{user}}">
 		</iron-localstorage>
 
+		<qb-core-router
+			entry="{{programId}}">
+		</qb-core-router>
+
 		<qb-core-auth
 			id="auth"
 			self="{{auth}}"
@@ -62,10 +66,10 @@
 			api="[[programsApiUrl]]"
 			self="{{modelController}}"
 			model="{{model}}"
+			sync-status="{{syncStatus}}"
 			user="[[user]]"
 			auth="[[auth]]"
-			verbose="log"
-			>
+			verbose="log">
 		</qb-core-model-controller>
 
 		<qb-core-tree-manager
@@ -94,6 +98,7 @@
 				class="paper-header"
 				editor-mode={{editorMode}}
 				model="{{model}}"
+				sync-status="[[syncStatus]]"
 				user="[[user]]"
 				home-url="[[homeUrl]]"
 				register-app-url="[[registerAppUrl]]"
@@ -130,40 +135,30 @@
 				type: String,
 				notify: true
 			},
-			locale: {
-				type: String,
-				value: 'en_US'
-			},
-			programsApiUrl: {
-				type: String,
-				value: 'http://localhost:8585/api/programs/'
-			},
-			compilerUrl: {
-				type: String,
-				value: 'https://quirkbot-compiler.herokuapp.com/'
-			},
-			nodesUrl: {
-				type: String,
-				value: 'data/nodes.json'
-			},
-			stringsUrl: {
-				type: String,
-				value: 'data/strings/{{locale}}.json'
-			},
-			chromeWebstoreId: {
-				type: String,
-				value: 'ackaalhbfjagidmjlhlokoblhbnahegd'
-			},
+			locale: String,
+			clientId: String,
+			chromeWebstoreId: String,
+			compilerUrl: String,
+			authUrl: String,
+			apiUrl: String,
+			homeUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			nodesUrl: String,
+			stringsUrl: String,
+
 			modelController: {
 				type: Object
 			},
 			model: Object,
+			syncStatus: String,
 			treeManager: Object,
 			nodeDefinitions: Array,
 			constantDefinitions: Array,
 			taxonomyDefinitions: Object,
 			editorMode: String,
-			quirkbotsArea: Object,
+			quirkbotsArea: Object
 		},
 		_onAddToProfileButtonTap: function(){
 			this.modelController.addToProfile();

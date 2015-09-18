@@ -1,14 +1,85 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 
 <dom-module id='qb-ui-avatar'>
 	<template>
 		<style>
 			:host{
+				color: var(--qb-black);
+				font-size: 12px;
+				@apply(--layout-horizontal);
+	 			@apply(--layout-end-justified);
 
 			}
+			paper-menu-button{
+				padding: 0;
+				--paper-menu-button-dropdown:{
+					border-radius: 10px;
+					border: solid 2px var(--qb-action-color-transparent);
+					box-shadow: 0 0 0 2px var(--qb-action-color-transparent) !important;
+				};
+			}
+			paper-menu{
+				padding: 0;
+				min-width: 130px;
+				--paper-menu-focused-item-after:{
+					background: transparent;
+				};
+				--paper-menu-selected-item:{
+					font-weight: bold;
+				};
+			}
+			paper-menu a{
+				display: block;
+				color: inherit;
+			}
+
+			paper-menu .button{
+				text-align: left;
+				border-radius: 0;
+				color: var(--qb-black);
+			}
+			paper-menu .button {
+				border-bottom: solid 1px var(--qb-grey-light);
+			}
+			paper-menu .button:last-child{
+				border-bottom: none;
+			}
+			paper-menu .button iron-icon{
+				color: var(--qb-black);
+			}
+
+			.button{
+				display: block;
+				text-transform: none;
+			}
+			.main-button {
+				border-radius: 10px;
+				background: var(--qb-white);
+				color: var(--qb-pink);
+
+			}
+			.main-button iron-icon{
+				color: var(--qb-black);
+				position: relative;
+			}
+			.main-button .label{
+				color: var(--qb-pink);
+				display: inline-block;
+				margin-right: 5px;
+				line-height: 100%;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				max-width: 100px;
+				height: 20px;
+			}
+
 		</style>
 		<iron-localstorage
 			name="qb-user"
@@ -18,18 +89,41 @@
 		<template
 			is="dom-if"
 			if="[[user.nickname]]">
-			<span>[[user.nickname]]</span>
-			<a href="[[profileUrl]]"><paper-button>
-				<qb-core-i18n
-					key="ide/avatar/profile">
-				</qb-core-i18n>
-			</paper-button></a>
-			<paper-button
-				on-tap="logout">
-				<qb-core-i18n
-					key="ide/avatar/logout">
-				</qb-core-i18n>
-			</paper-button>
+
+			<paper-menu-button
+				horizontal-align="right"
+				horizontal-offset="0"
+				vertical-align="top"
+				vertical-offset="0"
+				no-animations>
+				<paper-button
+					class="button main-button dropdown-trigger">
+					<iron-icon
+						icon="[[resolveIconName('user', 'qb-user')]]">
+					</iron-icon><div class="label">[[user.nickname]]</div>
+				</paper-button>
+				<paper-menu class="dropdown-content">
+					<a href="[[profileUrl]]">
+						<paper-button
+							class="button">
+							<iron-icon
+								icon="[[resolveIconName('profile', 'qb-user')]]">
+							</iron-icon><qb-core-i18n
+								key="ide/avatar/profile">
+							</qb-core-i18n>
+						</paper-button>
+					</a>
+					<paper-button
+						class="button"
+						on-tap="logout">
+						<iron-icon
+							icon="[[resolveIconName('logout', 'qb-user')]]">
+						</iron-icon><qb-core-i18n
+							key="ide/avatar/logout">
+						</qb-core-i18n>
+					</paper-button>
+				</paper-menu>
+			</paper-menu-button>
 
 		</template>
 
@@ -37,10 +131,15 @@
 			is="dom-if"
 			if="[[!user.nickname]]">
 			<a href="[[registerAppUrl]]">
-				<paper-button>
-					<qb-core-i18n
-						key="ide/avatar/login">
-					</qb-core-i18n>
+				<paper-button
+					class="button main-button dropdown-trigger">
+					<iron-icon
+						icon="[[resolveIconName('login', 'qb-user')]]">
+					</iron-icon><div class="label">
+						<qb-core-i18n
+							key="ide/avatar/login">
+						</qb-core-i18n>
+					</div>
 				</paper-button>
 			</a>
 		</template>
@@ -65,6 +164,9 @@
 				computed: '_computeProfileUrl(userAppUrl, user.nickname)'
 			}
 		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
 		logout: function(){
 			window.localStorage.removeItem('qb-user');
 			window.localStorage.removeItem('qb-accessToken');

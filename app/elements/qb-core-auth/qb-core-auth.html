@@ -44,7 +44,8 @@
 				type: String
 			},
 			apiUrl: {
-				type: String
+				type: String,
+				observer: '_apiChanged'
 			},
 			tokenUrl:{
 				type: String,
@@ -105,11 +106,11 @@
 		},
 		apiCall: function (method, path, data, blockAuthRetry) {
 			return new Promise(function (resolve, reject) {
+				console.log('aaaaa', this, this.apiUrl)
 				this.$.apiAjax.headers = {
 					'Content-Type' : 'application/json',
 					'Authorization' : 'Bearer '+ this.accessToken
 				};
-				this.$.apiAjax.method = method;
 				this.$.apiAjax.url = this.apiUrl + '/' + path;
 				if(data){
 					this.$.apiAjax.body = data;

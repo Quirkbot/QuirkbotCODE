@@ -30,6 +30,13 @@
 			z-index: 0;
 		}
 
+		qb-ui-toolbar-status-indicator{
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
+			z-index: 99;
+		}
+
 	</style>
 
 	<template>
@@ -66,8 +73,15 @@
 					self="{{textEditor}}"
 					computed-code="{{computedCode}}">
 				</qb-ui-editor-text>
+
+				<qb-ui-toolbar-status-indicator
+					hidden$="[[notInProfile]]"
+					state="succes">
+				</qb-ui-toolbar-status-indicator>
 			</div>
 		</paper-drawer-panel>
+
+
 	</template>
 </dom-module>
 <script>

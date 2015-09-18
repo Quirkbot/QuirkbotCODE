@@ -9,9 +9,9 @@
 	"ide/node/disconnect": "disconnect",
 
 	"AVATAR -------------------------------------------------------------" : "",
-	"ide/avatar/login": "login",
-	"ide/avatar/logout": "logout",
-	"ide/avatar/profile": "profile",
+	"ide/avatar/login": "Login",
+	"ide/avatar/logout": "Logout",
+	"ide/avatar/profile": "View profile",
 
 	"USER ---------------------------------------------------------------" : "",
 	"ide/user/programs/title": "CODEs",
@@ -19,8 +19,8 @@
 	"ide/user/programs/create-new": "Create new CODE",
 
 	"IDE - Toolbar ------------------------------------------------------" : "",
-	"ide/toolbar/clone/tooltip":	"Clone CODE",
-	"ide/toolbar/quirkbots-area/tooltip":	"Upload CODE",
+	"ide/toolbar/add-to-profile/tooltip":	"Add CODE to profile",
+	"ide/toolbar/quirkbots-area/tooltip":	"Upload CODE to Quirkbot",
 	"ide/toolbar/status/pending":	"Saving CODE...",
 	"ide/toolbar/status/success":	"CODE Saved!",
 	"ide/toolbar/status/fail":		"Offline, can't save CODE",
@@ -77,7 +77,7 @@
 	"IDE - Warnings Overlay ---------------------------------------------" : "",
 	"ide/warnings/setup/offline/title": "Can't open CODE",
 	"ide/warnings/setup/offline/header": "Connection error",
-	"ide/warnings/setup/offline/description": "We can't reach the data servers. This could be a problem with your internet connection.",
+	"ide/warnings/setup/offline/description":  "Are you offline? We can't reach our servers...",
 	"ide/warnings/setup/offline/continue": "Create new CODE",
 
 	"ide/warnings/setup/not-found/title": "Can't open CODE",
@@ -87,15 +87,34 @@
 
 	"ide/warnings/setup/no-user/title": "Restricted access",
 	"ide/warnings/setup/no-user/header": "You are not logged in",
-	"ide/warnings/setup/no-user/description": "To use Quirkbot CODE, you need to be logged in. You can continue as a guest, but you won't be able to save your CODE.",
+	"ide/warnings/setup/no-user/description": "You can continue as a guest, but you won't be able to open or save any CODE.",
 	"ide/warnings/setup/no-user/cancel": "Continue as guest",
 	"ide/warnings/setup/no-user/continue": "Login",
 	"ide/warnings/setup/no-user/continue/link": "/",
 
+	"ide/warnings/setup/forbidden/title": "Can't load CODE",
+	"ide/warnings/setup/forbidden/header": "Access denied",
+	"ide/warnings/setup/forbidden/description": "Your login has expired, please login again before continuing.",
+	"ide/warnings/setup/forbidden/cancel": "Cancel",
+	"ide/warnings/setup/forbidden/continue": "Login",
+	"ide/warnings/setup/forbidden/continue/link": "/",
+
 	"ide/warnings/sync/offline/title": "Can't sync CODE",
 	"ide/warnings/sync/offline/header": "Connection error",
-	"ide/warnings/sync/offline/description": "We can't reach the data servers. This could be a problem with your internet connection.",
-	"ide/warnings/sync/offline/cancel": "close",
+	"ide/warnings/sync/offline/description": "Are you offline? We can't reach our servers...",
+	"ide/warnings/sync/offline/cancel": "Close",
+
+	"ide/warnings/sync/CONNECTION_REFUSED/title": "Cannot sync CODE",
+	"ide/warnings/sync/CONNECTION_REFUSED/header": "Connection error",
+	"ide/warnings/sync/CONNECTION_REFUSED/description": "Are you offline? We can't reach our servers...",
+	"ide/warnings/sync/CONNECTION_REFUSED/cancel": "close",
+
+	"ide/warnings/sync/AUTH_GRANT/title": "Can't sync CODE",
+	"ide/warnings/sync/AUTH_GRANT/header": "Access denied",
+	"ide/warnings/sync/AUTH_GRANT/description": "Your login has expired, please login again before continuing.",
+	"ide/warnings/sync/AUTH_GRANT/cancel": "Close",
+	"ide/warnings/sync/AUTH_GRANT/continue": "Login",
+	"ide/warnings/sync/AUTH_GRANT/continue/link": "/",
 
 	"ide/warnings/sync/forbidden/title": "Can't sync CODE",
 	"ide/warnings/sync/forbidden/header": "Access denied",

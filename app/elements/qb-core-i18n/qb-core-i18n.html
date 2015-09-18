@@ -77,7 +77,7 @@
 			else if(this.originalTextContent){
 				this.value = this.originalTextContent;
 			}
-			else if(!this.noKeyOnEmptyValue) {
+			else if(this.key && !this.noKeyOnEmptyValue) {
 				this.value = this.key;
 			}
 			else{

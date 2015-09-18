@@ -126,6 +126,28 @@
 			return this.sortByKey('uuid', a, b);
 		},
 		/**
+		 * Logical filters
+		 **/
+		_any: function () {
+			for (var i = 0; i < arguments.length; i++) {
+				if(arguments[i]){
+					return true;
+				}
+			}
+			return false;
+		},
+		_all: function () {
+			if(!arguments.length){
+				return false;
+			}
+			for (var i = 0; i < arguments.length; i++) {
+				if(!arguments[i]){
+					return false;
+				}
+			}
+			return true;
+		},
+		/**
 		 * String utils
 		 **/
 		lTrimNumerals : function(string){
