@@ -19,10 +19,20 @@
 			this.listen(window, 'WebComponentsReady', '_addRoutes');
 		},
 		_entryChanged: function(entry){
-			window.location.hash = '#/'+entry;
+			if(!entry && !window.location.hash){
+				return;
+			}
+			var newHash = '#/'+entry;
+			if(window.location.hash === '#'+entry){
+				window.history.replaceState(undefined, undefined, newHash);
+			}
+			else{
+				window.location.hash = newHash;
+			}
 		},
 		_addRoutes: function(){
-			page('*', function(data){
+			// Only listen to chages on the current path
+			page(window.location.pathname, function(data){
 				var entry = data.hash;
 				if(entry.length && entry[0] === '/'){
 					entry = entry.substr(1);

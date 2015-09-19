@@ -181,7 +181,7 @@
 						if(error.errorCode === 'PROGRAM_NOT_FOUND'){
 							type = 'not-found';
 						}
-						if(error.errorCode === 'AUTH_GRANT' || error.errorCode === 'NOT_AUTHENTICATED' ){
+						else if(error.errorCode === 'AUTH_GRANT' || error.errorCode === 'NOT_AUTHENTICATED' ){
 							type = 'forbidden';
 						}
 						else {

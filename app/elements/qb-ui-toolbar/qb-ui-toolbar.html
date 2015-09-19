@@ -105,7 +105,7 @@
 						key="ide/editor/visual">
 					</qb-core-i18n>
 					<paper-toggle-button
-						checked="{{editorModeFlag}}">
+						checked="{{_editorModeFlag}}">
 					</paper-toggle-button>
 					<qb-core-i18n
 						on-tap="_setTextModeFlag"
@@ -147,7 +147,8 @@
 				home-url="[[homeUrl]]"
 				register-app-url="[[registerAppUrl]]"
 				user-app-url="[[userAppUrl]]"
-				program-app-url="[[programAppUrl]]">
+				program-app-url="[[programAppUrl]]"
+				user="[[user]]">
 			</qb-ui-avatar>
 
 		</paper-toolbar>
@@ -160,13 +161,20 @@
 	window.Quirkbot.UIToolbar = Polymer({
 		is: 'qb-ui-toolbar',
 		properties: {
-			model: Object,
-			user: Object,
-			windowTitle: {
+			editorMode: {
 				type: String,
-				computed: '_computeWindowTitle(model.name, _ideName)',
-				observer: '_windowTitleChanged'
+				notify: true
 			},
+			model: Object,
+			processingStatus: {
+				type: Boolean
+			},
+			user: Object,
+			homeUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			programAppUrl: String,
+
 			_hideStatus: {
 				type: Boolean,
 				value: true
@@ -175,17 +183,16 @@
 				type: Boolean,
 				value: true
 			},
-			editorMode: {
+			_windowTitle: {
 				type: String,
-				notify: true
+				computed: '_computeWindowTitle(model.name, _ideName)',
+				observer: '_windowTitleChanged'
 			},
-			editorModeFlag:{
+			_editorModeFlag:{
 				type: Boolean,
 				observer:'_editorModeFlagChanged'
-			},
-			processingStatus: {
-				type: Boolean
 			}
+
 		},
 		observers:[
 			'_computeHideAddToProfile(model.author, user.id)',
@@ -209,10 +216,10 @@
 			}
 		},
 		_setVisualModeFlag: function(){
-			this.editorModeFlag = false;
+			this._editorModeFlag = false;
 		},
 		_setTextModeFlag: function(){
-			this.editorModeFlag = true;
+			this._editorModeFlag = true;
 		},
 		_computeWindowTitle: function (name, _ideName) {
 			return name + ' - ' + _ideName;
@@ -221,7 +228,6 @@
 			window.document.title = name;
 		},
 		_computeHideAddToProfile:function( author, userId){
-			console.log(author, userId)
 			if(userId && author !== userId){
 				this._hideAddToProfile = false;
 				return;

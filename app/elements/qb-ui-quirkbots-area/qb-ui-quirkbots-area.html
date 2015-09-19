@@ -430,20 +430,18 @@
 		open: function(){
 			this.extensionInstallationErrorCode = '';
 
-			setTimeout(function(){
-				this.$.dialog.open();
-				setTimeout(function(){
-					this.$.dialog.notifyResize();
-				}.bind(this), 100);
-			}.bind(this), 100);
+			this.debounce('openDialog', this.$.dialog.open.bind(this.$.dialog), 100);
+			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 1000);
 		},
 		_onInstallExtensionTap: function(){
+			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
+			
 			this.$.extension.install()
 			.then(function(){
-				this.$.dialog.notifyResize();
+				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
 			}.bind(this))
 			.catch(function(){
-				this.$.dialog.notifyResize();
+				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
 			}.bind(this));
 		},
 		_onUploadButtonTap: function(){
@@ -454,9 +452,9 @@
 			this.uploadSucceeded = false;
 			this.uploadErrorKey = '';
 
-			setTimeout(function(){
-				this.$.dialog.notifyResize();
-			}.bind(this), 10);
+
+			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 30);
+
 			this.treeManager.compileHex()
 			.then(function(hexString){
 				var fakeUploadProgressTimer = setInterval(function(){
@@ -468,24 +466,23 @@
 				this.$.extension.upload(this.selectedQuirkbotUuid, hexString)
 				.then(function(){
 					clearInterval(fakeUploadProgressTimer);
-					setTimeout(function(){
+					this.async(function(){
 						this.uploadCompleted = true;
 						this.uploadSucceeded = true;
 						this.$.dialog.notifyResize();
-					}.bind(this), 1500);
+					}, 1500);
 					this.uploadProgress = 100;
-
 				}.bind(this))
 				.catch(function(error){
 					clearInterval(fakeUploadProgressTimer);
 					console.error(error);
-					setTimeout(function(){
+					this.async(function(){
 						this.uploadCompleted = true;
 						this.uploadSucceeded = false;
 						this.uploadErrorKey = 'ide/quirkbots-area/dialog/quirkbots/upload-fail/uploader-description';
 						this.uploadProgress = 0;
 						this.$.dialog.notifyResize();
-					}.bind(this), 1500);
+					}, 1500);
 				}.bind(this));
 
 			}.bind(this))
@@ -501,14 +498,14 @@
 			}.bind(this));
 		},
 		_onFailDismissButtonTap: function(){
-			setTimeout(function () {
+			this.async(function () {
 				this.pendingUploadProcess = false;
-			}.bind(this), 500);
+			}, 500);
 		},
 		_onFinalConfirmTap: function(){
-			setTimeout(function () {
+			this.async(function () {
 				this.pendingUploadProcess = false;
-			}.bind(this), 500);
+			}, 500);
 		},
 		_computeExtensionInstallationErrorKey: function(code){
 
@@ -549,22 +546,20 @@
 				this.uploadErrorKey = '';
 			}
 
-			setTimeout(function(){
+			this.debounce('_computeQuirkbots', function(){
 				this.splice('quirkbots', 0, this.quirkbots.length);
 				this.extensionModel.quirkbots.forEach(function(quirkbot){
 					this.push('quirkbots', quirkbot);
 				}.bind(this));
-				setTimeout(function(){
-					this.$.dialog.notifyResize();
-				}.bind(this), 30);
-			}.bind(this), 10);
+
+				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
+
+			}, 10);
 
 		},
 
 		_notifyResize: function () {
-			setTimeout(function () {
-				this.$.dialog.notifyResize();
-			}.bind(this), 10);
+			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 100);
 		},
 		_plusOne: function(value){
 			return value +1;

@@ -7,6 +7,13 @@
 	"ide/editor/visual": 	"Visual",
 	"ide/editor/text": 		"Text",
 	"ide/node/disconnect": "disconnect",
+	"ide/email-confirmation/reminder": "Your account is not verified, plase check your email for instructions.",
+	"ide/email-confirmation/reminder/more-info": "More information",
+	"ide/email-confirmation/dialog/header": "Account verification",
+	"ide/email-confirmation/dialog/title": "Please click on the confirmation link we sent to:",
+	"ide/email-confirmation/dialog/description": "Only verified accounts can save and browse CODE.<br><br><b>Can't find the confirmation message?</b><br><ul><li>Wait for ten minutes. The message may take a while to arrive.</li><li>Check your spam folder.<li>Still can't find it? Resend the confirmation.</li></ul>",
+	"ide/email-confirmation/dialog/cancel": "Close",
+	"ide/email-confirmation/dialog/continue": "Resend confirmation",
 
 	"AVATAR -------------------------------------------------------------" : "",
 	"ide/avatar/login": "Login",

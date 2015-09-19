@@ -10,14 +10,19 @@
 	<template>
 		<iron-ajax
 			method="POST"
-			url="[[tokenUrl]]"
-			headers="[[tokenHeaders]]"
+			url="[[_tokenUrl]]"
+			headers="[[_tokenHeaders]]"
 			id="tokenAjax">
 		</iron-ajax>
 
 		<iron-ajax
 			id="apiAjax">
 		</iron-ajax>
+
+		<iron-localstorage
+			name="qb-user"
+			value="{{user}}">
+		</iron-localstorage>
 
 		<iron-localstorage
 			name="qb-accessToken"
@@ -40,29 +45,8 @@
 	window.Quirkbot.CoreAuth = Polymer({
 		is: 'qb-core-auth',
 		properties: {
-			authUrl: {
-				type: String
-			},
-			apiUrl: {
-				type: String
-			},
-			tokenUrl:{
-				type: String,
-				computed: '_computeTokenUrl(authUrl)'
-			},
-			tokenHeaders:{
-				type: String,
-				computed: '_computeTokenHeaders(clientId)'
-			},
-			clientId: {
-				type: String
-			},
-			user: {
-				type: String
-			},
-			password: {
-				type: String
-			},
+			apiUrl: String,
+			clientId: String,
 			accessToken: {
 				type: String,
 				notify: true
@@ -74,7 +58,19 @@
 			expires: {
 				type: Number,
 				notify: true
-			}
+			},
+			user: {
+				type: Object,
+				notify: true
+			},
+			_tokenUrl:{
+				type: String,
+				computed: '_computeTokenUrl(apiUrl)'
+			},
+			_tokenHeaders:{
+				type: String,
+				computed: '_computeTokenHeaders(clientId)'
+			},
 		},
 		observers:[
 			'_scheduleRefresh(expires)'
@@ -82,34 +78,51 @@
 		behaviors:[
 			window.Quirkbot.SelfPropertyBehavior
 		],
+		listeners:{
+		},
 		attached: function(){
 			this._processInitialValues();
 		},
 		authenticate: function(user, password){
-			user = user || '';
-			password = password || '';
-			this.$.tokenAjax.body = {
-				'grant_type': 'password',
-				'username' : user,
-				'password': password
-			};
-			return this._requestToken();
+			return new Promise(function (resolve, reject) {
+				user = user || '';
+				password = password || '';
+				this.$.tokenAjax.body = {
+					'grant_type': 'password',
+					'username' : user,
+					'password': password
+				};
+				this._requestToken()
+				.then(this._setUser.bind(this))
+				.then(resolve)
+				.catch(reject);
+			}.bind(this));
 		},
 		refresh: function(){
-			var refreshToken = this.refreshToken || '';
-			this.$.tokenAjax.body = {
-				'grant_type': 'refresh_token',
-				'refresh_token' : refreshToken
-			};
-			return this._requestToken();
+			return new Promise(function (resolve, reject) {
+				var refreshToken = this.refreshToken || '';
+				this.$.tokenAjax.body = {
+					'grant_type': 'refresh_token',
+					'refresh_token' : refreshToken
+				};
+				this._requestToken()
+				.then(this._setUser.bind(this))
+				.then(resolve)
+				.catch(reject);
+			}.bind(this));
 		},
 		apiCall: function (method, path, data, blockAuthRetry) {
 			return new Promise(function (resolve, reject) {
+				this.$.apiAjax.method = method;
 				this.$.apiAjax.headers = {
 					'Content-Type' : 'application/json',
 					'Authorization' : 'Bearer '+ this.accessToken
 				};
-				this.$.apiAjax.url = this.apiUrl + '/' + path;
+				var url = this.apiUrl;
+				if (url.charAt(url.length - 1) === '/') {
+					url = url.substr(0, url.length - 1);
+				}
+				this.$.apiAjax.url = url + '/' + path;
 				if(data){
 					this.$.apiAjax.body = data;
 				}
@@ -155,9 +168,8 @@
 
 					var expiresKey = 'expires_in';
 					this.expires = Date.now() + (response[expiresKey] * 1000);
-
 					this.fire('authenticate', this);
-					resolve();
+					resolve(response);
 				}.bind(this))
 				.catch(function(error){
 					this.fire('authenticate-error', error);
@@ -167,47 +179,43 @@
 		},
 		_request: function (ajax) {
 			return new Promise(function(resolve, reject) {
-				var onResponse = function(e){
+				var request = ajax.generateRequest();
+				request.completes
+				.then(function(e){
 					clearTimeout(timer);
-					ajax.removeEventListener('response', onResponse);
-					ajax.removeEventListener('error', onError);
-					if(!e.detail.response){
+					if(e.status >= 200 && e.status < 300){
+						resolve(e.response);
+					}
+					else if(!e.response){
 						reject({
 							'message': 'Could not get any response',
 							'code': 'CONNECTION_REFUSED',
 							'data': {}
 						});
 					}
-					else{
-						resolve(e.detail.response);
-					}
-				}.bind(this);
-				ajax.addEventListener('response', onResponse);
-
-				var onError = function(e){
+				}.bind(this))
+				.catch(function(){
+					// the cacth argument is useless here, so we use the
+					// request directly
 					clearTimeout(timer);
-					ajax.removeEventListener('response', onResponse);
-					ajax.removeEventListener('error', onError);
 					var response;
-					if(e.detail.response){
-						response = e.detail.response;
+					if(request.response){
+						response = request.response;
 					}
-					else if(e.detail.request && e.detail.request.xhr && e.detail.request.xhr.response){
-						response = e.detail.request.xhr.response;
+					else if(request.xhr && request.xhr.response){
+						response = request.xhr.response;
 					}
 					reject(response);
-				}.bind(this);
+				}.bind(this));
 
-				ajax.addEventListener('error', onError);
-				var request = ajax.generateRequest();
 				var timer = setTimeout(function(){
 					request.abort();
 				}.bind(this), 10000);
 
 			}.bind(this));
 		},
-		_computeTokenUrl: function(authUrl){
-			return authUrl + '/token';
+		_computeTokenUrl: function(apiUrl){
+			return apiUrl + 'auth/token';
 		},
 		_computeTokenHeaders: function(clientId){
 			return {
@@ -236,16 +244,23 @@
 			this._scheduleRefreshTimer =  setTimeout(this.refresh.bind(this), delay);
 		},
 		_processInitialValues: function(){
-			setTimeout(function () {
-				if(this.expires > Date.now() && this.accessToken && this.refreshToken){
-					this.fire('authenticate', this);
-				}
-				else if(this.refreshToken){
-					this.refresh();
-				}
-			}.bind(this), 10);
-
+			this.debounce('initial refresh', this.refresh.bind(this), 10);
 		},
+		_setUser: function () {
+			return new Promise(function (resolve, reject) {
+				this.apiCall('GET', 'user/me')
+				.then(function (user) {
+					if(user){
+						this.user = user;
+						resolve(user);
+					}
+					else{
+						reject(user);
+					}
+				}.bind(this))
+				.catch(reject);
+			}.bind(this));
+		}
 
 	});
 })();

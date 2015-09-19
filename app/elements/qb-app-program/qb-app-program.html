@@ -36,11 +36,6 @@
 			locale="{{locale}}">
 		</qb-core-i18n>
 
-		<iron-localstorage
-			name="qb-user"
-			value="{{user}}">
-		</iron-localstorage>
-
 		<qb-core-router
 			entry="{{programId}}">
 		</qb-core-router>
@@ -48,9 +43,9 @@
 		<qb-core-auth
 			id="auth"
 			self="{{auth}}"
-			auth-url="[[authUrl]]"
 			api-url="[[apiUrl]]"
-			client-id="[[clientId]]">
+			client-id="[[clientId]]"
+			user="{{user}}">
 		</qb-core-auth>
 
 		<qb-core-node-definitions
@@ -139,7 +134,6 @@
 			clientId: String,
 			chromeWebstoreId: String,
 			compilerUrl: String,
-			authUrl: String,
 			apiUrl: String,
 			homeUrl: String,
 			programAppUrl: String,

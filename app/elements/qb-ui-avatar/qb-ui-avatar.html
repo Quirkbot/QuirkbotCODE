@@ -82,10 +82,6 @@
 			}
 
 		</style>
-		<iron-localstorage
-			name="qb-user"
-			value="{{user}}">
-		</iron-localstorage>
 
 		<template
 			is="dom-if"
@@ -100,7 +96,7 @@
 				<paper-button
 					class="button main-button dropdown-trigger">
 					<iron-icon
-						icon="[[resolveIconName('user', 'qb-user')]]">
+						icon="[[resolveIconName('user', 'qb-icons')]]">
 					</iron-icon><div class="label">[[user.nickname]]</div>
 				</paper-button>
 				<paper-menu class="dropdown-content">
@@ -108,7 +104,7 @@
 						<paper-button
 							class="button">
 							<iron-icon
-								icon="[[resolveIconName('profile', 'qb-user')]]">
+								icon="[[resolveIconName('profile', 'qb-icons')]]">
 							</iron-icon><qb-core-i18n
 								key="ide/avatar/profile">
 							</qb-core-i18n>
@@ -118,7 +114,7 @@
 						class="button"
 						on-tap="logout">
 						<iron-icon
-							icon="[[resolveIconName('logout', 'qb-user')]]">
+							icon="[[resolveIconName('logout', 'qb-icons')]]">
 						</iron-icon><qb-core-i18n
 							key="ide/avatar/logout">
 						</qb-core-i18n>
@@ -135,7 +131,7 @@
 				<paper-button
 					class="button main-button dropdown-trigger">
 					<iron-icon
-						icon="[[resolveIconName('login', 'qb-user')]]">
+						icon="[[resolveIconName('login', 'qb-icons')]]">
 					</iron-icon><div class="label">
 						<qb-core-i18n
 							key="ide/avatar/login">

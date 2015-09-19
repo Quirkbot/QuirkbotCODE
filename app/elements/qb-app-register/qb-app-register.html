@@ -28,15 +28,9 @@
 
 		<qb-core-auth
 			id="auth"
-			auth-url="[[authUrl]]"
 			api-url="[[apiUrl]]"
 			client-id="[[clientId]]">
 		</qb-core-auth>
-
-		<iron-localstorage
-			name="qb-user"
-			value="{{user}}">
-		</iron-localstorage>
 
 		<h2>
 			<paper-button
@@ -82,30 +76,17 @@
 	window.Quirkbot.AppRegister = Polymer({
 		is: 'qb-app-register',
 		properties: {
-			locale: {
-				type: String,
-				value: 'en_US'
-			},
-			clientId: {
-				type: String,
-				value: 'YWJjMTphc2Q='
-			},
-			authUrl: {
-				type: String,
-				value: 'http://localhost:8585/auth'
-			},
-			userAppUrl: {
-				type: String,
-				value: 'http://code.quirkbot.com/user'
-			},
-			apiUrl: {
-				type: String,
-				value: 'http://localhost:8585'
-			},
-			stringsUrl: {
-				type: String,
-				value: 'data/strings/{{locale}}.json'
-			},
+			locale: String,
+			clientId: String,
+			chromeWebstoreId: String,
+			compilerUrl: String,
+			apiUrl: String,
+			homeUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			nodesUrl: String,
+			stringsUrl: String,
 			user: {
 				type: Object
 			}
@@ -123,54 +104,18 @@
 		_onLoginCallToActionTap: function () {
 			this.$['login-container'].toggle();
 		},
-		_onRegistrationResponse: function(e){
+		_onRegistrationResponse: function(){
 			this.$.registration.loading = true;
-			this.user = e.detail;
 			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password)
 			.then(this._goToProfile.bind(this));
 		},
 		_onLoginSubmit: function(){
 			this.$.login.loading = true;
-			this._nickname = this.$.login.nickname;
-
-			// Try to authenticate directly, but if there is an error, use it
-			// for feeback on the login form
-			var onSuccess = function () {
-				this.$.auth.removeEventListener('authenticate', onSuccess);
-				this.$.auth.removeEventListener('authenticate-error', onError);
-			}.bind(this);
-			var onError = function (e) {
-				this.$.auth.removeEventListener('authenticate', onSuccess);
-				this.$.auth.removeEventListener('authenticate-error', onError);
-				this.$.login.loading = false;
-				this.$.login.errorCode = e.detail.code;
-			}.bind(this);
-			this.$.auth.addEventListener('authenticate', onSuccess);
-			this.$.auth.addEventListener('authenticate-error', onError);
-
-
 			this.$.auth.authenticate(this.$.login.nickname, this.$.login.password)
-			.then(function(){
-				return this._getUserByNickname(this.$.login.nickname);
-			}.bind(this))
-			.then(function(user){
-				this.user = user;
-				return this._getUserByNickname(this.$.login.nickname);
-			}.bind(this))
-			.then(this._goToProfile.bind(this));
-		},
-		_getUserByNickname: function(nickname){
-			return new Promise(function(resolve, reject){
-				this.$.auth.apiCall('GET', 'user/?nickname=' + nickname)
-				.then(function (users) {
-					if(users.length === 1){
-						resolve(users[0]);
-					}
-					else{
-						reject('Strange result getting user');
-					}
-				}.bind(this))
-				.catch(reject)
+			.then(this._goToProfile.bind(this))
+			.catch(function(e){
+				this.$.login.loading = false;
+				this.$.login.errorCode = e.code;
 			}.bind(this));
 		},
 		_goToProfile: function(){
@@ -178,7 +123,7 @@
 			if (url.charAt(url.length - 1) === '/') {
 				url = url.substr(0, url.length - 1);
 			}
-			window.location = url + '#/' + this.user.nickname;
+			window.location = url + '#/' + this.$.auth.user.nickname;
 		},
 		_resolveApiUrl: function(url, path){
 			if (url.charAt(url.length - 1) === '/') {
