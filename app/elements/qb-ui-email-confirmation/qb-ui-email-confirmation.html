@@ -33,7 +33,7 @@
 
 		<paper-toast
 			id="emailConfirmationNotice"
-			duration="99999999999">
+			duration="30000">
 			<iron-icon
 				icon="[[resolveIconName('info', 'qb-icons')]]">
 			</iron-icon>
@@ -118,7 +118,7 @@
 		},
 		_openDialog: function () {
 			this.$.dialog.open();
-			this.debounce('open dialog', this.$.dialog.notifyResize.bind(this.$.dialog), 1000);
+			this.debounce('open dialog', this.$.dialog.notifyResize.bind(this.$.dialog), 3000);
 		},
 		_onConfirmTap: function () {
 			this.fire('resend-confirmation-requested');
