@@ -6,7 +6,7 @@
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
 
-<dom-module id='qb-ui-email-confirmation'>
+<dom-module id='qb-ui-account-verification-reminder'>
 
 	<template>
 		<style include="qb-dialog-styles"></style>
@@ -32,17 +32,17 @@
 
 
 		<paper-toast
-			id="emailConfirmationNotice"
+			id="emailVerificationNotice"
 			duration="30000">
 			<iron-icon
 				icon="[[resolveIconName('info', 'qb-icons')]]">
 			</iron-icon>
 			<qb-core-i18n
-				key="ide/email-confirmation/reminder"></qb-core-i18n>
+				key="ide/account-verification/reminder"></qb-core-i18n>
 			<span class="more-info">
 				<qb-core-i18n
 					role="button" tabindex="0"
-					key="ide/email-confirmation/reminder/more-info"
+					key="ide/account-verification/reminder/more-info"
 					on-tap="_openDialog"></qb-core-i18n>
 			</span>
 		</paper-toast>
@@ -56,20 +56,20 @@
 			<h2
 				class="dialog-header">
 				<qb-core-i18n
-					key="ide/email-confirmation/dialog/header"></qb-core-i18n>
+					key="ide/account-verification/dialog/header"></qb-core-i18n>
 			</h2>
 
 			<div
 				class="dialog-content">
 				<h3 class="header">
 					<qb-core-i18n
-						key="ide/email-confirmation/dialog/title"></qb-core-i18n>
+						key="ide/account-verification/dialog/title"></qb-core-i18n>
 
 				</h3>
 				<div class="user-email">[[user.email]]</div>
 
 				<qb-core-i18n
-					key="ide/email-confirmation/dialog/description"></qb-core-i18n>
+					key="ide/account-verification/dialog/description"></qb-core-i18n>
 			</div>
 
 			<div
@@ -77,13 +77,13 @@
 				<paper-button
 					dialog-dismiss>
 					<qb-core-i18n
-						key="ide/email-confirmation/dialog/cancel"></qb-core-i18n>
+						key="ide/account-verification/dialog/cancel"></qb-core-i18n>
 				</paper-button>
 				<paper-button
 					dialog-confirm
 					on-tap='_onConfirmTap'>
 					<qb-core-i18n
-						key="ide/email-confirmation/dialog/continue"></qb-core-i18n>
+						key="ide/account-verification/dialog/continue"></qb-core-i18n>
 				</paper-button>
 			</div>
 
@@ -95,8 +95,8 @@
 <script>
 (function () {
 	window.Quirkbot = window.Quirkbot || {};
-	window.Quirkbot.UIEmailConfirmation = Polymer({
-		is: 'qb-ui-email-confirmation',
+	window.Quirkbot.UIAccountVerificationReminder = Polymer({
+		is: 'qb-ui-account-verification-reminder',
 		properties: {
 			user: {
 				type: Object
@@ -106,14 +106,14 @@
 			window.Quirkbot.UtilsBehavior
 		],
 		observers:[
-			'_computeEmailConfirmationNotice(user.confirmedEmail)'
+			'_displayToast(user.confirmedEmail)'
 		],
-		_computeEmailConfirmationNotice: function (confirmed) {
+		_displayToast: function (confirmed) {
 			if(confirmed){
-				this.$.emailConfirmationNotice.hide();
+				this.$.emailVerificationNotice.hide();
 			}
 			else{
-				this.debounce('emailConfirmationNotice.show',this.$.emailConfirmationNotice.show.bind(this.$.emailConfirmationNotice), 1000);
+				this.debounce('emailVerificationNotice.show',this.$.emailVerificationNotice.show.bind(this.$.emailVerificationNotice), 1000);
 			}
 		},
 		_openDialog: function () {
@@ -121,7 +121,7 @@
 			this.debounce('open dialog', this.$.dialog.notifyResize.bind(this.$.dialog), 3000);
 		},
 		_onConfirmTap: function () {
-			this.fire('resend-confirmation-requested');
+			this.fire('resend-verification-requested');
 		}
 	});
 })();

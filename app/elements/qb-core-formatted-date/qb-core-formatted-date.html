@@ -1,0 +1,25 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../qb-core-formatted-date/moment/moment.html">
+
+<dom-module id="qb-core-formatted-date">
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreFormattedDate = Polymer({
+		is: 'qb-core-formatted-date',
+		properties: {
+			raw: {
+				type: String
+			},
+			formated:{
+				type: String,
+				computed: '_computeFormated'
+			}
+		},
+		_computeFormated: function(raw){
+			return raw;
+		}
+	});
+})();
+</script>

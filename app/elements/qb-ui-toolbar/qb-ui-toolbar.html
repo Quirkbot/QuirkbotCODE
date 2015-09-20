@@ -9,16 +9,18 @@
 <link rel="import" href="../qb-ui-avatar/qb-ui-avatar.html">
 <link rel="import" href="../qb-ui-input-text/qb-ui-input-text.html">
 <link rel="import" href="../qb-ui-toolbar-button/qb-ui-toolbar-button.html">
-<link rel="import" href="../qb-ui-toolbar-status-indicator/qb-ui-toolbar-status-indicator.html">
+<link rel="import" href="../qb-ui-status-indicator/qb-ui-status-indicator.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container-styles.html">
 
 <dom-module id='qb-ui-toolbar'>
 
 	<template>
-		<style include="qb-app-page-styles"></style>
+		<style include="qb-app-container-internal-styles"></style>
 		<style>
-
 			:host{
-
+				display: block;
+				min-height: 0;
+				flex-direction: column;
 			}
 			.name {
 				margin-right: 5px;
@@ -29,7 +31,8 @@
 			value="{{_ideName}}"
 			hidden>Quirkbot CODE</qb-core-i18n>
 
-		<paper-toolbar>
+		<paper-toolbar
+			class="app-header">
 			<iron-image
 				class="quirkbot-logo"
 				sizing="contain"
@@ -69,10 +72,10 @@
 				value="{{model.name}}">
 			</qb-ui-input-text>
 
-			<qb-ui-toolbar-status-indicator
+			<qb-ui-status-indicator
 				hidden$="[[_hideStatus]]"
 				state="[[processingStatus]]">
-			</qb-ui-toolbar-status-indicator>
+			</qb-ui-status-indicator>
 
 			<qb-ui-toolbar-button
 				hidden$="[[_hideAddToProfile]]"

@@ -65,89 +65,6 @@
 	</template>
 </dom-module>
 
-<dom-module id="qb-app-page-styles">
-	<template>
-		<style>
-			paper-header-panel{
-				@apply(--layout-fit);
-			}
-			paper-toolbar{
-				background-color: var(--qb-blue-transparent);
-			}
-			.quirkbot-logo{
-				margin-left: 24px;
-				margin-top: 0;
-				width: 153px;
-				height: 64px;
-			}
-			.editor-mode {
-				background-color: var(--qb-grey-light-transparent);
-				border-radius: 10px;
-				padding: 7px 10px;
-				margin-left: 15px;
-				z-index: 1;
-				color: var(--qb-black);
-			}
-			.editor-mode.with-controls {
-				font-size: 14px;
-				margin: 42px 0 0 20px;
-			}
-			.editor-mode .code {
-				width: 87px;
-				height: 34px;
-			}
-			.editor-mode.with-controls .code {
-				width: 116px;
-				height: 46px;
-			}
-			.editor-mode .controls{
-				padding: 0 5px;
-				margin-top: 9px;
-				cursor: pointer;
-			}
-			.editor-mode paper-toggle-button{
-				cursor: pointer;
-				margin: 3px 10px;
-				padding: 0;
-				--paper-toggle-button-unchecked-button-color: var(--qb-yellow);
-				--paper-toggle-button-checked-button-color: var(--qb-yellow);
-				--paper-toggle-button-unchecked-bar-color:  var(--qb-blue-transparent);
-				--paper-toggle-button-checked-bar-color:  var(--qb-pink-transparent);
-				--paper-toggle-button-unchecked-ink-color:  var(--qb-pink-transparent);
-				--paper-toggle-button-checked-ink-color:  var(--qb-pink-transparent);
-
-				--paper-toggle-button-unchecked-button:{
-					box-shadow: 0 0 0 3px var(--qb-pink-transparent) !important;
-					top: -2px !important;
-					height: 18px !important;
-					width: 18px !important;
-				};
-				--paper-toggle-button-unchecked-bar:{
-					opacity: 1 !important;
-				};
-			}
-			.app-main{
-				@apply(--layout-fit);
-				background-color:  var(--qb-grey-light-transparent);
-			}
-			.app-content{
-				/*@apply(--layout-flex);*/
-				padding: 20px;
-				min-width: 50em;
-				max-width: 50em;
-				min-height: 60%;
-				margin: 20px auto;
-				border-radius: 10px;
-				background-color:  var(--qb-white);
-			}
-			.app-footer{
-				background-color: var(--qb-pink-transparent);
-				min-height: 10em;
-			}
-		</style>
-	</template>
-</dom-module>
-
 <dom-module id="qb-form-input-styles">
 	<template>
 		<style>
@@ -296,6 +213,12 @@
 :root {
 	--paper-progress-container:{
 		border-radius: 999px;
+	};
+	--paper-button: {
+		text-transform: none;
+		padding: 1em;
+		padding: 0.1em 0.5em;
+		border-radius: 10px;
 	};
 
 }

@@ -27,8 +27,12 @@
 
 	<link rel="manifest" href="./manifest.json">
 
-
 	<!--<link rel="stylesheet" href="./styles/main.css">-->
+
+	<script>
+		window.Polymer = window.Polymer || {};
+		window.Polymer.dom = 'shadow';
+	</script>
 
 	<!-- will be replaced with ./bower_components/webcomponentsjs/webcomponents-lite.min.js-->
 	<script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
@@ -37,11 +41,12 @@
 	<!-- will be replaced with elements/elements.vulcanized.html -->
 	<link rel="import" href="./elements/elements.html">
 	<!-- endreplace -->
+
+
 </head>
 
 <body class="fullbleed layout vertical">
-
-	<qb-app-register
+	<qb-app-account-verification
 		locale="en"
 
 		client-id="YWJjMTphc2Q="
@@ -57,8 +62,7 @@
 
 		strings-url="./data/strings/{{locale}}.json"
 		nodes-url="./data/nodes.json">
-	</qb-app-register>
-
+	</qb-app-account-verification>
 </body>
 
 </html>

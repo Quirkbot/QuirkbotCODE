@@ -1,24 +1,54 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
-<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
-<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-auth/qb-core-auth.html">
 <link rel="import" href="../qb-core-router/qb-core-router.html">
-<link rel="import" href="../qb-ui-email-confirmation/qb-ui-email-confirmation.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
+<link rel="import" href="../qb-ui-account-verification-reminder/qb-ui-account-verification-reminder.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
-<link rel="import" href="../qb-ui-avatar/qb-ui-avatar.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container-styles.html">
+
 
 <dom-module id='qb-app-user'>
 	<template>
-		<style include="qb-app-page-styles"></style>
+		<style include="qb-app-container-styles"></style>
 		<style>
-			:host{
+			.user-header{
+				text-align: center;
+				@apply(--layout-horizontal);
+				@apply(--layout-center-justified);
+				margin-bottom: 1rem;
+			}
+			.user-header .icon{
 				display: block;
+				--iron-icon-width: 4rem;
+				--iron-icon-height: 4rem;
+			}
+			.user-header .label{
+				display: block;
+				color: var(--qb-pink);
+				font-size: 2.5rem;
+				margin-left: 0.5rem;
+			}
+			.description{
+				text-align: center;
+			}
+			.description .label{
+				font-weight: bold;
+				font-size: 1.5rem;
+			}
+			.new-program-button{
+				background: var(--qb-green);
+			    color: var(--qb-white);
+			}
+			.program-item{
+				border-radius: 10px;
+				border: 1px solid var(--qb-grey-light-transparent);
+				padding: 10px 20px;
 			}
 
 		</style>
@@ -41,112 +71,112 @@
 			on-authenticate-error="_onAutheticateError">
 		</qb-core-auth>
 
-		<paper-header-panel
-			mode="scroll">
-			<paper-toolbar>
-				<iron-image
-					class="quirkbot-logo"
-					sizing="contain"
-					src="[[resolveUrl('../../images/logo/white-outline.svg')]]">
-				</iron-image>
+		<qb-ui-app-container
+			home-url="[[homeUrl]]"
+			register-app-url="[[registerAppUrl]]"
+			user-app-url="[[userAppUrl]]"
+			program-app-url="[[programAppUrl]]"
+			user="[[user]]">
 
-				<div class="editor-mode layout vertical">
-					<iron-image
-						class="code"
-						sizing="contain"
-						src="[[resolveUrl('../../images/logo/code.svg')]]">
-					</iron-image>
+			<div class="content">
+				<template
+					is="dom-if"
+					if="[[_notAuthenticated]]">
+					<div class="user-header">
+						<iron-icon
+							class="icon"
+							icon="[[resolveIconName('denied', 'qb-icons')]]">
+						</iron-icon>
+						<span class="label"><qb-core-i18n
+							key="ide/user/forbidden/title"></span>
+					</div>
+					<div class="description">
+						<qb-core-i18n
+							key="ide/user/forbidden/description"></qb-core-i18n>
+					</div>
+				</template>
+				<template
+					is="dom-if"
+					if="[[!_notAuthenticated]]">
 
-				</div>
+					<qb-ui-account-verification-reminder
+						user="[[user]]"
+						on-resend-verification-requested='_resendVerification'>
+					</qb-ui-account-verification-reminder>
 
-				<div class="flex"></div>
-
-				<qb-ui-avatar
-					home-url="[[homeUrl]]"
-					register-app-url="[[registerAppUrl]]"
-					user-app-url="[[userAppUrl]]"
-					program-app-url="[[programAppUrl]]"
-					user="[[user]]">
-				</qb-ui-avatar>
-			</paper-toolbar>
-			<div class="app-main">
-				<div class="app-content">
 					<template
 						is="dom-if"
-						if="[[_notAuthenticated]]">
-						<h1>
+						if="[[_userNotFound]]">
+						<div class="user-header">
+							<iron-icon
+								class="icon"
+								icon="[[resolveIconName('question-mark', 'qb-icons')]]">
+							</iron-icon>
+							<span class="label"><qb-core-i18n
+								key="ide/user/not-found/title"></span>
+						</div>
+						<div class="description">
 							<qb-core-i18n
-								key="ide/user/forbidden/title"></qb-core-i18n>
-						</h1>
-						<div>
-							<qb-core-i18n
-								key="ide/user/forbidden/description"></qb-core-i18n>
+								key="ide/user/not-found/description"></qb-core-i18n>
 						</div>
 					</template>
+
 					<template
 						is="dom-if"
-						if="[[!_notAuthenticated]]">
+						if="[[!_userNotFound]]">
 
-						<qb-ui-email-confirmation
-							user="[[user]]"
-							on-resend-confirmation-requested='_resendConfirmation'>
-						</qb-ui-email-confirmation>
+						<div class="user-header">
+							<iron-icon
+								class="icon"
+								icon="[[resolveIconName('user', 'qb-icons')]]">
+							</iron-icon>
+							<span class="label">[[_userModel.nickname]]</span>
+						</div>
 
-						<template
-							is="dom-if"
-							if="[[_userNotFound]]">
-							<h1>
-								<qb-core-i18n
-									key="ide/user/not-found/title"></qb-core-i18n>
-							</h1>
-							<div>
-								<qb-core-i18n
-									key="ide/user/not-found/description"></qb-core-i18n>
-							</div>
-						</template>
 
-						<template
-							is="dom-if"
-							if="[[!_userNotFound]]">
-							<h1>[[_userModel.nickname]]</h1>
-
-							<h2>
-								<qb-core-i18n
-									key="ide/user/programs/title"></qb-core-i18n>
-							</h2>
-
-							<template
-								is="dom-if"
-								if="[[!_programsModel.length]]">
-								<qb-core-i18n
-									key="ide/user/programs/empty"></qb-core-i18n>
-							</template>
-
-							<template
-								is="dom-repeat"
-								items="[[_programsModel]]">
-							</template>
-
+						<div class="description">
 							<template
 								is="dom-if"
 								if="[[_ownsProfile]]">
-								<a href="[[programAppUrl]]">
-									<paper-button>
-										<qb-core-i18n
-											key="ide/user/programs/create-new"></qb-core-i18n>
-									</paper-button>
-								</a>
+								<paper-button
+									class="new-program-button"
+									on-tap="_goToEmptyProgram">
+									<iron-icon
+										class="icon"
+										icon="[[resolveIconName('add', 'qb-icons')]]">
+									</iron-icon>
+									<qb-core-i18n
+										key="ide/user/programs/create-new"></qb-core-i18n>
+								</paper-button>
 							</template>
+
+							<template
+								is="dom-if"
+								if="[[!_ownsProfile]]">
+								<template
+									is="dom-if"
+									if="[[!_programsModel.length]]">
+									<qb-core-i18n
+										key="ide/user/programs/empty"></qb-core-i18n>
+								</template>
+							</template>
+
+						</div>
+
+
+						<template
+							is="dom-repeat"
+							items="[[_programsModel]]">
+							<div class="program-item">
+								<div>[[item.name]]</div>
+								<div>[[_formatDate(item.updatedAt)]]</div>
+							</div>
 						</template>
+
 					</template>
-				</div>
-				<div class="app-footer">
-					Footer
-				</div>
+				</template>
 			</div>
-
-		</paper-header-panel>
-
+		</qb-ui-app-container>
 	</template>
 </dom-module>
 
@@ -155,6 +185,9 @@
 	window.Quirkbot = window.Quirkbot || {};
 	window.Quirkbot.AppUser = Polymer({
 		is: 'qb-app-user',
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
 		properties: {
 			locale: String,
 			clientId: String,
@@ -234,6 +267,14 @@
 			}
 
 			return user.id === _userModel.id;
+		},
+		_goToEmptyProgram: function () {
+			window.location = this.programAppUrl;
+		},
+		_formatDate: function (date) {
+			//var d = new Date(date);
+			//return d.getDate() + 
+			return new Date(date);
 		}
 	});
 })();

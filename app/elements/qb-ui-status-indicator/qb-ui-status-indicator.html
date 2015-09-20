@@ -9,7 +9,7 @@
 
 <link rel="import" href="../qb-ui-toolbar-button/qb-ui-toolbar-button-styles.html">
 
-<dom-module id='qb-ui-toolbar-status-indicator'>
+<dom-module id='qb-ui-status-indicator'>
 
 	<template>
 		<style include="qb-ui-toolbar-button-styles"></style>
@@ -55,8 +55,8 @@
 			.circle.b {
 				background-color: var(--qb-blue-transparent);
 			}
-			:host([state="pending"]) .circle.a,
-			:host([state="pending"]) .circle.b {
+			.circle.a,
+			.circle.b {
 				-webkit-animation-duration: 2s;
   				-webkit-animation-name: slide;
 				-webkit-animation-iteration-count: infinite;
@@ -67,13 +67,19 @@
 				animation-iteration-count: infinite;
 				animation-timing-function: linear;
 			}
-			:host([state="pending"]) .circle.a{
+			.circle.a{
 				-webkit-animation-direction: normal;
 				animation-direction: normal;
 			}
-			:host([state="pending"]) .circle.b{
+			.circle.b{
 				-webkit-animation-direction: reverse;
 				animation-direction: reverse;
+			}
+			:host([state="fail"]) .circle.a,
+			:host([state="fail"]) .circle.b,
+			:host([state="success"]) .circle.a,
+			:host([state="success"]) .circle.b{
+				animation-name: none;
 			}
 			:host([state="fail"]) .circle.b {
 				background-color: var(--qb-pink-transparent);
@@ -85,7 +91,7 @@
 				0% { -webkit-transform: translate3d(0,0,0); }
 				25% { -webkit-transform: translate3d(7px,0,0) scale3d(0.7,0.7,1); }
 				50% { -webkit-transform: translate3d(0,0,0); }
-				75% { -webkit-transform: translate3d(-7,0,0) scale3d(0.7,0.7,1); }
+				75% { -webkit-transform: translate3d(-7px,0,0) scale3d(0.7,0.7,1); }
 				100% { -webkit-transform: translate3d(0,0,0); }
 			}
 			@keyframes slide {
@@ -106,10 +112,10 @@
 				</iron-icon>
 			</div>
 
-			<paper-tooltip hidden$="[[!tooltipKey]]">
+			<!--<paper-tooltip hidden$="[[!tooltipKey]]">
 				<qb-core-i18n
 					key="[[tooltipKey]]"></qb-core-i18n>
-			</paper-tooltip>
+			</paper-tooltip>-->
 		</div>
 
 	</template>
@@ -118,8 +124,8 @@
 <script>
 (function () {
 	window.Quirkbot = window.Quirkbot || {};
-	window.Quirkbot.UIToolbarStatusIndicator = Polymer({
-		is: 'qb-ui-toolbar-status-indicator',
+	window.Quirkbot.UIStatusIndicator = Polymer({
+		is: 'qb-ui-status-indicator',
 		properties: {
 			state: {
 				type: String,

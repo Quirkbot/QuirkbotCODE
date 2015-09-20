@@ -1,0 +1,49 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<dom-module id='qb-ui-notice'>
+	<style>
+		:host{
+			display: block;
+			font-size: 12px;
+			line-height: 18px;
+			font-style: normal;
+		}
+		.wrapper{
+			margin: 10px -10px;
+			padding: 10px 15px;
+			border-radius: 10px;
+		}
+		.wrapper[error]{
+			color: var(--qb-red);
+			background-color: var(--qb-red-soft-transparent);
+			border: solid  1px var(--qb-red-soft-transparent);
+		}
+		.wrapper:not([error]){
+			color: var(--qb-black);
+			background-color: var(--qb-yellow-soft-transparent);
+			border: solid  1px var(--qb-yellow-transparent);
+		}
+	</style>
+
+	<template>
+		<div class="wrapper" error$="{{error}}">
+			<content></content>
+		</div>
+	</template>
+
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINotice = Polymer({
+		is: 'qb-ui-notice',
+		properties:{
+			error: {
+				type: Boolean,
+				value: false
+			}
+		}
+	});
+})();
+</script>

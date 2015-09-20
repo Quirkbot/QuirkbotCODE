@@ -1,5 +1,5 @@
 {
-	"locale/name" : "American English",
+	"locale/name" : "English",
 
 	"IDE ----------------------------------------------------------------" : "",
 	"ide/name": 	"Quirkbot CODE",
@@ -7,28 +7,31 @@
 	"ide/editor/visual": 	"Visual",
 	"ide/editor/text": 		"Text",
 	"ide/node/disconnect": "disconnect",
-	"ide/email-confirmation/reminder": "Your account is not verified, plase check your email for instructions.",
-	"ide/email-confirmation/reminder/more-info": "More information",
-	"ide/email-confirmation/dialog/header": "Account verification",
-	"ide/email-confirmation/dialog/title": "Please click on the confirmation link we sent to:",
-	"ide/email-confirmation/dialog/description": "Only verified accounts can save and browse CODE.<br><br><b>Can't find the confirmation message?</b><br><ul><li>Wait for ten minutes. The message may take a while to arrive.</li><li>Check your spam folder.<li>Still can't find it? Resend the confirmation.</li></ul>",
-	"ide/email-confirmation/dialog/cancel": "Close",
-	"ide/email-confirmation/dialog/continue": "Resend confirmation",
+	"ide/account-verification/reminder": "Your account is not verified, plase check your email for instructions.",
+	"ide/account-verification/reminder/more-info": "More information",
+	"ide/account-verification/dialog/header": "Account verification",
+	"ide/account-verification/dialog/title": "Please click on the link we sent to:",
+	"ide/account-verification/dialog/description": "Only verified accounts can save and browse CODE.<br><br><b>Can't find the verification message?</b><br><ul><li>Wait for ten minutes. The message may take a while to arrive.</li><li>Check your spam folder.<li>Still can't find it? Resend the verification.</li></ul>",
+	"ide/account-verification/dialog/cancel": "Close",
+	"ide/account-verification/dialog/continue": "Resend verification",
+	"ide/account-verification/page/title": "Account verification",
+	"ide/account-verification/page/description": "Please wait while we verify your account.",
 
 	"AVATAR -------------------------------------------------------------" : "",
 	"ide/avatar/login": "Login",
 	"ide/avatar/logout": "Logout",
-	"ide/avatar/profile": "View profile",
+	"ide/avatar/profile": "Go to profile",
+	"ide/avatar/new-program": "Create new CODE",
 
 	"USER ---------------------------------------------------------------" : "",
 	"ide/user/forbidden/title": "Access denied.",
 	"ide/user/forbidden/description": "You can only access a user profile if you are logged in.",
 
-	"ide/user/not-found/title": "User not found.",
+	"ide/user/not-found/title": "User not found",
 	"ide/user/not-found/description": "We couldn't find the user you are looking for.",
 
 	"ide/user/programs/title": "CODEs",
-	"ide/user/programs/empty": "No CODE created.",
+	"ide/user/programs/empty": "This user hasn't created any CODE yet.",
 	"ide/user/programs/create-new": "Create new CODE",
 
 	"IDE - Toolbar ------------------------------------------------------" : "",

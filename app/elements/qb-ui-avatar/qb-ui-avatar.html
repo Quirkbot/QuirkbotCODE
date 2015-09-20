@@ -54,6 +54,7 @@
 			}
 			paper-menu .button iron-icon{
 				color: var(--qb-black);
+				margin-right: 0.3rem;
 			}
 
 			.button{
@@ -73,6 +74,7 @@
 			.main-button .label{
 				color: var(--qb-pink);
 				display: inline-block;
+				margin-left: 5px;
 				margin-right: 5px;
 				line-height: 100%;
 				white-space: nowrap;
@@ -100,11 +102,21 @@
 					</iron-icon><div class="label">[[user.nickname]]</div>
 				</paper-button>
 				<paper-menu class="dropdown-content">
+					<a href="[[programAppUrl]]">
+						<paper-button
+							class="button">
+							<iron-icon
+								icon="[[resolveIconName('add', 'qb-icons')]]">
+							</iron-icon><qb-core-i18n
+								key="ide/avatar/new-program">
+							</qb-core-i18n>
+						</paper-button>
+					</a>
 					<a href="[[profileUrl]]">
 						<paper-button
 							class="button">
 							<iron-icon
-								icon="[[resolveIconName('profile', 'qb-icons')]]">
+								icon="[[resolveIconName('user', 'qb-icons')]]">
 							</iron-icon><qb-core-i18n
 								key="ide/avatar/profile">
 							</qb-core-i18n>

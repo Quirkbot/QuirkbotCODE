@@ -15,7 +15,7 @@
 
 <link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
 <link rel="import" href="../qb-ui-quirkbot-upload-item/qb-ui-quirkbot-upload-item.html">
-<link rel="import" href="../qb-ui-toolbar-status-indicator/qb-ui-toolbar-status-indicator.html">
+<link rel="import" href="../qb-ui-status-indicator/qb-ui-status-indicator.html">
 
 
 
@@ -43,7 +43,7 @@
 			iron-selector qb-ui-quirkbot-upload-item{
 				cursor: pointer;
 			}
-			qb-ui-toolbar-status-indicator{
+			qb-ui-status-indicator{
 				margin: 0 10px;
 				@apply(--layout-self-center);
 			}
@@ -131,9 +131,9 @@
 									</div>
 									<div
 										class="buttons">
-										<qb-ui-toolbar-status-indicator
+										<qb-ui-status-indicator
 											state="pending">
-										</qb-ui-toolbar-status-indicator>
+										</qb-ui-status-indicator>
 									</div>
 
 								</template>
@@ -317,9 +317,9 @@
 						<template
 							is="dom-if"
 							if="{{installingExtension}}">
-							<qb-ui-toolbar-status-indicator
+							<qb-ui-status-indicator
 								state="pending">
-							</qb-ui-toolbar-status-indicator>
+							</qb-ui-status-indicator>
 						</template>
 						<template
 							is="dom-if"

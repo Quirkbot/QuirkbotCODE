@@ -7,19 +7,15 @@
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-auth/qb-core-auth.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
 <link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
 <link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
 
 <dom-module id='qb-app-register'>
-	<style>
-		:host{
-			display: block;
-		}
-
-	</style>
 	<template>
+		<style include="qb-app-container-styles"></style>
 
 		<qb-core-i18n
 			url-format="[[stringsUrl]]"
@@ -29,41 +25,55 @@
 		<qb-core-auth
 			id="auth"
 			api-url="[[apiUrl]]"
-			client-id="[[clientId]]">
+			client-id="[[clientId]]"
+			user="{{user}}">
 		</qb-core-auth>
 
-		<h2>
-			<paper-button
-				on-tap='_onResgisterCallToActionTap'>
-				<qb-core-i18n
-					key="register/registration/call-to-action"></qb-core-i18n>
-			</paper-button>
-		</h2>
-		<iron-collapse
-			id='registration-container'>
-			<qb-ui-registration-form
-				id="registration"
-				action="[[_resolveApiUrl(apiUrl, 'user')]]">
-			</qb-ui-registration-form>
-		</iron-collapse>
+		<qb-ui-app-container
+			home-url="[[homeUrl]]"
+			register-app-url="[[registerAppUrl]]"
+			user-app-url="[[userAppUrl]]"
+			program-app-url="[[programAppUrl]]"
+			user="[[user]]">
+
+			<div class="content">
+				<h2>
+					<paper-button
+						on-tap='_onResgisterCallToActionTap'>
+						<qb-core-i18n
+							key="register/registration/call-to-action"></qb-core-i18n>
+					</paper-button>
+				</h2>
+				<iron-collapse
+					id='registration-container'>
+					<qb-ui-registration-form
+						id="registration"
+						action="[[_resolveApiUrl(apiUrl, 'user')]]">
+					</qb-ui-registration-form>
+				</iron-collapse>
 
 
-		<h2>
-			<paper-button
-				on-tap='_onLoginCallToActionTap'>
-				<qb-core-i18n
-					key="register/login/call-to-action"></qb-core-i18n>
-			</paper-button>
-		</h2>
-		<iron-collapse
-			id='login-container'>
-			<qb-ui-login-form
-				id="login"
-				cancel-submit
-				on-submit="_onLoginSubmit"
-				action="[[_resolveApiUrl(apiUrl, 'login')]]">
-			</qb-ui-login-form>
-		</iron-collapse>
+				<h2>
+					<paper-button
+						on-tap='_onLoginCallToActionTap'>
+						<qb-core-i18n
+							key="register/login/call-to-action"></qb-core-i18n>
+					</paper-button>
+				</h2>
+				<iron-collapse
+					id='login-container'>
+					<qb-ui-login-form
+						id="login"
+						cancel-submit
+						on-submit="_onLoginSubmit"
+						action="[[_resolveApiUrl(apiUrl, 'login')]]">
+					</qb-ui-login-form>
+				</iron-collapse>
+
+			</div>
+		</qb-ui-app-container>
+
+
 
 
 
@@ -87,9 +97,7 @@
 			userAppUrl: String,
 			nodesUrl: String,
 			stringsUrl: String,
-			user: {
-				type: Object
-			}
+			user: Object
 		},
 		listeners:{
 			'registration.response' : '_onRegistrationResponse',
