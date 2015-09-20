@@ -30,8 +30,8 @@
 	<!--<link rel="stylesheet" href="./styles/main.css">-->
 
 	<script>
-		window.Polymer = window.Polymer || {};
-		window.Polymer.dom = 'shadow';
+		//window.Polymer = window.Polymer || {};
+		//window.Polymer.dom = 'shadow';
 	</script>
 
 	<!-- will be replaced with ./bower_components/webcomponentsjs/webcomponents-lite.min.js-->
@@ -42,6 +42,42 @@
 	<link rel="import" href="./elements/elements.html">
 	<!-- endreplace -->
 
+	<!-- app shell -->
+	<style>
+		qb-app-account-verification:unresolved {
+			display: block;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top:0;
+			left:0;
+		}
+		.app-shell{
+			width: 100%;
+		}
+		#shell-header{
+			position: absolute !important;
+			top:0 !important;
+			height: 4rem !important;
+			background-color: rgba(0,173,239,0.5) !important;
+			border-radius: 0 !important;
+		}
+		#shell-main{
+			position: absolute !important;
+			top:4rem !important;
+			height: calc(100% - 14rem) !important;
+			background-color: rgba(221,221,221,0.5) !important;
+			border-radius: 0 !important;
+		}
+		#shell-footer{
+			position: absolute !important;
+			top: calc(100% - 10rem);
+			background-color: rgba(235,0,138, 0.5) !important;
+			height: 10rem !important;
+			border-radius: 0 !important;
+		}
+	</style>
+	<!-- end app shell -->
 
 </head>
 
@@ -62,6 +98,9 @@
 
 		strings-url="./data/strings/{{locale}}.json"
 		nodes-url="./data/nodes.json">
+		<div class="app-shell" id="shell-header"></div>
+		<div class="app-shell" id="shell-main"></div>
+		<div class="app-shell" id="shell-footer"></div>
 	</qb-app-account-verification>
 </body>
 
