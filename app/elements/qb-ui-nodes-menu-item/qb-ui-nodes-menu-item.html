@@ -103,13 +103,13 @@
 			this.set('data.element', this);
 		},
 		_computeNameKey: function(data) {
-			return 'node/name/' + data.definition._id;
+			return 'node/name/' + data.definition.id;
 		},
 		_nameChanged: function (name) {
 			this.set('data.name', name);
 		},
 		_computeIcon: function(data){
-			return this.resolveIconName(data.definition._id, 'qb-nodes');
+			return this.resolveIconName(data.definition.id, 'qb-nodes');
 		}
 	});
 })();

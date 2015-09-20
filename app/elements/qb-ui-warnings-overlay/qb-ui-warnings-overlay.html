@@ -17,33 +17,19 @@
 <link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
 
 <dom-module id='qb-ui-warnings-overlay'>
-	<style>
-
-		#dialog{
-			width: 300px;
-			border-radius: 10px;
-			--paper-dialog: {
-				box-shadow: none;
-			};
-		}
-		[dialog-dismiss]{
-			color: red;
-		}
-		[dialog-confirm],
-		[dialog-continue]{
-			color: green;
-		}
-
-
-
-	</style>
-
 	<template>
+		<style include="qb-dialog-styles"></style>
+		<style>
+			:host{
+
+			}
+		</style>
 		<paper-dialog
 			modal
 			no-cancel-on-esc-key
 			entry-animation="scale-up-animation"
 			exit-animation="fade-out-animation"
+			class="dialog"
 			id="dialog">
 			<h2
 				class="dialog-header">
@@ -53,7 +39,7 @@
 
 			<div
 				class="dialog-content">
-				<h3>
+				<h3 class="header">
 					<qb-core-i18n
 						key="{{headerKey}}"></qb-core-i18n>
 				</h3>
@@ -82,7 +68,11 @@
 							dialog-continue
 							on-tap='_onContinueTap'>
 							<qb-core-i18n
-								key="{{continueKey}}"></qb-core-i18n>
+								key="[[continueKey]]"></qb-core-i18n>
+							<qb-core-i18n
+								key="[[continueLinkKey]]"
+								value="{{continueLinkValue}}"
+								hidden></qb-core-i18n>
 						</paper-button>
 					</template>
 					<template
@@ -129,7 +119,7 @@
 			this._computeDialog(this.model.syncError, this.model.setupError, this.model.addToProfileError);
 		},
 		_computeDialog: function (sync, setup, addToProfile) {
-			this.debounce('_computeHasError', function () {
+			this.debounce('_computeDialog', function () {
 
 				if(sync){
 					this.currentErrorType = 'sync';
@@ -165,6 +155,7 @@
 					this.dismissKey = base + 'cancel';
 					this.continueKey = base + 'continue';
 					this.confirmKey = base + 'confirm';
+					this.continueLinkKey = base + 'continue/link';
 
 					switch (this.currentError) {
 						case 'setup/offline':
@@ -173,15 +164,21 @@
 							this.hasConfirm = false;
 							this.hasContinue = true;
 							break;
-						case 'sync/offline':
-								this.hasDismiss = false;
-								this.hasConfirm = true;
-								this.hasContinue = false;
-								break;
 						case 'setup/no-user':
+						case 'setup/forbidden':
+						case 'sync/AUTH_GRANT':
 							this.hasDismiss = true;
 							this.hasConfirm = false;
 							this.hasContinue = true;
+							break;
+
+						case 'sync/offline':
+						case 'sync/forbidden':
+						case 'sync/NOT_CONFIRMED':
+						case 'sync/CONNECTION_REFUSED':
+							this.hasDismiss = true;
+							this.hasConfirm = false;
+							this.hasContinue = false;
 							break;
 						default:
 							this.hasDismiss = false;
@@ -198,7 +195,12 @@
 			switch (this.currentError) {
 				case 'setup/offline':
 				case 'setup/not-found':
-					location.hash = '#/';
+					window.location.hash = '#/';
+					break;
+				case 'setup/no-user':
+				case 'setup/forbidden':
+				case 'sync/AUTH_GRANT':
+					window.location = this.continueLinkValue;
 					break;
 			}
 		}

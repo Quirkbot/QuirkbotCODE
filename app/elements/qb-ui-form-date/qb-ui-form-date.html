@@ -11,40 +11,14 @@
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 
 <dom-module id='qb-ui-form-date'>
-	<style>
-		:host{
-			display: block;
-
-		}
-		paper-dropdown-menu{
-			width: 75px;
-			--paper-dropdown-menu-button: {
-				padding: 0;
-				margin-right: 4px;
-			};
-			--paper-input-container-underline: {
-				visibility: hidden;
-			};
-			--paper-input-container-underline-focus: {
-				visibility: hidden;
-			};
-			--paper-input-container-underline-disabled: {
-				visibility: hidden;
-			};
-		}
-		paper-menu{
-			width: 75px;
-		}
-		paper-item {
-			--paper-item-min-height: 25px;
-		}
-		paper-item:nth-child(odd) {
-			background-color: rgba(0,0,0,0.05);
-		}
-
-
-	</style>
 	<template>
+		<style include="qb-form-input-styles"></style>
+		<style>
+			:host{
+				display: block;
+			}
+
+		</style>
 		<qb-core-i18n
 			key="[[_labelKey]]"
 			value="{{label}}"
@@ -167,7 +141,7 @@
 		<template
 			is="dom-if"
 			if="[[tip]]">
-			<paper-tooltip>[[tip]]</paper-tooltip>
+			<paper-tooltip offset="2px">[[tip]]</paper-tooltip>
 		</template>
 	</template>
 </dom-module>

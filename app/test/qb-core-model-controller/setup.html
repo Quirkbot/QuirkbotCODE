@@ -26,7 +26,7 @@
 	<test-fixture id="remote-program">
 		<template>
 			<qb-core-model-controller
-				_id="remote-id"
+				id="remote-id"
 				verbose="log">
 			</qb-core-model-controller>
 		</template>
@@ -75,7 +75,7 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "remote-id", "modifiedAt" : 100, "userId" : "user-a" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "remote-id", "modifiedAt" : 100, "author" : "user-a" }}'
 				]
 			);
 			server.respondWith(
@@ -84,7 +84,7 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "remote-id", "modifiedAt" : 100, "userId" : "user-a" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "remote-id", "modifiedAt" : 100, "author" : "user-a" }}'
 				]
 			);
 
@@ -94,12 +94,12 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "userId": "user-b" }}'
+					'{"status": "ok", "success": true, "result" : { "author": "user-b" }}'
 				]
 			);
 
 			window.localStorage.setItem('qb_user', JSON.stringify({
-				_id: 'user-a',
+				id: 'user-a',
 				programs : [
 					'remote-id',
 					'another-id'
@@ -241,7 +241,7 @@
 				firstSuccess = false;
 				assert.equal(event.detail, 'existing-program');
 				data.sync().catch(function(){})
-				data._id = 'another-id';
+				data.id = 'another-id';
 				data.addEventListener('setupError', function(event){
 					assert.equal(event.detail, 'busy');
 					done()

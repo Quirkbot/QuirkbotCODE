@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<title>Quirkbot CODE</title>
+	<meta property="og:title" content="Quirkbot CODE" />
+	<meta name="apple-mobile-web-app-title" content="Quirkbot CODE">
+	<meta name="application-name" content="Quirkbot CODE">
+
+	<meta property="og:image" content="http://code.quirkbot.com/_static/images/logo/og.png" />
+
+	<link rel="icon" href="./images/icon/favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="./images/icon/favicon.ico" type="image/x-icon"/>
+	<link rel="icon" sizes="192x192" href="./images/icon/chrome-touch-icon-192x192.png">
+	<link rel="apple-touch-icon" href="./images/icon/apple-touch-icon.png">
+	<meta name="msapplication-TileImage" content="./images/icon/ms-touch-icon-144x144-precomposed.png">
+
+	<meta name="theme-color" content="#000000">
+	<meta name="msapplication-TileColor" content="#000000">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<link rel="manifest" href="./manifest.json">
+
+
+	<!--<link rel="stylesheet" href="./styles/main.css">-->
+
+	<!-- will be replaced with ./bower_components/webcomponentsjs/webcomponents-lite.min.js-->
+	<script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<!-- endreplace -->
+
+
+	<!-- will be replaced with elements/elements.vulcanized.html -->
+	<link rel="import" href="./elements/elements.html" async>
+	<!-- endreplace -->
+
+	<!-- app shell -->
+	<style>
+		qb-app-user:unresolved {
+			display: block;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top:0;
+			left:0;
+		}
+		.app-shell{
+			width: 100%;
+		}
+		#shell-header{
+			position: absolute !important;
+			top:0 !important;
+			height: 4rem !important;
+			background-color: rgba(0,173,239,0.5) !important;
+			border-radius: 0 !important;
+		}
+		#shell-main{
+			position: absolute !important;
+			top:4rem !important;
+			height: calc(100% - 14rem) !important;
+			background-color: rgba(221,221,221,0.5) !important;
+			border-radius: 0 !important;
+		}
+		#shell-footer{
+			position: absolute !important;
+			top: calc(100% - 10rem);
+			background-color: rgba(235,0,138, 0.5) !important;
+			height: 10rem !important;
+			border-radius: 0 !important;
+		}
+	</style>
+	<!-- end app shell -->
+</head>
+
+<body class="fullbleed layout vertical">
+	<qb-app-user
+		locale="en"
+
+		client-id="YWJjMTphc2Q="
+		chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd"
+
+		compiler-url="https://quirkbot-compiler.herokuapp.com/"
+		api-url="http://ec2contai-ecselast-1aa8efo9kdp65-1013516278.us-east-1.elb.amazonaws.com/"
+
+		home-url="/"
+		program-app-url="/_static_program.html"
+		register-app-url="/_static_register.html"
+		user-app-url="/_static_user.html"
+
+		strings-url="./data/strings/{{locale}}.json"
+		nodes-url="./data/nodes.json">
+		<div class="app-shell" id="shell-header"></div>
+		<div class="app-shell" id="shell-main"></div>
+		<div class="app-shell" id="shell-footer"></div>
+	</qb-app-user>
+</body>
+
+</html>

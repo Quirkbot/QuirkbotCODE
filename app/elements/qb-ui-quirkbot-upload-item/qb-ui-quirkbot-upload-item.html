@@ -1,0 +1,96 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<dom-module id='qb-ui-quirkbot-upload-item'>
+	<style>
+		:host {
+			display: block;
+			border-radius: 10px;
+			padding: 8px;
+			box-sizing: border-box;
+			border: 1px solid var(--qb-blue-transparent);
+			font-style: normal;
+			@apply(--layout-horizontal);
+		}
+		:host(:hover){
+			background-color: var(--qb-blue-soft-transparent);
+		}
+		:host(.iron-selected),
+		:host(.selected),
+		:host(.active){
+			border-color: var(--qb-blue);
+			background-color: var(--qb-blue-soft-transparent);
+		}
+		:host(.uploaded){
+			border-color: var(--qb-green);
+			background-color: var(--qb-green-soft-transparent);
+		}
+		.icon{
+			@apply(--layout-self-center);
+			--iron-icon-width: 45px;
+			--iron-icon-height: 45px;
+		}
+		.info{
+			position: relative;
+			padding: 0 10px;
+			@apply(--layout-vertical);
+			@apply(--layout-flex);
+		}
+		.name{
+			font-size: 16px;
+		}
+		.id{
+			@apply(--qb-font-code);
+			font-size: 10px;
+			opacity: 0.5;
+		}
+		paper-progress {
+			width: 100%;
+			--paper-progress-container-color: var(--qb-white);
+			--paper-progress-active-color: var(--qb-blue);
+		}
+	</style>
+
+	<template>
+		<iron-icon
+			class="icon"
+			icon="[[resolveIconName('quirkbots', 'qb-toolbar-buttons')]]">
+		</iron-icon>
+		<div class="info">
+			<div class="name">
+				<span><qb-core-i18n
+				key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
+			<div class="id"><span><qb-core-i18n
+			key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>[[uuid]]</span></span></div>
+			<paper-progress
+				hidden$="[[!uploadProgress]]"
+				class="transiting"
+				value="[[uploadProgress]]">
+			</paper-progress>
+		</div>
+
+	</template>
+
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIQuirkbotUploadItem = Polymer({
+		is: 'qb-ui-quirkbot-upload-item',
+		properties:{
+			uuid: {
+				type: String
+			},
+			uploadProgress: {
+				type: Number,
+				value: 0
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		]
+	});
+})();
+</script>

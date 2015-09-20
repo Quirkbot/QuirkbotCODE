@@ -278,6 +278,18 @@ gulp.task('static-path', function () {
     .pipe(gulp.dest('static/_static'))
     .pipe($.size({title: 'static-path'}));
 });
+gulp.task('static-replace', function () {
+  return gulp.src(['static/_static/*.html'])
+    // Replace any referect to the html files to the correct folder
+    .pipe($.replace(/_static_([^.]*).html/g, '$1'))
+    .pipe(gulp.dest('static/_static'))
+    .pipe($.size({title: 'static-replace'}));
+});
+gulp.task('static-root-entrypoints', function () {
+    return gulp.src(['static/_static/index.html','static/_static/404.html'])
+      .pipe(gulp.dest('static'))
+      .pipe($.size({title: 'static-root-entrypoints'}));
+});
 gulp.task('static-entrypoints', function () {
   return gulp.src('static/_static/_static_*.html')
     .pipe($.rename(function (path) {
@@ -304,7 +316,9 @@ gulp.task('static', ['default'], function (cb) {
     'static-copy',
     'static-clean',
     'static-path',
+    'static-replace',
     'static-entrypoints',
+    'static-root-entrypoints',
     cb);
 });
 gulp.task('serve:static', ['static'], function () {

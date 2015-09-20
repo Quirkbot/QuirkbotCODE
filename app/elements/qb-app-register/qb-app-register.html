@@ -1,63 +1,138 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
+
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-auth/qb-core-auth.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
+<link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+<link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
 <link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
 <link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
 
-
-<!-- Platinum elements -->
-<!--
-<link rel="import" href="../bower_components/platinum-sw/platinum-sw-cache.html">
-<link rel="import" href="../bower_components/platinum-sw/platinum-sw-registration.html">
--->
-
 <dom-module id='qb-app-register'>
-	<style>
-		:host{
-			display: block;
-		}
-
-	</style>
 	<template>
+		<style include="qb-app-container-styles"></style>
+		<style>
+			.button-container{
+				text-align: center;
+			}
+			.button-container.main {
 
+			}
+			.button-container .button{
+				color: var(--qb-white);
+				min-height: 0;
+			}
+			.button-container.main .button{
+				font-size: 2rem;
+				border-radius: 1rem;
+				min-width: 13rem;
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+			}
+			.button-container .register{
+				background: var(--qb-pink-transparent);
+			}
+			.button-container .login{
+				background: var(--qb-blue-transparent);
+			}
+			.button-container .new-program{
+				background: var(--qb-green);
+
+			}
+			.button-container .new-program iron-icon{
+				--iron-icon-width: 2.5rem;
+				--iron-icon-height: 2.5rem;
+			}
+			.form{
+				margin-top	: 2rem;
+			}
+		</style>
 		<qb-core-i18n
-			url-format="{{stringsUrl}}"
-			locale="{{locale}}">
+			url-format="[[stringsUrl]]"
+			locale="[[locale]]">
 		</qb-core-i18n>
 
-		<h2>
-			<paper-button
-				on-tap='_onResgisterCallToActionTap'>
-				<qb-core-i18n
-					key="register/registration/call-to-action"></qb-core-i18n>
-			</paper-button>
-		</h2>
-		<iron-collapse
-			id='registration-container'>
-			<qb-ui-registration-form
-				action="[[usersApiUrl]]"
-				go-to="[[usersAppUrl]]">
-			</qb-ui-registration-form>
-		</iron-collapse>
+		<qb-core-auth
+			id="auth"
+			api-url="[[apiUrl]]"
+			client-id="[[clientId]]"
+			user="{{user}}">
+		</qb-core-auth>
+
+		<qb-ui-app-container
+			cover
+			home-url="[[homeUrl]]"
+			register-app-url="[[registerAppUrl]]"
+			user-app-url="[[userAppUrl]]"
+			program-app-url="[[programAppUrl]]"
+			user="[[user]]">
+
+			<div class="content">
+				<div class="button-container main">
+					<template
+						is="dom-if"
+						if="[[!user]]">
+						<paper-button
+							class="button register"
+							on-tap='_onResgisterCallToActionTap'>
+							<qb-core-i18n
+								key="register/registration/call-to-action"></qb-core-i18n>
+						</paper-button>
+						<paper-button
+							class="button login"
+							on-tap='_onLoginCallToActionTap'>
+							<qb-core-i18n
+								key="register/login/call-to-action"></qb-core-i18n>
+						</paper-button>
+					</template>
+					<template
+						is="dom-if"
+						if="[[user]]">
+						<a href="[[programAppUrl]]">
+							<paper-button
+								class="button new-program">
+								<iron-icon
+									class="icon"
+									icon="[[resolveIconName('add', 'qb-icons')]]">
+								</iron-icon>
+								<qb-core-i18n
+									key="ide/user/programs/create-new"></qb-core-i18n>
+							</paper-button>
+						</a>
+					</template>
+				</div>
+
+				<iron-collapse
+					id='registration-container'>
+					<qb-ui-registration-form
+						class="form"
+						id="registration"
+						action="[[_resolveApiUrl(apiUrl, 'user')]]">
+					</qb-ui-registration-form>
+				</iron-collapse>
 
 
-		<h2>
-			<paper-button
-				on-tap='_onLoginCallToActionTap'>
-				<qb-core-i18n
-					key="register/login/call-to-action"></qb-core-i18n>
-			</paper-button>
-		</h2>
-		<iron-collapse
-			id='login-container'>
-			<qb-ui-login-form
-				action="[[loginApiUrl]]"
-				>
-			</qb-ui-login-form>
-		</iron-collapse>
+				<iron-collapse
+					id='login-container'>
+					<qb-ui-login-form
+						id="login"
+						class="form"
+						cancel-submit
+						on-submit="_onLoginSubmit"
+						action="[[_resolveApiUrl(apiUrl, 'login')]]">
+					</qb-ui-login-form>
+				</iron-collapse>
+
+			</div>
+		</qb-ui-app-container>
+
+
 
 
 
@@ -69,37 +144,64 @@
 	window.Quirkbot = window.Quirkbot || {};
 	window.Quirkbot.AppRegister = Polymer({
 		is: 'qb-app-register',
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
 		properties: {
-			locale: {
-				type: String,
-				value: 'en_US'
-			},
-
-			usersAppUrl: {
-				type: String,
-				value: 'http://code.quirkbot.com/user/'
-			},
-			usersApiUrl: {
-				type: String,
-				value: 'http://localhost:8585/api/programs/'
-			},
-			loginApiUrl: {
-				type: String,
-				value: 'http://localhost:8585/api/login/'
-			},
-			stringsUrl: {
-				type: String,
-				value: 'data/strings/{{locale}}.json'
-			}
+			locale: String,
+			clientId: String,
+			chromeWebstoreId: String,
+			compilerUrl: String,
+			apiUrl: String,
+			homeUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			nodesUrl: String,
+			stringsUrl: String,
+			user: Object
+		},
+		listeners:{
+			'registration.response' : '_onRegistrationResponse',
+			'login.response' : '_onLoginResponse'
 		},
 		ready: function(){
 
 		},
 		_onResgisterCallToActionTap: function () {
+			this.$['login-container'].hide();
 			this.$['registration-container'].toggle();
 		},
 		_onLoginCallToActionTap: function () {
+			this.$['registration-container'].hide();
 			this.$['login-container'].toggle();
+		},
+		_onRegistrationResponse: function(){
+			this.$.registration.loading = true;
+			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password)
+			.then(this._goToProfile.bind(this));
+		},
+		_onLoginSubmit: function(){
+			this.$.login.loading = true;
+			this.$.auth.authenticate(this.$.login.nickname, this.$.login.password)
+			.then(this._goToProfile.bind(this))
+			.catch(function(e){
+				this.$.login.loading = false;
+				this.$.login.errorCode = e.code;
+			}.bind(this));
+		},
+		_goToProfile: function(){
+			var url = this.userAppUrl;
+			if (url.charAt(url.length - 1) === '/') {
+				url = url.substr(0, url.length - 1);
+			}
+			window.location = url + '#/' + this.$.auth.user.nickname;
+		},
+		_resolveApiUrl: function(url, path){
+			if (url.charAt(url.length - 1) === '/') {
+				url = url.substr(0, url.length - 1);
+			}
+			return url + '/' + path;
 		}
 
 	});

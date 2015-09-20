@@ -12,7 +12,7 @@
 			display: block;
 			overflow-y: scroll;
 			overflow-x: hidden;
-			padding: 2px 4px;
+			padding: 2px 8px;
 			box-sizing: border-box;
 			@apply(--layout-vertical);
 		}
@@ -76,7 +76,7 @@
 
 			this.categories = [];
 			taxonomyDefinitions.categories.forEach(function (definition) {
-				var nodes = nodesByCategory[definition._id];
+				var nodes = nodesByCategory[definition.id];
 				this.push('categories', {
 					definition: definition,
 					nodes: nodes
@@ -89,7 +89,7 @@
 				this.push('tags', {
 					definition: definition
 				});
-				this.push('selectedTags',definition._id);
+				this.push('selectedTags',definition.id);
 			}.bind(this));
 		},
 		_taxonomyPush: function (list, container, type) {

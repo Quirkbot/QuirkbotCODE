@@ -5,21 +5,24 @@
 	<style>
 		:host{
 			display: block;
-
+			font-size: 12px;
+			line-height: 18px;
+			font-style: normal;
 		}
 		.wrapper{
-			margin: 10px 5px;
+			margin: 10px -10px;
 			padding: 10px 15px;
-			border: solid 1px;
-			border-radius: 3px;
+			border-radius: 10px;
 		}
 		.wrapper[error]{
-			color: red;
-			background-color: rgba(255,0,0,0.05);
+			color: var(--qb-red);
+			background-color: var(--qb-red-soft-transparent);
+			border: solid  1px var(--qb-red-soft-transparent);
 		}
 		.wrapper:not([error]){
-			color: rgb(255,134,0);;
-			background-color: rgba(255,134,0,0.05);
+			color: var(--qb-black);
+			background-color: var(--qb-yellow-soft-transparent);
+			border: solid  1px var(--qb-yellow-transparent);
 		}
 	</style>
 

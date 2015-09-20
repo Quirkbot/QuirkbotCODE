@@ -16,11 +16,6 @@
 			value="{{_ideUntitledProgramName}}"
 			hidden>Untitled CODE</qb-core-i18n>
 
-		<iron-localstorage
-			name="qb_user"
-			value="{{user}}">
-		</iron-localstorage>
-
 		<iron-ajax
 			id="loader"
 			handle-as="json">
@@ -45,6 +40,9 @@
 			window.Quirkbot.SelfPropertyBehavior
 		],
 		properties: {
+			auth: {
+				type: Object
+			},
 			model: {
 				type: Object,
 				notify: true,
@@ -52,19 +50,19 @@
 					return {tree:[]};
 				}
 			},
-			_id: {
+
+			programId: {
 				type: String,
-				value: null,
 				reflectToAttribute: true,
 				notify: true,
-				observer: '__idChanged'
+				observer: '_programIdChanged'
 			},
 			user: {
-				type: Object,
-				observer: '_userChanged'
+				type: Object
 			},
-			api: {
-				type: String
+			userOwnsProgramLocally:{
+				type: Boolean,
+				value: false
 			},
 			verbose: {
 				type: String,
@@ -73,10 +71,21 @@
 			verboseStack: {
 				type: Boolean,
 				value: false
+			},
+			_modelHash: {
+				type: String,
+				observer: '_modelHashChanged'
+			},
+			processingStatus:{
+				type: String,
+				notify: true,
+				value: ''
 			}
 		},
 		observers: [
-			'_modelObserver(model.*)'
+			'_guaranteeProgramName(model.name)',
+			'_computeOwnership(model.author, user.id)',
+			'_versionChanged(model.version)'
 		],
 		listeners:{
 			'setupStart' : '_onSetupStart',
@@ -89,28 +98,34 @@
 			'addToProfileSuccess' : '_onAddToProfileSuccess',
 			'addToProfileError' : '_onAddToProfileError'
 		},
-		_modelObserver: function(){
-
-		//	console.log('_modelObserver ****************************************', JSON.stringify(this.model))
+		_guaranteeProgramName: function(name){
+			if(!name){
+				this.set('model.name', this._ideUntitledProgramName);
+			}
 		},
-		_userChanged: function(){
-		//	console.log('_userChanged', JSON.stringify(user))
+		_computeOwnership: function(authorId, userId){
+			if(authorId === userId){
+				this.userOwnsProgramLocally = true;
+			}
 		},
 		ready: function(){
 			/**
 			 * Set a global MODEL for debug
 			 */
 			window.MODEL = this;
+
+			// Start monitoring changes in the tree
+			this._updateModelHash();
 		},
-		setup: function(_id){
+		setup: function(programId){
 			var promise = function (resolve, reject) {
-				// Set the _id property
-				if(this._id !== _id){
-					this._id = _id;
+				// Set the programId property
+				if(this.programId !== programId){
+					this.programId = programId;
 				}
 
 				// ID same as the current model, nothing to do here
-				if(_id && (_id === this.model._id ) ){
+				if(programId && (programId === this.model.id ) ){
 					return resolve('nothing-to-do');
 				}
 
@@ -127,12 +142,12 @@
 				}
 
 				if(this.model && this.model.doingSetup){
-					this._log('warning', 'Trying to change the _id during the setup process. New _id will be stored and reapplied as soon as the setup process finishes.', _id);
-					this.pendingId = _id;
+					this._log('warning', 'Trying to change the programId during the setup process. New programId will be stored and reapplied as soon as the setup process finishes.', programId);
+					this.pendingId = programId;
 					return resolve('pending-id');
 				}
 
-				this.fire('setupStart', _id ? _id : '');
+				this.fire('setupStart', programId ? programId : '');
 
 
 
@@ -140,10 +155,10 @@
 				this._guaranteeUserExists()
 				.then(function(){
 					// User is logged in
-					if(!_id){
+					if(!programId){
 						// No program ID
 						this._createEmptyProgram()
-						.then(this._createNewId.bind(this))
+						//.then(this._createNewId.bind(this))
 						.then(function(){
 							this.fire('setupSuccess', 'new-program');
 							resolve('new-program');
@@ -154,7 +169,7 @@
 					this._loadRemotely()
 					.then(function(){
 						// Loaded. Check if user owns the program
-						this._guaranteeUserOwnsProgram()
+						this._guaranteeUserOwnsProgramLocally()
 						.then(function(){
 							// Yes, End of process
 							this.fire('setupSuccess', 'existing-program');
@@ -162,19 +177,18 @@
 						}.bind(this))
 						.catch(function(){
 							// User doesn't own the program
-							this._createNewId()
-							// End of process
-							.then(function(){
-								this.fire('setupSuccess', 'not-in-profile');
-								resolve('not-in-profile');
-							}.bind(this));
+							this.fire('setupSuccess', 'not-in-profile');
+							resolve('not-in-profile');
 						}.bind(this));
 					}.bind(this))
 					.catch(function(error){
 						// Could not load remotely, resolve correct error
 						var type;
-						if(error.errorCode === 1){
+						if(error.errorCode === 'PROGRAM_NOT_FOUND'){
 							type = 'not-found';
+						}
+						else if(error.errorCode === 'AUTH_GRANT' || error.errorCode === 'NOT_AUTHENTICATED' ){
+							type = 'forbidden';
 						}
 						else {
 							type = 'offline';
@@ -219,14 +233,22 @@
 					return;
 				}
 
-				this.fire('addToProfileStart', this._id);
+				this.fire('addToProfileStart', this.programId);
 
 				// Check if there is a user
 				this._guaranteeUserExists()
 				.then(function(){
 					console.log('user in');
-					// User is logged in
-					this.set('model.userId',this.user._id);
+
+					// Flag that now the user owns the progrma
+					this.userOwnsProgramLocally = true;
+					// Set the current id as the original id
+					this.set('model.original', this.model.id);
+					// Clear the original id
+					this.set('model.id', '');
+					// Set version to 0
+					this.set('model.version', 0);
+
 					this.fire('addToProfileSuccess', '');
 					resolve();
 				}.bind(this))
@@ -261,40 +283,57 @@
 					return;
 				}
 
-				this.fire('syncStart', this._id);
+				this.fire('syncStart', this.programId);
 
 				// Check if there is a user
 				this._guaranteeUserExists()
 				.then(function(){
 					// User exists, check if it owns the program
-					this._guaranteeUserOwnsProgram()
+					this._guaranteeUserOwnsProgramLocally()
 					.then(function(){
-						// User owns the sync with server
-						this._putRemotely()
-						.then(function(type){
-							this.fire('syncSuccess', type);
-							resolve(type);
-						}.bind(this))
-						.catch(function(error){
-							// Could not load remotely, resolve correct error
-							var type;
-							if(error.errorCode === 1){
-								type = 'forbidden';
-							}
-							else {
-								type = 'offline';
-							}
-							// Put failed
-							var rejectMessage = {
-								element: 'qb-core-model-controller',
-								method: 'sync',
-								message: 'Error trying to put data on server',
-								payload: arguments
-							};
-							this._log('error', rejectMessage);
-							this.fire('syncError', type);
-							reject(rejectMessage);
-						}.bind(this));
+						// Check if there is the model has an id...
+						if(this.model.id){
+							// There is an id: update
+							this._updateRemotely()
+							.then(function(type){
+								this.fire('syncSuccess', type);
+								resolve(type);
+							}.bind(this))
+							.catch(function(error){
+								// Put failed
+								var rejectMessage = {
+									element: 'qb-core-model-controller',
+									method: 'sync',
+									message: 'Error trying to update data on server',
+									payload: arguments
+								};
+								console.log(error.errorCode);
+								this._log('error', rejectMessage);
+								this.fire('syncError', error.errorCode);
+								reject(rejectMessage);
+							}.bind(this));
+						}
+						else{
+							// There is no id: create
+							this._createRemotely()
+							.then(function(type){
+								this.fire('syncSuccess', type);
+								resolve(type);
+							}.bind(this))
+							.catch(function(error){
+								// Put failed
+								var rejectMessage = {
+									element: 'qb-core-model-controller',
+									method: 'sync',
+									message: 'Error trying to create data on server',
+									payload: arguments
+								};
+								console.log(error.errorCode);
+								this._log('error', rejectMessage);
+								this.fire('syncError', error.errorCode);
+								reject(rejectMessage);
+							}.bind(this));
+						}
 					}.bind(this))
 					.catch(function(){
 						// No user
@@ -341,19 +380,79 @@
 		getRawModel: function () {
 			return this._modelToRawData(this.model);
 		},
-		__idChanged:function(_id){
-			this.async(function () {
-				this._log('log', {event: '__idChanged', detail: _id});
-				this.setup(_id)
+		_continuosSync: function () {
+			this.cancelDebouncer('_continuosSync');
+			this.processingStatus = 'pending';
+			this.debounce('_continuosSync', function () {
+				this.sync()
+				.then(function() {
+					this.processingStatus = 'success';
+				}.bind(this))
+				.catch(function() {
+					this.processingStatus = 'fail';
+				}.bind(this));
+			}, 5000);
+
+			this.async(this._continuosSync, 10000);
+		},
+		_updateModelHash: function () {
+			// Convert the model to string
+			this._guaranteeUserOwnsProgramLocally()
+			.then(function(){
+				var raw = this._modelToRawData(this.model);
+				var source = {
+					name: raw.name,
+					tree: raw.tree
+				};
+				this._modelHash = JSON.stringify(source);
+			}.bind(this))
+			.catch(function(){});
+
+			this.async(this._updateModelHash, 3000);
+		},
+		_modelHashChanged: function (hash, oldHash) {
+			// ignore the first Change
+			if(!hash || !oldHash){
+				return;
+			}
+
+			// If the tree changes, bump the version
+			this.set('model.version', (this.model.version || 0 ) + 1);
+		},
+		_versionChanged: function(version){
+			if(!version || !this._modelHash){
+				return;
+			}
+			//console.log(version );
+			// If the version changes, sync
+			this.cancelDebouncer('versions sync');
+			this.processingStatus = 'pending';
+			this.debounce('versions sync', function () {
+				this.sync()
+				.then(function() {
+					this.processingStatus = 'success';
+				}.bind(this))
+				.catch(function() {
+					this.processingStatus = 'fail';
+				}.bind(this));
+			}, 3000);
+		},
+		_programIdChanged:function(programId){
+			if(typeof programId === 'undefined'){
+				return;
+			}
+			this.debounce('_programIdChanged', function() {
+				this._log('log', {event: '_programIdChanged', detail: programId});
+				this.setup(programId)
 				.catch(function(){});
-			}.bind(this));
+			}.bind(this), 100);
 		},
 		_reapplyPendingId: function(){
 			if(typeof this.pendingId !== 'undefined'){
 				this._log('log', 'Reapplying pendingId', this.pendingId);
 				var pendingId = this.pendingId;
 				delete this.pendingId;
-				this._id = pendingId;
+				this.programId = pendingId;
 				return true;
 			}
 			return false;
@@ -363,11 +462,13 @@
 				var doingSetup = this.model.doingSetup;
 				var doingSync = this.model.doingSync;
 				var doingAddToProfile = this.model.doingAddToProfile;
+				this._modelHash = '';
 				this._replaceModel({
-					_id: '',
-					title: this._ideUntitledProgramName,
-					userId: '',
-					modifiedAt: 0,
+					id: '',
+					author: '',
+					original: '',
+					name: this._ideUntitledProgramName,
+					version: 0,
 					doingSync: doingSync,
 					doingSetup: doingSetup,
 					doingAddToProfile: doingAddToProfile,
@@ -383,37 +484,67 @@
 		},
 		_createNewId : function(){
 			var promise = function (resolve) {
-				var id = window.uuid.v4();
-				this.set('model._id', id);
-				this._id = id;
+				var programId = window.uuid.v4();
+				this.set('model.id', programId);
+				this.programId = programId;
 				resolve();
 			}.bind(this);
 			return new Promise(promise);
 		},
 		_guaranteeUserExists : function(){
 			var promise = function (resolve, reject) {
-				if(this.user && this.user._id){
-					resolve(this.user);
+				if(this.user && this.user.id){
+					if(this.auth){
+						if(this.auth.isAuthenticated()){
+							resolve(this.user);
+						}
+						else{
+							this.auth.refresh()
+							.then(function () {
+								resolve(this.user);
+							}.bind(this))
+							.catch(function () {
+								var rejectMessageAccessFailed = {
+									element: 'qb-core-model-controller',
+									method: '_guaranteeUserExists',
+									message: 'Problem trying to refresh token',
+									payload: arguments
+								};
+								this._log('log', rejectMessageAccessFailed);
+								reject(rejectMessageAccessFailed);
+							}.bind(this));
+						}
+					}
+					else{
+						var rejectMessageNoAuth = {
+							element: 'qb-core-model-controller',
+							method: '_guaranteeUserExists',
+							message: '{{auth}} is not defined'
+						};
+						this._log('log', rejectMessageNoAuth);
+						reject(rejectMessageNoAuth);
+					}
+
 				}
 				else{
-					var rejectMessage = {
+					var rejectMessageNoUser = {
 						element: 'qb-core-model-controller',
 						method: '_guaranteeUserExists',
 						message: '{{user}} is not defined'
 					};
-					this._log('log', rejectMessage);
-					reject(rejectMessage);
+					this._log('log', rejectMessageNoUser);
+					reject(rejectMessageNoUser);
 				}
 			}.bind(this);
 			return new Promise(promise);
 		},
-		_guaranteeUserOwnsProgram : function(){
+		_guaranteeUserOwnsProgramLocally : function(){
 			var promise = function (resolve, reject) {
-				if(this.model.userId !== this.user._id){
+				if(!this.userOwnsProgramLocally){
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
-						method: '_guaranteeUserOwnsProgram',
-						message: '_id does not match model.userId'
+						method: '_guaranteeUserOwnsProgramLocally',
+						message: 'userOwnsProgramLocally is false'
 					};
 					this._log('log', rejectMessage);
 					reject(rejectMessage);
@@ -427,7 +558,7 @@
 		},
 		_loadLocally : function(){
 			var promise = function (resolve, reject) {
-				var raw = window.localStorage.getItem('qb_' + this._id);
+				var raw = window.localStorage.getItem('qb_' + this.programId);
 				if( raw !== null){
 					try {
 						var model = JSON.parse(raw);
@@ -458,76 +589,39 @@
 		},
 		_loadRemotely : function(){
 			var promise = function (resolve, reject) {
-				if(!this.api ){
+				if(!this.auth){
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: '_loadRemotely',
 						errorCode: 2, // unhadled
-						message: '{{api}} is not defined.'
+						message: '{{auth}} is not defined.'
 					};
 					this._log('error', rejectMessage);
 					reject(rejectMessage);
 					return;
 				}
 
-				// Try to load data from the api endpoint
-				this.$.loader.url = this.api + '/' + this._id;
-
-				var onResponse = function(event){
-					clearTimeout(timer);
-					this.$.loader.removeEventListener('response', onResponse);
-					if(!event.detail.response || event.detail.response.status !== 'ok'){
-						var rejectMessageNullResponse = {
-							element: 'qb-core-model-controller',
-							method: '_loadRemotely.onResponse',
-							errorCode: 2, // unhanlded
-							message: 'Response was null or invalid. Server is not responding correctly.'
-						};
-						this._log('error', rejectMessageNullResponse);
-						reject(rejectMessageNullResponse);
-						return;
-					}
-					if(!event.detail.response.success){
-						var rejectMessage404 = {
-							element: 'qb-core-model-controller',
-							method: '_loadRemotely.onResponse',
-							errorCode: 1, // not found
-							message: 'Program not found.'
-						};
-						this._log('warning', rejectMessage404);
-						reject(rejectMessage404);
-						return;
-					}
-
+				this.auth.apiCall('GET', 'program/' + this.programId)
+				.then(function (result) {
 					// Loaded successfully!
-					this._replaceModel(this._rawDataToModel(event.detail.response.result));
+					this._replaceModel(this._rawDataToModel(result));
+					this._modelHash = '';
 					resolve();
-				}.bind(this);
-
-				this.$.loader.addEventListener('response', onResponse);
-
-				var onError = function(event){
-					clearTimeout(timer);
-					this.$.loader.removeEventListener('error', onError);
-
-
+				}.bind(this))
+				.catch(function(error){
+					var code;
+					if(error){
+						code = error.code;
+					}
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
-						method: '_loadRemotely.onError',
-						errorCode: 2, // unhadled
-						message: 'Request failed.',
-						payload: event.detail
+						method: '_loadRemotely -> auth.apiCall',
+						errorCode: code,
+						message: 'Not successful response.'
 					};
 					this._log('error', rejectMessage);
 					reject(rejectMessage);
-				}.bind(this);
-
-				this.$.loader.addEventListener('error', onError);
-
-				var timer = setTimeout(function(){
-					request.abort();
-				}.bind(this), 5000);
-				var request = this.$.loader.generateRequest();
+				}.bind(this));
 
 			}.bind(this);
 			return new Promise(promise);
@@ -536,9 +630,9 @@
 			var promise = function (resolve, reject) {
 				try {
 					if (this.model === null) {
-						window.localStorage.removeItem('qb_'+this._id);
+						window.localStorage.removeItem('qb_'+this.programId);
 					} else {
-						window.localStorage.setItem('qb_'+this._id, JSON.stringify(this.model));
+						window.localStorage.setItem('qb_'+this.programId, JSON.stringify(this.model));
 					}
 					resolve();
 				}
@@ -555,72 +649,32 @@
 			}.bind(this);
 			return new Promise(promise);
 		},
-		_putRemotely : function(){
+		_updateRemotely : function(){
 			var promise = function (resolve, reject) {
-				if(!this.api ){
+				if(!this.auth ){
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
-						method: '_putRemotely',
-						errorCode: 2, // unhadled
-						message: '{{api}} is not defined.'
+						method: '_updateRemotely',
+						errorCode: 'API_NOT_DEFINED',
+						message: '{{auth}} is not defined.'
 					};
 					this._log('error', rejectMessage);
 					reject(rejectMessage);
 					return;
 				}
 
-				// Try to load data from the api endpoint
-				this.$.updater.url = this.api + '/' + this._id;
-				this.$.updater.body = JSON.stringify(this._modelToRawData(this.model));
-
-				var onResponse = function(event){
-					clearTimeout(timer);
-					this.$.updater.removeEventListener('response', onResponse);
-					if(!event.detail.response || event.detail.response.status !== 'ok'){
-						var rejectMessageNullResponse = {
-							element: 'qb-core-model-controller',
-							method: '_putRemotely.onResponse',
-							errorCode: 2, // unhanlded
-							message: 'Response was null or invalid. Server is not responding correctly.'
-						};
-						this._log('error', rejectMessageNullResponse);
-						reject(rejectMessageNullResponse);
-						return;
-					}
-					if(!event.detail.response.success){
-						var rejectMessage404 = {
-							element: 'qb-core-model-controller',
-							method: '_putRemotely.onResponse',
-							errorCode: 1, // server error
-							message: 'Server response has no success.'
-						};
-						this._log('error', rejectMessage404);
-						reject(rejectMessage404);
-						return;
-					}
+				this.auth.apiCall('PUT', 'program/' + this.programId, this._modelToRawData(this.model))
+				.then(function (result) {
+					var currentVersion = this.model.version;
 
 					// Loaded successfully!
-					var result = event.detail.response.result;
 					var resultType;
-					if(result._id !== this._id){
-						// The id from the server is different, this means that
-						// the program only existed locally, and now was created
-						// on the server too.
-						// We replace the local id with the server one.
-						resultType = 'created-on-server';
-						var programIndex = this.user.programs.indexOf(this._id);
-						if(programIndex !== -1){
-							this.splice('user.programs', programIndex, 1);
-						}
-						this.push('user.programs', result._id);
-						this.set('model._id', result._id);
-						this._id = result._id;
-					}
-					else if(result.modifiedAt > this.model.modifiedAt){
+					if(result.version > currentVersion){
 						// Server data is more recent, so we replace the local
 						// data with it.
 						resultType = 'from-server';
-						this._replaceModel(this._rawDataToModel(event.detail.response.result));
+						this._replaceModel(this._rawDataToModel(result));
+						this._modelHash = '';
 					}
 					else{
 						// Local data is more recent then server's data.
@@ -628,41 +682,71 @@
 						resultType = 'to-server';
 					}
 					resolve(resultType);
-
-				}.bind(this);
-
-				this.$.updater.addEventListener('response', onResponse);
-
-				var onError = function(event){
-					clearTimeout(timer);
-					this.$.updater.removeEventListener('error', onError);
-
-
+				}.bind(this))
+				.catch(function(error){
+					var code;
+					if(error){
+						code = error.code;
+					}
 					var rejectMessage = {
 						element: 'qb-core-model-controller',
-						method: '_putRemotely.onError',
-						errorCode: 2, // unhadled
-						message: 'Request failed.',
-						payload: event.detail
+						method: '_updateRemotely -> auth.apiCall',
+						errorCode: code,
+						message: 'Not successful response.'
 					};
 					this._log('error', rejectMessage);
 					reject(rejectMessage);
-				}.bind(this);
+				}.bind(this));
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_createRemotely : function(){
+			var promise = function (resolve, reject) {
+				if(!this.auth ){
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_createRemotely',
+						errorCode: 'API_NOT_DEFINED',
+						message: '{{auth}} is not defined.'
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+					return;
+				}
 
-				this.$.updater.addEventListener('error', onError);
-
-				var timer = setTimeout(function(){
-					request.abort();
-				}.bind(this), 5000);
-
-				var request = this.$.updater.generateRequest();
-
+				this.auth.apiCall('POST', 'program', this._modelToRawData(this.model))
+				.then(function (result) {
+					//var currentVersion = this.model.version;
+					this._replaceModel(this._rawDataToModel(result));
+					// Loaded successfully!
+					var resultType;
+					// The id from the server is different, this means that
+					// the program only existed locally, and now was created
+					// on the server too.
+					// We replace the local id with the server one.
+					resultType = 'created-on-server';
+					this.programId = result.id;
+					resolve(resultType);
+				}.bind(this))
+				.catch(function(error){
+					var code;
+					if(error){
+						code = error.code;
+					}
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_createRemotely -> auth.apiCall',
+						errorCode: code,
+						message: 'Not successful response.'
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+				}.bind(this));
 			}.bind(this);
 			return new Promise(promise);
 		},
 		_rawDataToModel : function(data){
-			this._log('warning', '_rawDataToModel', 'TODO: implement this :)');
-			var model = JSON.parse(JSON.stringify(data));
+			var model = data;
 			model.doingSetup = this.model.doingSetup;
 			model.doingSync = this.model.doingSync;
 			model.doingAddToProfile = this.model.doingAddToProfile;
@@ -750,10 +834,11 @@
 			return safeModel;
 		},
 		_replaceModel: function(data){
-			this.set('model._id', data._id || '');
-			this.set('model.title', data.title || '');
-			this.set('model.userId', data.userId || '');
-			this.set('model.modifiedAt', data.modifiedAt || 0);
+			this.set('model.id', data.id || '');
+			this.set('model.author', data.author || '');
+			this.set('model.original', data.original || '');
+			this.set('model.name', data.name || '');
+			this.set('model.version', data.version || 0);
 			this.set('model.doingSync', data.doingSync || false);
 			this.set('model.doingSetup', data.doingSetup || false);
 			this.set('model.doingAddToProfile', data.doingAddToProfile || false);
@@ -772,6 +857,7 @@
 		},
 		_onSetupStart: function(event){
 			this.set('model.doingSetup', true);
+			this.processingStatus = 'pending';
 			if(this.model.setupError){
 				this.set('model.setupError', '');
 			}
@@ -779,6 +865,7 @@
 		},
 		_onSetupSuccess: function(event){
 			this.set('model.doingSetup', false);
+			this.processingStatus = 'success';
 			if(this.model.setupError){
 				this.set('model.setupError', '');
 			}
@@ -791,6 +878,7 @@
 		_onSetupError: function(event){
 			this.set('model.doingSetup', false);
 			this.set('model.setupError', event.detail);
+			this.processingStatus = 'fail';
 			this._log('error', { event: 'setupError', detail: event.detail });
 			if(this._reapplyPendingId()){
 				return;
@@ -798,6 +886,7 @@
 		},
 		_onSyncStart: function(event){
 			this.set('model.doingSync', true);
+			this.processingStatus = 'pending';
 			if(this.model.syncError){
 				this.set('model.syncError', '');
 			}
@@ -805,6 +894,7 @@
 		},
 		_onSyncSuccess: function(event){
 			this.set('model.doingSync', false);
+			this.processingStatus = 'success';
 			if(this.model.syncError){
 				this.set('model.syncError', '');
 			}
@@ -813,10 +903,12 @@
 		_onSyncError: function(event){
 			this.set('model.doingSync', false);
 			this.set('model.syncError', event.detail);
+			this.processingStatus = 'fail';
 			this._log('error', { event: 'syncError', detail: event.detail });
 		},
 		_onAddToProfileStart: function(event){
 			this.set('model.doingAddToProfile', true);
+			this.processingStatus = 'pending';
 			if(this.model.addToProfileError){
 				this.set('model.addToProfileError', '');
 			}
@@ -824,6 +916,7 @@
 		},
 		_onAddToProfileSuccess: function(event){
 			this.set('model.doingAddToProfile', false);
+			this.processingStatus = 'success';
 			if(this.model.addToProfileError){
 				this.set('model.addToProfileError', '');
 			}
@@ -834,6 +927,7 @@
 		_onAddToProfileError: function(event){
 			this.set('model.doingAddToProfile', false);
 			this.set('model.addToProfileError', event.detail);
+			this.processingStatus = 'fail';
 			this._log('error', { event: 'addToProfileError', detail: event.detail });
 		},
 		_log: function(){

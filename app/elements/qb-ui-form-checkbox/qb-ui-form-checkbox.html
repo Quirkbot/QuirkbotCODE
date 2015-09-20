@@ -1,0 +1,76 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../qb-behavior-form-field/qb-behavior-form-field.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id='qb-ui-form-checkbox'>
+	<template>
+		<style include="qb-form-input-styles"></style>
+		<style>
+			:host{
+				display: block;
+			}
+		</style>
+
+
+		<qb-core-i18n
+			key="[[_placeholderlKey]]"
+			value="{{placeholder}}"
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_tipKey]]"
+			value="{{tip}}"
+			no-key-on-empty-value
+			hidden></qb-core-i18n>
+		<qb-core-i18n
+			key="[[_ErrorKey]]"
+			value="{{error}}"
+			hidden></qb-core-i18n>
+
+			<paper-input-container
+				attr-for-value="value"
+				always-float-label
+				disabled$="[[disabled]]"
+				invalid$="[[invalid]]">
+				<label>
+					<qb-core-i18n
+					key="[[_labelKey]]"
+					value="{{label}}"></qb-core-i18n>
+				</label>
+				<paper-checkbox
+					required
+					class="paper-input-input checkbox"
+					invalid="{{invalid}}">
+					<qb-core-i18n
+						key="[[_placeholderlKey]]"
+						value="{{placeholder}}"></qb-core-i18n>
+				</paper-checkbox>
+				<paper-input-error>[[error]]</paper-input-error>
+			</paper-input-container>
+
+
+		<template
+			is="dom-if"
+			if="[[tip]]">
+			<paper-tooltip offset="2px">[[tip]]</paper-tooltip>
+		</template>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIFormCheckbox = Polymer({
+		is: 'qb-ui-form-checkbox',
+		behaviors: [
+			window.Quirkbot.FormFieldBehavior
+		]
+
+	});
+})();
+</script>

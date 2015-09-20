@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+
+<dom-module id="qb-ui-toolbar-button-styles">
+	<template>
+		<style>
+			:host{
+				display: inline-block;
+				@apply(--layout-horizontal);
+			}
+			.qb-toolbar-button{
+				background-color: var(--qb-white);
+				min-width: 0;
+				min-height: 0;
+				padding: 2px;
+				margin: 0 0.29em;
+				border-radius: 10px;
+				border: solid 2px var(--qb-interactive-color-transparent);
+				box-shadow: 0 0 0 2px var(--qb-interactive-color-transparent);
+				text-transform: inherit;
+				color: var(--qb-black);
+				@apply(--layout-horizontal);
+			}
+			.qb-toolbar-button iron-icon{
+				--iron-icon-width: 30px;
+				--iron-icon-height: 30px;
+			}
+			.qb-toolbar-button .label{
+				display: inline-block;
+				font-size: 0.5rem;
+				margin-right: 0.3rem;
+			}
+			/*.qb-toolbar-button paper-tooltip{
+				--paper-tooltip:{
+					z-index: 999;
+					min-width: 70px;
+				};
+			}*/
+			.qb-toolbar-button .hover{
+				display: none;
+			}
+			.qb-toolbar-button .hover{
+				display: none;
+			}
+			.qb-toolbar-button:hover .hover{
+				display: inline-block;
+			}
+			.qb-toolbar-button .normal{
+				display: inline-block;
+			}
+			.qb-toolbar-button:hover .normal{
+				display: none;
+			}
+		</style>
+	</template>
+</dom-module>

@@ -176,7 +176,7 @@
 
 		<qb-ui-input-text
 			class="variable"
-			value="{{data._id}}"
+			value="{{data.id}}"
 			on-tap="_onBgTap">
 		</qb-ui-input-text>
 
@@ -293,12 +293,12 @@
 		observers:[
 			'_dataAndNodeDefinitionsChanged(data, nodeDefinitions)',
 			'_constrainDrag(data.visualX, data.visualY)',
-			'__idChanged(data._id)'
+			'_idChanged(data.id)'
 		],
 		_dataChanged: function(){
 			this.data.element = this;
 		},
-		__idChanged: function(newId){
+		_idChanged: function(newId){
 			clearTimeout(this.idValidationDebouncer);
 			// Validate the variable name;
 			var validId = newId;
@@ -316,23 +316,23 @@
 			}
 			// Validade if empty or if it's taken
 			if(validId === '' || existingMatch){
-				var definition = this.findOneObjectByKey(this.nodeDefinitions, '_id', this.data.node);
+				var definition = this.findOneObjectByKey(this.nodeDefinitions, 'id', this.data.node);
 
-				validId = this.treeManager.generateVariableName(definition._id);
+				validId = this.treeManager.generateVariableName(definition.id);
 			}
 			if(validId !== newId){
 				this.idValidationDebouncer = setTimeout(function(){
-					this.set('data._id', validId);
+					this.set('data.id', validId);
 				}.bind(this), 1000);
 			}
 			else{
 				// Check if any of the outputs is connected, and if so, updated them
 				if(this.data.outputs && this.treeManager){
 					this.data.outputs.forEach(function(output){
-						var inputs = this.treeManager.findInputsByValue(this.oldId + '.' + output._id);
+						var inputs = this.treeManager.findInputsByValue(this.oldId + '.' + output.id);
 						inputs.forEach(function(inputData){
 							var element = inputData.input.element;
-							element.set('data.value', newId + '.' + output._id);
+							element.set('data.value', newId + '.' + output.id);
 						}.bind(this));
 					}.bind(this));
 
@@ -345,7 +345,7 @@
 			if(!data || !nodeDefinitions) {
 				return;
 			}
-			var definition = this.findOneObjectByKey(nodeDefinitions, '_id', data.node);
+			var definition = this.findOneObjectByKey(nodeDefinitions, 'id', data.node);
 
 			if(!definition) {
 				return;
@@ -359,9 +359,9 @@
 					this.set('data.outputs',[]);
 				}
 
-				var outputData = this.findOneObjectByKey(data.outputs, '_id', outputDefinition._id);
+				var outputData = this.findOneObjectByKey(data.outputs, 'id', outputDefinition.id);
 				if(!outputData) {
-					outputData = {_id: outputDefinition._id};
+					outputData = {id: outputDefinition.id};
 					this.push('data.outputs',outputData);
 				}
 
@@ -377,9 +377,9 @@
 					this.set('data.inputs',[]);
 				}
 
-				var inputData = this.findOneObjectByKey(data.inputs, '_id', inputDefinition._id);
+				var inputData = this.findOneObjectByKey(data.inputs, 'id', inputDefinition.id);
 				if(!inputData) {
-					inputData = {_id: inputDefinition._id};
+					inputData = {id: inputDefinition.id};
 					this.push('data.inputs',inputData);
 				}
 
@@ -394,13 +394,13 @@
 			}.bind(this));
 		},
 		_computeNameKey: function(definition){
-			return 'node/name/'+definition._id;
+			return 'node/name/'+definition.id;
 		},
 		_computeIconName: function(definition){
-			return this.resolveIconName(definition._id, 'qb-nodes');
+			return this.resolveIconName(definition.id, 'qb-nodes');
 		},
 		_onDeletePress: function(){
-			this.treeManager.remove(this.data._id);
+			this.treeManager.remove(this.data.id);
 		},
 		/**
 		 * If you tap the background, send a controller-open signal, so all input
@@ -433,7 +433,8 @@
 				'inlet-icon',
 				'outlet-icon',
 				'input',
-				'templateContainer'
+				'templateContainer',
+				'ironList'
 			];
 			for (var i = 0; i < ids.length; i++) {
 				if(e.target.id === ids[i]) {

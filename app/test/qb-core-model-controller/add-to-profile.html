@@ -7,9 +7,9 @@
 	<script src="../../bower_components/web-component-tester/browser.js"></script>
 	<script src="../../bower_components/iron-test-helpers/test-helpers.js"></script>
 	<script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
-	
+
 	<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
-	
+
 	<link rel="import" href="../../elements/qb-core-model-controller/qb-core-model-controller.html">
 
 </head>
@@ -26,7 +26,7 @@
 	<test-fixture id="remote-program">
 		<template>
 			<qb-core-model-controller
-				_id="remote-id"
+				id="remote-id"
 				verbose="log">
 			</qb-core-model-controller>
 		</template>
@@ -40,14 +40,14 @@
 			server = sinon.fakeServer.create();
 			server.autoRespond = true;
 			server.autoRespondAfter = 500;
-			
+
 			server.respondWith(
 				'PUT',
 				/\/responds_with_new.*/,
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "new-remote-id", "modifiedAt" : 50, "userId" : "user-a" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "new-remote-id", "modifiedAt" : 50, "author" : "user-a" }}'
 				]
 			);
 
@@ -57,7 +57,7 @@
 				[
 					200,
 					{ 'Content-Type': 'application/json' },
-					'{"status": "ok", "success": true, "result" : { "_id": "remote-id", "modifiedAt" : 50, "userId" : "user-b" }}'
+					'{"status": "ok", "success": true, "result" : { "id": "remote-id", "modifiedAt" : 50, "author" : "user-b" }}'
 				]
 			);
 
@@ -65,7 +65,7 @@
 
 
 			window.localStorage.setItem('qb_user', JSON.stringify({
-				_id: 'user-a',
+				id: 'user-a',
 				programs : []
 			}));
 		});
@@ -91,7 +91,7 @@
 				data.addEventListener('setupSuccess', function(event){
 					// Setup Succeded
 					assert.equal(event.detail, 'new-program');
-					var oldId = data._id;
+					var oldId = data.id;
 					data.addEventListener('addToProfileSuccess', function(event){
 						// Added to profile
 						assert.equal(event.detail, '');
@@ -99,21 +99,21 @@
 						data.addEventListener('syncSuccess', function(event){
 							// Synced
 							assert.equal(event.detail, 'created-on-server');
-							assert.notEqual(oldId, data._id);
-							assert.include(data.user.programs, data._id, 'user.programs do not contains new id');
+							assert.notEqual(oldId, data.id);
+							assert.include(data.user.programs, data.id, 'user.programs do not contains new id');
 							assert.notInclude(data.user.programs, oldId, 'user.programs contains old id');
 
 							var localUser = JSON.parse(window.localStorage.getItem('qb_user'));
-							assert.include(localUser.programs, data._id, 'user in localStorage do not contains new id');
+							assert.include(localUser.programs, data.id, 'user in localStorage do not contains new id');
 							assert.notInclude(localUser.programs, oldId, 'user in localStorage contains old id');
 							done()
-							
+
 						})
 					})
 					data.addToProfile().catch(function(){})
 				})
 			});
-			
+
 		});
 
 		test('success - loads a program not in profile, add to profile, sync', function(done) {
@@ -130,7 +130,7 @@
 				data.addEventListener('setupSuccess', function(event){
 					// Setup Succeded
 					assert.equal(event.detail, 'not-in-profile');
-					var oldId = data._id;
+					var oldId = data.id;
 
 					data.addEventListener('addToProfileSuccess', function(event){
 						// Added to profile
@@ -139,21 +139,21 @@
 						data.addEventListener('syncSuccess', function(event){
 							// Synced
 							assert.equal(event.detail, 'created-on-server');
-							assert.notEqual(oldId, data._id);
-							assert.include(data.user.programs, data._id, 'user.programs do not contains new id');
+							assert.notEqual(oldId, data.id);
+							assert.include(data.user.programs, data.id, 'user.programs do not contains new id');
 							assert.notInclude(data.user.programs, oldId, 'user.programs contains old id');
 
 							var localUser = JSON.parse(window.localStorage.getItem('qb_user'));
-							assert.include(localUser.programs, data._id, 'user in localStorage do not contains new id');
+							assert.include(localUser.programs, data.id, 'user in localStorage do not contains new id');
 							assert.notInclude(localUser.programs, oldId, 'user in localStorage contains old id');
 							done()
-							
+
 						})
 					})
 					data.addToProfile().catch(function(){})
 				})
 			});
-			
+
 		});
 
 		test('error - no user', function(done) {
@@ -179,7 +179,7 @@
 					data.addToProfile().catch(function(){})
 				})
 			});
-			
+
 		});
 
 		test('error - busy - trying to add to profile during setup', function(done) {
@@ -199,11 +199,11 @@
 			setTimeout(function () {
 				data.addToProfile().catch(function(){})
 			}, 100);
-			
+
 		});
 
 
-	
+
 	});
 	</script>
 

@@ -8,15 +8,14 @@
 		:host{
 			@apply(--qb-ui-input-text);
 		};
-		:host(:hover) {
-			@apply(--qb-ui-input-text-hover);
-		};
+
 		paper-input{
+			box-sizing: border-box;
 			background-color: var(--qb-ui-input-text-background-color, --qb-interactive-color);
 			--paper-input-container-input-color: var(--qb-ui-input-text-foreground-color, --qb-text-color);
 
 			--paper-input-container: {
-				padding: 0em 0.5em 0.2em 0.5em;
+				padding: var(--qb-ui-input-text-padding, 0em 0.5em 0.2em 0.5em); 
 			};
 			--paper-input-container-underline: {
 				display: none;
@@ -33,7 +32,8 @@
 		}
 
 		:host(:hover) paper-input{
-			background-color: var(--qb-ui-input-text-hover-background-color, --qb-interactive-hover-color);
+			/*box-shadow: inset 1px 1px 0px 0px  rgba(0,0,0,0.2), inset -1px -1px 0px 0px  rgba(255,255,255,0.5);*/
+
 			--paper-input-container-input-color: var(--qb-ui-input-text-foreground-hover-color, --qb-text-color);
 			--paper-input-container-input:{
 				@apply(--qb-ui-input-text-input-hover);

@@ -14,24 +14,30 @@
 			margin-top: 3px;
 			@apply(--qb-ui-nodes-menu-group);
 		}
-		paper-toolbar{
+		.toolbar{
 			cursor: pointer;
 			border-radius: 999px;
 			height: 30px;
-			--paper-toolbar-background: var(--qb-action-color-transparent);
+			color: var(--qb-white);
+			background-color: var(--qb-action-color-transparent);
+			--paper-item-min-height: 30px;
 			@apply(--qb-ui-nodes-menu-group-toolbar);
 		}
-		:host paper-toolbar.toolbar .title{
+		:host .toolbar .title{
 			/**
 			* the redundant paper-toolbar.toolbar is just so the selector is
 			* deep enought to take priority over polymer selector
 			**/
+			@apply(--layout-flex);
 			@apply(--qb-font-text);
 			font-size: 14px ;
 			margin: 0;
 		}
 		.nodes-container{
 			position: relative;
+		}
+		.nodes-container qb-ui-nodes-menu-item{
+			width: 95%;
 		}
 		.nodes-container qb-ui-nodes-menu-item[drag]{
 			position: absolute;
@@ -46,12 +52,12 @@
 		}
 		.nodes-container qb-ui-nodes-menu-item[drag][drag-status="dragmove"]{
 			opacity:1;
-			width: 200px;
+			width: 180px;
 		}
 
 	</style>
 	<template>
-		<paper-toolbar
+		<paper-item
 		 	class="toolbar"
 			on-tap="toggleItems">
 			<div class="title">
@@ -60,7 +66,7 @@
 					value="{{name}}"></qb-core-i18n>
 			</div>
 			<iron-icon icon="{{collapseIcon}}"></iron-icon>
-		</paper-toolbar>
+		</paper-item>
 
 		<iron-collapse
 			opened$="{{opened}}">
@@ -121,7 +127,7 @@
 			this.opened = !this.opened;
 		},
 		_computeNameKey: function(data) {
-			return 'category/' + data.definition._id;
+			return 'category/' + data.definition.id;
 		},
 		_nameChanged: function (name) {
 			this.set('data.name', name);
@@ -155,7 +161,7 @@
 			// Check if dropped inside drop area
 			var dropAreaBounding = this.dropArea.getBoundingClientRect();
 			if(centerX >= dropAreaBounding.left && centerX <= (dropAreaBounding.left + dropAreaBounding.width) && centerY >= dropAreaBounding.top && centerY <= (dropAreaBounding.top + dropAreaBounding.height)){
-				var type = e.model.item.definition._id;
+				var type = e.model.item.definition.id;
 				var x = bounding.left - dropAreaBounding.left + this.visualEditor.canvas.offsetX;
 				var y = bounding.top - dropAreaBounding.top + this.visualEditor.canvas.offsetY;
 

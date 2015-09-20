@@ -11,19 +11,34 @@
 		properties: {
 			entry: {
 				type: String,
-				notify: true
+				notify: true,
+				observer: '_entryChanged'
 			}
 		},
 		ready: function(){
 			this.listen(window, 'WebComponentsReady', '_addRoutes');
 		},
+		_entryChanged: function(entry){
+			if(!entry && !window.location.hash){
+				return;
+			}
+			var newHash = '#/'+entry;
+			if(window.location.hash === '#'+entry){
+				window.history.replaceState(undefined, undefined, newHash);
+			}
+			else{
+				window.location.hash = newHash;
+			}
+		},
 		_addRoutes: function(){
-			page('*', function(data){
-				var id = data.hash;
-				if(id.length && id[0] === '/'){
-					id = id.substr(1);
+			// Only listen to chages on the current path
+			page(window.location.pathname, function(data){
+				var entry = data.hash;
+				if(entry.length && entry[0] === '/'){
+					entry = entry.substr(1);
 				}
-				this.entry = id;
+				this.entry = entry;
+
 			}.bind(this));
 			page({});
 

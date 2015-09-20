@@ -41,16 +41,19 @@
 			}
 		},
 		_computeNameKey: function(definition){
-			return 'node/connection/name/'+definition._id;
+			return 'node/connection/name/'+definition.id;
 		},
 		_dataChanged: function(){
 			this.data.element = this;
 		},
 		_computeName: function(nameValue){
-			var idParts = this.data._id.split('.');
-			if(idParts.length === 2){
-				return idParts[1];
+			if(this.data && this.data.id){
+				var idParts = this.data.id.split('.');
+				if(idParts.length === 2){
+					return idParts[1];
+				}
 			}
+
 			return nameValue;
 		}
 	};

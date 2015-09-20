@@ -25,57 +25,160 @@
 	<meta name="msapplication-TileColor" content="#000000">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-	<link rel="manifest" href="manifest.json">
+	<link rel="manifest" href="./manifest.json">
 
 
 	<!--<link rel="stylesheet" href="./styles/main.css">-->
 
 	<!-- will be replaced with ./bower_components/webcomponentsjs/webcomponents-lite.min.js-->
-	<script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="./bower_components/webcomponentsjs/webcomponents-lite.js" ></script>
 	<!-- endreplace -->
 
 
 	<!-- will be replaced with elements/elements.vulcanized.html -->
-	<link rel="import" href="./elements/elements.html">
-	<!-- endreplace -->
+	<script>
+		//window.Polymer = window.Polymer || {};
+		//window.Polymer.dom = 'shadow';
+	</script>
+	<link rel="import" href="./elements/elements.html" async>
+
+	<!-- app shell -->
+	<style>
+		qb-app-program:unresolved {
+			display: block;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top:0;
+			left:0;
+		}
+		#shell-header{
+			position: absolute !important;
+			width: 100% !important;
+			height: 65px !important;
+			top:0 !important;
+			left:0 !important;
+			background-color: rgba(0,173,239,0.5) !important;
+			border-radius: 0 !important;
+		}
+		#shell-sidebar-header{
+			position: absolute !important;
+			width: 185px !important;
+			height: 32px !important;
+			top: 69px !important;
+			left: calc(100% - 193px) !important;
+			background-color: rgba(235,0,138, 0.5) !important;
+			border-radius: 999px !important;
+		}
+		#shell-sidebar{
+			position: absolute !important;
+			width: 185px !important;
+			height: calc(100% - 110px) !important;
+			top: 105px !important;
+			left: calc(100% - 193px) !important;
+			background-color: rgba(221,221,221,0.5) !important;
+			border-radius: 10px !important;
+		}
+		#shell-loader{
+			position: absolute !important;
+			width:  40px !important;
+			height: 40px !important;
+			top: 13px !important;
+			left: 30px !important;
+			border-radius: 999px !important;
+			background-color: white !important;
+		}
+		#shell-loader .a,
+		#shell-loader .b {
+			width: 20px;
+			height: 20px;
+			margin-top: -10px;
+			margin-left: -10px;
+			border-radius: 999px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			-webkit-animation-duration: 2s;
+			-webkit-animation-name: shellslide;
+			-webkit-animation-iteration-count: infinite;
+			-webkit-animation-timing-function: linear;
+			animation-duration: 2s;
+			animation-name: shellslide;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+		}
+		#shell-loader .a{
+			background-color: #FFF000;
+			-webkit-animation-direction: normal;
+			animation-direction: normal;
+		}
+		#shell-loader .b{
+			background-color: rgba(0,173,239,0.5);
+			-webkit-animation-direction: reverse;
+			animation-direction: reverse;
+		}
+		@-webkit-keyframes shellslide{
+			0% { -webkit-transform: translate3d(0,0,0); }
+			25% { -webkit-transform: translate3d(7px,0,0) scale3d(0.7,0.7,1); }
+			50% { -webkit-transform: translate3d(0,0,0); }
+			75% { -webkit-transform: translate3d(-7px,0,0) scale3d(0.7,0.7,1); }
+			100% { -webkit-transform: translate3d(0,0,0); }
+		}
+		@keyframes shellslide {
+			0% { transform: translate3d(0,0,0); }
+			25% { transform: translate3d(7px,0,0) scale3d(0.7,0.7,1); }
+			50% { transform: translate3d(0,0,0); }
+			75% { transform: translate3d(-7px,0,0) scale3d(0.7,0.7,1); }
+			100% { transform: translate3d(0,0,0); }
+		}
+	</style>
+	<!-- end app shell -->
 </head>
 
-<body unresolved class="fullbleed layout vertical">
+<body class="fullbleed layout vertical">
 
-	<template is="dom-bind">
+	<qb-app-program
+		locale="en"
 
-		<script>
-			window.localStorage.setItem('qb_user', '{"_id" : "p"}');
-		</script>
-		<qb-core-router
-			entry="{{programId}}">
-		</qb-core-router>
+		client-id="YWJjMTphc2Q="
+		chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd"
 
-		<qb-app-program
-			program-id="{{programId}}"
-			locale="en_US"
-			programs-api-url="http://localhost:8585/api/programs"
-			compiler-url="https://quirkbot-compiler.herokuapp.com/"
-			nodes-url="./data/nodes.json"
-			strings-url="./data/strings/{{locale}}.json"
-			chrome-webstore-id="ackaalhbfjagidmjlhlokoblhbnahegd">
-		</qb-app-program>
+		compiler-url="https://quirkbot-compiler.herokuapp.com/"
+		api-url="http://ec2contai-ecselast-1aa8efo9kdp65-1013516278.us-east-1.elb.amazonaws.com/"
 
-		<!-- Uncomment next block to enable Service Worker support (1/2) -->
-		<!--
-		<platinum-sw-register
-			auto-register
-			clients-claim
-			skip-waiting
-			on-service-worker-installed="displayInstalledToast">
-			<platinum-sw-cache
-				default-cache-strategy="networkFirst"
-				precache-file="precache.json">
-			</platinum-sw-cache>
-		</platinum-sw-register>
-		-->
+		home-url="/"
+		program-app-url="/_static_program.html"
+		register-app-url="/_static_register.html"
+		user-app-url="/_static_user.html"
 
-	</template>
+		strings-url="./data/strings/{{locale}}.json"
+		nodes-url="./data/nodes.json">
+
+		<div class="app-shell" id="shell-header">
+			<div class="app-shell" id="shell-loader">
+				<div class="a"></div>
+				<div class="b"></div>
+			</div>
+		</div>
+		<div class="app-shell" id="shell-sidebar-header"></div>
+		<div class="app-shell" id="shell-sidebar"></div>
+
+
+	</qb-app-program>
+
+	<!-- Uncomment next block to enable Service Worker support (1/2) -->
+	<!--
+	<platinum-sw-register
+		auto-register
+		clients-claim
+		skip-waiting
+		on-service-worker-installed="displayInstalledToast">
+		<platinum-sw-cache
+			default-cache-strategy="networkFirst"
+			precache-file="precache.json">
+		</platinum-sw-cache>
+	</platinum-sw-register>
+	-->
 
 </body>
 
