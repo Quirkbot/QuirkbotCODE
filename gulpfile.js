@@ -170,6 +170,7 @@ gulp.task('polybuild', function () {
 });
 
 
+
 // Generate a list of files that should be precached when serving from 'dist'.
 // The list will be consumed by the <platinum-sw-cache> element.
 gulp.task('precache', function (callback) {
@@ -265,6 +266,19 @@ gulp.task('static-copy', function () {
     .pipe(gulp.dest('static/_static'))
     .pipe($.size({title: 'static-copy'}));
 });
+gulp.task('static-root-path', function () {
+  return gulp.src(['static/_static/index.html','static/_static/404.html'])
+    // Replace path for static entrypoints
+    .pipe($.replace('./data', './_static/data'))
+    .pipe($.replace('./bower_components', './_static/bower_components'))
+    .pipe($.replace('./elements', './_static/elements'))
+    .pipe($.replace('./fonts', './_static/fonts'))
+    .pipe($.replace('./images', './_static/images'))
+    .pipe($.replace('./scripts', './_static/scripts'))
+    .pipe($.replace('./styles', './_static/styles'))
+    .pipe(gulp.dest('static/_static'))
+    .pipe($.size({title: 'static-root-path'}));
+});
 gulp.task('static-path', function () {
   return gulp.src(['static/_static/_static_*.html'])
     // Replace path for static entrypoints
@@ -301,10 +315,19 @@ gulp.task('static-entrypoints', function () {
 gulp.task('static-clean',
     del.bind(null, [
         'static/_static/bower_components/**/*',
+
+        '!static/_static/bower_components/ace-element',
+         'static/_static/bower_components/ace-element/**/*',
+        '!static/_static/bower_components/ace-element/src-min-noconflict',
+         'static/_static/bower_components/ace-element/src-min-noconflict/**/*',
+        '!static/_static/bower_components/ace-element/src-min-noconflict/mode-c_cpp.js',
+        '!static/_static/bower_components/ace-element/src-min-noconflict/theme-monokai.js',
+
         '!static/_static/bower_components/webcomponentsjs',
-        'static/_static/bower_components/webcomponentsjs/**/*',
+         'static/_static/bower_components/webcomponentsjs/**/*',
         '!static/_static/bower_components/webcomponentsjs/webcomponents-lite.min.js',
-        'static/_static/elements/**/*',
+
+         'static/_static/elements/**/*',
         '!static/_static/elements/elements.vulcanized.build.html',
         '!static/_static/elements/elements.vulcanized.build.js'
     ]
@@ -315,32 +338,32 @@ gulp.task('static', ['default'], function (cb) {
   runSequence(
     'static-copy',
     'static-clean',
+    'static-root-path',
     'static-path',
     'static-replace',
     'static-entrypoints',
     'static-root-entrypoints',
+    'gzip',
     cb);
 });
-gulp.task('serve:static', ['static'], function () {
-  browserSync({
-    notify: false,
-    logPrefix: 'PSK',
-    snippetOptions: {
-      rule: {
-        match: '<span id="browser-sync-binding"></span>',
-        fn: function (snippet) {
-          return snippet;
-        }
-      }
-    },
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
-    // https: true,
-    server: 'static',
-    middleware: [ historyApiFallback() ]
-  });
+
+
+// Gzip
+gulp.task('gzip', function () {
+  return gulp.src([
+      'static/**/*.html',
+      'static/**/*.js',
+      'static/**/*.css',
+      'static/**/*.json',
+      'static/**/*.svg',
+      'static/**/*.woff2'
+    ])
+    // Replace any referect to the html files to the correct folder
+    .pipe($.gzip({ append: false }))
+    .pipe(gulp.dest('static'))
+    .pipe($.size({title: 'gzip'}));
 });
+
 
 // Load tasks for web-component-tester
 // Adds tasks for `gulp test:local` and `gulp test:remote`

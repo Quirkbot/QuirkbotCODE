@@ -265,7 +265,7 @@
 				.then(function (users) {
 					if(users.length === 1){
 						this._userModel = users[0];
-						window.document.title = this._userModel.nickname + '-' + this._ideName;
+						window.document.title = this._userModel.nickname + ' - ' + this._ideName;
 						this._userNotFound = false;
 						resolve(this._userModel);
 					}
