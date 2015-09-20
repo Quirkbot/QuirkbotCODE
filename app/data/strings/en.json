@@ -15,7 +15,9 @@
 	"ide/account-verification/dialog/cancel": "Close",
 	"ide/account-verification/dialog/continue": "Resend verification",
 	"ide/account-verification/page/title": "Account verification",
-	"ide/account-verification/page/description": "Please wait while we verify your account.",
+	"ide/account-verification/page/description/pending": "Please wait while we verify your account...",
+	"ide/account-verification/page/description/success": "This account verifed!",
+	"ide/account-verification/page/description/fail": "Error verifying account.",
 
 	"AVATAR -------------------------------------------------------------" : "",
 	"ide/avatar/login": "Login",
