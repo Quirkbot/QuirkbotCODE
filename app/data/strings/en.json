@@ -33,13 +33,15 @@
 	"ide/user/programs/title": "CODEs",
 	"ide/user/programs/empty": "This user hasn't created any CODE yet.",
 	"ide/user/programs/create-new": "Create new CODE",
+	"ide/user/programs/item/modified": "Last modified:",
 
 	"IDE - Toolbar ------------------------------------------------------" : "",
-	"ide/toolbar/add-to-profile/tooltip":	"Add CODE to profile",
-	"ide/toolbar/quirkbots-area/tooltip":	"Upload CODE to Quirkbot",
-	"ide/toolbar/status/pending":	"Saving CODE...",
-	"ide/toolbar/status/success":	"CODE Saved!",
-	"ide/toolbar/status/fail":		"Offline, can't save CODE",
+	"ide/toolbar/add-to-profile/tooltip/user":	"Save CODE",
+	"ide/toolbar/add-to-profile/tooltip/clone":	"Clone CODE",
+	"ide/toolbar/quirkbots-area/tooltip":	"Upload CODE",
+	"ide/toolbar/status/pending":	"",
+	"ide/toolbar/status/success":	"Saved!",
+	"ide/toolbar/status/fail":		"Error saving.",
 
 	"IDE - Quirkbots Area -----------------------------------------------" : "",
 	"ide/quirkbots-area/dialog/header":	"CODE Upload",
@@ -444,7 +446,7 @@
 	"REGISTER ###########################################################" : "",
 
 	"register/registration/call-to-action": "Register",
-	"register/registration/error/E_VALIDATION" : "There is an error in the inputs.",
+	"register/registration/error/E_VALIDATION" : "There are errors in the inputs.",
 	"register/registration/error/CONNECTION_REFUSED" : "Problem connecting, try again later.",
 
 	"register/registration/age/label": "How old are you?",
@@ -518,7 +520,7 @@
 	"register/registration/submit": "Register",
 
 	"register/login/call-to-action": "Login",
-	"register/login/error/E_VALIDATION" : "There is an error in the inputs.",
+	"register/login/error/E_VALIDATION" : "There are errors in the inputs.",
 	"register/login/error/AUTH_GRANT" : "You have entered an invalid username or password.",
 	"register/login/error/CONNECTION_REFUSED" : "Problem connecting, try again later.",
 

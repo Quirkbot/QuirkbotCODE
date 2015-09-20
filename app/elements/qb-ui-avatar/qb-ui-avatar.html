@@ -102,7 +102,8 @@
 					</iron-icon><div class="label">[[user.nickname]]</div>
 				</paper-button>
 				<paper-menu class="dropdown-content">
-					<a href="[[programAppUrl]]">
+					<a href="[[programAppUrl]]"
+						on-tap="goToEmptyProgram">
 						<paper-button
 							class="button">
 							<iron-icon
@@ -112,7 +113,8 @@
 							</qb-core-i18n>
 						</paper-button>
 					</a>
-					<a href="[[profileUrl]]">
+					<a href="[[profileUrl]]"
+						on-tap="goToProfile">
 						<paper-button
 							class="button">
 							<iron-icon
@@ -181,16 +183,26 @@
 			window.localStorage.removeItem('qb-accessToken');
 			window.localStorage.removeItem('qb-refreshToken');
 			window.localStorage.removeItem('qb-tokenExpires');
-			window.location = this.homeUrl;
+			this.goToHome();
 		},
 		_computeProfileUrl: function(userAppUrl, nickname){
 			return userAppUrl + '#/' + nickname;
 		},
+		goToHome: function(){
+			this.fire('go-to-home');
+			window.location = this.homeUrl;
+		},
 		goToProfile: function(){
+			this.fire('go-to-profile');
 			window.location = this.profileUrl;
 		},
 		goToLogin: function(){
+			this.fire('go-to-login');
 			window.location = this.registerAppUrl;
+		},
+		goToEmptyProgram: function(){
+			this.fire('go-to-empty-program');
+			window.location = this.programAppUrl + '#/';
 		}
 	});
 })();

@@ -123,9 +123,9 @@
 					url = url.substr(0, url.length - 1);
 				}
 				this.$.apiAjax.url = url + '/' + path;
-				if(data){
-					this.$.apiAjax.body = data;
-				}
+				data = data || {};
+				this.$.apiAjax.body = data;
+
 				this._request(this.$.apiAjax)
 				.then(resolve)
 				.catch(function (error) {

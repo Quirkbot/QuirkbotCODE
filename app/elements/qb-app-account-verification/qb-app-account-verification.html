@@ -106,16 +106,14 @@
 			this._textKey = 'ide/account-verification/page/description/pending';
 
 			this.$.auth.apiCall('GET', 'auth/confirm/'+ route)
-			.then(function (user) {
+			.then(function () {
 				this._indicatorStatus = 'success';
 				this._textKey = 'ide/account-verification/page/description/success';
-				console.log('user',user)
 			}.bind(this))
-			.catch(function (error) {
+			.catch(function () {
 				this._indicatorStatus = 'fail';
 				this._textKey = 'ide/account-verification/page/description/fail';
-				console.log('error', error)
-			}.bind(this))
+			}.bind(this));
 		}
 	});
 })();

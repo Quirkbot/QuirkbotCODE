@@ -7,6 +7,7 @@
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-auth/qb-core-auth.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
@@ -16,7 +17,42 @@
 <dom-module id='qb-app-register'>
 	<template>
 		<style include="qb-app-container-styles"></style>
+		<style>
+			.button-container{
+				text-align: center;
+			}
+			.button-container.main {
 
+			}
+			.button-container .button{
+				color: var(--qb-white);
+				min-height: 0;
+			}
+			.button-container.main .button{
+				font-size: 2rem;
+				border-radius: 1rem;
+				min-width: 13rem;
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+			}
+			.button-container .register{
+				background: var(--qb-pink-transparent);
+			}
+			.button-container .login{
+				background: var(--qb-blue-transparent);
+			}
+			.button-container .new-program{
+				background: var(--qb-green);
+
+			}
+			.button-container .new-program iron-icon{
+				--iron-icon-width: 2.5rem;
+				--iron-icon-height: 2.5rem;
+			}
+			.form{
+				margin-top	: 2rem;
+			}
+		</style>
 		<qb-core-i18n
 			url-format="[[stringsUrl]]"
 			locale="[[locale]]">
@@ -30,6 +66,7 @@
 		</qb-core-auth>
 
 		<qb-ui-app-container
+			cover
 			home-url="[[homeUrl]]"
 			register-app-url="[[registerAppUrl]]"
 			user-app-url="[[userAppUrl]]"
@@ -37,33 +74,55 @@
 			user="[[user]]">
 
 			<div class="content">
-				<h2>
-					<paper-button
-						on-tap='_onResgisterCallToActionTap'>
-						<qb-core-i18n
-							key="register/registration/call-to-action"></qb-core-i18n>
-					</paper-button>
-				</h2>
+				<div class="button-container main">
+					<template
+						is="dom-if"
+						if="[[!user]]">
+						<paper-button
+							class="button register"
+							on-tap='_onResgisterCallToActionTap'>
+							<qb-core-i18n
+								key="register/registration/call-to-action"></qb-core-i18n>
+						</paper-button>
+						<paper-button
+							class="button login"
+							on-tap='_onLoginCallToActionTap'>
+							<qb-core-i18n
+								key="register/login/call-to-action"></qb-core-i18n>
+						</paper-button>
+					</template>
+					<template
+						is="dom-if"
+						if="[[user]]">
+						<a href="[[programAppUrl]]">
+							<paper-button
+								class="button new-program">
+								<iron-icon
+									class="icon"
+									icon="[[resolveIconName('add', 'qb-icons')]]">
+								</iron-icon>
+								<qb-core-i18n
+									key="ide/user/programs/create-new"></qb-core-i18n>
+							</paper-button>
+						</a>
+					</template>
+				</div>
+
 				<iron-collapse
 					id='registration-container'>
 					<qb-ui-registration-form
+						class="form"
 						id="registration"
 						action="[[_resolveApiUrl(apiUrl, 'user')]]">
 					</qb-ui-registration-form>
 				</iron-collapse>
 
 
-				<h2>
-					<paper-button
-						on-tap='_onLoginCallToActionTap'>
-						<qb-core-i18n
-							key="register/login/call-to-action"></qb-core-i18n>
-					</paper-button>
-				</h2>
 				<iron-collapse
 					id='login-container'>
 					<qb-ui-login-form
 						id="login"
+						class="form"
 						cancel-submit
 						on-submit="_onLoginSubmit"
 						action="[[_resolveApiUrl(apiUrl, 'login')]]">
@@ -85,6 +144,9 @@
 	window.Quirkbot = window.Quirkbot || {};
 	window.Quirkbot.AppRegister = Polymer({
 		is: 'qb-app-register',
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
 		properties: {
 			locale: String,
 			clientId: String,
@@ -107,9 +169,11 @@
 
 		},
 		_onResgisterCallToActionTap: function () {
+			this.$['login-container'].hide();
 			this.$['registration-container'].toggle();
 		},
 		_onLoginCallToActionTap: function () {
+			this.$['registration-container'].hide();
 			this.$['login-container'].toggle();
 		},
 		_onRegistrationResponse: function(){

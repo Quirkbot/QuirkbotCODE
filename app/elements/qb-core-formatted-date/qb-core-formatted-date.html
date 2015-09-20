@@ -1,7 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../qb-core-formatted-date/moment/moment.html">
+<link rel="import" href="../qb-core-formatted-date/moment.html">
 
 <dom-module id="qb-core-formatted-date">
+	<template>
+		<span>[[formated]]</span>
+	</template>
 </dom-module>
 <script>
 (function () {
@@ -9,16 +12,16 @@
 	window.Quirkbot.CoreFormattedDate = Polymer({
 		is: 'qb-core-formatted-date',
 		properties: {
-			raw: {
+			date: {
 				type: String
 			},
 			formated:{
 				type: String,
-				computed: '_computeFormated'
+				computed: '_computeFormated(date)'
 			}
 		},
-		_computeFormated: function(raw){
-			return raw;
+		_computeFormated: function(date){
+			return window.moment(date).fromNow(); 
 		}
 	});
 })();

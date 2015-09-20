@@ -83,6 +83,7 @@
 			}
 		},
 		observers: [
+			'_guaranteeProgramName(model.name)',
 			'_computeOwnership(model.author, user.id)',
 			'_versionChanged(model.version)'
 		],
@@ -96,6 +97,11 @@
 			'addToProfileStart' : '_onAddToProfileStart',
 			'addToProfileSuccess' : '_onAddToProfileSuccess',
 			'addToProfileError' : '_onAddToProfileError'
+		},
+		_guaranteeProgramName: function(name){
+			if(!name){
+				this.set('model.name', this._ideUntitledProgramName);
+			}
 		},
 		_computeOwnership: function(authorId, userId){
 			if(authorId === userId){
@@ -417,7 +423,7 @@
 			if(!version || !this._modelHash){
 				return;
 			}
-			console.log(version );
+			//console.log(version );
 			// If the version changes, sync
 			this.cancelDebouncer('versions sync');
 			this.processingStatus = 'pending';
@@ -429,7 +435,7 @@
 				.catch(function() {
 					this.processingStatus = 'fail';
 				}.bind(this));
-			}, 5000);
+			}, 3000);
 		},
 		_programIdChanged:function(programId){
 			if(typeof programId === 'undefined'){

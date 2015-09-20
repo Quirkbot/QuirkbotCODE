@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
@@ -20,10 +21,24 @@
 			:host{
 				display: block;
 				min-height: 0;
-				flex-direction: column;
 			}
 			.name {
-				margin-right: 5px;
+				margin: 0 0.5rem 0 0.7rem;
+
+				--qb-ui-input-text-padding: 0.4rem 0.5em 0.4rem  0.5em;
+				--qb-ui-input-text-input: {
+					font-size: 1rem;
+				};
+			}
+			.status-indicator {
+				@apply(--layout-horizontal);
+				 @apply(--layout-center);
+			}
+			.status-indicator .text{
+				color: var(--qb-white);
+				display: block;
+				font-size: 0.6rem;
+				letter-spacing: 0.03rem;
 			}
 		</style>
 		<qb-core-i18n
@@ -31,7 +46,7 @@
 			value="{{_ideName}}"
 			hidden>Quirkbot CODE</qb-core-i18n>
 
-		<paper-toolbar
+		<div
 			class="app-header">
 			<iron-image
 				class="quirkbot-logo"
@@ -64,32 +79,40 @@
 
 			</div>
 
-			<div class="flex"></div>
-
 			<qb-ui-input-text
 				class="name"
-				hidden$="[[!model.name]]"
-				value="{{model.name}}">
+				value="{{model.name}}"
+				 hidden$="[[!user.id]]">
 			</qb-ui-input-text>
 
-			<qb-ui-status-indicator
-				hidden$="[[_hideStatus]]"
-				state="[[processingStatus]]">
-			</qb-ui-status-indicator>
+			<div hidden$="[[!user.id]]">
+				<div
+					class="status-indicator"
+					hidden$="[[!_hideAddToProfile]]">
+					<qb-ui-status-indicator
+						state="[[processingStatus]]">
+					</qb-ui-status-indicator>
+					<qb-core-i18n
+						class="text"
+						key="[[_computeProcessingStatusKey(processingStatus)]]"></qb-core-i18n>
+				</div>
+			</div>
 
 			<qb-ui-toolbar-button
 				hidden$="[[_hideAddToProfile]]"
 				on-tap="_onAddToProfileButtonTap"
 				icon="add-to-profile"
 				icon-hover="add-to-profile-hover"
-				tooltip-key="ide/toolbar/add-to-profile/tooltip">
+				label-key="[[_addToProfileKey]]">
 			</qb-ui-toolbar-button>
+
+			<div class="flex"></div>
 
 			<qb-ui-toolbar-button
 				on-tap="_onQuirkbotsAreaButtonTap"
 				icon="quirkbots"
 				icon-hover="quirkbots-hover"
-				tooltip-key="ide/toolbar/quirkbots-area/tooltip">
+				label-key="ide/toolbar/quirkbots-area/tooltip">
 			</qb-ui-toolbar-button>
 
 			<qb-ui-avatar
@@ -97,10 +120,11 @@
 				register-app-url="[[registerAppUrl]]"
 				user-app-url="[[userAppUrl]]"
 				program-app-url="[[programAppUrl]]"
-				user="[[user]]">
+				user="[[user]]"
+				on-go-to-empty-program="_onAvatarGoToEmptyProgram">
 			</qb-ui-avatar>
 
-		</paper-toolbar>
+		</div>
 	</template>
 </dom-module>
 
@@ -114,7 +138,10 @@
 				type: String,
 				notify: true
 			},
-			model: Object,
+			model: {
+				type: Object,
+				notify: true
+			},
 			processingStatus: {
 				type: Boolean
 			},
@@ -140,6 +167,10 @@
 			_editorModeFlag:{
 				type: Boolean,
 				observer:'_editorModeFlagChanged'
+			},
+			_addToProfileKey: {
+				type: String,
+				computed: '_computeAddToProfileKey(model.id, model.author, user.id)'
 			}
 
 		},
@@ -190,6 +221,22 @@
 			}
 			this._hideStatus = false;
 		},
+		_computeProcessingStatusKey:function(status){
+			return 'ide/toolbar/status/' + status;
+		},
+		_onAvatarGoToEmptyProgram: function () {
+			if(!this.model.id){
+				window.location.reload();
+			}
+		},
+		_computeAddToProfileKey: function(id, authorId, userId){
+
+			if(id && authorId !== userId){
+				return 'ide/toolbar/add-to-profile/tooltip/clone';
+			}
+			return 'ide/toolbar/add-to-profile/tooltip/user';
+		}
+
 	});
 })();
 </script>

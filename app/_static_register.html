@@ -35,8 +35,39 @@
 	<!-- endreplace -->
 
 	<!-- will be replaced with elements/elements.vulcanized.html -->
-	<link rel="import" href="./elements/elements.html">
+	<link rel="import" href="./elements/elements.html" async>
 	<!-- endreplace -->
+
+	<!-- app shell -->
+	<style>
+		qb-app-register:unresolved {
+			display: block;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top:0;
+			left:0;
+		}
+		.app-shell{
+			width: 100%;
+		}
+		#shell-header{
+			position: absolute !important;
+			top:0;
+			height: 40vh  !important;
+			min-height: 19rem  !important;
+			background-color: rgba(0,173,239,0.5) !important;
+			border-radius: 0 !important;
+		}
+		#shell-footer{
+			position: absolute !important;
+			top: 80vh;
+			background-color: rgba(235,0,138, 0.5) !important;
+			height: 20vh !important;
+			border-radius: 0 !important;
+		}
+	</style>
+	<!-- end app shell -->
 </head>
 
 <body class="fullbleed layout vertical">
@@ -57,6 +88,10 @@
 
 		strings-url="./data/strings/{{locale}}.json"
 		nodes-url="./data/nodes.json">
+
+		<div class="app-shell" id="shell-header"></div>
+		<div class="app-shell" id="shell-footer"></div>
+
 	</qb-app-register>
 
 </body>

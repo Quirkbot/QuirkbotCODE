@@ -31,7 +31,7 @@
 	<!--<link rel="stylesheet" href="./styles/main.css">-->
 
 	<!-- will be replaced with ./bower_components/webcomponentsjs/webcomponents-lite.min.js-->
-	<script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="./bower_components/webcomponentsjs/webcomponents-lite.js" ></script>
 	<!-- endreplace -->
 
 
@@ -83,9 +83,10 @@
 			position: absolute !important;
 			width:  40px !important;
 			height: 40px !important;
-			top: 55% !important;
-			left: 45% !important;
+			top: 13px !important;
+			left: 30px !important;
 			border-radius: 999px !important;
+			background-color: white !important;
 		}
 		#shell-loader .a,
 		#shell-loader .b {
@@ -153,13 +154,15 @@
 		strings-url="./data/strings/{{locale}}.json"
 		nodes-url="./data/nodes.json">
 
-		<div class="app-shell" id="shell-header"></div>
+		<div class="app-shell" id="shell-header">
+			<div class="app-shell" id="shell-loader">
+				<div class="a"></div>
+				<div class="b"></div>
+			</div>
+		</div>
 		<div class="app-shell" id="shell-sidebar-header"></div>
 		<div class="app-shell" id="shell-sidebar"></div>
-		<div class="app-shell" id="shell-loader">
-			<div class="a"></div>
-			<div class="b"></div>
-		</div>
+
 
 	</qb-app-program>
 

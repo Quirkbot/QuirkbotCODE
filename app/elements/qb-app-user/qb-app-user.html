@@ -5,12 +5,13 @@
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-auth/qb-core-auth.html">
 <link rel="import" href="../qb-core-router/qb-core-router.html">
-<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
-<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
-<link rel="import" href="../qb-ui-account-verification-reminder/qb-ui-account-verification-reminder.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container-styles.html">
+<link rel="import" href="../qb-ui-account-verification-reminder/qb-ui-account-verification-reminder.html">
+<link rel="import" href="../qb-ui-profile-program-item/qb-ui-profile-program-item.html">
 
 
 <dom-module id='qb-app-user'>
@@ -21,7 +22,7 @@
 				text-align: center;
 				@apply(--layout-horizontal);
 				@apply(--layout-center-justified);
-				margin-bottom: 1rem;
+				margin-bottom: 2rem;
 			}
 			.user-header .icon{
 				display: block;
@@ -37,18 +38,23 @@
 			.description{
 				text-align: center;
 			}
+			.description a{
+				color: inherit;
+			}
 			.description .label{
 				font-weight: bold;
 				font-size: 1.5rem;
 			}
 			.new-program-button{
 				background: var(--qb-green);
-			    color: var(--qb-white);
+				color: var(--qb-white);
 			}
-			.program-item{
-				border-radius: 10px;
-				border: 1px solid var(--qb-grey-light-transparent);
-				padding: 10px 20px;
+			.programs{
+				position: relative;
+				margin-top: 2rem;
+			}
+			.loading-indicator{
+				background-color: var(--qb-white-transparent);
 			}
 
 		</style>
@@ -57,6 +63,11 @@
 			url-format="[[stringsUrl]]"
 			locale="[[locale]]">
 		</qb-core-i18n>
+
+		<qb-core-i18n
+			key="ide/name"
+			value="{{_ideName}}"
+			hidden>Quirkbot CODE</qb-core-i18n>
 
 		<qb-core-router
 			entry="{{userNickname}}">
@@ -138,16 +149,17 @@
 							<template
 								is="dom-if"
 								if="[[_ownsProfile]]">
-								<paper-button
-									class="new-program-button"
-									on-tap="_goToEmptyProgram">
-									<iron-icon
-										class="icon"
-										icon="[[resolveIconName('add', 'qb-icons')]]">
-									</iron-icon>
-									<qb-core-i18n
-										key="ide/user/programs/create-new"></qb-core-i18n>
-								</paper-button>
+								<a href="[[programAppUrl]]">
+									<paper-button
+										class="new-program-button">
+										<iron-icon
+											class="icon"
+											icon="[[resolveIconName('add', 'qb-icons')]]">
+										</iron-icon>
+										<qb-core-i18n
+											key="ide/user/programs/create-new"></qb-core-i18n>
+									</paper-button>
+								</a>
 							</template>
 
 							<template
@@ -164,14 +176,29 @@
 						</div>
 
 
-						<template
-							is="dom-repeat"
-							items="[[_programsModel]]">
-							<div class="program-item">
-								<div>[[item.name]]</div>
-								<div>[[_formatDate(item.updatedAt)]]</div>
-							</div>
-						</template>
+						<div class="programs">
+							<template
+								is="dom-repeat"
+								items="[[_programsModel]]"
+								sort="_sortProgramsByUpdateTime">
+								<qb-ui-profile-program-item
+									delete-button="[[_ownsProfile]]"
+									program-app-url="[[programAppUrl]]"
+									program="[[item]]"
+									on-delete="_onProgramDelete">
+								</qb-ui-profile-program-item>
+							</template>
+							<template
+								is="dom-if"
+								if="[[_loadingPrograms]]">
+								<div
+									class="loading-indicator fit horizontal layout center center-justified">
+									<qb-ui-status-indicator
+										state="pending">
+									</qb-ui-status-indicator>
+								</div>
+							</template>
+						</div>
 
 					</template>
 				</template>
@@ -221,7 +248,8 @@
 			},
 			_notAuthenticated: {
 				type: Boolean
-			}
+			},
+			_loadingPrograms: Boolean
 		},
 		observers:[
 		],
@@ -237,6 +265,7 @@
 				.then(function (users) {
 					if(users.length === 1){
 						this._userModel = users[0];
+						window.document.title = this._userModel.nickname + '-' + this._ideName;
 						this._userNotFound = false;
 						resolve(this._userModel);
 					}
@@ -251,14 +280,21 @@
 		},
 		_fetchProgramsModel: function(){
 			return new Promise(function(resolve, reject){
+				this._loadingPrograms = true;
 				if(!this._userModel || !this._userModel.id){
+					this._loadingPrograms = false;
 					return reject('No user defined, cant get programs.');
 				}
 				this.$.auth.apiCall('GET', 'program/?author=' + this._userModel.id)
 				.then(function (programs) {
 					this._programsModel = programs;
+					this._loadingPrograms = false;
+					resolve(this._programsModel);
 				}.bind(this))
-				.catch(reject);
+				.catch(function (error) {
+					this._loadingPrograms = false;
+					reject(error);
+				}.bind(this));
 			}.bind(this));
 		},
 		_computeOwnsProfile: function(user, _userModel){
@@ -268,13 +304,29 @@
 
 			return user.id === _userModel.id;
 		},
-		_goToEmptyProgram: function () {
-			window.location = this.programAppUrl;
+		_sortProgramsByUpdateTime: function (a, b) {
+			var aDate = new Date(a.updatedAt);
+			var bDate = new Date(b.updatedAt);
+			if(aDate > bDate){
+				return -1;
+			}
+			else if(aDate < bDate){
+				return 1;
+			}
+			return 0;
 		},
-		_formatDate: function (date) {
-			//var d = new Date(date);
-			//return d.getDate() + 
-			return new Date(date);
+		_onProgramDelete: function (e) {
+			this._loadingPrograms = true;
+			this.$.auth.apiCall('DELETE', 'program/' + e.model.item.id)
+			.then(this._fetchProgramsModel.bind(this))
+			.then(function(){
+				this._loadingPrograms = false;
+			}.bind(this))
+
+			.catch(function(){
+				this._loadingPrograms = false;
+			}.bind(this));
+
 		}
 	});
 })();
