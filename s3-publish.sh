@@ -1,16 +1,15 @@
+while true; do
+    read -p "This will deply to production! ARE YOU REALLY SURE YOU WANT TO DO THIS?" yn
+    case $yn in
+        [Yy]* ) make install; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+exit
+
 gulp static
-
-#aws s3 sync static/_static s3://code.quirkbot.com/_static --delete --exclude *.DS_Store
-
-#aws s3 sync static/confirm s3://code.quirkbot.com/confirm --delete --exclude *.DS_Store
-#aws s3 sync static/program s3://code.quirkbot.com/program --delete --exclude *.DS_Store
-#aws s3 sync static/register s3://code.quirkbot.com/register --delete --exclude *.DS_Store
-#aws s3 sync static/user s3://code.quirkbot.com/user --delete --exclude *.DS_Store
-
-#aws s3 cp static/index.html s3://code.quirkbot.com/index.html
-#aws s3 cp static/404.html s3://code.quirkbot.com/404.html
-
-
+	
 aws s3 sync static s3://code.quirkbot.com \
 --content-encoding="gzip" \
 --content-type="application/javascript" \

@@ -2,5 +2,6 @@ node_modules
 dist
 s3_publish
 static
+static_stage
 bower_components
 .tmp
