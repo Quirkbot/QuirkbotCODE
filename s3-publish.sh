@@ -1,15 +1,5 @@
-while true; do
-    read -p "This will deply to production! ARE YOU REALLY SURE YOU WANT TO DO THIS?" yn
-    case $yn in
-        [Yy]* ) make install; break;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
-exit
-
 gulp static
-	
+
 aws s3 sync static s3://code.quirkbot.com \
 --content-encoding="gzip" \
 --content-type="application/javascript" \
