@@ -271,6 +271,14 @@
 									<qb-core-i18n
 										key="ide/quirkbots-area/dialog/warning/no-quirkbots/description"></qb-core-i18n>
 								</qb-ui-notice>
+								<template
+									is="dom-if"
+									if="[[_allEqual(extensionModel.platform.os, 'win')]]">
+									<qb-ui-notice>
+										<qb-core-i18n
+											key="ide/quirkbots-area/dialog/warning/windows-drivers/description"></qb-core-i18n>
+									</qb-ui-notice>
+								</template>
 							</div>
 							<div
 								class="buttons">
@@ -435,7 +443,7 @@
 		},
 		_onInstallExtensionTap: function(){
 			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
-			
+
 			this.$.extension.install()
 			.then(function(){
 				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);

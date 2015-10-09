@@ -147,6 +147,18 @@
 			}
 			return true;
 		},
+		_allEqual: function () {
+			if(!arguments.length){
+				return false;
+			}
+			var first = arguments[0];
+			for (var i = 0; i < arguments.length; i++) {
+				if(first !== arguments[i]){
+					return false;
+				}
+			}
+			return true;
+		},
 		/**
 		 * String utils
 		 **/

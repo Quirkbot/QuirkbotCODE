@@ -5,31 +5,29 @@
 <dom-module id="qb-ui-toolbar-button-styles">
 	<template>
 		<style>
-			:host{
+
+			.qb-toolbar-button{
 				display: inline-block;
 				@apply(--layout-horizontal);
-			}
-			.qb-toolbar-button{
+				@apply(--layout-center);
 				background-color: var(--qb-white);
 				min-width: 0;
 				min-height: 0;
-				padding: 2px;
+				padding: 0.2em 0.4em;
 				margin: 0 0.29em;
 				border-radius: 10px;
 				border: solid 2px var(--qb-interactive-color-transparent);
 				box-shadow: 0 0 0 2px var(--qb-interactive-color-transparent);
 				text-transform: inherit;
 				color: var(--qb-black);
-				@apply(--layout-horizontal);
 			}
 			.qb-toolbar-button iron-icon{
 				--iron-icon-width: 30px;
 				--iron-icon-height: 30px;
 			}
 			.qb-toolbar-button .label{
-				display: inline-block;
 				font-size: 0.5rem;
-				margin-right: 0.3rem;
+				margin: 0 0.3rem;
 			}
 			/*.qb-toolbar-button paper-tooltip{
 				--paper-tooltip:{
