@@ -1,7 +1,7 @@
 {
   "name": "Quirkbot CODE",
   "short_name": "Quirkbot CODE",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "icons": [{
         "src": "images/icon/icon-128x128.png",
         "sizes": "128x128",
