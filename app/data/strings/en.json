@@ -19,6 +19,23 @@
 	"ide/account-verification/page/description/success": "This account verifed!",
 	"ide/account-verification/page/description/fail": "Error verifying account.",
 
+	"ide/password-reset/page/title": "Password Reset",
+	"ide/password-reset/page/description/pending": "Please wait while we verify your account...",
+	"ide/password-reset/page/description/success": "This account verifed!",
+	"ide/password-reset/page/description/fail": "Error verifying account.",
+	"ide/password-reset/page/password/label": "New password",
+	"ide/password-reset/page/password/placeholder": "",
+	"ide/password-reset/page/password/tip": "",
+	"ide/password-reset/page/password/error/pre-validation": "New password must be at least 6 characters long.",
+	"ide/password-reset/page/password/error/required": "Password is required.",
+	"ide/password-reset/page/password-confirmation/label": "Confirm new password",
+	"ide/password-reset/page/password-confirmation/placeholder": "",
+	"ide/password-reset/page/password-confirmation/tip": "",
+	"ide/password-reset/page/password-confirmation/error/pre-validation": "Passwords don't match.",
+	"ide/password-reset/page/password-confirmation/error/required": "Password confirmation is required.",
+	"ide/password-reset/page/submit": "Reset",
+	"ide/password-reset/page/error/RESET_REQUEST_NOT_FOUND": "Invalid reset. This request has probably exipired.",
+
 	"AVATAR -------------------------------------------------------------" : "",
 	"ide/avatar/login": "Login",
 	"ide/avatar/logout": "Logout",
@@ -538,6 +555,18 @@
 	"register/login/password/error/pre-validation": "Password is required.",
 
 	"register/login/submit": "Login",
+
+	"register/password-reset/call-to-action": "Having problems to login?",
+	"register/password-reset/heading": "Reset your password",
+	"register/password-reset/nickname/label": "Nickname",
+	"register/password-reset/nickname/placeholder": "",
+	"register/password-reset/nickname/tip": "",
+	"register/password-reset/nickname/error/pre-validation": "Nickname is required.",
+	"register/password-reset/submit": "Request password reset",
+	"register/password-reset/success": "Request sent! Please check your email for instructions.",
+	"ide/password-reset/page/success/description": "Password reseted successfully! Please login to continue.",
+	"ide/password-reset/page/success/call-to-action": "Login",
+
 
 	"gender/male": "Male",
 	"gender/female": "Female",

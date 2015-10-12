@@ -27,20 +27,24 @@
 
 	<link rel="manifest" href="./manifest.json">
 
-
 	<!--<link rel="stylesheet" href="./styles/main.css">-->
+
+	<script>
+		//window.Polymer = window.Polymer || {};
+		//window.Polymer.dom = 'shadow';
+	</script>
 
 	<!-- will be replaced with ./bower_components/webcomponentsjs/webcomponents-lite.min.js-->
 	<script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<!-- endreplace -->
 
 	<!-- will be replaced with elements/elements.vulcanized.html -->
-	<link rel="import" href="./elements/elements.html" async>
+	<link rel="import" href="./elements/elements.html">
 	<!-- endreplace -->
 
 	<!-- app shell -->
 	<style>
-		qb-app-register:unresolved {
+		qb-app-password-reset:unresolved {
 			display: block;
 			position: absolute;
 			width: 100%;
@@ -53,26 +57,32 @@
 		}
 		#shell-header{
 			position: absolute !important;
-			top:0;
-			height: 40vh  !important;
-			min-height: 19rem  !important;
+			top:0 !important;
+			height: 4rem !important;
 			background-color: rgba(0,173,239,0.5) !important;
+			border-radius: 0 !important;
+		}
+		#shell-main{
+			position: absolute !important;
+			top:4rem !important;
+			height: calc(100% - 14rem) !important;
+			background-color: rgba(221,221,221,0.5) !important;
 			border-radius: 0 !important;
 		}
 		#shell-footer{
 			position: absolute !important;
-			top: 80vh;
+			top: calc(100% - 10rem);
 			background-color: rgba(235,0,138, 0.5) !important;
-			height: 20vh !important;
+			height: 10rem !important;
 			border-radius: 0 !important;
 		}
 	</style>
 	<!-- end app shell -->
+
 </head>
 
 <body class="fullbleed layout vertical">
-
-	<qb-app-register
+	<qb-app-password-reset
 		locale="en"
 
 		client-id="YWJjMTphc2Q="
@@ -83,17 +93,15 @@
 
 		home-url="/"
 		program-app-url="/_static_program.html"
-		register-app-url="/_static_register.html"
+		register-app-url="/"
 		user-app-url="/_static_user.html"
 
 		strings-url="./data/strings/{{locale}}.json"
 		nodes-url="./data/nodes.json">
-
 		<div class="app-shell" id="shell-header"></div>
+		<div class="app-shell" id="shell-main"></div>
 		<div class="app-shell" id="shell-footer"></div>
-
-	</qb-app-register>
-
+	</qb-app-password-reset>
 </body>
 
 </html>

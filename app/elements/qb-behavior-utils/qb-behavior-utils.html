@@ -55,6 +55,12 @@
 			}
 			return '';
 		},
+		_resolveApiUrl: function(url, path){
+			if (url.charAt(url.length - 1) === '/') {
+				url = url.substr(0, url.length - 1);
+			}
+			return url + '/' + path;
+		},
 		/**
 		 * Searching arrays of objects
 		 **/

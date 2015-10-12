@@ -32,26 +32,26 @@
 			value="{{error}}"
 			hidden></qb-core-i18n>
 
-			<paper-input-container
-				attr-for-value="value"
-				always-float-label
-				disabled$="[[disabled]]"
-				invalid$="[[invalid]]">
-				<label>
-					<qb-core-i18n
-					key="[[_labelKey]]"
-					value="{{label}}"></qb-core-i18n>
-				</label>
-				<paper-checkbox
-					required
-					class="paper-input-input checkbox"
-					invalid="{{invalid}}">
-					<qb-core-i18n
-						key="[[_placeholderlKey]]"
-						value="{{placeholder}}"></qb-core-i18n>
-				</paper-checkbox>
-				<paper-input-error>[[error]]</paper-input-error>
-			</paper-input-container>
+		<paper-input-container
+			attr-for-value="value"
+			always-float-label
+			disabled$="[[disabled]]"
+			invalid$="[[invalid]]">
+			<label>
+				<qb-core-i18n
+				key="[[_labelKey]]"
+				value="{{label}}"></qb-core-i18n>
+			</label>
+			<paper-checkbox
+				required
+				class="paper-input-input checkbox"
+				invalid="{{invalid}}">
+				<qb-core-i18n
+					key="[[_placeholderlKey]]"
+					value="{{placeholder}}"></qb-core-i18n>
+			</paper-checkbox>
+			<paper-input-error>[[error]]</paper-input-error>
+		</paper-input-container>
 
 
 		<template
