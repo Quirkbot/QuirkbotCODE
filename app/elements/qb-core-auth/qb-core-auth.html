@@ -100,10 +100,13 @@
 		},
 		refresh: function(){
 			return new Promise(function (resolve, reject) {
-				var refreshToken = this.refreshToken || '';
+				if(!this.refreshToken ){
+					reject('There is no refresh token stored.');
+					return;
+				}
 				this.$.tokenAjax.body = {
 					'grant_type': 'refresh_token',
-					'refresh_token' : refreshToken
+					'refresh_token' : this.refreshToken
 				};
 				this._requestToken()
 				.then(this._setUser.bind(this))

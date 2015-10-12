@@ -13,6 +13,7 @@
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
 <link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
 <link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
+<link rel="import" href="../qb-ui-request-password-reset-form/qb-ui-request-password-reset-form.html">
 
 <dom-module id='qb-app-register'>
 	<template>
@@ -51,6 +52,26 @@
 			}
 			.form{
 				margin-top	: 2rem;
+			}
+			.secondary-call-to-action{
+				display: block;
+				text-align: center;
+				margin: 1rem 0;
+				font-size: 0.8rem;
+				color: var(--qb-black-hard-transparent);
+				cursor: pointer;
+			}
+			.heading{
+				display: block;
+				text-align: center;
+				font-size: 2rem;
+			}
+			.success-notice{
+				display: block;
+				text-align: center;
+				font-size: 1rem;
+				padding: 1rem;
+				color: var(--qb-green);
 			}
 		</style>
 		<qb-core-i18n
@@ -127,6 +148,32 @@
 						on-submit="_onLoginSubmit"
 						action="[[_resolveApiUrl(apiUrl, 'login')]]">
 					</qb-ui-login-form>
+
+					<qb-core-i18n
+						class="secondary-call-to-action"
+						key="register/password-reset/call-to-action"
+						on-tap='_onRequestPasswordResetCallToActionTap'></qb-core-i18n>
+
+					<iron-collapse
+						id='password-reset-container'>
+
+						<qb-core-i18n
+							class="heading"
+							key="register/password-reset/heading"></qb-core-i18n>
+
+						<qb-ui-request-password-reset-form
+							id="passwordReset"
+							class="form"
+							action="[[_resolveApiUrl(apiUrl, 'auth/resetRequest')]]">
+						</qb-ui-request-password-reset-form>
+
+						<iron-collapse
+							id='password-reset-result'>
+							<qb-core-i18n
+								class="success-notice"
+								key="register/password-reset/success"></qb-core-i18n>
+						</<iron-collapse>
+					</iron-collapse>
 				</iron-collapse>
 
 			</div>
@@ -163,23 +210,34 @@
 		},
 		listeners:{
 			'registration.response' : '_onRegistrationResponse',
-			'login.response' : '_onLoginResponse'
+			'login.response' : '_onLoginResponse',
+			'passwordReset.submit' : '_onRequestPasswordResetSubmit',
+			'passwordReset.response' : '_onRequestPasswordResetResponse'
 		},
 		ready: function(){
 
 		},
-		_onResgisterCallToActionTap: function () {
+		_onResgisterCallToActionTap: function() {
 			this.$['login-container'].hide();
 			this.$['registration-container'].toggle();
 		},
-		_onLoginCallToActionTap: function () {
+		_onLoginCallToActionTap: function() {
 			this.$['registration-container'].hide();
 			this.$['login-container'].toggle();
+		},
+		_onRequestPasswordResetCallToActionTap: function(){
+			this.$['password-reset-container'].toggle();
 		},
 		_onRegistrationResponse: function(){
 			this.$.registration.loading = true;
 			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password)
 			.then(this._goToProfile.bind(this));
+		},
+		_onRequestPasswordResetSubmit: function() {
+			this.$['password-reset-result'].hide();
+		},
+		_onRequestPasswordResetResponse: function() {
+			this.$['password-reset-result'].show();
 		},
 		_onLoginSubmit: function(){
 			this.$.login.loading = true;
@@ -196,12 +254,6 @@
 				url = url.substr(0, url.length - 1);
 			}
 			window.location = url + '#/' + this.$.auth.user.nickname;
-		},
-		_resolveApiUrl: function(url, path){
-			if (url.charAt(url.length - 1) === '/') {
-				url = url.substr(0, url.length - 1);
-			}
-			return url + '/' + path;
 		}
 
 	});

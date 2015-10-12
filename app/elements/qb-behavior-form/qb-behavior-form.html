@@ -102,9 +102,10 @@
 
 				}.bind(this));
 			}
-			else if(response && response.code === 'CONNECTION_REFUSED'){
-				this.errorCode = response.code;
-			}
+			//else if(response && response.code === 'CONNECTION_REFUSED'){
+			//	this.errorCode = response.code;
+			//}
+			this.errorCode = response.code;
 			this.fire('error', e.detail);
 		},
 		_exactMatchRegex: function (str) {
