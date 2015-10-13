@@ -468,7 +468,7 @@
 
 	"register/registration/call-to-action": "Register",
 	"register/registration/error/E_VALIDATION" : "There are errors in the inputs.",
-	"register/registration/error/CONNECTION_REFUSED" : "Problem connecting, try again later.",
+	"register/registration/error/CONNECTION_REFUSED" : "Quirkbot CODE is having problems connecting to the servers, please try again later.",
 
 	"register/registration/age/label": "How old are you?",
 	"register/registration/age/placeholder": "",
@@ -543,7 +543,7 @@
 	"register/login/call-to-action": "Login",
 	"register/login/error/E_VALIDATION" : "There are errors in the inputs.",
 	"register/login/error/AUTH_GRANT" : "You have entered an invalid username or password.",
-	"register/login/error/CONNECTION_REFUSED" : "Problem connecting, try again later.",
+	"register/login/error/CONNECTION_REFUSED" : "Quirkbot CODE is having problems connecting to the servers, please try again later.",
 
 	"register/login/nickname/label": "Nickname",
 	"register/login/nickname/placeholder": "",
@@ -553,19 +553,22 @@
 	"register/login/password/placeholder": "",
 	"register/login/password/tip": "",
 	"register/login/password/error/pre-validation": "Password is required.",
+	"register/login/password/error/pre-validation": "Password is required.",
 
 	"register/login/submit": "Login",
 
-	"register/password-reset/call-to-action": "Having problems to login?",
-	"register/password-reset/heading": "Reset your password",
+	"register/password-reset/call-to-action": "Forgot your password?",
+	"register/password-reset/heading": "Reset password",
 	"register/password-reset/nickname/label": "Nickname",
 	"register/password-reset/nickname/placeholder": "",
 	"register/password-reset/nickname/tip": "",
 	"register/password-reset/nickname/error/pre-validation": "Nickname is required.",
+	"register/password-reset/error/CONNECTION_REFUSED" : "Quirkbot CODE is having problems connecting to the servers, please try again later.",
 	"register/password-reset/submit": "Request password reset",
 	"register/password-reset/success": "Request sent! Please check your email for instructions.",
 	"ide/password-reset/page/success/description": "Password reseted successfully! Please login to continue.",
 	"ide/password-reset/page/success/call-to-action": "Login",
+	"ide/password-reset/error/CONNECTION_REFUSED" : "Quirkbot CODE is having problems connecting to the servers, please try again later.",
 
 
 	"gender/male": "Male",

@@ -196,6 +196,13 @@
 							'data': {}
 						});
 					}
+					else{
+						reject({
+							'message': 'Malformed response.',
+							'code': 'CONNECTION_REFUSED',
+							'data': {}
+						});
+					}
 				}.bind(this))
 				.catch(function(){
 					// the cacth argument is useless here, so we use the
@@ -207,6 +214,13 @@
 					}
 					else if(request.xhr && request.xhr.response){
 						response = request.xhr.response;
+					}
+					else {
+						response = {
+							'message': 'Could not get any response',
+							'code': 'CONNECTION_REFUSED',
+							'data': {}
+						};
 					}
 					reject(response);
 				}.bind(this));
