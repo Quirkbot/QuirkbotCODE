@@ -50,7 +50,7 @@
 		_onIronFormResponse: function(e){
 			this.loading = false;
 
-			// On chrome, if the internt is down, we won't get an error, but
+			// On chrome, if the internet is down, we won't get an error, but
 			// instead an empty reponse. Check for it here, and construct a
 			// useful error message
 			if(!e.detail || !Object.keys(e.detail).length){
@@ -102,10 +102,12 @@
 
 				}.bind(this));
 			}
-			//else if(response && response.code === 'CONNECTION_REFUSED'){
-			//	this.errorCode = response.code;
-			//}
-			this.errorCode = response.code;
+			else if(response && response.code){
+				this.errorCode = response.code;
+			}
+			else{
+				this.errorCode = 'CONNECTION_REFUSED';
+			}
 			this.fire('error', e.detail);
 		},
 		_exactMatchRegex: function (str) {
