@@ -1,4 +1,4 @@
-gulp static
+gulp gzip-static
 
 aws s3 sync static s3://code.quirkbot.com \
 --content-encoding="gzip" \
