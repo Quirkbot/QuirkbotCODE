@@ -264,6 +264,8 @@ gulp.task('static-copy', function () {
 });
 gulp.task('static-clean',
 	del.bind(null, [
+		'static/_static/test',
+
 		'static/_static/bower_components/**/*',
 
 		'!static/_static/bower_components/ace-element',
