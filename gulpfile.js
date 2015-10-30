@@ -264,6 +264,8 @@ gulp.task('static-copy', function () {
 });
 gulp.task('static-clean',
 	del.bind(null, [
+		'static/_static/test',
+
 		'static/_static/bower_components/**/*',
 
 		'!static/_static/bower_components/ace-element',
@@ -310,7 +312,8 @@ gulp.task('static-path', function () {
 gulp.task('static-replace', function () {
 	return gulp.src(['static/_static/*.html'])
 	// Replace any referect to the html files to the correct folder
-	.pipe($.replace(/_static_([^.]*).html/g, '$1'))
+	.pipe($.replace(/_static_([^.]*).html/g, '/$1'))
+	.pipe($.replace(/index.html/g, '/'))
 	.pipe(gulp.dest('static/_static'))
 	.pipe($.size({title: 'static-replace'}));
 });
@@ -399,6 +402,11 @@ gulp.task('static', ['default'], function (cb) {
 	'static-copy-stage',
 	'static-config',
 	'static-config-stage',
+	cb);
+});
+gulp.task('gzip-static', ['default'], function (cb) {
+	runSequence(
+	'static',
 	'static-gzip',
 	'static-gzip-stage',
 	cb);

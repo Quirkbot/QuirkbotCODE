@@ -23,8 +23,7 @@
 		],
 		properties: {
 			compilerUrl:{
-				type: String,
-				value: 'https://quirkbot-compiler.herokuapp.com/'
+				type: String
 			},
 			modelController: Object,
 			model: Object,
@@ -212,9 +211,13 @@
 					this.$.loader.removeEventListener('error', onError);
 					return reject('NETWORK_ERROR');
 				}.bind(this);
+				var url = this.compilerUrl;
+				if (url.charAt(url.length - 1) === '/') {
+					url = url.substr(0, url.length - 1);
+				}
 				this.$.loader.addEventListener('response', onResponse);
 				this.$.loader.addEventListener('error', onError);
-				this.$.loader.url = this.compilerUrl + window.encodeURIComponent(code);
+				this.$.loader.url = url + '/' + window.encodeURIComponent(code);
 				var request = this.$.loader.generateRequest();
 				var timer = setTimeout(function(){
 					request.abort();
@@ -256,9 +259,13 @@
 						this.$.loader.removeEventListener('error', onError);
 						return reject('NETWORK_ERROR');
 					}.bind(this);
+					var url = this.compilerUrl;
+					if (url.charAt(url.length - 1) === '/') {
+						url = url.substr(0, url.length - 1);
+					}
 					this.$.loader.addEventListener('response', onResponse);
 					this.$.loader.addEventListener('error', onError);
-					this.$.loader.url = this.compilerUrl + 'i' + id;
+					this.$.loader.url = url + '/i' + id;
 					var request = this.$.loader.generateRequest();
 					var timer = setTimeout(function(){
 						request.abort();
