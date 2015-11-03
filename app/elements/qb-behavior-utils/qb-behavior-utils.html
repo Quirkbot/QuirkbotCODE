@@ -26,8 +26,8 @@
 			}
 		},
 		/**
-		 * Dom utils
-		 **/
+		* Dom utils
+		**/
 		hitTest: function(element, x, y, margin){
 			margin = margin || 0;
 			var box = element.getBoundingClientRect();
@@ -37,8 +37,8 @@
 			return true;
 		},
 		/**
-		 * Polymer helpers
-		 **/
+		* Polymer helpers
+		**/
 		resolveIconName: function(name, iconset){
 			var set = new Polymer.IronMetaQuery({type: 'iconset', key: iconset}).value;
 			if(!set){
@@ -61,22 +61,31 @@
 			}
 			return url + '/' + path;
 		},
+		_resolveAppUrl: function(url, path){
+			if (url.charAt(url.length - 1) === '/') {
+				url = url.substr(0, url.length - 1);
+			}
+			if(url && !this.stringEndsWith(url, 'html')){
+				url += '/';
+			}
+			return url + '#!/' + path;
+		},
 		/**
-		 * Searching arrays of objects
-		 **/
-		 findIndexesByKey: function(list, path, value) {
+		* Searching arrays of objects
+		**/
+		findIndexesByKey: function(list, path, value) {
 			var result = [];
- 			if(!list || !list.length){
- 				return result;
- 			}
+				if(!list || !list.length){
+					return result;
+				}
 
- 			for (var i = 0; i < list.length; i++) {
- 				if(this.getDeep(list[i], path) === value){
- 					result.push(i);
- 				}
- 			}
- 			return result;
- 		},
+				for (var i = 0; i < list.length; i++) {
+					if(this.getDeep(list[i], path) === value){
+						result.push(i);
+					}
+				}
+				return result;
+			},
 		findObjectsByKey: function(list, path, value) {
 			var indexes = this.findIndexesByKey(list, path, value);
 			return	indexes.map(function(index){
@@ -103,8 +112,8 @@
 			return	list[index];
 		},
 		/**
-		 * Filters and sorters for arrays of objects
-		 **/
+		* Filters and sorters for arrays of objects
+		**/
 		sortByKey: function (key, a, b) {
 			if(!a[key] && !b[key]){
 				return 0;
@@ -132,8 +141,8 @@
 			return this.sortByKey('uuid', a, b);
 		},
 		/**
-		 * Logical filters
-		 **/
+		* Logical filters
+		**/
 		_any: function () {
 			for (var i = 0; i < arguments.length; i++) {
 				if(arguments[i]){
@@ -166,8 +175,17 @@
 			return true;
 		},
 		/**
-		 * String utils
-		 **/
+		* String utils
+		**/
+		stringEndsWith : function(string, searchString, position) {
+			var subjectString = string.toString();
+			if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+				position = subjectString.length;
+			}
+			position -= searchString.length;
+			var lastIndex = subjectString.indexOf(searchString, position);
+			return lastIndex !== -1 && lastIndex === position;
+		},
 		lTrimNumerals : function(string){
 			while (parseInt(string.charAt(0)).toString() === string.charAt(0)) {
 				string = string.substring(string.length, 1);

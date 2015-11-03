@@ -102,7 +102,7 @@
 			}
 		},
 		_computeUrl: function (programAppUrl, id) {
-			return programAppUrl + '#!/' + id;
+			return this._resolveAppUrl(programAppUrl, id);
 		},
 		_onDeleteTap: function(e){
 			e.preventDefault();
