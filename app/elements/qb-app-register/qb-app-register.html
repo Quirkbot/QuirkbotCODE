@@ -249,11 +249,7 @@
 			}.bind(this));
 		},
 		_goToProfile: function(){
-			var url = this.userAppUrl;
-			if (url.charAt(url.length - 1) === '/') {
-				url = url.substr(0, url.length - 1);
-			}
-			window.location = url + '#/' + this.$.auth.user.nickname;
+			window.location = this._resolveAppUrl(this.userAppUrl, this.$.auth.user.nickname);
 		}
 
 	});

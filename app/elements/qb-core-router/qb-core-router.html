@@ -22,8 +22,9 @@
 			if(!entry && !window.location.hash){
 				return;
 			}
-			var newHash = '#/'+entry;
-			if(window.location.hash === '#'+entry){
+			var newHash = '#!/'+entry;
+			var currentHash = window.location.hash;
+			if(currentHash === '#'+entry || currentHash === '#!'+entry || currentHash === '#/'+entry){
 				window.history.replaceState(undefined, undefined, newHash);
 			}
 			else{
@@ -34,6 +35,9 @@
 			// Only listen to chages on the current path
 			page(window.location.pathname, function(data){
 				var entry = data.hash;
+				if(entry.length && entry[0] === '!'){
+					entry = entry.substr(1);
+				}
 				if(entry.length && entry[0] === '/'){
 					entry = entry.substr(1);
 				}

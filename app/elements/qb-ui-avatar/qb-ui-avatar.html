@@ -186,7 +186,7 @@
 			this.goToHome();
 		},
 		_computeProfileUrl: function(userAppUrl, nickname){
-			return userAppUrl + '#/' + nickname;
+			return this._resolveAppUrl(userAppUrl, nickname);
 		},
 		goToHome: function(){
 			this.fire('go-to-home');
@@ -202,7 +202,7 @@
 		},
 		goToEmptyProgram: function(){
 			this.fire('go-to-empty-program');
-			window.location = this.programAppUrl + '#/';
+			window.location = this._resolveAppUrl(this.programAppUrl, '');
 		}
 	});
 })();
