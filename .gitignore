@@ -1,7 +1,11 @@
 node_modules
 dist
-s3_publish
 static
 static_stage
+dist_static
+dist_static_stage
+dist_static_gzip
+dist_static_stage_gzip
+s3_publish
 bower_components
 .tmp

@@ -187,7 +187,7 @@ gulp.task('precache', function (callback) {
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['.tmp', 'dist', 'static', 'static_stage']));
+gulp.task('clean', del.bind(null, ['.tmp', 'dist', 'dist_static', 'dist_static_stage', 'dist_static_gzip', 'dist_static_stage_gzip']));
 
 // Watch Files For Changes & Reload
 gulp.task('serve', ['styles', 'elements', 'images'], function () {
@@ -259,33 +259,33 @@ gulp.task('default', ['clean'], function (cb) {
 // STATIC ----------------------------------------------------------------------
 gulp.task('static-copy', function () {
 	return gulp.src(['dist/**/*'])
-	.pipe(gulp.dest('static/_static'))
+	.pipe(gulp.dest('dist_static/_static'))
 	.pipe($.size({title: 'static-copy'}));
 });
 gulp.task('static-clean',
 	del.bind(null, [
-		'static/_static/test',
+		'dist_static/_static/test',
 
-		'static/_static/bower_components/**/*',
+		'dist_static/_static/bower_components/**/*',
 
-		'!static/_static/bower_components/ace-element',
-		 'static/_static/bower_components/ace-element/**/*',
-		'!static/_static/bower_components/ace-element/src-min-noconflict',
-		 'static/_static/bower_components/ace-element/src-min-noconflict/**/*',
-		'!static/_static/bower_components/ace-element/src-min-noconflict/mode-c_cpp.js',
-		'!static/_static/bower_components/ace-element/src-min-noconflict/theme-monokai.js',
+		'!dist_static/_static/bower_components/ace-element',
+		 'dist_static/_static/bower_components/ace-element/**/*',
+		'!dist_static/_static/bower_components/ace-element/src-min-noconflict',
+		 'dist_static/_static/bower_components/ace-element/src-min-noconflict/**/*',
+		'!dist_static/_static/bower_components/ace-element/src-min-noconflict/mode-c_cpp.js',
+		'!dist_static/_static/bower_components/ace-element/src-min-noconflict/theme-monokai.js',
 
-		'!static/_static/bower_components/webcomponentsjs',
-		 'static/_static/bower_components/webcomponentsjs/**/*',
-		'!static/_static/bower_components/webcomponentsjs/webcomponents-lite.min.js',
+		'!dist_static/_static/bower_components/webcomponentsjs',
+		 'dist_static/_static/bower_components/webcomponentsjs/**/*',
+		'!dist_static/_static/bower_components/webcomponentsjs/webcomponents-lite.min.js',
 
-		 'static/_static/elements/**/*',
-		'!static/_static/elements/elements.vulcanized.build.html',
-		'!static/_static/elements/elements.vulcanized.build.js'
+		 'dist_static/_static/elements/**/*',
+		'!dist_static/_static/elements/elements.vulcanized.build.html',
+		'!dist_static/_static/elements/elements.vulcanized.build.js'
 	]
 ));
 gulp.task('static-root-path', function () {
-	return gulp.src(['static/_static/index.html','static/_static/404.html'])
+	return gulp.src(['dist_static/_static/index.html','dist_static/_static/404.html'])
 	.pipe($.replace('./data', './_static/data'))
 	.pipe($.replace('./bower_components', './_static/bower_components'))
 	.pipe($.replace('./elements', './_static/elements'))
@@ -293,11 +293,11 @@ gulp.task('static-root-path', function () {
 	.pipe($.replace('./images', './_static/images'))
 	.pipe($.replace('./scripts', './_static/scripts'))
 	.pipe($.replace('./styles', './_static/styles'))
-	.pipe(gulp.dest('static/_static'))
+	.pipe(gulp.dest('dist_static/_static'))
 	.pipe($.size({title: 'static-root-path'}));
 });
 gulp.task('static-path', function () {
-	return gulp.src(['static/_static/_static_*.html'])
+	return gulp.src(['dist_static/_static/_static_*.html'])
 	// Replace path for static entrypoints
 	.pipe($.replace('./data', '../_static/data'))
 	.pipe($.replace('./bower_components', '../_static/bower_components'))
@@ -306,33 +306,33 @@ gulp.task('static-path', function () {
 	.pipe($.replace('./images', '../_static/images'))
 	.pipe($.replace('./scripts', '../_static/scripts'))
 	.pipe($.replace('./styles', '../_static/styles'))
-	.pipe(gulp.dest('static/_static'))
+	.pipe(gulp.dest('dist_static/_static'))
 	.pipe($.size({title: 'static-path'}));
 });
 gulp.task('static-replace', function () {
-	return gulp.src(['static/_static/*.html'])
+	return gulp.src(['dist_static/_static/*.html'])
 	// Replace any referect to the html files to the correct folder
 	.pipe($.replace(/_static_([^.]*).html/g, '/$1'))
 	.pipe($.replace(/index.html/g, '/'))
-	.pipe(gulp.dest('static/_static'))
+	.pipe(gulp.dest('dist_static/_static'))
 	.pipe($.size({title: 'static-replace'}));
 });
 gulp.task('static-root-entrypoints', function () {
-	return gulp.src(['static/_static/index.html','static/_static/404.html'])
-		.pipe(gulp.dest('static'))
+	return gulp.src(['dist_static/_static/index.html','dist_static/_static/404.html'])
+		.pipe(gulp.dest('dist_static'))
 		.pipe($.size({title: 'static-root-entrypoints'}));
 });
 gulp.task('static-entrypoints', function () {
-	return gulp.src('static/_static/_static_*.html')
+	return gulp.src('dist_static/_static/_static_*.html')
 	.pipe($.rename(function (path) {
 		path.basename = path.basename.replace('_static_', '') + '/index';
 	}))
-	.pipe(gulp.dest('static/'))
+	.pipe(gulp.dest('dist_static/'))
 	.pipe($.size({title: 'static-entrypoints'}));
 });
 gulp.task('static-copy-stage', function () {
-	return gulp.src(['static/**/*'])
-	.pipe(gulp.dest('static_stage'))
+	return gulp.src(['dist_static/**/*'])
+	.pipe(gulp.dest('dist_static_stage'))
 	.pipe($.size({title: 'static-copy-stage'}));
 });
 // Replace configuration attributes based on the config file
@@ -341,12 +341,12 @@ gulp.task('static-config', function () {
 	var config = JSON.parse(fs.readFileSync('app/config.json')).production;
 
 	return gulp.src([
-		'static/**/index.html',
-		'static/**/404.html',
+		'dist_static/**/index.html',
+		'dist_static/**/404.html',
 	])
 	.pipe($.replace(/api-url="([^"]*)"/g, 'api-url="'+config['api-url'] +'"' ))
 	.pipe($.replace(/compiler-url="([^"]*)"/g, 'compiler-url="'+config['compiler-url'] +'"' ))
-	.pipe(gulp.dest('static'))
+	.pipe(gulp.dest('dist_static'))
 	.pipe($.size({title: 'static-config'}));
 });
 gulp.task('static-config-stage', function () {
@@ -354,39 +354,49 @@ gulp.task('static-config-stage', function () {
 	var config = JSON.parse(fs.readFileSync('app/config.json')).stage;
 
 	return gulp.src([
-		'static_stage/**/index.html',
-		'static_stage/**/404.html',
+		'dist_static_stage/**/index.html',
+		'dist_static_stage/**/404.html',
 	])
 	.pipe($.replace(/api-url="([^"]*)"/g, 'api-url="'+config['api-url'] +'"' ))
 	.pipe($.replace(/compiler-url="([^"]*)"/g, 'compiler-url="'+config['compiler-url'] +'"' ))
-	.pipe(gulp.dest('static_stage'))
+	.pipe(gulp.dest('dist_static_stage'))
 	.pipe($.size({title: 'static-config-stage'}));
 });
 
-gulp.task('static-gzip', function () {
+gulp.task('static-pre-gzip', function () {
+	return gulp.src(['dist_static/**/*'])
+	.pipe(gulp.dest('dist_static_gzip'))
+	.pipe($.size({title: 'static-pre-gzip'}));
+});
+gulp.task('static-gzip', ['static-pre-gzip'], function () {
 	return gulp.src([
-		'static/**/*.html',
-		'static/**/*.js',
-		'static/**/*.css',
-		'static/**/*.json',
-		'static/**/*.svg',
-		'static/**/*.woff2'
+		'dist_static_gzip/**/*.html',
+		'dist_static_gzip/**/*.js',
+		'dist_static_gzip/**/*.css',
+		'dist_static_gzip/**/*.json',
+		'dist_static_gzip/**/*.svg',
+		'dist_static_gzip/**/*.woff2'
 	])
 	.pipe($.gzip({ append: false }))
-	.pipe(gulp.dest('static'))
+	.pipe(gulp.dest('dist_static_gzip'))
 	.pipe($.size({title: 'static-gzip'}));
 });
-gulp.task('static-gzip-stage', function () {
+gulp.task('static-pre-gzip-stage', function () {
+	return gulp.src(['dist_static_stage/**/*'])
+	.pipe(gulp.dest('dist_static_stage_gzip'))
+	.pipe($.size({title: 'static-pre-gzip-stage'}));
+});
+gulp.task('static-gzip-stage', ['static-pre-gzip-stage'], function () {
 	return gulp.src([
-		'static_stage/**/*.html',
-		'static_stage/**/*.js',
-		'static_stage/**/*.css',
-		'static_stage/**/*.json',
-		'static_stage/**/*.svg',
-		'static_stage/**/*.woff2'
+		'dist_static_stage_gzip/**/*.html',
+		'dist_static_stage_gzip/**/*.js',
+		'dist_static_stage_gzip/**/*.css',
+		'dist_static_stage_gzip/**/*.json',
+		'dist_static_stage_gzip/**/*.svg',
+		'dist_static_stage_gzip/**/*.woff2'
 	])
 	.pipe($.gzip({ append: false }))
-	.pipe(gulp.dest('static_stage'))
+	.pipe(gulp.dest('dist_static_stage_gzip'))
 	.pipe($.size({title: 'static-gzip-stage'}));
 });
 // Static task
@@ -402,11 +412,6 @@ gulp.task('static', ['default'], function (cb) {
 	'static-copy-stage',
 	'static-config',
 	'static-config-stage',
-	cb);
-});
-gulp.task('gzip-static', ['default'], function (cb) {
-	runSequence(
-	'static',
 	'static-gzip',
 	'static-gzip-stage',
 	cb);

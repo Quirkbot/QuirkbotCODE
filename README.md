@@ -28,7 +28,6 @@ Serves files for local development. Static resources will only be available as h
 "Polybuild" the resources.
 
 ## Building release
-#### ```$ gulp static```
 Builds a release distribution. Files will be available at the directories:
 - `./static`
 - `./static_stage`
@@ -37,6 +36,12 @@ The static resources will be converted to directories, eg:
 
 - `/_static_user.html` -> `/user`
 - `/_static_program.html` -> `/program`
+
+#### ```$ gulp static```
+Builds the release.
+#### ```$ gulp static-gzip```
+Builds the release (gziped).
+
 
 ## Deploy to stage
 #### ```$ sh s3-publish-stage```
