@@ -1,7 +1,9 @@
-node_modules
-dist
-s3_publish
-static
-static_stage
-bower_components
+.DS_Store
+.sass-cache
 .tmp
+dist
+dist_dev
+dist_polymer
+dist_gzip
+node_modules
+aws-config

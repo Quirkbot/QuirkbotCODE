@@ -1,47 +1,118 @@
 # Quirkbot CODE frontend
 
-# Configuring API and Compiler
+## Dependecies
+- Nodejs
+- Npm
+- Bower
+- Jekyll
 
-To configure the endpoints for stage and production, modify ``app/config.json``.
+## Setup
+```
+git clone https://github.com/Quirkbot/QuirkbotCODE.git
+cd QuirkbotCODE
+npm install
+cd src/_statitc/
+bower install
+```
+## Distribution Setups
+There are different distribution "setups". All setups have the same content, but each one have a difference in how the content get piped before being deployed to the final distribution directory.
+- `dev`
+- `polymer`
+- `gzip`
 
-To configure the endpoints for local development modify the attributes of the app's custom element in the HTML files directly. Example from ```app/_static_program.html```:
+#### `dev` distribution
+It's the content of `/src` compiled with Jekyll.
+
+The final content get's deployed to `/dist`.
+
+#### `polymer` distribution
+Same as `dev`, but the content also needs to pass through a JSLint test first, and afterwards, the main Polymer resources (`/_static/elements/elements.html`) gets "polybuilt" to `/_static/elements/elements.build.html` and `/_static/elements/elements.build.js`. Service worker elements also get placed in the correct paths, and paths are updated to use minified resources.
+
+The final content get's deployed to `/dist_polymer`.
+
+#### `gzip` distribution
+Same as `polymer`, but the content is gzipped afterwards.
+
+The final content get's deployed to `/dist_gzip`.
+
+## Command line interface
+Every distribution setup respond to the same set of command line tasks:
+- `build`
+- `serve`
+- `watch`
+- `clean`
+
+#### `gulp build:{distribution}` task
+Builds the content of the `/src` to one of the distribution directories.
+- `gulp build:dev` (builds to `/dist`)
+- `gulp build:polymer` (builds to `/dist_polymer`)
+- `gulp build:gzip` (builds to `/dist_gzip`)
+
+#### `gulp serve:{distribution}` task
+Serves the content of the distribution directory.
+- `gulp serve:dev` (serves at http://localhost:4000)
+- `gulp serve:polymer` (serves at http://localhost:4001)
+- `gulp serve:gzip` (serves at http://localhost:4002)
+
+#### `gulp watch:{distribution}` task
+Serves the content of the distribution directory and rebuilds every time there is a file change.
+
+#### `gulp clean:{distribution}` task
+Cleans the content of the distribution directory.
+
+## Environment flags
+All the command line task accepts a `--environment` flag. This flag will be used internally by Jerkyll to enable/disable features and also to control environment specific settings (@see `/src/_config.yml`).
+
+There are 3 possible values for the flags
+- `--environment=development` (default)
+- `--environment=production`
+- `--environment=stage`
+
+Sample usage
+```
+gulp build:dev --environment=production
+gulp serve:polymer --environment=stage
+
+# no flag...
+gulp watch:gzip
+# ...same as:
+gulp watch:gzip --environment=development
+```
+## Deploying
+To deploy the `gzip` setup to Amazon S3, please create the corresponding configuration
+files in `/aws-config/[environment].json`.
+For security, those files should not be included on the repository.
+
+Examples:
+
+### `/aws-config/stage.json`
 
 ```
-<qb-app-program
-	(...)
-	compiler-url="http://localhost:8080"
-	api-url="http://localhost:3007"
-	(...)>
-</qb-app-program>
+{
+  "key": "YOUR_S3_KEY",
+  "secret": "YOUR_S3_SECRET",
+  "bucket": "code-stage.quirkbot.com",
+  "region": "us-east-1"
+}
+
 ```
-# Command line interface
-## Serving locally
-#### ```$ gulp serve```
-Serves files for local development. Static resources will only be available as html files, eg:
+### `/aws-config/production.json`
 
-- ``http://ide-local.quirkbot.com:3000/``
-- ``http://ide-local.quirkbot.com:3000/_static_user.html``
-- ``http://ide-local.quirkbot.com:3000/_static_program.html``
+```
+{
+  "key": "YOUR_S3_KEY",
+  "secret": "YOUR_S3_SECRET",
+  "bucket": "code.quirkbot.com",
+  "region": "us-east-1"
+}
 
-## Test build for release
-#### ```$ gulp```
-"Polybuild" the resources.
+```
 
-## Building release
-#### ```$ gulp static```
-Builds a release distribution. Files will be available at the directories:
-- `./static`
-- `./static_stage`
-
-The static resources will be converted to directories, eg:
-
-- `/_static_user.html` -> `/user`
-- `/_static_program.html` -> `/program`
-
-## Deploy to stage
-#### ```$ sh s3-publish-stage```
-Builds a release distribution and publish to the stage server: http://code-stage.quirkbot.com
-
-## Deploy to production
-#### ```$ sh s3-publish```
-Builds a release distribution and publish to the production server: http://code.quirkbot.com
+When you are ready to deploy, run:
+```
+gulp s3 --environment=stage
+```
+or
+```
+gulp s3 --environment=production
+```
