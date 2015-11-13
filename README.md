@@ -1,10 +1,20 @@
 # Quirkbot CODE frontend
 
-## Configuring external endpoints
+## Dependecies
+- Nodejs
+- Npm
+- Bower
+- Jekyll
 
-To configure the external endpoints (api, compiler, etc) see `/src/_config.yml`.
-
-## Setups
+## Setup
+```
+git clone https://github.com/Quirkbot/QuirkbotCODE.git
+cd QuirkbotCODE
+npm install
+cd src/_statitc/
+bower install
+```
+## Distribution Setups
 There are different distribution "setups". All setups have the same content, but each one have a difference in how the content get piped before being deployed to the final distribution directory.
 - `dev`
 - `polymer`
