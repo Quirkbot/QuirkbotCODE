@@ -1,27 +1,25 @@
-/*
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
 'use strict';
 
-// Include Gulp & Tools We'll Use
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var polybuild = require('polybuild');
-var del = require('del');
-var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
-var merge = require('merge-stream');
 var path = require('path');
 var fs = require('fs');
 var glob = require('glob');
+var polybuild = require('polybuild');
+var browserSync = require('browser-sync');
+var argv = require('yargs').default('environment', 'development').argv;
+var reload = browserSync.reload;
+var gulp = require('gulp');
+var $ = require('gulp-load-plugins')();
+var merge = require('merge-stream');
+var runSequence = require('run-sequence');
+var streamqueue = require('streamqueue')
+var del = require('del');
+
 var historyApiFallback = require('connect-history-api-fallback');
+
+var SRC = 'src';
+var DEST_DEV = 'dist_dev';
+var DEST_POLYMER = 'dist_polymer';
+var DEST_GZIP = 'dist_gzip';
 
 var AUTOPREFIXER_BROWSERS = [
 	'ie >= 10',
@@ -35,33 +33,14 @@ var AUTOPREFIXER_BROWSERS = [
 	'bb >= 10'
 ];
 
-var styleTask = function (stylesPath, srcs) {
-	return gulp.src(srcs.map(function(src) {
-		return path.join('app', stylesPath, src);
-	}))
-	.pipe($.changed(stylesPath, {extension: '.css'}))
-	.pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
-	.pipe(gulp.dest('.tmp/' + stylesPath))
-	.pipe($.if('*.css', $.cssmin()))
-	.pipe(gulp.dest('dist/' + stylesPath))
-	.pipe($.size({title: stylesPath}));
-};
 
-// Compile and Automatically Prefix Stylesheets
-gulp.task('styles', function () {
-	return styleTask('styles', ['**/*.css']);
-});
-
-gulp.task('elements', function () {
-	return styleTask('elements', ['**/*.css']);
-});
-
-// Lint JavaScript
+/**
+ * Lint JavaScript fom SRC
+ */
 gulp.task('jshint', function () {
 	return gulp.src([
-		'app/scripts/**/*.js',
-		'app/elements/**/*.js',
-		'app/elements/**/*.html'
+		SRC + '/_static/elements/**/*.js',
+		SRC + '/_static/elements/**/*.html',
 	])
 	.pipe(reload({stream: true, once: true}))
 	.pipe($.jshint.extract()) // Extract JS from .html files
@@ -70,358 +49,303 @@ gulp.task('jshint', function () {
 	.pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
-// Optimize Images
-gulp.task('images', function () {
-	return gulp.src('app/images/**/*')
-	/*.pipe($.cache($.imagemin({
-		progressive: true,
-		interlaced: true
-	})))*/
-	.pipe(gulp.dest('dist/images'))
-	.pipe($.size({title: 'images'}));
+/**
+ * Runs Jekyll using --source SRC --destination DEST_DEV
+ */
+gulp.task('jekyll', function (gulpCallBack){
+	var environment;
+	switch (argv.environment) {
+		case 'production':
+			environment = argv.environment;
+			break;
+		case 'stage':
+			environment = argv.environment;
+			break;
+		default:
+			environment = 'development';
+
+	}
+	console.log(environment)
+	var spawn = require('child_process').spawn;
+	var jekyll = spawn(
+		'jekyll', ['build', '--source', SRC, '--destination', DEST_DEV],
+		{
+			stdio: 'inherit',
+			env: {
+				JEKYLL_ENV: environment
+			}
+		}
+	);
+	jekyll.on('exit', function(code) {
+		gulpCallBack(code === 0 ? null : 'ERROR: Jekyll process exited with code: '+code);
+	});
 });
 
-// Copy All Files At The Root Level (app)
-gulp.task('copy', function () {
-	var app = gulp.src([
-	'app/*',
-	'!app/test',
-	'!app/precache.json'
-	], {
-	dot: true
-	}).pipe(gulp.dest('dist'));
+/**
+ * Copies prepare files for polymer, from DEST_DEV to DEST_POLYMER
+ */
+gulp.task('polymer-copy', function () {
+	var app = gulp.src([ DEST_DEV + '/**/*'])
+	.pipe(gulp.dest(DEST_POLYMER));
 
-	var data = gulp.src([
-	'app/data/**/*'
-	]).pipe(gulp.dest('dist/data'));
+	var swBootstrap = gulp.src([DEST_DEV + '/_static/bower_components/platinum-sw/bootstrap/*.js'])
+	.pipe(gulp.dest(DEST_POLYMER + '/_static/elements/bootstrap'));
 
-	var bower = gulp.src([
-	'bower_components/**/*'
-	]).pipe(gulp.dest('dist/bower_components'));
+	var swToolbox = gulp.src([DEST_DEV + '/_static/bower_components/sw-toolbox/*.js'])
+	.pipe(gulp.dest(DEST_POLYMER + '/sw-toolbox'));
 
-	var elements = gulp.src(['app/elements/**/*.html'])
-	.pipe(gulp.dest('dist/elements'));
-
-	var swBootstrap = gulp.src(['bower_components/platinum-sw/bootstrap/*.js'])
-	.pipe(gulp.dest('dist/elements/bootstrap'));
-
-	var swToolbox = gulp.src(['bower_components/sw-toolbox/*.js'])
-	.pipe(gulp.dest('dist/sw-toolbox'));
-
-	var vulcanized = gulp.src(['app/elements/elements.html'])
-	.pipe($.rename('elements.vulcanized.html'))
-	.pipe(gulp.dest('dist/elements'));
-
-	return merge(app, data, bower, elements, vulcanized, swBootstrap, swToolbox)
-	.pipe($.size({title: 'copy'}));
+	return merge(app, swBootstrap, swToolbox)
+	.pipe($.size({title: 'copyBuild'}));
 });
-
-// Copy Web Fonts To Dist
-gulp.task('fonts', function () {
-	return gulp.src(['app/fonts/**'])
-	.pipe(gulp.dest('dist/fonts'))
-	.pipe($.size({title: 'fonts'}));
-});
-
-// Scan Your HTML For Assets & Optimize Them
-gulp.task('html', function () {
-	var assets = $.useref.assets({searchPath: ['.tmp', 'app', 'dist']});
-
-	return gulp.src(['app/**/*.html','app/**/*.css','app/**/*.js'])
+/**
+ * Replaces paths DEST_POLYMER so they load the minified resources
+ */
+gulp.task('polymer-use-minified-paths', function () {
+	return gulp.src([
+		DEST_DEV + '/**/*.html'
+	])
 	// Replace path for vulcanized assets
-	.pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.build.html')))
+	.pipe($.replace('elements/elements.html', 'elements/elements.build.html'))
 	// Replace path for minimized webcomponentsjs
-	.pipe($.if('*.html', $.replace('bower_components/webcomponentsjs/webcomponents-lite.js', 'bower_components/webcomponentsjs/webcomponents-lite.min.js')))
-	.pipe(assets)
-	// Concatenate And Minify JavaScript
-	.pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
-	// Concatenate And Minify Styles
-	// In case you are still using useref build blocks
-	.pipe($.if('*.css', $.cssmin()))
-	.pipe(assets.restore())
-	.pipe($.useref())
-	// Minify Any HTML
+	.pipe($.replace('bower_components/webcomponentsjs/webcomponents-lite.js', 'bower_components/webcomponentsjs/webcomponents-lite.min.js'))
+	// Minify HTML
 	.pipe($.if('*.html', $.minifyHtml()))
 	// Output Files
-	.pipe(gulp.dest('dist'))
-	.pipe($.size({title: 'html'}));
+	.pipe(gulp.dest(DEST_POLYMER))
+	.pipe($.size({title: 'polymer-minify'}));
 });
-
-// Add revision based on the app mainfest
-gulp.task('revision', function () {
-	var fs = require('fs');
-	var manifest = JSON.parse(fs.readFileSync('dist/manifest.json'));
-	return gulp.src(['dist/**/*.html'])
-		.pipe($.replace('elements.vulcanized.build.html', 'elements.vulcanized.build.html?'+manifest.version))
-		.pipe($.replace('elements.vulcanized.build.js', 'elements.vulcanized.build.js?'+manifest.version))
-		.pipe($.replace('data/nodes.json', 'data/nodes.json?'+manifest.version))
-		.pipe($.replace('data/strings/{{locale}}.json', 'data/strings/{{locale}}.json?'+manifest.version))
-		.pipe(gulp.dest('dist'))
-		.pipe($.size({title: 'revision'}));
-});
-
-// Polybuild
-gulp.task('polybuild', function () {
-	var DEST_DIR = 'dist/elements';
-
-	return gulp.src('dist/elements/elements.vulcanized.html')
+/**
+ * Polybuild
+ */
+gulp.task('polymer-polybuild', function () {
+	return gulp.src(DEST_POLYMER + '/_static/elements/elements.html')
 	.pipe(polybuild({maximumCrush: true}))
-	.pipe(gulp.dest(DEST_DIR))
-	.pipe($.size({title: 'polybuild'}));
+	.pipe(gulp.dest(DEST_POLYMER + '/_static/elements/'))
+	.pipe($.size({title: 'polymer-polybuild'}));
 });
-
-// Generate a list of files that should be precached when serving from 'dist'.
-// The list will be consumed by the <platinum-sw-cache> element.
-gulp.task('precache', function (callback) {
-	var dir = 'dist';
-
-	glob('{elements,scripts,styles}/**/*.*', {cwd: dir}, function(error, files) {
-	if (error) {
-		callback(error);
-	} else {
-		files.push('index.html', './', 'bower_components/webcomponentsjs/webcomponents-lite.min.js');
-		var filePath = path.join(dir, 'precache.json');
-		fs.writeFile(filePath, JSON.stringify(files), callback);
-	}
-	});
-});
-
-// Clean Output Directory
-gulp.task('clean', del.bind(null, ['.tmp', 'dist', 'dist_static', 'dist_static_stage', 'dist_static_gzip', 'dist_static_stage_gzip']));
-
-// Watch Files For Changes & Reload
-gulp.task('serve', ['styles', 'elements', 'images'], function () {
-	browserSync({
-	notify: false,
-	logPrefix: 'PSK',
-	snippetOptions: {
-		rule: {
-		match: '<span id="browser-sync-binding"></span>',
-		fn: function (snippet) {
-			return snippet;
-		}
-		}
-	},
-	// Run as an https by uncommenting 'https: true'
-	// Note: this uses an unsigned certificate which on first access
-	//		 will present a certificate warning in the browser.
-	// https: true,
-	server: {
-		baseDir: ['.tmp', 'app'],
-		middleware: [ historyApiFallback() ],
-		routes: {
-		'/bower_components': 'bower_components'
-		}
-	}
-	});
-
-	gulp.watch(['app/**/*.html'], reload);
-	gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
-	gulp.watch(['app/elements/**/*.css'], ['elements', reload]);
-	gulp.watch(['app/{scripts,elements}/**/*.js'], ['jshint']);
-	gulp.watch(['app/images/**/*'], reload);
-});
-
-// Build and serve the output from the dist build
-gulp.task('serve:dist', ['default'], function () {
-	browserSync({
-	notify: false,
-	logPrefix: 'PSK',
-	snippetOptions: {
-		rule: {
-		match: '<span id="browser-sync-binding"></span>',
-		fn: function (snippet) {
-			return snippet;
-		}
-		}
-	},
-	// Run as an https by uncommenting 'https: true'
-	// Note: this uses an unsigned certificate which on first access
-	//		 will present a certificate warning in the browser.
-	// https: true,
-	server: 'dist',
-	middleware: [ historyApiFallback() ]
-	});
-});
-
-// Build Production Files, the Default Task
-gulp.task('default', ['clean'], function (cb) {
-	runSequence(
-	['copy', 'styles'],
-	'elements',
-	['jshint', 'images', 'fonts', 'html'],
-	'polybuild',
-	'revision',
-	cb);
-	// Note: add , 'precache' , after 'vulcanize', if your are going to use Service Worker
-});
-
-// STATIC ----------------------------------------------------------------------
-gulp.task('static-copy', function () {
-	return gulp.src(['dist/**/*'])
-	.pipe(gulp.dest('dist_static/_static'))
-	.pipe($.size({title: 'static-copy'}));
-});
-gulp.task('static-clean',
+/**
+ * Deletes unused resources
+ */
+gulp.task('polymer-clean',
 	del.bind(null, [
-		'dist_static/_static/test',
+		DEST_POLYMER + '/_static/test',
 
-		'dist_static/_static/bower_components/**/*',
+		DEST_POLYMER + '/_static/bower_components/**/*',
 
-		'!dist_static/_static/bower_components/ace-element',
-		 'dist_static/_static/bower_components/ace-element/**/*',
-		'!dist_static/_static/bower_components/ace-element/src-min-noconflict',
-		 'dist_static/_static/bower_components/ace-element/src-min-noconflict/**/*',
-		'!dist_static/_static/bower_components/ace-element/src-min-noconflict/mode-c_cpp.js',
-		'!dist_static/_static/bower_components/ace-element/src-min-noconflict/theme-monokai.js',
+		'!' + DEST_POLYMER + '/_static/bower_components/ace-element',
+			  DEST_POLYMER + '/_static/bower_components/ace-element/**/*',
+		'!' + DEST_POLYMER + '/_static/bower_components/ace-element/src-min-noconflict',
+			  DEST_POLYMER + '/_static/bower_components/ace-element/src-min-noconflict/**/*',
+		'!' + DEST_POLYMER + '/_static/bower_components/ace-element/src-min-noconflict/mode-c_cpp.js',
+		'!' + DEST_POLYMER + '/_static/bower_components/ace-element/src-min-noconflict/theme-monokai.js',
 
-		'!dist_static/_static/bower_components/webcomponentsjs',
-		 'dist_static/_static/bower_components/webcomponentsjs/**/*',
-		'!dist_static/_static/bower_components/webcomponentsjs/webcomponents-lite.min.js',
+		'!' + DEST_POLYMER + '/_static/bower_components/webcomponentsjs',
+			  DEST_POLYMER + '/_static/bower_components/webcomponentsjs/**/*',
+		'!' + DEST_POLYMER + '/_static/bower_components/webcomponentsjs/webcomponents-lite.min.js',
 
-		 'dist_static/_static/elements/**/*',
-		'!dist_static/_static/elements/elements.vulcanized.build.html',
-		'!dist_static/_static/elements/elements.vulcanized.build.js'
+			  DEST_POLYMER + '/_static/elements/**/*',
+		'!' + DEST_POLYMER + '/_static/elements/elements.build.html',
+		'!' + DEST_POLYMER + '/_static/elements/elements.build.js'
 	]
 ));
-gulp.task('static-root-path', function () {
-	return gulp.src(['dist_static/_static/index.html','dist_static/_static/404.html'])
-	.pipe($.replace('./data', './_static/data'))
-	.pipe($.replace('./bower_components', './_static/bower_components'))
-	.pipe($.replace('./elements', './_static/elements'))
-	.pipe($.replace('./fonts', './_static/fonts'))
-	.pipe($.replace('./images', './_static/images'))
-	.pipe($.replace('./scripts', './_static/scripts'))
-	.pipe($.replace('./styles', './_static/styles'))
-	.pipe(gulp.dest('dist_static/_static'))
-	.pipe($.size({title: 'static-root-path'}));
-});
-gulp.task('static-path', function () {
-	return gulp.src(['dist_static/_static/_static_*.html'])
-	// Replace path for static entrypoints
-	.pipe($.replace('./data', '../_static/data'))
-	.pipe($.replace('./bower_components', '../_static/bower_components'))
-	.pipe($.replace('./elements', '../_static/elements'))
-	.pipe($.replace('./fonts', '../_static/fonts'))
-	.pipe($.replace('./images', '../_static/images'))
-	.pipe($.replace('./scripts', '../_static/scripts'))
-	.pipe($.replace('./styles', '../_static/styles'))
-	.pipe(gulp.dest('dist_static/_static'))
-	.pipe($.size({title: 'static-path'}));
-});
-gulp.task('static-replace', function () {
-	return gulp.src(['dist_static/_static/*.html'])
-	// Replace any referect to the html files to the correct folder
-	.pipe($.replace(/_static_([^.]*).html/g, '/$1'))
-	.pipe($.replace(/index.html/g, '/'))
-	.pipe(gulp.dest('dist_static/_static'))
-	.pipe($.size({title: 'static-replace'}));
-});
-gulp.task('static-root-entrypoints', function () {
-	return gulp.src(['dist_static/_static/index.html','dist_static/_static/404.html'])
-		.pipe(gulp.dest('dist_static'))
-		.pipe($.size({title: 'static-root-entrypoints'}));
-});
-gulp.task('static-entrypoints', function () {
-	return gulp.src('dist_static/_static/_static_*.html')
-	.pipe($.rename(function (path) {
-		path.basename = path.basename.replace('_static_', '') + '/index';
-	}))
-	.pipe(gulp.dest('dist_static/'))
-	.pipe($.size({title: 'static-entrypoints'}));
-});
-gulp.task('static-copy-stage', function () {
-	return gulp.src(['dist_static/**/*'])
-	.pipe(gulp.dest('dist_static_stage'))
-	.pipe($.size({title: 'static-copy-stage'}));
-});
-// Replace configuration attributes based on the config file
-gulp.task('static-config', function () {
+/**
+ * Add a revison query paramenter to the resources. Based on manifest version.
+ */
+gulp.task('polymer-revision', function () {
 	var fs = require('fs');
-	var config = JSON.parse(fs.readFileSync('app/config.json')).production;
-
-	return gulp.src([
-		'dist_static/**/index.html',
-		'dist_static/**/404.html',
-	])
-	.pipe($.replace(/api-url="([^"]*)"/g, 'api-url="'+config['api-url'] +'"' ))
-	.pipe($.replace(/compiler-url="([^"]*)"/g, 'compiler-url="'+config['compiler-url'] +'"' ))
-	.pipe(gulp.dest('dist_static'))
-	.pipe($.size({title: 'static-config'}));
+	var manifest = JSON.parse(fs.readFileSync(DEST_POLYMER + '/manifest.json'));
+	return gulp.src([DEST_POLYMER + '/**/*.html'])
+		.pipe($.replace('elements.build.html', 'elements.build.html?'+manifest.version))
+		.pipe($.replace('elements.build.js', 'elements.build.js?'+manifest.version))
+		.pipe($.replace('data/nodes.json', 'data/nodes.json?'+manifest.version))
+		.pipe($.replace('data/strings/{{locale}}.json', 'data/strings/{{locale}}.json?'+manifest.version))
+		.pipe(gulp.dest(DEST_POLYMER))
+		.pipe($.size({title: 'revision'}));
 });
-gulp.task('static-config-stage', function () {
-	var fs = require('fs');
-	var config = JSON.parse(fs.readFileSync('app/config.json')).stage;
-
-	return gulp.src([
-		'dist_static_stage/**/index.html',
-		'dist_static_stage/**/404.html',
-	])
-	.pipe($.replace(/api-url="([^"]*)"/g, 'api-url="'+config['api-url'] +'"' ))
-	.pipe($.replace(/compiler-url="([^"]*)"/g, 'compiler-url="'+config['compiler-url'] +'"' ))
-	.pipe(gulp.dest('dist_static_stage'))
-	.pipe($.size({title: 'static-config-stage'}));
+/**
+ * Clones the content from DEST_POLYMER to DEST_GZIP
+ */
+gulp.task('gzip-clone', function () {
+	return gulp.src([ DEST_POLYMER + '/**/*'])
+	.pipe(gulp.dest(DEST_GZIP))
+	.pipe($.size({title: 'gzip-clone'}));
 });
-
-gulp.task('static-pre-gzip', function () {
-	return gulp.src(['dist_static/**/*'])
-	.pipe(gulp.dest('dist_static_gzip'))
-	.pipe($.size({title: 'static-pre-gzip'}));
-});
-gulp.task('static-gzip', ['static-pre-gzip'], function () {
+/**
+ * Clones the content from DEST_POLYMER to DEST_GZIP and gzipps it
+ */
+gulp.task('gzip-compression', ['gzip-clone'], function () {
 	return gulp.src([
-		'dist_static_gzip/**/*.html',
-		'dist_static_gzip/**/*.js',
-		'dist_static_gzip/**/*.css',
-		'dist_static_gzip/**/*.json',
-		'dist_static_gzip/**/*.svg',
-		'dist_static_gzip/**/*.woff2'
+		DEST_GZIP + '/**/*.html',
+		DEST_GZIP + '/**/*.js',
+		DEST_GZIP + '/**/*.css',
+		DEST_GZIP + '/**/*.json',
+		DEST_GZIP + '/**/*.svg',
+		DEST_GZIP + '/**/*.woff2'
 	])
 	.pipe($.gzip({ append: false }))
-	.pipe(gulp.dest('dist_static_gzip'))
-	.pipe($.size({title: 'static-gzip'}));
+	.pipe(gulp.dest(DEST_GZIP))
+	.pipe($.size({title: 'gzip-compression'}));
 });
-gulp.task('static-pre-gzip-stage', function () {
-	return gulp.src(['dist_static_stage/**/*'])
-	.pipe(gulp.dest('dist_static_stage_gzip'))
-	.pipe($.size({title: 'static-pre-gzip-stage'}));
+
+/**
+ * Builds the Gzip setup and publish to s3
+ */
+gulp.task('s3', ['build:gzip'], function () {
+	var aws = JSON.parse(fs.readFileSync('./aws-config/'+argv.environment+'.json'));
+
+	var cacheControl = 'max-age=432000, no-transform, public';
+
+	return merge (
+		gulp.src([ DEST_GZIP + '/**/*.html' ])
+		.pipe($.s3(aws, {
+			headers: {
+				'Cache-Control': cacheControl,
+				'content-encoding': 'gzip',
+				'content-type': 'text/html'
+			}
+		})),
+
+		gulp.src([ DEST_GZIP + '/**/*.js' ])
+		.pipe($.s3(aws, {
+			headers: {
+				'Cache-Control': cacheControl,
+				'content-encoding': 'gzip',
+				'content-type': 'application/javascript'
+			}
+		})),
+
+		gulp.src([ DEST_GZIP + '/**/*.css' ])
+		.pipe($.s3(aws, {
+			headers: {
+				'Cache-Control': cacheControl,
+				'content-encoding': 'gzip',
+				'content-type': 'text/css'
+			}
+		})),
+
+		gulp.src([ DEST_GZIP + '/**/*.json' ])
+		.pipe($.s3(aws, {
+			headers: {
+				'Cache-Control': cacheControl,
+				'content-encoding': 'gzip',
+				'content-type': 'application/json'
+			}
+		})),
+
+		gulp.src([ DEST_GZIP + '/**/*.svg' ])
+		.pipe($.s3(aws, {
+			headers: {
+				'Cache-Control': cacheControl,
+				'content-encoding': 'gzip',
+				'content-type': 'image/svg+xml'
+			}
+		})),
+
+		gulp.src([ DEST_GZIP + '/**/*.woff2' ])
+		.pipe($.s3(aws, {
+			headers: {
+				'Cache-Control': cacheControl,
+				'content-encoding': 'gzip',
+				'content-type': 'application/font-woff2'
+			}
+		})),
+
+		gulp.src([
+			DEST_GZIP + '/**/*.*',
+			'!' + DEST_GZIP + '/**/*.DS_Store',
+			'!' + DEST_GZIP + '/**/*.woff2',
+			'!' + DEST_GZIP + '/**/*.html',
+			'!' + DEST_GZIP + '/**/*.js',
+			'!' + DEST_GZIP + '/**/*.css',
+			'!' + DEST_GZIP + '/**/*.json',
+			'!' + DEST_GZIP + '/**/*.svg'
+		])
+		.pipe($.s3(aws, {
+			headers: {
+				'Cache-Control': cacheControl
+			}
+		}))
+	)
+	.pipe($.size({title: 's3'}));
+
 });
-gulp.task('static-gzip-stage', ['static-pre-gzip-stage'], function () {
-	return gulp.src([
-		'dist_static_stage_gzip/**/*.html',
-		'dist_static_stage_gzip/**/*.js',
-		'dist_static_stage_gzip/**/*.css',
-		'dist_static_stage_gzip/**/*.json',
-		'dist_static_stage_gzip/**/*.svg',
-		'dist_static_stage_gzip/**/*.woff2'
-	])
-	.pipe($.gzip({ append: false }))
-	.pipe(gulp.dest('dist_static_stage_gzip'))
-	.pipe($.size({title: 'static-gzip-stage'}));
-});
-// Static task
-gulp.task('static', ['default'], function (cb) {
+
+/* Cleaners ----------------------------------------------------------------- */
+/**
+ * Delete all generated files
+ */
+gulp.task('clean:dev', del.bind(null, [DEST_DEV]));
+gulp.task('clean:polymer', del.bind(null, [DEST_POLYMER]));
+gulp.task('clean:gzip', del.bind(null, [DEST_GZIP]));
+/* Builders ----------------------------------------------------------------- */
+gulp.task('build:dev', ['clean:dev'], function (cb) {
 	runSequence(
-	'static-copy',
-	'static-clean',
-	'static-root-path',
-	'static-path',
-	'static-replace',
-	'static-entrypoints',
-	'static-root-entrypoints',
-	'static-copy-stage',
-	'static-config',
-	'static-config-stage',
-	'static-gzip',
-	'static-gzip-stage',
+		'jekyll',
 	cb);
 });
-// end STATIC -------------------------------------------------------------------
+gulp.task('build:polymer', ['clean:polymer'], function (cb) {
+	runSequence(
+		'jshint',
+		'jekyll',
+		'polymer-copy',
+		'polymer-use-minified-paths',
+		'polymer-polybuild',
+		'polymer-clean',
+		'polymer-revision',
+	cb);
+});
+gulp.task('build:gzip', ['clean:gzip'], function (cb) {
+	runSequence(
+		'build:polymer',
+		'gzip-compression',
+	cb);
+});
 
+/* Servers ------------------------------------------------------------------ */
+gulp.task('serve:dev', ['build:dev'], $.serve({
+	root: [DEST_DEV],
+	port: 4000
+}));
+gulp.task('serve:polymer', ['build:polymer'],  $.serve({
+	root: [DEST_POLYMER],
+	port: 4001
+}));
+gulp.task('serve:gzip', ['build:gzip'],  $.serve({
+	root: [DEST_GZIP],
+	port: 4002,
+	middleware: function(req, res, next) {
+		if(req.url[req.url.length - 1] == '/' || (/\.(html|js|css|json|svg|woff2)/).test(req.url)){
+			res.setHeader('content-encoding', 'gzip');
 
-// Load tasks for web-component-tester
-// Adds tasks for `gulp test:local` and `gulp test:remote`
-require('web-component-tester').gulp.init(gulp);
-
-// Load custom tasks from the `tasks` directory
-try { require('require-dir')('tasks'); } catch (err) {}
+			if((/\.(html)$/i).test(req.url)){
+				res.setHeader('content-type', 'text/html');
+			}
+			else if((/\.(js)$/i).test(req.url)){
+				res.setHeader('content-type', 'application/javascript');
+			}
+			else if((/\.(css)$/i).test(req.url)){
+				res.setHeader('content-type', 'text/css');
+			}
+			else if((/\.(json)$/i).test(req.url)){
+				res.setHeader('content-type', 'application/json');
+			}
+			else if((/\.(svg)$/i).test(req.url)){
+				res.setHeader('content-type', 'image/svg+xml');
+			}
+			else if((/\.(woff2)$/i).test(req.url)){
+				res.setHeader('content-type', 'application/font-woff2');
+			}
+		}
+		next()
+	}
+}));
+/* Watchers ----------------------------------------------------------------- */
+gulp.task('watch:dev', ['serve:dev'], function() {
+	gulp.watch(SRC + '/**/*', ['build:dev']);
+});
+gulp.task('watch:polymer', ['serve:polymer'], function() {
+	gulp.watch(SRC + '/**/*', ['build:polymer']);
+});
+gulp.task('watch:gzip', ['serve:gzip'], function() {
+	gulp.watch(SRC + '/**/*', ['build:gzip']);
+});
