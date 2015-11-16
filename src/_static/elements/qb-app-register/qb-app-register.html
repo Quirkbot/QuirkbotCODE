@@ -19,41 +19,41 @@
 	<template>
 		<style include="qb-app-container-styles"></style>
 		<style>
-			.button-container{
+			:host .button-container{
 				text-align: center;
 			}
-			.button-container.main {
+			:host .button-container.main {
 
 			}
-			.button-container .button{
+			:host .button-container .button{
 				color: var(--qb-white);
 				min-height: 0;
 			}
-			.button-container.main .button{
+			:host .button-container.main .button{
 				font-size: 2rem;
 				border-radius: 1rem;
 				min-width: 13rem;
 				margin-top: 0.5rem;
 				margin-bottom: 0.5rem;
 			}
-			.button-container .register{
+			:host .button-container .register{
 				background: var(--qb-pink-transparent);
 			}
-			.button-container .login{
+			:host .button-container .login{
 				background: var(--qb-blue-transparent);
 			}
-			.button-container .new-program{
+			:host .button-container .new-program{
 				background: var(--qb-green);
 
 			}
-			.button-container .new-program iron-icon{
+			:host .button-container .new-program iron-icon{
 				--iron-icon-width: 2.5rem;
 				--iron-icon-height: 2.5rem;
 			}
-			.form{
+			:host .form{
 				margin-top	: 2rem;
 			}
-			.secondary-call-to-action{
+			:host .secondary-call-to-action{
 				display: block;
 				text-align: center;
 				margin: 1rem 0;
@@ -61,12 +61,12 @@
 				color: var(--qb-black-hard-transparent);
 				cursor: pointer;
 			}
-			.heading{
+			:host .heading{
 				display: block;
 				text-align: center;
 				font-size: 2rem;
 			}
-			.success-notice{
+			:host .success-notice{
 				display: block;
 				text-align: center;
 				font-size: 1rem;

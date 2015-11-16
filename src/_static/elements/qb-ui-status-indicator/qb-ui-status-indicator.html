@@ -27,19 +27,19 @@
 				box-shadow: none !important;
 				border-radius: 999px;
 			}
-			.inner{
+			:host .inner{
 				width: 30px;
 				height: 30px;
 				position: relative;
 			}
-			iron-icon{
+			:host iron-icon{
 				position: absolute;
 				top: 0;
 				left: 0;
 				color: white;
 				-webkit-transform: scale(0.6);
 			}
-			.circle {
+			:host .circle {
 				width: 20px;
 				height: 20px;
 				margin-top: -10px;
@@ -51,14 +51,14 @@
 				transition: transform 1s;
 				-webkit-transition: -webkit-transform 1s;
 			}
-			.circle.a {
+			:host .circle.a {
 				background-color: var(--qb-yellow);
 			}
-			.circle.b {
+			:host .circle.b {
 				background-color: var(--qb-blue-transparent);
 			}
-			.circle.a,
-			.circle.b {
+			:host .circle.a,
+			:host .circle.b {
 				-webkit-animation-duration: 2s;
   				-webkit-animation-name: slide;
 				-webkit-animation-iteration-count: infinite;
@@ -69,11 +69,11 @@
 				animation-iteration-count: infinite;
 				animation-timing-function: linear;
 			}
-			.circle.a{
+			:host .circle.a{
 				-webkit-animation-direction: normal;
 				animation-direction: normal;
 			}
-			.circle.b{
+			:host .circle.b{
 				-webkit-animation-direction: reverse;
 				animation-direction: reverse;
 			}

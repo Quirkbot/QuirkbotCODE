@@ -33,14 +33,14 @@
 			cursor: -moz-grabbing;
 			cursor: -webkit-grabbing;
 		}
-		.type-container{
+		:host .type-container{
 			text-align: left;
 			@apply(--qb-ui-nodes-menu-item-type-container);
 		}
 		:host([drag-status="dragmove"]) .type-container{
 			text-align: center;
 		}
-		.type{
+		:host .type{
 			background-color: var(--qb-text-background-color);
 			border-radius: 30px;
 			display: inline-block;

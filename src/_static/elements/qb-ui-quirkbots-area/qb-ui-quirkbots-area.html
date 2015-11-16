@@ -23,7 +23,7 @@
 	<template>
 		<style include="qb-dialog-styles"></style>
 		<style>
-			/deep/ pre {
+			:host /deep/ pre {
 				display: block;
 				word-wrap: break-word;
 				font-size: 11px;
@@ -34,16 +34,16 @@
 				margin: 0;
 			}
 
-			qb-ui-quirkbot-upload-item{
+			:host qb-ui-quirkbot-upload-item{
 				margin: 0 -10px 5px -10px;
 			}
-			qb-ui-quirkbot-upload-item:last-child{
+			:host qb-ui-quirkbot-upload-item:last-child{
 				margin-bottom: 0;
 			}
-			iron-selector qb-ui-quirkbot-upload-item{
+			:host iron-selector qb-ui-quirkbot-upload-item{
 				cursor: pointer;
 			}
-			qb-ui-status-indicator{
+			:host qb-ui-status-indicator{
 				margin: 0 10px;
 				@apply(--layout-self-center);
 			}

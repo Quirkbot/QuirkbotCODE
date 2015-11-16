@@ -3,7 +3,7 @@
 <dom-module id="qb-dialog-styles">
 	<template>
 		<style>
-			.dialog{
+			:host .dialog{
 				width: 300px;
 				padding: 25px 0;
 				border-radius: 10px;
@@ -15,48 +15,48 @@
 				};
 			}
 
-			.dialog.large{
+			:host .dialog.large{
 				width: 500px;
 			}
 
 
-			.dialog-header{
+			:host .dialog-header{
 				margin:0 !important;
 				font-weight: normal !important;
 				color: var(--qb-text-color-transparent);
 			}
-			.dialog-content{
+			:host .dialog-content{
 				margin: 10px 0 0 0 !important;
 				font-style: italic;
 			}
-			.dialog-content .header{
+			:host .dialog-content .header{
 				margin: 0 0 10px 0 !important;
 				font-style: normal !important;
 			}
 
-			.dialog-content ul{
+			:host .dialog-content ul{
 				padding: 0;
 			}
-			.buttons{
+			:host .buttons{
 				margin: 25px 0 0 0 !important;
 				padding: 0 25px !important;
 			}
-			.buttons paper-button{
+			:host .buttons paper-button{
 				border-radius: 10px;
 				color: var(--qb-white);
 			}
-			.buttons paper-button:last-child{
+			:host .buttons paper-button:last-child{
 				margin-right: 0;
 			}
-			.buttons [dialog-dismiss]{
+			:host .buttons [dialog-dismiss]{
 				background: var(--qb-red-hard-transparent);
 			}
-			.buttons [dialog-confirm],
-			.buttons [dialog-continue]{
+			:host .buttons [dialog-confirm],
+			:host .buttons [dialog-continue]{
 				background: var(--qb-green-hard-transparent);
 
 			}
-			.dialog-content paper-progress {
+			:host .dialog-content paper-progress {
 				--paper-progress-transition-duration: 0.1s;
 				display: block;
 				width: 100%;
@@ -73,7 +73,7 @@
 				padding: 0px;
 				margin-bottom: 0.4em;
 			}
-			paper-input{
+			:host paper-input{
 				--paper-input-container-invalid-color: var(--qb-red);
 				--paper-input-container-input: {
 					font-size: inherit;
@@ -99,12 +99,12 @@
 					font-size: 1.3em;
 				};
 			}
-			.paper-input-input:not(.checkbox){
+			:host .paper-input-input:not(.checkbox){
 				background-color: var(--qb-interactive-color) !important;
 				box-sizing: border-box !important;
 				padding:  0 0.5em !important;
 			}
-			paper-dropdown-menu{
+			:host paper-dropdown-menu{
 				width: 80px;
 				--paper-dropdown-menu-button: {
 					padding: 0;
@@ -128,7 +128,7 @@
 					bottom:0;
 				};
 			}
-			paper-input-container{
+			:host paper-input-container{
 				--paper-input-container-label:{
 					font-size: 1.3em;
 				};
@@ -146,17 +146,17 @@
 				};
 				--paper-input-container-color: var(--qb-black) !important;
 			}
-			paper-dropdown-menu	paper-menu{
+			:host paper-dropdown-menu	paper-menu{
 				width: 75px;
 			}
-			paper-dropdown-menu paper-item {
+			:host paper-dropdown-menu paper-item {
 				--paper-item-min-height: 25px;
 			}
-			paper-dropdown-menu paper-item:nth-child(odd) {
+			:host paper-dropdown-menu paper-item:nth-child(odd) {
 				background-color: rgba(0,0,0,0.05);
 			}
 
-			paper-checkbox {
+			:host paper-checkbox {
 				font-size: 0.8em;
 				--paper-checkbox-unchecked-background-color: var(--qb-yellow);
 				--paper-checkbox-unchecked-color: transparent;
@@ -168,7 +168,7 @@
 				--paper-checkbox-error-color: var(--qb-red);
 			}
 
-			paper-checkbox /deep/ > #checkboxLabel{
+			:host paper-checkbox /deep/ > #checkboxLabel{
 				pointer-events: auto;
 			}
 
@@ -184,24 +184,24 @@
 				display: block;
 				padding: 0 10px;
 			}
-			.notice{
+			:host .notice{
 				background-color: rgba(255,0,0,0.1);
 				border-radius: 10px;
 				padding: 20px;
 			}
-			form{
+			:host form{
 				position: relative;
 			}
-			.loading-indicator{
+			:host .loading-indicator{
 				background-color: rgba(255,255,255, 0.7);
 			}
-			a {
+			:host a {
 				color: inherit !important;
 			}
-			paper-button{
+			:host paper-button{
 				display: block;
 			}
-			.form-error{
+			:host .form-error{
 				display: block;
 				text-align: center;
 				color: var(--qb-red);
@@ -212,38 +212,38 @@
 </dom-module>
 
 <style is="custom-style">
-:root {
-	--paper-progress-container:{
-		border-radius: 999px;
-	};
-	--paper-button: {
-		text-transform: none;
-		padding: 0.75em;
-		border-radius: 10px;
-	};
+	:root {
+		--paper-progress-container:{
+			border-radius: 999px;
+		};
+		--paper-button: {
+			text-transform: none;
+			padding: 0.75em;
+			border-radius: 10px;
+		};
 
-}
-body /deep/ .paper-slider::shadow #sliderBar {
-	top: 30%;
-	height: 40%;
-	padding: 0;
-	margin: 0;
-}
-body /deep/ .paper-slider::shadow #sliderKnobInner {
-	height: 60%;
-	width: 60%;
-}
-body /deep/ .paper-slider::shadow #sliderKnobInner::before {
-	border: solid 1px var(--qb-white);
-}
-body /deep/ qb-ui-nodes-menu paper-toolbar::shadow .toolbar-tools  {
-  height: 100%;
-}
-body /deep/ paper-button.qb-toolbar-button::shadow paper-material.content{
-	padding: 0;
-}
+	}
+	body /deep/ .paper-slider::shadow #sliderBar {
+		top: 30%;
+		height: 40%;
+		padding: 0;
+		margin: 0;
+	}
+	body /deep/ .paper-slider::shadow #sliderKnobInner {
+		height: 60%;
+		width: 60%;
+	}
+	body /deep/ .paper-slider::shadow #sliderKnobInner::before {
+		border: solid 1px var(--qb-white);
+	}
+	body /deep/ qb-ui-nodes-menu paper-toolbar::shadow .toolbar-tools  {
+	  height: 100%;
+	}
+	body /deep/ paper-button.qb-toolbar-button::shadow paper-material.content{
+		padding: 0;
+	}
 
-body /deep/ paper-button .keyboard-focus {
-  font-weight: inherit;
-}
+	body /deep/ paper-button .keyboard-focus {
+	  font-weight: inherit;
+	}
 </style>

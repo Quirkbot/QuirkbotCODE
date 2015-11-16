@@ -27,26 +27,26 @@
 			border-color: var(--qb-green);
 			background-color: var(--qb-green-soft-transparent);
 		}
-		.icon{
+		:host .icon{
 			@apply(--layout-self-center);
 			--iron-icon-width: 45px;
 			--iron-icon-height: 45px;
 		}
-		.info{
+		:host .info{
 			position: relative;
 			padding: 0 10px;
 			@apply(--layout-vertical);
 			@apply(--layout-flex);
 		}
-		.name{
+		:host .name{
 			font-size: 16px;
 		}
-		.id{
+		:host .id{
 			@apply(--qb-font-code);
 			font-size: 10px;
 			opacity: 0.5;
 		}
-		paper-progress {
+		:host paper-progress {
 			width: 100%;
 			--paper-progress-container-color: var(--qb-white);
 			--paper-progress-active-color: var(--qb-blue);

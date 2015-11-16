@@ -34,14 +34,14 @@
 				--label-font-size: var(--qb-ui-node-input-label-font-size, 12px);
 				@apply(--qb-ui-node-input);
 			};
-			.label{
+			:host .label{
 				font-size: var(--label-font-size);
 				color: var(--qb-text-background-color);
 				margin-left: var(--label-offset);
 				margin-bottom: 2px;
 				@apply(--qb-ui-node-input-label);
 			}
-			.handle{
+			:host .handle{
 				cursor: pointer;
 				position: relative;
 				display: inline-block;
@@ -50,10 +50,10 @@
 				margin-left: var(--handle-offset);
 				@apply(--qb-ui-node-input-handle);
 			}
-			.handle:hover{
+			:host .handle:hover{
 				@apply(--qb-ui-node-input-handle-hover);
 			}
-			.inlet{
+			:host .inlet{
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -77,7 +77,7 @@
 				cursor: -webkit-grabbing;
 			}
 
-			.value-container{
+			:host .value-container{
 				border-radius: 999px;
 				background-color:  var(--qb-text-background-color);
 				padding: 0 1em 0 2em;
@@ -92,7 +92,7 @@
 				overflow: hidden;
 				max-width: 100px;
 			}
-			.handle:hover .value-container,
+			:host .handle:hover .value-container,
 			:host([controller-openend]) .value-container{
 				background-color:  var(--qb-interactive-color);
 			}
@@ -107,7 +107,7 @@
 				display: block;
 				@apply(--qb-ui-node-input-controller-active);
 			}
-			.controller{
+			:host .controller{
 				z-index: 1;
 				position: absolute;
 				top: 6px;
@@ -128,7 +128,7 @@
 				top: -11px;
 			}
 
-			.controller #deleteButton{
+			:host .controller #deleteButton{
 				position: absolute;
 				right: -20px;
 				top: -20px;
@@ -145,12 +145,12 @@
 				--iron-icon-width: 22px;
 				transform: scale(0.8);
 			}
-			.controller #deleteButton:hover{
+			:host .controller #deleteButton:hover{
 				background-color: var(--qb-action-color-transparent);
 				@apply(--qb-ui-node-delete-button-hover-theme);
 			}
 
-			.controller .text-input{
+			:host .controller .text-input{
 				display: block;
 				margin-left: -10px;
 				--qb-ui-input-text-input: {

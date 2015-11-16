@@ -22,13 +22,13 @@
 					background-color: var(--qb-interactive-color-hard-transparent) !important;
 				};
 			}
-			iron-list{
+			:host iron-list{
 				height: 100%;
 				width: 100%;
 				/* for some reason this is fixing the scrollbar bug */
 				-webkit-transform: translateZ(0);
 			}
-			paper-item {
+			:host paper-item {
 				--paper-item-min-height: 22px;
 				--paper-item:{
 					cursor: pointer;
@@ -37,7 +37,7 @@
 					background-color: transparent;
 				};
 			}
-			paper-item:nth-child(odd) {
+			:host paper-item:nth-child(odd) {
 				--paper-item:{
 					cursor: pointer;
 					margin: 0;
@@ -46,7 +46,7 @@
 
 				};
 			}
-			paper-item[selected] {
+			:host paper-item[selected] {
 				background-color: var(--qb-interactive-color-hard-transparent);
 			}
 

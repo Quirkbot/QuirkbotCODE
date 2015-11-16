@@ -18,42 +18,42 @@
 	<template>
 		<style include="qb-app-container-styles"></style>
 		<style>
-			.user-header{
+			:host .user-header{
 				text-align: center;
 				@apply(--layout-horizontal);
 				@apply(--layout-center-justified);
 				margin-bottom: 2rem;
 			}
-			.user-header .icon{
+			:host .user-header .icon{
 				display: block;
 				--iron-icon-width: 4rem;
 				--iron-icon-height: 4rem;
 			}
-			.user-header .label{
+			:host .user-header .label{
 				display: block;
 				color: var(--qb-pink);
 				font-size: 2.5rem;
 				margin-left: 0.5rem;
 			}
-			.description{
+			:host .description{
 				text-align: center;
 			}
-			.description a{
+			:host .description a{
 				color: inherit;
 			}
-			.description .label{
+			:host .description .label{
 				font-weight: bold;
 				font-size: 1.5rem;
 			}
-			.new-program-button{
+			:host .new-program-button{
 				background: var(--qb-green);
 				color: var(--qb-white);
 			}
-			.programs{
+			:host .programs{
 				position: relative;
 				margin-top: 2rem;
 			}
-			.loading-indicator{
+			:host .loading-indicator{
 				background-color: var(--qb-white-transparent);
 			}
 
