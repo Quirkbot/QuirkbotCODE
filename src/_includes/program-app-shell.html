@@ -1,23 +1,17 @@
 <style>
-	body > *:unresolved {
-		display: block;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top:0;
-		left:0;
-	}
-	#shell-header{
+	#app-shell-header,
+	#app-shell-sidebar,
+	#app-shell-sidebar-header{
 		position: absolute !important;
+	}
+	#app-shell-header{
 		width: 100% !important;
 		height: 65px !important;
 		top:0 !important;
 		left:0 !important;
 		background-color: rgba(0,173,239,0.5) !important;
-		border-radius: 0 !important;
 	}
-	#shell-sidebar-header{
-		position: absolute !important;
+	#app-shell-sidebar-header{
 		width: 185px !important;
 		height: 32px !important;
 		top: 69px !important;
@@ -25,8 +19,7 @@
 		background-color: rgba(235,0,138, 0.5) !important;
 		border-radius: 999px !important;
 	}
-	#shell-sidebar{
-		position: absolute !important;
+	#app-shell-sidebar{
 		width: 185px !important;
 		height: calc(100% - 110px) !important;
 		top: 105px !important;
@@ -34,65 +27,10 @@
 		background-color: rgba(221,221,221,0.5) !important;
 		border-radius: 10px !important;
 	}
-	#shell-loader{
-		position: absolute !important;
-		width:  40px !important;
-		height: 40px !important;
-		top: 13px !important;
-		left: 30px !important;
-		border-radius: 999px !important;
-		background-color: white !important;
-	}
-	#shell-loader .a,
-	#shell-loader .b {
-		width: 20px;
-		height: 20px;
-		margin-top: -10px;
-		margin-left: -10px;
-		border-radius: 999px;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		-webkit-animation-duration: 2s;
-		-webkit-animation-name: shellslide;
-		-webkit-animation-iteration-count: infinite;
-		-webkit-animation-timing-function: linear;
-		animation-duration: 2s;
-		animation-name: shellslide;
-		animation-iteration-count: infinite;
-		animation-timing-function: linear;
-	}
-	#shell-loader .a{
-		background-color: #FFF000;
-		-webkit-animation-direction: normal;
-		animation-direction: normal;
-	}
-	#shell-loader .b{
-		background-color: rgba(0,173,239,0.5);
-		-webkit-animation-direction: reverse;
-		animation-direction: reverse;
-	}
-	@-webkit-keyframes shellslide{
-		0% { -webkit-transform: translate3d(0,0,0); }
-		25% { -webkit-transform: translate3d(7px,0,0) scale3d(0.7,0.7,1); }
-		50% { -webkit-transform: translate3d(0,0,0); }
-		75% { -webkit-transform: translate3d(-7px,0,0) scale3d(0.7,0.7,1); }
-		100% { -webkit-transform: translate3d(0,0,0); }
-	}
-	@keyframes shellslide {
-		0% { transform: translate3d(0,0,0); }
-		25% { transform: translate3d(7px,0,0) scale3d(0.7,0.7,1); }
-		50% { transform: translate3d(0,0,0); }
-		75% { transform: translate3d(-7px,0,0) scale3d(0.7,0.7,1); }
-		100% { transform: translate3d(0,0,0); }
-	}
 </style>
 
-<div class="app-shell" id="shell-header">
-	<div class="app-shell" id="shell-loader">
-		<div class="a"></div>
-		<div class="b"></div>
-	</div>
+<div id="app-shell">
+	<div id="app-shell-header"></div>
+	<div id="app-shell-sidebar-header"></div>
+	<div id="app-shell-sidebar"></div>
 </div>
-<div class="app-shell" id="shell-sidebar-header"></div>
-<div class="app-shell" id="shell-sidebar"></div>

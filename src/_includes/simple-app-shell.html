@@ -1,37 +1,30 @@
 <style>
-	body > *:unresolved {
-		display: block;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top:0;
-		left:0;
-	}
-	.app-shell{
-		width: 100%;
-	}
-	#shell-header{
+	#app-shell-header,
+	#app-shell-main,
+	#app-shell-footer{
+		width: 100% !important;
 		position: absolute !important;
+		border-radius: 0 !important;
+	}
+	#app-shell-header{
 		top:0 !important;
 		height: 4rem !important;
 		background-color: rgba(0,173,239,0.5) !important;
-		border-radius: 0 !important;
 	}
-	#shell-main{
-		position: absolute !important;
+	#app-shell-main{
 		top:4rem !important;
 		height: calc(100% - 14rem) !important;
 		background-color: rgba(221,221,221,0.5) !important;
-		border-radius: 0 !important;
 	}
-	#shell-footer{
-		position: absolute !important;
+	#app-shell-footer{
 		top: calc(100% - 10rem);
 		background-color: rgba(235,0,138, 0.5) !important;
 		height: 10rem !important;
-		border-radius: 0 !important;
 	}
 </style>
-<div class="app-shell" id="shell-header"></div>
-<div class="app-shell" id="shell-main"></div>
-<div class="app-shell" id="shell-footer"></div>
+
+<div id="app-shell">
+	<div id="app-shell-header"></div>
+	<div id="app-shell-main"></div>
+	<div id="app-shell-footer"></div>
+</div>
