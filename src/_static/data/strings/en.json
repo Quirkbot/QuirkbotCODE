@@ -534,7 +534,7 @@
 	"register/registration/birthdate/year/placeholder": "Year",
 
 	"register/registration/terms/label": "Terms and conditions",
-	"register/registration/terms/placeholder": "I've read and accepted the <a href='../terms-and-conditions' target='_blank'>terms and conditions</a>.",
+	"register/registration/terms/placeholder": "I've read and accepted the <a href='../info/terms-and-conditions' target='_blank'>terms and conditions</a>.",
 	"register/registration/terms/tip": "",
 	"register/registration/terms/error/pre-validation": "You must read and agree to the terms and conditions.",
 
