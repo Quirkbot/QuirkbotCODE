@@ -27,7 +27,7 @@
 				border: 1px solid var(--qb-green-transparent);
 				background-color: var(--qb-green-transparent);
 			}
-			.name{
+			:host .name{
 				@apply(--qb-font-code);
 				font-size: 1rem;
 				border-radius: 999em;
@@ -38,24 +38,24 @@
 				overflow: hidden;
 				margin-right: 1rem;
 			}
-			.name > span{
+			:host .name > span{
 				margin-right: 0.3em;
 			}
-			.spacer{
+			:host .spacer{
 				@apply(--layout-flex);
 			}
-			.date{
+			:host .date{
 				font-size: 0.7rem;
 				margin-right: 1rem;
 				color: var(--qb-grey-transparent);
 				@apply(--layout-self-center);
 			}
 			@media (max-width: 30rem) {
-				.date{
+				:host .date{
 					display: none
 				}
 			}
-			.button.delete{
+			:host .button.delete{
 				background-color: var(--qb-red);
 				color: var(--qb-white);
 				border-radius: 9999rem;

@@ -14,7 +14,7 @@
 			margin-top: 3px;
 			@apply(--qb-ui-nodes-menu-group);
 		}
-		.toolbar{
+		:host .toolbar{
 			cursor: pointer;
 			border-radius: 999px;
 			height: 30px;
@@ -33,13 +33,13 @@
 			font-size: 14px ;
 			margin: 0;
 		}
-		.nodes-container{
+		:host .nodes-container{
 			position: relative;
 		}
-		.nodes-container qb-ui-nodes-menu-item{
+		:host .nodes-container qb-ui-nodes-menu-item{
 			width: 95%;
 		}
-		.nodes-container qb-ui-nodes-menu-item[drag]{
+		:host .nodes-container qb-ui-nodes-menu-item[drag]{
 			position: absolute;
 			width: 100%;
 			height: 100%;
@@ -47,10 +47,10 @@
 			left: 0;
 			z-index: 1;
 		}
-		.nodes-container qb-ui-nodes-menu-item[drag]{
+		:host .nodes-container qb-ui-nodes-menu-item[drag]{
 			opacity:0;
 		}
-		.nodes-container qb-ui-nodes-menu-item[drag][drag-status="dragmove"]{
+		:host .nodes-container qb-ui-nodes-menu-item[drag][drag-status="dragmove"]{
 			opacity:1;
 			width: 180px;
 		}

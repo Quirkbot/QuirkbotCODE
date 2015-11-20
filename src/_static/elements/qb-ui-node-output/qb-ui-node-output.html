@@ -23,7 +23,7 @@
 			height: var(--handle-height);
 			@apply(--qb-ui-node-output);
 		}
-		.label{
+		:host .label{
 			display: block;
 			position: relative;
 			font-size: var(--label-font-size);
@@ -33,15 +33,15 @@
 			@apply(--qb-ui-node-output-label);
 
 		}
-		.outlet-container{
+		:host .outlet-container{
 			position: absolute;
 			top: 0;
 			right: 0;
 			display: block;
 			margin-right: var(--handle-offset);
 		}
-		#outlet,
-		#dragOutlet{
+		:host #outlet,
+		:host #dragOutlet{
 
 			position: absolute;
 			top: 0;
@@ -52,10 +52,10 @@
 			};
 
 		}
-		#dragOutlet{
+		:host #dragOutlet{
 			opacity: 0;
 		}
-		#dragOutlet[drag-status="dragmove"]{
+		:host #dragOutlet[drag-status="dragmove"]{
 			opacity: 1;
 		}
 	</style>

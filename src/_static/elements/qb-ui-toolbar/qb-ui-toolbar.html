@@ -22,7 +22,7 @@
 				display: block;
 				min-height: 0;
 			}
-			.name {
+			:host .name {
 				margin: 0 0.5rem 0 0.7rem;
 
 				--qb-ui-input-text-padding: 0.4rem 0.5em 0.4rem  0.5em;
@@ -30,11 +30,11 @@
 					font-size: 1rem;
 				};
 			}
-			.status-indicator {
+			:host .status-indicator {
 				@apply(--layout-horizontal);
 				 @apply(--layout-center);
 			}
-			.status-indicator .text{
+			:host .status-indicator .text{
 				color: var(--qb-white);
 				display: block;
 				font-size: 0.6rem;

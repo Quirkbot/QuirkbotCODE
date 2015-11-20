@@ -43,11 +43,11 @@
 			cursor: -moz-grabbing;
 			cursor: -webkit-grabbing;
 		}
-		.type-container{
+		:host .type-container{
 			text-align: center;
 			@apply(--qb-ui-node-type-container);
 		}
-		.type{
+		:host .type{
 			background-color: var(--qb-text-background-color);
 			border-radius: 30px;
 			display: inline-block;
@@ -59,7 +59,7 @@
 			--iron-icon-width: 12px;
 			@apply(--qb-ui-node-type);
 		}
-		.variable{
+		:host .variable{
 			display: block;
 			text-align: center;
 			z-index: 1;
@@ -73,45 +73,45 @@
 			@apply(--qb-ui-node-variable);
 		}
 
-		.connectors{
+		:host .connectors{
 			@apply(--layout-horizontal);
 			@apply(--qb-ui-node-connectors);
 		}
-		.inputs{
+		:host .inputs{
 			position: relative;
 			@apply(--qb-ui-node-inputs);
 		}
-		.outputs .inner{
+		:host .outputs .inner{
 			@apply(--qb-ui-node-inputs-inner);
 		}
-		qb-ui-node-input {
+		:host qb-ui-node-input {
 			margin-top: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
 			margin-bottom: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
 			@apply(--qb-ui-node-node-input);
 		}
-		qb-ui-node-input-collection {
+		:host qb-ui-node-input-collection {
 			margin-top: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
 			margin-bottom: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
 			@apply(--qb-ui-node-node-input-collection);
 		}
-		.outputs{
+		:host .outputs{
 			position: relative;
 			@apply(--layout-flex);
 			@apply(--layout-center);
 			@apply(--layout-horizontal);
 			@apply(--qb-ui-node-outputs);
 		}
-		.outputs .inner{
+		:host .outputs .inner{
 			width: 100%;
 			@apply(--qb-ui-node-outputs-inner);
 		}
-		qb-ui-node-output {
+		:host qb-ui-node-output {
 			margin-top: calc(var(--qb-ui-node-output-gap, 30px)*0.5);
 			margin-bottom: calc(var(--qb-ui-node-output-gap, 30px)*0.5);
 			@apply(--qb-ui-node-node-output);
 		}
 
-		#deleteButton{
+		:host #deleteButton{
 			z-index: 1;
 			display: none;
 			position: absolute;
@@ -136,7 +136,7 @@
 			display: block;
 			@apply(--qb-ui-node-delete-button-active-theme);
 		}
-		#deleteButton:hover{
+		:host #deleteButton:hover{
 			background-color: var(--qb-action-color-transparent);
 			@apply(--qb-ui-node-delete-button-hover-theme);
 		}
