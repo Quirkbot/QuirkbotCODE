@@ -1,5 +1,5 @@
 {
-    "version": "0.0.0",
+    "version": "0.0.1",
     "nodes": [
         {
             "id": "led",
@@ -143,6 +143,78 @@
             "outputs": []
         },
         {
+            "id": "light-sensor",
+            "taxonomy": {
+                "categories": [
+                    "connect"
+                ],
+                "tags": []
+            },
+            "type": "LightSensor",
+            "inputs": [
+                {
+                    "id": "place",
+                    "default": "NO_LOCATION",
+                    "validation": {
+                        "type": "list",
+                        "data": [
+                            {
+                                "id": "no-location",
+                                "value": "NO_LOCATION"
+                            },
+                            {
+                                "id": "place-horn",
+                                "value": "H"
+                            },
+                            {
+                                "id": "place-left-arm",
+                                "value": "LA"
+                            },
+                            {
+                                "id": "place-right-arm",
+                                "value": "RA"
+                            },
+                            {
+                                "id": "place-left-leg",
+                                "value": "LL"
+                            },
+                            {
+                                "id": "place-right-leg",
+                                "value": "RL"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "min",
+                    "default": 0,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                },
+                {
+                    "id": "max",
+                    "default": 1,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out"
+                }
+            ]
+        },
+        {
             "id": "squeeze-sensor",
             "taxonomy": {
                 "categories": [
@@ -222,7 +294,7 @@
                 ],
                 "tags": []
             },
-            "type": "MakeyTouch",
+            "type": "CircuitTouch",
             "inputs": [
                 {
                     "id": "place",
@@ -519,6 +591,188 @@
                 }
             ],
             "outputs": []
+        },
+        {
+            "id": "continuous-servo",
+            "taxonomy": {
+                "categories": [
+                    "backpack"
+                ],
+                "tags": []
+            },
+            "type": "ContinuousServo",
+            "inputs": [
+                {
+                    "id": "speed",
+                    "default": 0,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                },
+                {
+                    "id": "direction",
+                    "default": 0,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                },
+                {
+                    "id": "place",
+                    "default": "NO_LOCATION",
+                    "validation": {
+                        "type": "list",
+                        "data": [
+                            {
+                                "id": "no-location",
+                                "value": "NO_LOCATION"
+                            },
+                            {
+                                "id": "servo-bp1",
+                                "value": "SERVO_BP1"
+                            },
+                            {
+                                "id": "servo-bp2",
+                                "value": "SERVO_BP2"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "id": "sonar",
+            "taxonomy": {
+                "categories": [
+                    "backpack"
+                ],
+                "tags": []
+            },
+            "type": "Sonar",
+            "inputs": [
+                {
+                    "id": "place",
+                    "default": "NO_LOCATION",
+                    "validation": {
+                        "type": "list",
+                        "data": [
+                            {
+                                "id": "no-location",
+                                "value": "NO_LOCATION"
+                            },
+                            {
+                                "id": "place-backpack-1",
+                                "value": "BP1"
+                            },
+                            {
+                                "id": "place-backpack-2",
+                                "value": "BP2"
+                            },
+                            {
+                                "id": "place-backpack-3",
+                                "value": "BP3"
+                            },
+                            {
+                                "id": "place-backpack-4",
+                                "value": "BP4"
+                            },
+                            {
+                                "id": "place-backpack-5",
+                                "value": "BP5"
+                            },
+                            {
+                                "id": "place-backpack-6",
+                                "value": "BP6"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "meters",
+                    "default": 2,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 4
+                        }
+                    }
+                },
+                {
+                    "id": "min",
+                    "default": 0,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                },
+                {
+                    "id": "max",
+                    "default": 1,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out"
+                }
+            ]
+        },
+        {
+            "id": "ir-proximity",
+            "taxonomy": {
+                "categories": [
+                    "backpack"
+                ],
+                "tags": []
+            },
+            "type": "IRProximity",
+            "inputs": [
+                {
+                    "id": "min",
+                    "default": 0,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                },
+                {
+                    "id": "max",
+                    "default": 1,
+                    "validation": {
+                        "type": "range",
+                        "data": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out"
+                }
+            ]
         },
         {
             "id": "buzzer",
@@ -861,7 +1115,7 @@
                 },
                 {
                     "id": "place",
-                    "default": "NO_LOCATION",
+                    "default": "BP1",
                     "validation": {
                         "type": "list",
                         "data": [
