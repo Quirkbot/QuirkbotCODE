@@ -181,8 +181,9 @@
 
 	"node/name/led" : 				"LED",
 	"node/name/dual-color-led" : 	"Dual Color LED",
+	"node/name/light-sensor" : 		"Light Sensor",
 	"node/name/squeeze-sensor" : 	"Squeeze Sensor",
-	"node/name/makey-touch" : 		"Makey Touch",
+	"node/name/makey-touch" : 		"Circuit Touch",
 	"node/name/capacitive-touch" : 	"Capacitive Touch",
 	"node/name/light-sensor" : 		"Light Sensor",
 	"node/name/analog-sensor" : 	"Analog Sensor",
@@ -193,7 +194,7 @@
 	"node/name/continuous-servo" : 	"Continuous Servo",
 	"node/name/buzzer" : 			"Buzzer",
 	"node/name/speaker" : 			"Speaker",
-	"node/name/ir-distance" : 		"IR Distance",
+	"node/name/ir-proximity" : 		"IR Proximity",
 	"node/name/midi" : 				"MIDI",
 	"node/name/sonar" : 			"Sonar",
 	"node/name/neo-pixel" : 		"Neo Pixel",
@@ -217,6 +218,8 @@
 	"node/connection/name/items" : 		"items",
 	"node/connection/name/place" : 		"place",
 	"node/connection/name/position" : 	"position",
+	"node/connection/name/speed" : 		"speed",
+	"node/connection/name/direction" : 	"direction",
 	"node/connection/name/duration" : 	"duration",
 	"node/connection/name/length" : 	"length",
 	"node/connection/name/meters" : 	"meters",
@@ -534,7 +537,7 @@
 	"register/registration/birthdate/year/placeholder": "Year",
 
 	"register/registration/terms/label": "Terms and conditions",
-	"register/registration/terms/placeholder": "I've read and accepted the <a href='../info/terms-and-conditions' target='_blank'>terms and conditions</a>.",
+	"register/registration/terms/placeholder": "I've read and accepted the <a href='/info/terms-of-use' target='_blank'>terms of use</a> and the <a href='/info/privacy-policy' target='_blank'>privacy policy</a>.",
 	"register/registration/terms/tip": "",
 	"register/registration/terms/error/pre-validation": "You must read and agree to the terms and conditions.",
 
