@@ -166,10 +166,13 @@
 			code += this._generateNewLine();
 			code += this._generateDeclares(tree);
 			code += this._generateNewLine();
-			code += this._generateFunctionOpenning();
+			code += this._generateCustomDeclares();
 			code += this._generateNewLine();
+			code += this._generateFunctionOpenning();
 			code += this._generateConnections(tree);
 			code += this._generateFunctionClosing();
+			code += this._generateNewLine();
+			code += this._generateLoopFunction();
 
 			if(code !== this.computedCode){
 				this.computedCode = code;
@@ -310,12 +313,16 @@
 		},
 		_generateIncludes : function(){
 			var text  = '';
+			text += '// include the Quirkbot library to your program:';
+			text += this._generateNewLine();
 			text += '#include "Quirkbot.h"';
 			text += this._generateNewLine();
 			return text;
 		},
 		_generateDeclares : function(tree){
 			var text = '';
+			text += '// create your Quirkbot nodes here:';
+			text += this._generateNewLine();
 			tree.forEach(function(node){
 				var definition = this.findOneObjectByKey(this.nodeDefinitions, 'id', node.node);
 
@@ -324,62 +331,89 @@
 			}.bind(this));
 			return text;
 		},
+		_generateCustomDeclares : function(tree){
+			var text = '';
+			text += '// create your other Arduino variables and functions here:';
+			text += this._generateNewLine();
+			return text;
+		},
 		_generateConnections: function(tree){
 			var text = '';
+			text += this._generateTabSpace() + '// setup your Quirkbot nodes here:';
+			text += this._generateNewLine();
+			if(tree.length){
+				var processInput = function (input, node, isCollection){
+					var text = this._generateTabSpace() + node.id + '.';
+					if(isCollection){
+						var inputParts = input.id.split('.');
+						var base = inputParts[0];
+						var index = inputParts[1];
+						text += base + '[' + index + ']';
+					}
+					else{
+						text += input.id;
+					}
+					if(input.type === 'Output'){
+						text += '.connect(' + input.value + ')';
+					}
+					else{
+						text += ' = ' + input.value;
+					}
+					text += ';' + this._generateNewLine();
+					return text;
 
-			var processInput = function (input, node, isCollection){
-				var text = this._generateTabSpace() + node.id + '.';
-				if(isCollection){
-					var inputParts = input.id.split('.');
-					var base = inputParts[0];
-					var index = inputParts[1];
-					text += base + '[' + index + ']';
-				}
-				else{
-					text += input.id;
-				}
-				if(input.type === 'Output'){
-					text += '.connect(' + input.value + ')';
-				}
-				else{
-					text += ' = ' + input.value;
-				}
-				text += ';' + this._generateNewLine();
-				return text;
+				}.bind(this);
+				tree.forEach(function(node){
+					var nodeText = '';
+					if(node.inputs){
+						node.inputs.forEach(function(input){
+							if(input.children){
+								input.children.forEach(function(input){
+									nodeText += processInput(input, node, true);
+								}.bind(this));
+							}
+							else{
+								nodeText += processInput(input, node);
+							}
+						}.bind(this));
+					}
+					if(nodeText){
+						nodeText += this._generateNewLine();
+					}
+					text += nodeText;
+				}.bind(this));
+			}
+			else{
+				text += this._generateNewLine();
+			}
 
-			}.bind(this);
-			tree.forEach(function(node){
-				var nodeText = '';
-				if(node.inputs){
-					node.inputs.forEach(function(input){
-						if(input.children){
-							input.children.forEach(function(input){
-								nodeText += processInput(input, node, true);
-							}.bind(this));
-						}
-						else{
-							nodeText += processInput(input, node);
-						}
-					}.bind(this));
-				}
-				if(nodeText){
-					nodeText += this._generateNewLine();
-				}
-				text += nodeText;
-			}.bind(this));
 			return text;
 		},
 		_generateFunctionOpenning : function(){
 			var text = '';
-			text += 'void start(){';
+			text += 'void setup(){';
 			text += this._generateNewLine();
 
 			return text;
 		},
 		_generateFunctionClosing : function(){
 			var text = '';
+			text += this._generateTabSpace() + '// put your other Arduino setup code here, to run once:';
+			text += this._generateNewLine();
+			text += this._generateNewLine();
 			text += '}';
+			text += this._generateNewLine();
 
+			return text;
+		},
+		_generateLoopFunction : function(){
+			var text = '';
+			text += 'void loop(){';
+			text += this._generateNewLine();
+			text += this._generateTabSpace() + '// put your main Arduino code here, to run repeatedly:';
+			text += this._generateNewLine();
+			text += this._generateNewLine();
+			text += '}';
 			return text;
 		},
 		_generateNewLine : function(){

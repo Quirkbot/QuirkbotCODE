@@ -1905,11 +1905,11 @@
                 },
                 {
                     "id": "holdTime",
-                    "default": 0.3,
+                    "default": 0,
                     "validation": {
                         "type": "range",
                         "data": {
-                            "min": 0.1,
+                            "min": 0,
                             "max": 1
                         }
                     }
