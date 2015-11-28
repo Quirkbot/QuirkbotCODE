@@ -30,14 +30,16 @@
 				position: relative;
 				box-sizing: border-box;
 				padding: 50px 20px;
-				min-width: 50rem;
+				width: 50rem;
 				margin: 1rem auto;
 				border-radius: 10px;
 				background-color:  var(--qb-white);
 			}
 			@media (max-width: 52rem) {
 				:host .app-content{
-					min-width:0;
+					width: 100%;
+					margin: 0;
+					border-radius: 0;
 				}
 			}
 			:host .app-footer{
@@ -121,11 +123,6 @@
 				margin-bottom: 2em;
 				min-width: 40rem;
 			}
-			@media (max-width: 52rem) {
-				:host([cover])  .app-content{
-					min-width:0;
-				}
-			}
 			:host([cover]) qb-ui-avatar{
 				position: absolute;
 				top: 0.8rem;
@@ -140,6 +137,27 @@
 			:host([cover]) .editor-mode .code {
 				width: 168px;
 				height: 66px;
+			}
+			@media (max-width: 52rem) {
+				:host([cover]) .app-header{
+					min-height: 15rem;
+				}
+				:host([cover]) .app-main{
+					margin-top: 0;
+					margin: 0;
+				}
+				:host([cover])  .app-content{
+					min-width:0;
+					margin-top: 0;
+					margin-bottom: 0;
+				}
+				:host([cover]) .quirkbot-logo{
+					width: 100%;
+				}
+				:host([cover]) .editor-mode .code {
+					width: 108px;
+    				height: 46px
+				}
 			}
 
 		</style>
