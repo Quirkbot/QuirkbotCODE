@@ -1,4 +1,3 @@
 ---
-node: "ir-proximity"
-title: IR Proximity
+node: ir-proximity
 ---

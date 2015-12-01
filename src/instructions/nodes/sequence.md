@@ -1,4 +1,3 @@
 ---
-node: "sequence"
-title: Sequence
+node: sequence
 ---

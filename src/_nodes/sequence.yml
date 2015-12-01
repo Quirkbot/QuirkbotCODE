@@ -1,5 +1,7 @@
 ---
 id: sequence
+name_t:
+  en: Sequence
 taxonomy:
   categories:
     - brains

@@ -1,5 +1,7 @@
 ---
 id: gate
+name_t:
+  en: Gate
 taxonomy:
   categories:
     - brains

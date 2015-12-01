@@ -1,4 +1,3 @@
 ---
-node: "randomizer"
-title: Randomizer
+node: randomizer
 ---

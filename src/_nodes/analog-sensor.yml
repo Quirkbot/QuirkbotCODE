@@ -1,6 +1,8 @@
 ---
 id: analog-sensor
 type: AnalogSensor
+name_t:
+  en: Analog Sensor
 taxonomy:
   categories:
     - connect

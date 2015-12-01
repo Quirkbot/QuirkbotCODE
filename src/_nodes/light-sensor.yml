@@ -1,5 +1,7 @@
 ---
 id: light-sensor
+name_t:
+  en: Light Sensor
 taxonomy:
   categories:
     - connect

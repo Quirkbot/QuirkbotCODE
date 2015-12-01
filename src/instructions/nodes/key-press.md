@@ -1,4 +1,3 @@
 ---
-node: "key-press"
-title: Key Press
+node: key-press
 ---

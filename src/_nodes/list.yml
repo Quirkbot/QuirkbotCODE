@@ -1,5 +1,7 @@
 ---
 id: list
+name_t:
+  en: List
 taxonomy:
   categories:
     - brains

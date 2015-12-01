@@ -1,5 +1,7 @@
 ---
 id: key-sequence
+name_t:
+  en: Key Sequence
 taxonomy:
   categories:
     - usb

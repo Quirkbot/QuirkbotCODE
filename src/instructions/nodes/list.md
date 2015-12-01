@@ -1,4 +1,3 @@
 ---
-node: "list"
-title: List
+node: list
 ---

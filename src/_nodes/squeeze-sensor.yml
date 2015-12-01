@@ -1,5 +1,7 @@
 ---
 id: squeeze-sensor
+name_t:
+  en: Squeeze Sensor
 taxonomy:
   categories:
     - connect

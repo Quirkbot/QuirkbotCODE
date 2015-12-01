@@ -1,4 +1,3 @@
 ---
-node: "voltage-output"
-title: Voltage Output
+node: voltage-output
 ---

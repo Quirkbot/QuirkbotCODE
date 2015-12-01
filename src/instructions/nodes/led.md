@@ -1,4 +1,3 @@
 ---
-node: "led"
-title: LED
+node: led
 ---

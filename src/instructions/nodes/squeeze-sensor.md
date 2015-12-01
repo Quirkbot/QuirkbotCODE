@@ -1,4 +1,3 @@
 ---
-node: "squeeze-sensor"
-title: Squeeze Sensor
+node: squeeze-sensor
 ---

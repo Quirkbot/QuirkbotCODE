@@ -1,4 +1,3 @@
 ---
-node: "makey-touch"
-title: Circuit Touch
+node: makey-touch
 ---

@@ -1,5 +1,7 @@
 ---
 id: wave
+name_t:
+  en: Wave
 taxonomy:
   categories:
     - brains

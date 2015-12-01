@@ -1,4 +1,3 @@
 ---
-node: "key-sequence"
-title: Key Sequence
+node: key-sequence
 ---

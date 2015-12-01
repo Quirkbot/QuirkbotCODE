@@ -1,4 +1,3 @@
 ---
-node: "gate"
-title: Gate
+node: gate
 ---

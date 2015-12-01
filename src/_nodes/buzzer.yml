@@ -1,9 +1,12 @@
+---
 id: buzzer
+type: Buzzer
+name_t:
+  en: Buzzer
 taxonomy:
   categories:
     - backpack
   tags: []
-type: Buzzer
 inputs:
   -
     id: note

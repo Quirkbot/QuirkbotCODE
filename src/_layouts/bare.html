@@ -3,13 +3,7 @@
 	{% include head.html %}
 	<body class="fullbleed layout vertical" qb-unresolved>
 		{% include header.html %}
-
-		{% include simple-app-shell.html %}
-
-		<qb-app-content-page {% include common-attributes.html %}>
-			{{ content }}
-		</qb-app-content-page>
-
+		{{ content }}
 		{% include footer.html %}
 	</body>
 </html>

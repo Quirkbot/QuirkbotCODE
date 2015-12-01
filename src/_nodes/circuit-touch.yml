@@ -1,5 +1,7 @@
 ---
 id: makey-touch
+name_t:
+  en: Circuit Touch
 taxonomy:
   categories:
     - connect

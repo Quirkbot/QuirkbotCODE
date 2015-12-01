@@ -1,5 +1,7 @@
 ---
 id: led
+name_t:
+  en: LED
 taxonomy:
   categories:
     - connect

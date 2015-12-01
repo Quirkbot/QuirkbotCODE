@@ -1,5 +1,7 @@
 ---
 id: converter
+name_t:
+  en: Converter
 taxonomy:
   categories:
     - brains

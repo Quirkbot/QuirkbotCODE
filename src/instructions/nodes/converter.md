@@ -1,4 +1,3 @@
 ---
-node: "converter"
-title: Converter
+node: converter
 ---

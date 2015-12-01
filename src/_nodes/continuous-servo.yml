@@ -1,6 +1,7 @@
 ---
 id: continuous-servo
-name: continuous-servo
+name_t:
+  en: Continuous Servo
 taxonomy:
   categories:
     - backpack

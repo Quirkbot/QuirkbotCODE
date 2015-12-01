@@ -1,4 +1,3 @@
 ---
-node: "sonar"
-title: Sonar
+node: sonar
 ---

@@ -1,4 +1,3 @@
 ---
-node: "light-sensor"
-title: Light Sensor
+node: light-sensor
 ---

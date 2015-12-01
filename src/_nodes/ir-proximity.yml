@@ -1,5 +1,7 @@
 ---
 id: ir-proximity
+name_t:
+  en: IR Proximity
 taxonomy:
   categories:
     - backpack

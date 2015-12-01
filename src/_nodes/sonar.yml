@@ -1,5 +1,7 @@
 ---
 id: sonar
+name_t:
+  en: Sonar
 taxonomy:
   categories:
     - backpack

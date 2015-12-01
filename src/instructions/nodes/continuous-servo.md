@@ -1,4 +1,3 @@
 ---
-node: "continuous-servo"
-title: Continuous Servo
+node: continuous-servo
 ---

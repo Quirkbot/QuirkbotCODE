@@ -1,4 +1,3 @@
 ---
-node: "dual-color-led"
-title: Dual Color LED
+node: dual-color-led
 ---

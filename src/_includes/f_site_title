@@ -1,0 +1,14 @@
+{% assign arg1 = query.first %}{% include f_translated_name  %}
+{% if page.title %}
+	{% assign site_title = page.title %}
+{% else if r_translated_name %}
+	{% assign site_title = r_translated_name %}
+{% else %}
+	{% assign site_title = site.title %}
+{% endif %}
+
+{% if page.title_format %}
+	{% assign r_site_title = (page.title_format | replace: '{{title}}', site_title) %}
+{% else  %}
+	{% assign r_site_title = site_title %}
+{% endif %}

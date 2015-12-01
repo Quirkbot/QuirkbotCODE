@@ -6,7 +6,7 @@ baseurl: "/"
 collections:
   - node-categories
   - nodes
-  
+
 # Defaults
 permalink:  pretty
 defaults:
@@ -14,13 +14,14 @@ defaults:
     scope:
       path: ""
     values:
+      layout: "default"
       lang: "en"
   -
     scope:
       path: "instructions/nodes"
     values:
-      type: "node-documentation"
       layout: "node-documentation"
+      title_format: "{{title}} - Documentation"
   -
     scope:
       path: "sv"
@@ -30,7 +31,8 @@ defaults:
     scope:
       path: "sv/instructions/nodes"
     values:
-      layout: "node-doc"
+      layout: "node-documentation"
+      title_format: "{{title}} - Documentation"
 
 # Build settings
 markdown: kramdown

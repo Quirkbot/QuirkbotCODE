@@ -1,5 +1,7 @@
 ---
 id: randomizer
+name_t:
+  en: Randomizer
 taxonomy:
   categories:
     - brains

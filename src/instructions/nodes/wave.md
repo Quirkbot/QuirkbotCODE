@@ -1,4 +1,3 @@
 ---
-node: "wave"
-title: Wave
+node: wave
 ---

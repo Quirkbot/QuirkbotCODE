@@ -1,4 +1,3 @@
 ---
-node: "servo-motor"
-title: Servo Motor
+node: servo-motor
 ---

@@ -1,5 +1,7 @@
 ---
 id: dual-color-led
+name_t:
+  en: Dual Color LED
 taxonomy:
   categories:
     - connect

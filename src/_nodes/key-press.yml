@@ -1,5 +1,7 @@
 ---
 id: key-press
+name_t:
+  en: Key Press
 taxonomy:
   categories:
     - usb
