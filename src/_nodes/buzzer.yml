@@ -1,0 +1,281 @@
+id: buzzer
+taxonomy:
+  categories:
+    - backpack
+  tags: []
+type: Buzzer
+inputs:
+  -
+    id: note
+    default: NO_NOTE
+    validation:
+      type: list
+      data:
+        -
+          id: no-note
+          value: NO_NOTE
+        -
+          id: note-a1
+          value: NOTE_A1
+        -
+          id: note-as1
+          value: NOTE_AS1
+        -
+          id: note-b1
+          value: NOTE_B1
+        -
+          id: note-c2
+          value: NOTE_C2
+        -
+          id: note-cs2
+          value: NOTE_CS2
+        -
+          id: note-d2
+          value: NOTE_D2
+        -
+          id: note-ds2
+          value: NOTE_DS2
+        -
+          id: note-e2
+          value: NOTE_E2
+        -
+          id: note-f2
+          value: NOTE_F2
+        -
+          id: note-fs2
+          value: NOTE_FS2
+        -
+          id: note-g2
+          value: NOTE_G2
+        -
+          id: note-gs2
+          value: NOTE_GS2
+        -
+          id: note-a2
+          value: NOTE_A2
+        -
+          id: note-as2
+          value: NOTE_AS2
+        -
+          id: note-b2
+          value: NOTE_B2
+        -
+          id: note-c3
+          value: NOTE_C3
+        -
+          id: note-cs3
+          value: NOTE_CS3
+        -
+          id: note-d3
+          value: NOTE_D3
+        -
+          id: note-ds3
+          value: NOTE_DS3
+        -
+          id: note-e3
+          value: NOTE_E3
+        -
+          id: note-f3
+          value: NOTE_F3
+        -
+          id: note-fs3
+          value: NOTE_FS3
+        -
+          id: note-g3
+          value: NOTE_G3
+        -
+          id: note-gs3
+          value: NOTE_GS3
+        -
+          id: note-a3
+          value: NOTE_A3
+        -
+          id: note-as3
+          value: NOTE_AS3
+        -
+          id: note-b3
+          value: NOTE_B3
+        -
+          id: note-c4
+          value: NOTE_C4
+        -
+          id: note-cs4
+          value: NOTE_CS4
+        -
+          id: note-d4
+          value: NOTE_D4
+        -
+          id: note-ds4
+          value: NOTE_DS4
+        -
+          id: note-e4
+          value: NOTE_E4
+        -
+          id: note-f4
+          value: NOTE_F4
+        -
+          id: note-fs4
+          value: NOTE_FS4
+        -
+          id: note-g4
+          value: NOTE_G4
+        -
+          id: note-gs4
+          value: NOTE_GS4
+        -
+          id: note-a4
+          value: NOTE_A4
+        -
+          id: note-as4
+          value: NOTE_AS4
+        -
+          id: note-b4
+          value: NOTE_B4
+        -
+          id: note-c5
+          value: NOTE_C5
+        -
+          id: note-cs5
+          value: NOTE_CS5
+        -
+          id: note-d5
+          value: NOTE_D5
+        -
+          id: note-ds5
+          value: NOTE_DS5
+        -
+          id: note-e5
+          value: NOTE_E5
+        -
+          id: note-f5
+          value: NOTE_F5
+        -
+          id: note-fs5
+          value: NOTE_FS5
+        -
+          id: note-g5
+          value: NOTE_G5
+        -
+          id: note-gs5
+          value: NOTE_GS5
+        -
+          id: note-a5
+          value: NOTE_A5
+        -
+          id: note-as5
+          value: NOTE_AS5
+        -
+          id: note-b5
+          value: NOTE_B5
+        -
+          id: note-c6
+          value: NOTE_C6
+        -
+          id: note-cs6
+          value: NOTE_CS6
+        -
+          id: note-d6
+          value: NOTE_D6
+        -
+          id: note-ds6
+          value: NOTE_DS6
+        -
+          id: note-e6
+          value: NOTE_E6
+        -
+          id: note-f6
+          value: NOTE_F6
+        -
+          id: note-fs6
+          value: NOTE_FS6
+        -
+          id: note-g6
+          value: NOTE_G6
+        -
+          id: note-gs6
+          value: NOTE_GS6
+        -
+          id: note-a6
+          value: NOTE_A6
+        -
+          id: note-as6
+          value: NOTE_AS6
+        -
+          id: note-b6
+          value: NOTE_B6
+        -
+          id: note-c7
+          value: NOTE_C7
+        -
+          id: note-cs7
+          value: NOTE_CS7
+        -
+          id: note-d7
+          value: NOTE_D7
+        -
+          id: note-ds7
+          value: NOTE_DS7
+        -
+          id: note-e7
+          value: NOTE_E7
+        -
+          id: note-f7
+          value: NOTE_F7
+        -
+          id: note-fs7
+          value: NOTE_FS7
+        -
+          id: note-g7
+          value: NOTE_G7
+        -
+          id: note-gs7
+          value: NOTE_GS7
+        -
+          id: note-a7
+          value: NOTE_A7
+        -
+          id: note-as7
+          value: NOTE_AS7
+        -
+          id: note-b7
+          value: NOTE_B7
+        -
+          id: note-c8
+          value: NOTE_C8
+        -
+          id: note-cs8
+          value: NOTE_CS8
+        -
+          id: note-d8
+          value: NOTE_D8
+        -
+          id: note-ds8
+          value: NOTE_DS8
+  -
+    id: place
+    default: BP1
+    validation:
+      type: list
+      data:
+        -
+          id: no-location
+          value: NO_LOCATION
+        -
+          id: place-backpack-1
+          value: BP1
+        -
+          id: place-backpack-2
+          value: BP2
+        -
+          id: place-backpack-3
+          value: BP3
+        -
+          id: place-backpack-4
+          value: BP4
+        -
+          id: place-backpack-5
+          value: BP5
+        -
+          id: place-backpack-6
+          value: BP6
+outputs: []

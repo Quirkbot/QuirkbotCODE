@@ -1,0 +1,49 @@
+---
+id: dual-color-led
+taxonomy:
+  categories:
+    - connect
+  tags: []
+type: DualColorLed
+inputs:
+  -
+    id: light
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: color
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: place
+    default: NO_LOCATION
+    validation:
+      type: list
+      data:
+        -
+          id: no-location
+          value: NO_LOCATION
+        -
+          id: place-horn
+          value: H
+        -
+          id: place-left-arm
+          value: LA
+        -
+          id: place-right-arm
+          value: RA
+        -
+          id: place-left-leg
+          value: LL
+        -
+          id: place-right-leg
+          value: RL
+outputs: []

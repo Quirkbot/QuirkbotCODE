@@ -1,0 +1,17 @@
+---
+id: gate
+taxonomy:
+  categories:
+    - brains
+  tags: []
+type: Gate
+inputs:
+  -
+    id: in
+    default: 0
+  -
+    id: trigger
+    default: 0
+outputs:
+  -
+    id: out

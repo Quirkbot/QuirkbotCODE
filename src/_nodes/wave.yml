@@ -1,0 +1,67 @@
+---
+id: wave
+taxonomy:
+  categories:
+    - brains
+  tags: []
+type: Wave
+inputs:
+  -
+    id: length
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0.1
+        max: 10
+  -
+    id: type
+    default: WAVE_SINE
+    validation:
+      type: list
+      data:
+        -
+          id: sine-wave
+          value: WAVE_SINE
+        -
+          id: square-wave
+          value: WAVE_SQUARE
+        -
+          id: triangle-wave
+          value: WAVE_TRIANGLE
+        -
+          id: pulse-wave
+          value: WAVE_PULSE
+        -
+          id: ramp-up-wave
+          value: WAVE_RAMP_UP
+        -
+          id: ramp-down-wave
+          value: WAVE_RAMP_DOWN
+  -
+    id: min
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: max
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: offset
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+outputs:
+  -
+    id: out

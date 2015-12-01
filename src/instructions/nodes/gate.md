@@ -1,0 +1,4 @@
+---
+node: "gate"
+title: Gate
+---

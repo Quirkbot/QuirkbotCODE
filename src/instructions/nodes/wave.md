@@ -1,0 +1,4 @@
+---
+node: "wave"
+title: Wave
+---

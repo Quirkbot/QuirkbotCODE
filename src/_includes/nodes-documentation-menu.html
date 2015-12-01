@@ -1,0 +1,14 @@
+{% assign categories = (site.node-categories | sort: 'index') %}
+{% for category in categories %}
+	<ul>
+		{% for node in site.nodes %}
+			{% if node.taxonomy.categories contains category.id %}
+				{% assign docs = (site.pages | where: "node", node.id | where: "lang", page.lang | where: "layout", "node-documentation" ) %}
+				{% assign docs = docs.first %}
+				<li>
+					<a href="{{docs.url}}">{{docs.title}}</a>
+				</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+{% endfor %}

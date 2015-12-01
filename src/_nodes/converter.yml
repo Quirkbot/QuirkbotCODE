@@ -1,0 +1,46 @@
+---
+id: converter
+taxonomy:
+  categories:
+    - brains
+  tags: []
+type: Converter
+inputs:
+  -
+    id: in
+    default: 0
+  -
+    id: inMin
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: inMax
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: outMin
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: outMax
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+outputs:
+  -
+    id: out

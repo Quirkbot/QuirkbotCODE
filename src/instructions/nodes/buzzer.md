@@ -1,0 +1,4 @@
+---
+node: buzzer
+title: Buzzer
+---

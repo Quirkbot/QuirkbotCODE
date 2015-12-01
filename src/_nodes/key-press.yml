@@ -1,0 +1,333 @@
+---
+id: key-press
+taxonomy:
+  categories:
+    - usb
+  tags: []
+type: KeyPress
+inputs:
+  -
+    id: trigger
+    default: 0
+  -
+    id: key
+    default: NO_KEY
+    validation:
+      type: list
+      data:
+        -
+          id: no-key
+          value: NO_KEY
+        -
+          id: key-space
+          value: KEY_SPACE
+        -
+          id: key-up
+          value: KEY_UP
+        -
+          id: key-down
+          value: KEY_DOWN
+        -
+          id: key-left
+          value: KEY_LEFT
+        -
+          id: key-right
+          value: KEY_RIGHT
+        -
+          id: key-0
+          value: KEY_0
+        -
+          id: key-1
+          value: KEY_1
+        -
+          id: key-2
+          value: KEY_2
+        -
+          id: key-3
+          value: KEY_3
+        -
+          id: key-4
+          value: KEY_4
+        -
+          id: key-5
+          value: KEY_5
+        -
+          id: key-6
+          value: KEY_6
+        -
+          id: key-7
+          value: KEY_7
+        -
+          id: key-8
+          value: KEY_8
+        -
+          id: key-9
+          value: KEY_9
+        -
+          id: key-a
+          value: KEY_A
+        -
+          id: key-b
+          value: KEY_B
+        -
+          id: key-c
+          value: KEY_C
+        -
+          id: key-d
+          value: KEY_D
+        -
+          id: key-e
+          value: KEY_E
+        -
+          id: key-f
+          value: KEY_F
+        -
+          id: key-g
+          value: KEY_G
+        -
+          id: key-h
+          value: KEY_H
+        -
+          id: key-i
+          value: KEY_I
+        -
+          id: key-j
+          value: KEY_J
+        -
+          id: key-k
+          value: KEY_K
+        -
+          id: key-l
+          value: KEY_L
+        -
+          id: key-m
+          value: KEY_M
+        -
+          id: key-n
+          value: KEY_N
+        -
+          id: key-o
+          value: KEY_O
+        -
+          id: key-p
+          value: KEY_P
+        -
+          id: key-q
+          value: KEY_Q
+        -
+          id: key-r
+          value: KEY_R
+        -
+          id: key-s
+          value: KEY_S
+        -
+          id: key-t
+          value: KEY_T
+        -
+          id: key-u
+          value: KEY_U
+        -
+          id: key-v
+          value: KEY_V
+        -
+          id: key-w
+          value: KEY_W
+        -
+          id: key-x
+          value: KEY_X
+        -
+          id: key-y
+          value: KEY_Y
+        -
+          id: key-z
+          value: KEY_Z
+        -
+          id: key-left_ctrl
+          value: KEY_LEFT_CTRL
+        -
+          id: key-left_shift
+          value: KEY_LEFT_SHIFT
+        -
+          id: key-left_alt
+          value: KEY_LEFT_ALT
+        -
+          id: key-left_gui
+          value: KEY_LEFT_GUI
+        -
+          id: key-right_ctrl
+          value: KEY_RIGHT_CTRL
+        -
+          id: key-right_shift
+          value: KEY_RIGHT_SHIFT
+        -
+          id: key-right_alt
+          value: KEY_RIGHT_ALT
+        -
+          id: key-right_gui
+          value: KEY_RIGHT_GUI
+        -
+          id: key-backspace
+          value: KEY_BACKSPACE
+        -
+          id: key-tab
+          value: KEY_TAB
+        -
+          id: key-return
+          value: KEY_RETURN
+        -
+          id: key-esc
+          value: KEY_ESC
+        -
+          id: key-insert
+          value: KEY_INSERT
+        -
+          id: key-delete
+          value: KEY_DELETE
+        -
+          id: key-page_up
+          value: KEY_PAGE_UP
+        -
+          id: key-page_down
+          value: KEY_PAGE_DOWN
+        -
+          id: key-home
+          value: KEY_HOME
+        -
+          id: key-end
+          value: KEY_END
+        -
+          id: key-caps_lock
+          value: KEY_CAPS_LOCK
+        -
+          id: key-f1
+          value: KEY_F1
+        -
+          id: key-f2
+          value: KEY_F2
+        -
+          id: key-f3
+          value: KEY_F3
+        -
+          id: key-f4
+          value: KEY_F4
+        -
+          id: key-f5
+          value: KEY_F5
+        -
+          id: key-f6
+          value: KEY_F6
+        -
+          id: key-f7
+          value: KEY_F7
+        -
+          id: key-f8
+          value: KEY_F8
+        -
+          id: key-f9
+          value: KEY_F9
+        -
+          id: key-f10
+          value: KEY_F10
+        -
+          id: key-f11
+          value: KEY_F11
+        -
+          id: key-f12
+          value: KEY_F12
+        -
+          id: key-exclamation_point
+          value: KEY_EXCLAMATION_POINT
+        -
+          id: key-double_quotes
+          value: KEY_DOUBLE_QUOTES
+        -
+          id: key-number_sign
+          value: KEY_NUMBER_SIGN
+        -
+          id: key-dollar_sign
+          value: KEY_DOLLAR_SIGN
+        -
+          id: key-percent_sign
+          value: KEY_PERCENT_SIGN
+        -
+          id: key-ampersand
+          value: KEY_AMPERSAND
+        -
+          id: key-single_quote
+          value: KEY_SINGLE_QUOTE
+        -
+          id: key-opening_parenthesis
+          value: KEY_OPENING_PARENTHESIS
+        -
+          id: key-closing_parenthesis
+          value: KEY_CLOSING_PARENTHESIS
+        -
+          id: key-asterisk
+          value: KEY_ASTERISK
+        -
+          id: key-plus_sign
+          value: KEY_PLUS_SIGN
+        -
+          id: key-comma
+          value: KEY_COMMA
+        -
+          id: key-minus_sign
+          value: KEY_MINUS_SIGN
+        -
+          id: key-period
+          value: KEY_PERIOD
+        -
+          id: key-slash
+          value: KEY_SLASH
+        -
+          id: key-colon
+          value: KEY_COLON
+        -
+          id: key-semicolon
+          value: KEY_SEMICOLON
+        -
+          id: key-less_than_sign
+          value: KEY_LESS_THAN_SIGN
+        -
+          id: key-equal_sign
+          value: KEY_EQUAL_SIGN
+        -
+          id: key-greater_than_sign
+          value: KEY_GREATER_THAN_SIGN
+        -
+          id: key-question_mark
+          value: KEY_QUESTION_MARK
+        -
+          id: key-at_symbol
+          value: KEY_AT_SYMBOL
+        -
+          id: key-opening_bracket
+          value: KEY_OPENING_BRACKET
+        -
+          id: key-backslash
+          value: KEY_BACKSLASH
+        -
+          id: key-closing_bracket
+          value: KEY_CLOSING_BRACKET
+        -
+          id: key-caret
+          value: KEY_CARET
+        -
+          id: key-underscore
+          value: KEY_UNDERSCORE
+        -
+          id: key-grave_accent
+          value: KEY_GRAVE_ACCENT
+        -
+          id: key-opening_brace
+          value: KEY_OPENING_BRACE
+        -
+          id: key-vertical_bar
+          value: KEY_VERTICAL_BAR
+        -
+          id: key-closing_brace
+          value: KEY_CLOSING_BRACE
+        -
+          id: key-tilde
+          value: KEY_TILDE
+outputs: []

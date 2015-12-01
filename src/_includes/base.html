@@ -10,16 +10,24 @@
 {% elsif depth == 8 %}{% assign base = '../../../../../../..' %}
 {% elsif depth == 9 %}{% assign base = '../../../../../../../..' %}{% endif %}
 
-{% if jekyll.environment == "production" %}
-	{% assign root-url = {{site.urls.production.root}} %}
-	{% assign api-url = {{site.urls.production.api}} %}
-	{% assign compiler-url = {{site.urls.production.compiler}} %}
-{% elsif jekyll.environment == "stage" %}
-	{% assign root-url = {{site.urls.stage.root}} %}
-	{% assign api-url = {{site.urls.stage.api}} %}
-	{% assign compiler-url = '{{site.urls.stage.compiler}} %}
+
+{% if page.lang != "en" %}
+	{% capture base-lang %}{{base}}/{{page.lang}}{% endcapture %}
 {% else %}
-	{% assign root-url = {{site.urls.development.root}} %}
-	{% assign api-url = {{site.urls.development.api}} %}
-	{% assign compiler-url = {{site.urls.development.compiler}} %}
+	{% capture base-lang %}{{base}}{% endcapture %}
+{% endif %}
+
+
+{% if jekyll.environment == "production" %}
+	{% assign root-url = {{site.data.external-urls.production.root}} %}
+	{% assign api-url = {{site.data.external-urls.production.api}} %}
+	{% assign compiler-url = {{site.data.external-urls.production.compiler}} %}
+{% elsif jekyll.environment == "stage" %}
+	{% assign root-url = {{site.data.external-urls.stage.root}} %}
+	{% assign api-url = {{site.data.external-urls.stage.api}} %}
+	{% assign compiler-url = '{{site.data.external-urls.stage.compiler}} %}
+{% else %}
+	{% assign root-url = {{site.data.external-urls.development.root}} %}
+	{% assign api-url = {{site.data.external-urls.development.api}} %}
+	{% assign compiler-url = {{site.data.external-urls.development.compiler}} %}
 {% endif %}
