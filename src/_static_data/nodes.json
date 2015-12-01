@@ -16,7 +16,7 @@ layout: null
 	],
 	"taxonomies": {
 		"categories": [
-			{% for category in site.node-categories %}
+			{% for category in site.node_categories %}
 				{
 					"id" : {{category.id | jsonify}}
 				}{% if forloop.last == false %},{% endif %}

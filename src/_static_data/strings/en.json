@@ -1,3 +1,7 @@
+---
+layout: null
+lang: en
+---
 {
 	"locale/name" : "English",
 
@@ -166,11 +170,10 @@
 	"ide/warnings/sync/NOT_CONFIRMED/cancel": "Close",
 
 	"CATEGORIES ---------------------------------------------------------" : "",
-	"category/connect":		"Connect",
-	"category/backpack": 	"Backpack",
-	"category/brains": 		"Brains",
-	"category/usb": 		"USB",
-	"category/special": 	"Special",
+	{% for category in site.node_categories %}
+		{% assign arg1 = category %}{% include f_translated_name  %}
+		"category/{{category.id}}" : {{r_translated_name | jsonify}},
+	{% endfor %}
 
 	"TAGS ---------------------------------------------------------------" : "",
 	"tag/beginner": 		"Beginner",
@@ -179,36 +182,10 @@
 
 	"NODES --------------------------------------------------------------" : "",
 
-	"node/name/led" : 				"LED",
-	"node/name/dual-color-led" : 	"Dual Color LED",
-	"node/name/light-sensor" : 		"Light Sensor",
-	"node/name/squeeze-sensor" : 	"Squeeze Sensor",
-	"node/name/makey-touch" : 		"Circuit Touch",
-	"node/name/capacitive-touch" : 	"Capacitive Touch",
-	"node/name/light-sensor" : 		"Light Sensor",
-	"node/name/analog-sensor" : 	"Analog Sensor",
-	"node/name/digital-sensor" :	"Digital Sensor",
-	"node/name/voltage-output" : 	"Voltage Output",
-
-	"node/name/servo-motor" : 		"Servo Motor",
-	"node/name/continuous-servo" : 	"Continuous Servo",
-	"node/name/buzzer" : 			"Buzzer",
-	"node/name/speaker" : 			"Speaker",
-	"node/name/ir-proximity" : 		"IR Proximity",
-	"node/name/midi" : 				"MIDI",
-	"node/name/sonar" : 			"Sonar",
-	"node/name/neo-pixel" : 		"Neo Pixel",
-
-	"node/name/wave" : 				"Wave",
-	"node/name/randomizer" : 		"Randomizer",
-	"node/name/list" : 				"List",
-	"node/name/sequence" : 			"Sequence",
-	"node/name/converter" : 		"Converter",
-	"node/name/gate" : 				"Gate",
-
-	"node/name/key-press": "Key Press",
-	"node/name/key-sequence": "Key Sequence",
-	"node/name/usb-midi": "USB MIDI",
+	{% for node in site.nodes %}
+		{% assign arg1 = node %}{% include f_translated_name  %}
+		"node/name/{{node.id}}" : {{r_translated_name | jsonify}},
+	{% endfor %}
 
 	"CONNECTIONS --------------------------------------------------------" : "",
 	"node/connection/name/in" : 		"in",

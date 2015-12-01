@@ -4,7 +4,7 @@ description: Program your Quirkbot with an easy to use, visual interface!
 baseurl: "/"
 
 collections:
-  - node-categories
+  - node_categories
   - nodes
 
 # Defaults
