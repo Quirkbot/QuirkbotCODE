@@ -1,3 +1,0 @@
----
-node: ir-proximity
----

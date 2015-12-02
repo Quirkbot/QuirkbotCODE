@@ -20,7 +20,7 @@
 		<meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
 	{% endif %}
 
-	<meta property="og:image" content="{{root-url}}_static/images/logo/og.png" />
+	<meta property="og:image" content="{{root-url}}assets/images/logo/og.png" />
 
 	<link rel="apple-touch-icon" sizes="57x57" href="{{base}}/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="{{base}}/apple-touch-icon-60x60.png">
@@ -42,11 +42,11 @@
 
 	<link rel="manifest" href="{{root-url}}manifest.json">
 
-	<link rel="stylesheet" href="{{base}}/_static/styles/main.css">
+	<link rel="stylesheet" href="{{base}}/assets/styles/main.css">
 
-	<script src="{{base}}/_static/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="{{base}}/assets/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
-	<link rel="import" href="{{base}}/_static/elements/elements.html" async>
+	<link rel="import" href="{{base}}/assets/elements/elements.html" async>
 
 	{% include app_shell_setup.html %}
 </head>

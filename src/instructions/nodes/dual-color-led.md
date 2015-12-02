@@ -1,3 +1,0 @@
----
-node: dual-color-led
----

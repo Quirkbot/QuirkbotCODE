@@ -1,5 +1,6 @@
 ---
 title: Terms of Use
+id: terms-of-use
 ---
 
 # The Quirkbot Terms of Use

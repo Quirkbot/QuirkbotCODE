@@ -1,24 +1,18 @@
-{% assign query = (site.nodes | where: 'id', page.node) %}
-
 <!DOCTYPE html>
 <html>
 	{% include head.html %}
 	<body class="fullbleed layout vertical" qb-unresolved>
 		{% include app_shell_simple.html %}
-		<qb-app-content-page {% include common-attributes.html %}>
+		<qb-app-account-verification {% include common-attributes.html %}>
 			<div class="header">
 				{% include header.html %}
 			</div>
 			<div class="content">
-				{% include nodes-documentation-menu.html %}
-
-				<h1>{{query.first.name_t[page.lang]}}</h1>
-
 				{{ content }}
 			</div>
 			<div class="footer">
 				{% include footer.html %}
 			</div>
-		</qb-app-content-page>
+		</qb-app-account-verification>
 	</body>
 </html>

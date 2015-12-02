@@ -1,3 +1,0 @@
----
-node: makey-touch
----

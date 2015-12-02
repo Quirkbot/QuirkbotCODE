@@ -1,3 +1,0 @@
----
-node: analog-sensor
----

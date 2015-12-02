@@ -1,0 +1,127 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-auth/qb-core-auth.html">
+<link rel="import" href="../qb-core-router/qb-core-router.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
+<link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+<link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
+<link rel="import" href="../qb-ui-status-indicator/qb-ui-status-indicator.html">
+
+<dom-module id='qb-app-account-verification'>
+	<template>
+		<style include="qb-app-container-styles"></style>
+		<style>
+			:host{}
+			:host .content{
+				text-align: center;
+				position: relative;
+			}
+			:host qb-ui-status-indicator {
+				-webkit-transform: scale(1.8);
+				transform: scale(1.8);
+				margin: 0 0 15px 0;
+			}
+		</style>
+
+		<qb-core-i18n
+			url-format="[[stringsUrl]]"
+			locale="[[locale]]">
+		</qb-core-i18n>
+
+		<qb-core-router
+			entry="{{route}}">
+		</qb-core-router>
+
+		<qb-core-auth
+			id="auth"
+			api-url="[[apiUrl]]"
+			client-id="[[clientId]]"
+			user={{user}}>
+		</qb-core-auth>
+
+		<qb-ui-app-container
+			home-url="[[homeUrl]]"
+			register-app-url="[[registerAppUrl]]"
+			user-app-url="[[userAppUrl]]"
+			program-app-url="[[programAppUrl]]"
+			user="[[user]]">
+
+			<div class="content">
+				<h1>
+					<qb-core-i18n
+						key="ide/account-verification/page/title"></qb-core-i18n>
+				</h1>
+				<qb-ui-status-indicator
+					state="[[_indicatorStatus]]">
+				</qb-ui-status-indicator>
+				<div>
+					<qb-core-i18n
+						key="[[_textKey]]"></qb-core-i18n>
+				</div>
+
+			</div>
+
+			<div class="footer">
+				<content select=".footer"></content>
+			</div>
+
+
+		</qb-ui-app-container>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.AppAccountVerification = Polymer({
+		is: 'qb-app-account-verification',
+		properties: {
+			locale: String,
+			clientId: String,
+			chromeWebstoreId: String,
+			compilerUrl: String,
+			apiUrl: String,
+			homeUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			nodesUrl: String,
+			stringsUrl: String,
+
+			route: {
+				type:String,
+				observer: '_routeChanged'
+			},
+			user:Object,
+
+			_indicatorStatus: {
+				type: String,
+				value: 'pending'
+			},
+			_textKey: {
+				type: String,
+				value: 'ide/account-verification/page/description/pending'
+			}
+		},
+		_routeChanged: function (route) {
+			this._indicatorStatus = 'pending';
+			this._textKey = 'ide/account-verification/page/description/pending';
+
+			this.$.auth.apiCall('GET', 'auth/confirm/'+ route)
+			.then(function () {
+				this._indicatorStatus = 'success';
+				this._textKey = 'ide/account-verification/page/description/success';
+			}.bind(this))
+			.catch(function () {
+				this._indicatorStatus = 'fail';
+				this._textKey = 'ide/account-verification/page/description/fail';
+			}.bind(this));
+		}
+	});
+})();
+</script>

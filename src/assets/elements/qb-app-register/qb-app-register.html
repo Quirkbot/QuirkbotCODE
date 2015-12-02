@@ -1,0 +1,267 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-auth/qb-core-auth.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
+<link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+<link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
+<link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
+<link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
+<link rel="import" href="../qb-ui-request-password-reset-form/qb-ui-request-password-reset-form.html">
+
+<dom-module id='qb-app-register'>
+	<template>
+		<style include="qb-app-container-styles"></style>
+		<style>
+			:host .button-container{
+				text-align: center;
+			}
+			:host .button-container.main {
+
+			}
+			:host .button-container .button{
+				color: var(--qb-white);
+				min-height: 0;
+			}
+			:host .button-container.main .button{
+				font-size: 2rem;
+				border-radius: 1rem;
+				min-width: 13rem;
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+			}
+			:host .button-container .register{
+				background: var(--qb-pink-transparent);
+			}
+			:host .button-container .login{
+				background: var(--qb-blue-transparent);
+			}
+			:host .button-container .new-program{
+				background: var(--qb-green);
+
+			}
+			:host .button-container .new-program iron-icon{
+				--iron-icon-width: 2.5rem;
+				--iron-icon-height: 2.5rem;
+			}
+			:host .form{
+				margin-top	: 2rem;
+			}
+			:host .secondary-call-to-action{
+				display: block;
+				text-align: center;
+				margin: 1rem 0;
+				font-size: 0.8rem;
+				color: var(--qb-black-hard-transparent);
+				cursor: pointer;
+			}
+			:host .heading{
+				display: block;
+				text-align: center;
+				font-size: 2rem;
+			}
+			:host .success-notice{
+				display: block;
+				text-align: center;
+				font-size: 1rem;
+				padding: 1rem;
+				color: var(--qb-green);
+			}
+			@media (max-width: 52rem) {
+				:host .button-container.main .button{
+					font-size: 1.2rem;
+					min-width: 7rem;
+				}
+
+			}
+		</style>
+		<qb-core-i18n
+			url-format="[[stringsUrl]]"
+			locale="[[locale]]">
+		</qb-core-i18n>
+
+		<qb-core-auth
+			id="auth"
+			api-url="[[apiUrl]]"
+			client-id="[[clientId]]"
+			user="{{user}}">
+		</qb-core-auth>
+
+		<qb-ui-app-container
+			cover
+			home-url="[[homeUrl]]"
+			register-app-url="[[registerAppUrl]]"
+			user-app-url="[[userAppUrl]]"
+			program-app-url="[[programAppUrl]]"
+			user="[[user]]">
+
+			<div class="content">
+				<div class="button-container main">
+					<template
+						is="dom-if"
+						if="[[!user]]">
+						<paper-button
+							class="button register"
+							on-tap='_onResgisterCallToActionTap'>
+							<qb-core-i18n
+								key="register/registration/call-to-action"></qb-core-i18n>
+						</paper-button>
+						<paper-button
+							class="button login"
+							on-tap='_onLoginCallToActionTap'>
+							<qb-core-i18n
+								key="register/login/call-to-action"></qb-core-i18n>
+						</paper-button>
+					</template>
+					<template
+						is="dom-if"
+						if="[[user]]">
+						<a href="[[programAppUrl]]">
+							<paper-button
+								class="button new-program">
+								<iron-icon
+									class="icon"
+									icon="[[resolveIconName('add', 'qb-icons')]]">
+								</iron-icon>
+								<qb-core-i18n
+									key="ide/user/programs/create-new"></qb-core-i18n>
+							</paper-button>
+						</a>
+					</template>
+				</div>
+
+				<iron-collapse
+					id='registration-container'>
+					<qb-ui-registration-form
+						class="form"
+						id="registration"
+						action="[[_resolveApiUrl(apiUrl, 'user')]]">
+					</qb-ui-registration-form>
+				</iron-collapse>
+
+
+				<iron-collapse
+					id='login-container'>
+					<qb-ui-login-form
+						id="login"
+						class="form"
+						cancel-submit
+						on-submit="_onLoginSubmit"
+						action="[[_resolveApiUrl(apiUrl, 'login')]]">
+					</qb-ui-login-form>
+
+					<qb-core-i18n
+						class="secondary-call-to-action"
+						key="register/password-reset/call-to-action"
+						on-tap='_onRequestPasswordResetCallToActionTap'></qb-core-i18n>
+
+					<iron-collapse
+						id='password-reset-container'>
+
+						<qb-core-i18n
+							class="heading"
+							key="register/password-reset/heading"></qb-core-i18n>
+
+						<qb-ui-request-password-reset-form
+							id="passwordReset"
+							class="form"
+							action="[[_resolveApiUrl(apiUrl, 'auth/resetRequest')]]">
+						</qb-ui-request-password-reset-form>
+
+						<iron-collapse
+							id='password-reset-result'>
+							<qb-core-i18n
+								class="success-notice"
+								key="register/password-reset/success"></qb-core-i18n>
+						</<iron-collapse>
+					</iron-collapse>
+				</iron-collapse>
+
+			</div>
+			<div class="footer">
+				<content select=".footer"></content>
+			</div>
+		</qb-ui-app-container>
+
+
+
+
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.AppRegister = Polymer({
+		is: 'qb-app-register',
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		properties: {
+			locale: String,
+			clientId: String,
+			chromeWebstoreId: String,
+			compilerUrl: String,
+			apiUrl: String,
+			homeUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			nodesUrl: String,
+			stringsUrl: String,
+			user: Object
+		},
+		listeners:{
+			'registration.response' : '_onRegistrationResponse',
+			'login.response' : '_onLoginResponse',
+			'passwordReset.submit' : '_onRequestPasswordResetSubmit',
+			'passwordReset.response' : '_onRequestPasswordResetResponse'
+		},
+		ready: function(){
+
+		},
+		_onResgisterCallToActionTap: function() {
+			this.$['login-container'].hide();
+			this.$['registration-container'].toggle();
+		},
+		_onLoginCallToActionTap: function() {
+			this.$['registration-container'].hide();
+			this.$['login-container'].toggle();
+		},
+		_onRequestPasswordResetCallToActionTap: function(){
+			this.$['password-reset-container'].toggle();
+		},
+		_onRegistrationResponse: function(){
+			this.$.registration.loading = true;
+			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password)
+			.then(this._goToProfile.bind(this));
+		},
+		_onRequestPasswordResetSubmit: function() {
+			this.$['password-reset-result'].hide();
+		},
+		_onRequestPasswordResetResponse: function() {
+			this.$['password-reset-result'].show();
+		},
+		_onLoginSubmit: function(){
+			this.$.login.loading = true;
+			this.$.auth.authenticate(this.$.login.nickname, this.$.login.password)
+			.then(this._goToProfile.bind(this))
+			.catch(function(e){
+				this.$.login.loading = false;
+				this.$.login.errorCode = e.code;
+			}.bind(this));
+		},
+		_goToProfile: function(){
+			window.location = this._resolveAppUrl(this.userAppUrl, this.$.auth.user.nickname);
+		}
+
+	});
+})();
+</script>

@@ -1,0 +1,75 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-auth/qb-core-auth.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
+<link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+<link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
+
+<dom-module id='qb-app-content-page'>
+	<template>
+		<style include="qb-app-container-styles"></style>
+		<style>
+			:host{}
+		</style>
+
+		<qb-core-i18n
+			url-format="[[stringsUrl]]"
+			locale="[[locale]]">
+		</qb-core-i18n>
+
+		<qb-core-auth
+			id="auth"
+			api-url="[[apiUrl]]"
+			client-id="[[clientId]]"
+			user={{user}}>
+		</qb-core-auth>
+
+		<qb-ui-app-container
+			home-url="[[homeUrl]]"
+			register-app-url="[[registerAppUrl]]"
+			user-app-url="[[userAppUrl]]"
+			program-app-url="[[programAppUrl]]"
+			user="[[user]]">
+			<div class="content">
+				<content select=".content"></content>
+			</div>
+
+			<div class="footer">
+				<content select=".footer"></content>
+			</div>
+		</qb-ui-app-container>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.AppContentPage = Polymer({
+		is: 'qb-app-content-page',
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		properties: {
+			locale: String,
+			clientId: String,
+			chromeWebstoreId: String,
+			compilerUrl: String,
+			apiUrl: String,
+			homeUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			nodesUrl: String,
+			stringsUrl: String,
+
+			user:Object
+		}
+	});
+})();
+</script>

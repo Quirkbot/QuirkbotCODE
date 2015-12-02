@@ -1,4 +1,3 @@
-
 title: Quirkbot CODE
 description: Program your Quirkbot with an easy to use, visual interface!
 baseurl: "/"
@@ -18,23 +17,7 @@ defaults:
       lang: "en"
   -
     scope:
-      path: "instructions/nodes"
+      path: "help/docs/nodes"
     values:
       layout: "node-documentation"
       title_format: "{{title}} - Documentation"
-  -
-    scope:
-      path: "sv"
-    values:
-      lang: "sv"
-  -
-    scope:
-      path: "sv/instructions/nodes"
-    values:
-      layout: "node-documentation"
-      title_format: "{{title}} - Documentation"
-
-# Build settings
-markdown: kramdown
-include:
-  - _static

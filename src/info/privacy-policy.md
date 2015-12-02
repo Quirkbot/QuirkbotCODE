@@ -1,5 +1,6 @@
 ---
 title: Privacy Policy
+id: privacy-policy
 ---
 
 # The Quirkbot Privacy Policy
