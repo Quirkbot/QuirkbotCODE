@@ -75,6 +75,7 @@
 
 		<qb-core-auth
 			id="auth"
+			self="{{auth}}"
 			api-url="[[apiUrl]]"
 			client-id="[[clientId]]"
 			user={{user}}
@@ -112,7 +113,7 @@
 
 					<qb-ui-account-verification-reminder
 						user="[[user]]"
-						on-resend-verification-requested='_resendVerification'>
+						auth="[[auth]]">
 					</qb-ui-account-verification-reminder>
 
 					<template

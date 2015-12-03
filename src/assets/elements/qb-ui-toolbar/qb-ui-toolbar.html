@@ -30,6 +30,9 @@
 					font-size: 1rem;
 				};
 			}
+			:host .app-header{
+				position: relative;
+			}
 			:host .status-indicator {
 				@apply(--layout-horizontal);
 				 @apply(--layout-center);
@@ -39,6 +42,7 @@
 				display: block;
 				font-size: 0.6rem;
 				letter-spacing: 0.03rem;
+				cursor:default;
 			}
 		</style>
 		<qb-core-i18n
@@ -48,12 +52,13 @@
 
 		<div
 			class="app-header">
-			<iron-image
-				class="quirkbot-logo"
-				sizing="contain"
-				src="[[resolveUrl('../../images/logo/white-outline.svg')]]">
-			</iron-image>
-
+			<a href="[[homeUrl]]">
+				<iron-image
+					class="quirkbot-logo"
+					sizing="contain"
+					src="[[resolveUrl('../../images/logo/white-outline.svg')]]">
+				</iron-image>
+			</a>
 
 			<div class="editor-mode with-controls layout vertical">
 				<iron-image

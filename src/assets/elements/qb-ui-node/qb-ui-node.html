@@ -48,6 +48,7 @@
 			@apply(--qb-ui-node-type-container);
 		}
 		:host .type{
+			position: relative;
 			background-color: var(--qb-text-background-color);
 			border-radius: 30px;
 			display: inline-block;
@@ -58,6 +59,14 @@
 			--iron-icon-height: 12px;
 			--iron-icon-width: 12px;
 			@apply(--qb-ui-node-type);
+		}
+		:host .type:not([has-icon='']){
+			padding: 0em 1em 0 2.5em;
+		}
+		:host .type .icon {
+			position: absolute;
+			left: 4px;
+			top: -2px;
 		}
 		:host .variable{
 			display: block;
@@ -164,9 +173,11 @@
 
 		<div class="type-container">
 			<div
-				class="type">
+				class="type"
+				has-icon$="[[iconName]]">
 				<iron-icon
 					icon="[[iconName]]"
+					class="icon"
 					hidden$="[[!iconName]]">
 				</iron-icon>
 				<qb-core-i18n

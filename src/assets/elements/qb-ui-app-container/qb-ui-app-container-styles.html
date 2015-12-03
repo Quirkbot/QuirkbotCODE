@@ -10,7 +10,10 @@
 
 			}
 			:host .app-header{
-				background-color: var(--qb-blue-transparent);
+				position: fixed;
+				width: 100%;
+				box-sizing: border-box;
+				background-color: var(--qb-blue-transparent-solid);
 				padding: 0 16px;
 				height: 4rem;
 				z-index: 2;
@@ -20,6 +23,7 @@
 
 			:host .app-main{
 				flex: 1;
+				margin-top: 4rem;
 				background-color:  var(--qb-grey-light-transparent);
 				@apply(--layout-horizontal);
 				@apply(--layout-center);
@@ -35,22 +39,22 @@
 				border-radius: 10px;
 				background-color:  var(--qb-white);
 			}
-			@media (max-width: 52rem) {
-				:host .app-content{
-					width: 100%;
-					margin: 0;
-					border-radius: 0;
-				}
-			}
+
 			:host .app-footer{
 				background-color: var(--qb-pink-transparent);
 				min-height: 10em;
 			}
-			:host .quirkbot-logo{
+			:host .quirkbot-logo {
+				display: block;
 				margin-left: 24px;
 				margin-top: 0;
 				width: 153px;
 				height: 64px;
+				position: relative;
+			}
+			:host .quirkbot-logo iron-image{
+				width: 100%;
+				height: 100%;
 			}
 			:host .editor-mode {
 				background-color: var(--qb-grey-light-transparent);
@@ -103,6 +107,8 @@
 			}
 
 			:host([cover]) .app-header{
+				background-color: var(--qb-blue-transparent);
+				position: relative;
 				height: 40vh;
 				min-height: 19rem;
 				z-index: 1;
@@ -139,6 +145,17 @@
 				height: 66px;
 			}
 			@media (max-width: 52rem) {
+				:host .app-content{
+					width: 100%;
+					margin: 0;
+					border-radius: 0;
+				}
+				:host .app-header{
+					position: relative;
+				}
+				:host .app-main{
+					margin-top: 0;
+				}
 				:host([cover]) .app-header{
 					min-height: 15rem;
 				}

@@ -95,7 +95,10 @@
 				this._requestToken()
 				.then(this._setUser.bind(this))
 				.then(resolve)
-				.catch(reject);
+				.catch(function(error){
+					this.user = '';
+					reject(error);
+				}.bind(this));
 			}.bind(this));
 		},
 		refresh: function(){
@@ -111,16 +114,24 @@
 				this._requestToken()
 				.then(this._setUser.bind(this))
 				.then(resolve)
-				.catch(reject);
+				.catch(function(error){
+					this.user = '';
+					reject(error);
+				}.bind(this));
 			}.bind(this));
 		},
-		apiCall: function (method, path, data, blockAuthRetry) {
+		apiCall: function (method, path, data, optionalHeaders, blockAuthRetry) {
 			return new Promise(function (resolve, reject) {
 				this.$.apiAjax.method = method;
 				this.$.apiAjax.headers = {
 					'Content-Type' : 'application/json',
 					'Authorization' : 'Bearer '+ this.accessToken
 				};
+				if(typeof optionalHeaders === 'object'){
+					Object.keys(optionalHeaders).forEach(function(key){
+						this.$.apiAjax.headers[key] = optionalHeaders[key];
+					}.bind(this));
+				}
 				var url = this.apiUrl;
 				if (url.charAt(url.length - 1) === '/') {
 					url = url.substr(0, url.length - 1);
@@ -137,7 +148,7 @@
 						this.refresh()
 						.then(function() {
 							// Got access, now remake the call
-							this.apiCall(method, path, data, true)
+							this.apiCall(method, path, data, {}, true)
 							.then(resolve)
 							.catch(function(error){
 								this.fire('api-error', error);
@@ -261,7 +272,12 @@
 			this._scheduleRefreshTimer =  setTimeout(this.refresh.bind(this), delay);
 		},
 		_processInitialValues: function(){
-			this.debounce('initial refresh', this.refresh.bind(this), 10);
+			this.debounce('initial refresh', function(){
+				this.refresh()
+				.catch(function (error) {
+					this.fire('authenticate-error', error);
+				}.bind(this))
+			}.bind(this), 10);
 		},
 		_setUser: function () {
 			return new Promise(function (resolve, reject) {
@@ -272,6 +288,7 @@
 						resolve(user);
 					}
 					else{
+						this.user = '';
 						reject(user);
 					}
 				}.bind(this))

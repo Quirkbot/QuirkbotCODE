@@ -165,8 +165,9 @@
 			:host([input-type="range"]) .controller .slider{
 				width: 210px;
 				position: absolute;
-				top: 5px;
+				top: 2px;
 				right: 0;
+				--paper-slider-height: 10px;
 				@apply(--qb-ui-node-input-controller-slider);
 			}
 			:host([input-type="range"]) .controller .text-input{
@@ -182,12 +183,12 @@
 				width: 155px;
 				@apply(--qb-ui-node-input-controller-datalist);
 			}
-			:host([input-type="datalist"]) .controller .text-input{
+			/*:host([input-type="datalist"]) .controller .text-input{
 				width: 100px;
-			}
+			}*/
 			:host([input-type="datalist"]) .controller .menu {
 				height: 143px;
-
+				margin-top: 10px;
 			}
 		</style>
 
@@ -382,6 +383,7 @@
 		_openController: function(){
 			this.controllerOpenend = true;
 			this.$.controllerTextInput.focus();
+			this.$.controllerTextInput.select();
 			this.fire('iron-signal', {name: 'controller-open', data: this});
 			// Needed by the internal iron-list
 			this.$.menu.resize();

@@ -65,22 +65,24 @@
 				border-radius: 10px;
 				background: var(--qb-white);
 				color: var(--qb-pink);
-
+				padding-left: 2.6em;
 			}
 			:host .main-button iron-icon{
 				color: var(--qb-black);
-				position: relative;
+				position: absolute;
+				left: 0.75em;
+
 			}
 			:host .main-button .label{
 				color: var(--qb-pink);
 				display: inline-block;
 				margin-left: 5px;
 				margin-right: 5px;
-				line-height: 100%;
+				margin-top: 2px;
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				max-width: 100px;
-				height: 20px;
+				overflow: hidden;
 			}
 
 		</style>

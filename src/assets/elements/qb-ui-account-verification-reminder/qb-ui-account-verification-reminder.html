@@ -100,6 +100,9 @@
 		properties: {
 			user: {
 				type: Object
+			},
+			auth: {
+				type: Object
 			}
 		},
 		behaviors:[
@@ -121,6 +124,21 @@
 			this.debounce('open dialog', this.$.dialog.notifyResize.bind(this.$.dialog), 3000);
 		},
 		_onConfirmTap: function () {
+			console.log(this.user.ni)
+			this.auth.apiCall(
+				'POST',
+				'auth/resendConfirmation',
+				'nickname='+this.user.nickname,
+				{
+					'Content-Type' : 'application/x-www-form-urlencoded'
+				}
+			)
+			.then(function () {
+				console.log('success',arguments)
+			}.bind(this))
+			.catch(function () {
+				console.error(arguments)
+			}.bind(this));
 			this.fire('resend-verification-requested');
 		}
 	});

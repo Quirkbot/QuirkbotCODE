@@ -52,8 +52,13 @@
 			--iron-icon-width: 12px;
 			@apply(--qb-ui-nodes-menu-item-type);
 		}
-		:host .type iron-icon {
+		:host .type:not([has-icon='']){
+			padding: 0em 1em 0 2.5em;
+		}
+		:host .type .icon {
 			position: absolute;
+			left: 8px;
+			top: 2px;
 		}
 	</style>
 	<template>
@@ -61,9 +66,11 @@
 
 			<div class="type-container">
 				<div
-					class="type">
+					class="type"
+					has-icon$="[[icon]]">
 					<iron-icon
 						icon="[[icon]]"
+						class="icon"
 						hidden$="[[!icon]]">
 					</iron-icon>
 					<qb-core-i18n
