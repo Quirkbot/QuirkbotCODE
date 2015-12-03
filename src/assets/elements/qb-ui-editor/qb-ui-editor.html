@@ -30,12 +30,25 @@
 			z-index: 0;
 		}
 
-		:host qb-ui-status-indicator{
+		:host .interaction-blocker{
+			background-color: var(--qb-text-background-color-transparent);
 			position: absolute;
-			bottom: 10px;
-			right: 10px;
-			z-index: 99;
+			top:0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 0;
+			z-index: -1;
+			transition: opacity 0.5s;
+			-webkit-transition: opacity 0.5s;
+			transition-delay: 0.6s;
+			-webkit-transition-delay: 0.6s;
 		}
+		:host([busy]) .interaction-blocker{
+			opacity: 1;
+			z-index: 1;
+		}
+
 
 	</style>
 
@@ -76,6 +89,7 @@
 			</div>
 		</paper-drawer-panel>
 
+		<div class="interaction-blocker"></div>
 
 	</template>
 </dom-module>
@@ -103,7 +117,17 @@
 			visualEditor: Object,
 			textEditor: Object,
 			visualMode: Boolean,
-			textMode: Boolean
+			textMode: Boolean,
+
+			busy: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true,
+				computed: '_computeBusy(model.doingSetup, model.doingSync, model.doingAddToProfile)'
+			}
+		},
+		attached: function () {
+			this.$.menu.dropArea = this.$.dropArea;
 		},
 		_modeChanged: function (mode) {
 			if(mode === 'text'){
@@ -118,8 +142,13 @@
 				this.visualMode = true;
 			}
 		},
-		attached: function () {
-			this.$.menu.dropArea = this.$.dropArea;
+		_computeBusy: function(doingSetup, doingSync, doingAddToProfile) {
+			if(doingSetup || doingSync || doingAddToProfile){
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 	});
 })();

@@ -137,71 +137,99 @@
 					this.currentError = '';
 				}
 
-				if(this.currentError && !this.$.dialog.opened){
+				// Maybe this error shouldn't be reported anyway?
+				switch (this.currentError) {
+					case 'sync/forbidden':
+						this.currentErrorType = '';
+						this.currentError = '';
+						break;
+				}
+
+				if(!this.currentError && this.$.dialog.opened){
+					// There is no error and the dialog is open. Close it.
+					this.$.dialog.close();
+				}
+				else if(this.currentError && !this.$.dialog.opened){
+					// There is an error, and the diablog is closed. Open it.
 					this.$.dialog.open();
 					setTimeout(function(){
 						this.$.dialog.notifyResize();
 					}.bind(this), 10);
 				}
-				else if(!this.currentError && this.$.dialog.opened){
-					this.$.dialog.close();
+
+				// Return early if there is no error
+				if(!this.currentError){
+					return;
 				}
-				if(this.currentError){
-					var base = 'ide/warnings/' + this.currentError + '/';
-					this.titleKey = base + 'title';
-					this.headerKey = base + 'header';
-					this.descriptionKey = base + 'description';
-					this.dismissKey = base + 'cancel';
-					this.continueKey = base + 'continue';
-					this.confirmKey = base + 'confirm';
-					this.continueLinkKey = base + 'continue/link';
 
-					switch (this.currentError) {
-						case 'setup/offline':
-						case 'setup/not-found':
-							this.hasDismiss = false;
-							this.hasConfirm = false;
-							this.hasContinue = true;
-							break;
-						case 'setup/no-user':
-						case 'setup/forbidden':
-						case 'sync/AUTH_GRANT':
-							this.hasDismiss = true;
-							this.hasConfirm = false;
-							this.hasContinue = true;
-							break;
+				// If we got here, we have an error, so let's resolve the
+				// correct message and buttons.
+				var base = 'ide/warnings/' + this.currentError + '/';
+				this.titleKey = base + 'title';
+				this.headerKey = base + 'header';
+				this.descriptionKey = base + 'description';
+				this.dismissKey = base + 'cancel';
+				this.continueKey = base + 'continue';
+				this.confirmKey = base + 'confirm';
+				this.continueLinkKey = base + 'continue/link';
 
-						case 'sync/offline':
-						case 'sync/forbidden':
-						case 'sync/NOT_CONFIRMED':
-						case 'sync/CONNECTION_REFUSED':
-							this.hasDismiss = true;
-							this.hasConfirm = false;
-							this.hasContinue = false;
-							break;
-						default:
-							this.hasDismiss = false;
-							this.hasConfirm = false;
-							this.hasContinue = false;
+				switch (this.currentError) {
+					case 'setup/offline':
+					case 'setup/not-found':
+						this.hasDismiss = false;
+						this.hasConfirm = false;
+						this.hasContinue = true;
+						break;
+					case 'setup/no-user':
+					case 'setup/forbidden':
+					case 'sync/AUTH_GRANT':
+						this.hasDismiss = true;
+						this.hasConfirm = false;
+						this.hasContinue = true;
+						break;
 
-					}
-					this.hasButtons = this.hasDismiss || this.hasConfirm || this.hasContinue;
+					case 'sync/offline':
+					case 'sync/forbidden':
+					case 'sync/NOT_CONFIRMED':
+					case 'sync/CONNECTION_REFUSED':
+						this.hasDismiss = true;
+						this.hasConfirm = false;
+						this.hasContinue = false;
+						break;
+					default:
+						this.hasDismiss = false;
+						this.hasConfirm = false;
+						this.hasContinue = false;
+
+				}
+				this.hasButtons = this.hasDismiss || this.hasConfirm || this.hasContinue;
+
+				// Different errors also have different handlers for the user
+				// interactions.
+				this.onContinueHandler = function(){}
+				switch (this.currentError) {
+					case 'setup/offline':
+					case 'setup/not-found':
+						this.onContinueHandler = function(){
+							window.location.hash = '#!/';
+						};
+						break;
+					case 'setup/no-user':
+					case 'setup/forbidden':
+					case 'sync/AUTH_GRANT':
+						this.onContinueHandler = function(){
+							window.location = this.continueLinkValue;
+						};
+						break;
+					default:
+						// The default is an empty action
+						this.onContinueHandler = function(){};
 				}
 			}, 100);
 
 		},
 		_onContinueTap: function(){
-			switch (this.currentError) {
-				case 'setup/offline':
-				case 'setup/not-found':
-					window.location.hash = '#!/';
-					break;
-				case 'setup/no-user':
-				case 'setup/forbidden':
-				case 'sync/AUTH_GRANT':
-					window.location = this.continueLinkValue;
-					break;
-			}
+			this.onContinueHandler();
 		}
 	});
 })();
