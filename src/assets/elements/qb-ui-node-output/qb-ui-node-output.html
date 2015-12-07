@@ -115,6 +115,7 @@
 			}
 		},
 		listeners:{
+			'dragOutlet.dragmove': '_onDragOutletDragmove',
 			'dragOutlet.dragend': '_onDragOutletDragend'
 		},
 		attached: function() {
@@ -122,6 +123,30 @@
 			this.dragOutlet = this.$.dragOutlet;
 			this.$.line.source = this.outlet;
 			this.$.line.destination = this.dragOutlet;
+		},
+		_onDragOutletDragmove: function (argument) {
+			this.debounce('activate inputs', function(){
+				// Store the position of the outlet
+				var bounding = this.dragOutlet.getBoundingClientRect();
+				var centerX = bounding.left + bounding.width * 0.5;
+				var centerY = bounding.top + bounding.height * 0.5;
+
+				// Search for an inlet on that position
+				var input = this._inputHitTest(centerX, centerY);
+				if(input && input != this.currentHoverInput){
+					if(this.currentHoverInput){
+						this.currentHoverInput.outputIsHovering = false;
+					}
+					this.currentHoverInput = input;
+					this.currentHoverInput.outputIsHovering = true;
+				}
+				if(!input && this.currentHoverInput){
+					this.currentHoverInput.outputIsHovering = false;
+					this.currentHoverInput = null
+				}
+
+			}.bind(this), 33);
+
 		},
 		/**
 		 * When dragging finishes, set the outlet back to it's original
@@ -140,6 +165,18 @@
 
 			// Search for an inlet on that position
 			var value = this.containerNode.data.id + '.' + this.data.id;
+			var input = this._inputHitTest(centerX, centerY);
+			if(input){
+				input.set('data.value', value);
+			}
+
+			// Reset  any possible current hover input
+			if(this.currentHoverInput){
+				this.currentHoverInput.outputIsHovering = false;
+				this.currentHoverInput = null
+			}
+		},
+		_inputHitTest: function(centerX, centerY){
 			var tree = this.modelController.model.tree;
 			for (var i = 0; i < tree.length; i++) {
 				var node = tree[i].element;
@@ -162,7 +199,7 @@
 							continue;
 						}
 						// Matches input
-						input.set('data.value', value);
+						return input;
 						break;
 					}
 					else{
@@ -174,15 +211,15 @@
 								continue;
 							}
 							// Matches input (in collection)
-							input.set('data.value', value);
+							return input;
 							break;
 						}
 					}
 				}
 				break;
 			}
-
 		}
+
 	});
 })();
 </script>

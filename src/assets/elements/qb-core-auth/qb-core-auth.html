@@ -96,7 +96,7 @@
 				.then(this._setUser.bind(this))
 				.then(resolve)
 				.catch(function(error){
-					this.user = '';
+					this.user = null;
 					reject(error);
 				}.bind(this));
 			}.bind(this));
@@ -115,7 +115,7 @@
 				.then(this._setUser.bind(this))
 				.then(resolve)
 				.catch(function(error){
-					this.user = '';
+					this.user = null;
 					reject(error);
 				}.bind(this));
 			}.bind(this));
@@ -284,11 +284,15 @@
 				this.apiCall('GET', 'user/me')
 				.then(function (user) {
 					if(user){
-						this.user = user;
+						this.user = {};
+						Object.keys(user).forEach(function(key) {
+							this.set('user.' + key, user[key]);
+						}.bind(this));
+
 						resolve(user);
 					}
 					else{
-						this.user = '';
+						this.user = null;
 						reject(user);
 					}
 				}.bind(this))

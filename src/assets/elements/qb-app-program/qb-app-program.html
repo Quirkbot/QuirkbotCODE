@@ -166,11 +166,39 @@
 			editorMode: String,
 			quirkbotsArea: Object
 		},
+		created: function () {
+			this.listen(document, 'keydown', '_disableBackspaceBackHistory');
+		},
 		_onAddToProfileButtonTap: function(){
 			this.modelController.addToProfile();
 		},
 		_onQuirkbotsAreaButtonTap: function(){
 			this.quirkbotsArea.open();
+		},
+		_disableBackspaceBackHistory: function (event) {
+			var doPrevent = false;
+			if (event.keyCode === 8) {
+				var d = event.srcElement || event.target;
+				if ((d.tagName.toUpperCase() === 'INPUT' &&
+				(
+					d.type.toUpperCase() === 'TEXT' ||
+					d.type.toUpperCase() === 'PASSWORD' ||
+					d.type.toUpperCase() === 'FILE' ||
+					d.type.toUpperCase() === 'SEARCH' ||
+					d.type.toUpperCase() === 'EMAIL' ||
+					d.type.toUpperCase() === 'NUMBER' ||
+					d.type.toUpperCase() === 'DATE' )
+				) ||
+					d.tagName.toUpperCase() === 'TEXTAREA') {
+					doPrevent = d.readOnly || d.disabled;
+				}
+				else {
+					doPrevent = true;
+				}
+			}
+			if (doPrevent) {
+				event.preventDefault();
+			}
 		}
 	});
 })();

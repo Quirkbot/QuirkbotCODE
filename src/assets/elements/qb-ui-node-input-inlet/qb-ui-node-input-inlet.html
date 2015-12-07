@@ -32,7 +32,8 @@
 			right: 0;
 		}
 
-		:host([connection-type="Output"]) iron-icon{
+		:host([connection-type="Output"]) iron-icon,
+		:host([output-is-hovering]) iron-icon{
 			fill: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color-transparent);
 		}
 
@@ -61,7 +62,11 @@
 			connectionType:{
 				type: String,
 				reflectToAttribute: true
-			}
+			},
+			outputIsHovering:{
+				type: Boolean,
+				reflectToAttribute: true
+			},
 		},
 		listeners: {
 			'track': '_onTrack',

@@ -97,8 +97,12 @@
 				background-color:  var(--qb-interactive-color);
 			}
 
-			:host([connection-type="Output"]) .value-container{
+			:host([connection-type="Output"]) .value-container,
+			:host([output-is-hovering]) .value-container{
 				color: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color);
+			}
+			:host([output-is-hovering]) .value-container{
+				background-color:  var(--qb-pink-soft-transparent-solid);
 			}
 
 
@@ -219,6 +223,7 @@
 				id="inlet"
 				class="inlet"
 				connection-type="[[connectionType]]"
+				output-is-hovering="[[outputIsHovering]]"
 				container-input="{{self}}">
 			</qb-ui-node-input-inlet>
 		</div>
@@ -296,6 +301,10 @@
 			},
 			connectionType:{
 				type: String,
+				reflectToAttribute: true
+			},
+			outputIsHovering:{
+				type: Boolean,
 				reflectToAttribute: true
 			},
 			inputType:{

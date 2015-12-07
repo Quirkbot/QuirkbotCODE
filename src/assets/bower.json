@@ -11,6 +11,6 @@
     "node-uuid": "broofa/node-uuid",
     "chrome-extension-api": "https://github.com/Quirkbot/ChromeExtensionAPI.git",
     "ace-element": "Quirkbot/ace-element",
-    "moment": "*"
+    "moment": "*",
   }
 }
