@@ -276,7 +276,7 @@
 				this.refresh()
 				.catch(function (error) {
 					this.fire('authenticate-error', error);
-				}.bind(this))
+				}.bind(this));
 			}.bind(this), 10);
 		},
 		_setUser: function () {

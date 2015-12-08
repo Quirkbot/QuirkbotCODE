@@ -17,32 +17,34 @@
 
 			<div
 				class="app-header">
-				<a href="[[homeUrl]]" class="quirkbot-logo">
-					<iron-image
-						sizing="contain"
-						src="[[resolveUrl('../../images/logo/white-outline.svg')]]">
-					</iron-image>
-				</a>
+				<div class="header-wrapper">
+					<a href="[[homeUrl]]" class="quirkbot-logo">
+						<iron-image
+							sizing="contain"
+							src="[[resolveUrl('../../images/logo/white-outline.svg')]]">
+						</iron-image>
+					</a>
 
-				<div class="editor-mode layout vertical">
-					<iron-image
-						class="code"
-						sizing="contain"
-						src="[[resolveUrl('../../images/logo/code.svg')]]">
-					</iron-image>
+					<div class="editor-mode layout vertical">
+						<iron-image
+							class="code"
+							sizing="contain"
+							src="[[resolveUrl('../../images/logo/code.svg')]]">
+						</iron-image>
+					</div>
+
+					<div class="flex">
+						<content select=".header"></content>
+					</div>
+
+					<qb-ui-avatar
+						home-url="[[homeUrl]]"
+						register-app-url="[[registerAppUrl]]"
+						user-app-url="[[userAppUrl]]"
+						program-app-url="[[programAppUrl]]"
+						user="[[user]]">
+					</qb-ui-avatar>
 				</div>
-
-				<div class="flex">
-					<content select=".header"></content>
-				</div>
-
-				<qb-ui-avatar
-					home-url="[[homeUrl]]"
-					register-app-url="[[registerAppUrl]]"
-					user-app-url="[[userAppUrl]]"
-					program-app-url="[[programAppUrl]]"
-					user="[[user]]">
-				</qb-ui-avatar>
 
 			</div>
 			<div class="app-main">

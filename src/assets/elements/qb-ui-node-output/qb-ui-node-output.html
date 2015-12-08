@@ -124,7 +124,7 @@
 			this.$.line.source = this.outlet;
 			this.$.line.destination = this.dragOutlet;
 		},
-		_onDragOutletDragmove: function (argument) {
+		_onDragOutletDragmove: function () {
 			this.debounce('activate inputs', function(){
 				// Store the position of the outlet
 				var bounding = this.dragOutlet.getBoundingClientRect();
@@ -133,7 +133,7 @@
 
 				// Search for an inlet on that position
 				var input = this._inputHitTest(centerX, centerY);
-				if(input && input != this.currentHoverInput){
+				if(input && input !== this.currentHoverInput){
 					if(this.currentHoverInput){
 						this.currentHoverInput.outputIsHovering = false;
 					}
@@ -142,7 +142,7 @@
 				}
 				if(!input && this.currentHoverInput){
 					this.currentHoverInput.outputIsHovering = false;
-					this.currentHoverInput = null
+					this.currentHoverInput = null;
 				}
 
 			}.bind(this), 33);
@@ -173,7 +173,7 @@
 			// Reset  any possible current hover input
 			if(this.currentHoverInput){
 				this.currentHoverInput.outputIsHovering = false;
-				this.currentHoverInput = null
+				this.currentHoverInput = null;
 			}
 		},
 		_inputHitTest: function(centerX, centerY){
@@ -200,7 +200,6 @@
 						}
 						// Matches input
 						return input;
-						break;
 					}
 					else{
 
@@ -212,7 +211,6 @@
 							}
 							// Matches input (in collection)
 							return input;
-							break;
 						}
 					}
 				}

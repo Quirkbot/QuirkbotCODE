@@ -17,6 +17,12 @@
 				padding: 0 16px;
 				height: 4rem;
 				z-index: 2;
+				/*@apply(--layout-horizontal);
+				@apply(--layout-center);*/
+			}
+			:host .app-header .header-wrapper{
+				margin: 0 auto;
+				max-width: 52em;
 				@apply(--layout-horizontal);
 				@apply(--layout-center);
 			}
@@ -46,7 +52,7 @@
 			}
 			:host .quirkbot-logo {
 				display: block;
-				margin-left: 24px;
+				/*margin-left: 24px;*/
 				margin-top: 0;
 				width: 153px;
 				height: 64px;
@@ -112,6 +118,9 @@
 				height: 40vh;
 				min-height: 19rem;
 				z-index: 1;
+				/*@apply(--layout-vertical);*/
+			}
+			:host([cover]) .app-header .header-wrapper{
 				@apply(--layout-vertical);
 			}
 			:host([cover]) .app-main{
