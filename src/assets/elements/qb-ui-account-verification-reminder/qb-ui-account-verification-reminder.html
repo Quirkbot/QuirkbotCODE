@@ -112,11 +112,11 @@
 			'_displayToast(user.confirmedEmail)'
 		],
 		_displayToast: function (confirmed) {
-			if(confirmed){
+			if(!this.user || confirmed){
 				this.cancelDebouncer('emailVerificationNotice.show');
 				this.$.emailVerificationNotice.hide();
 			}
-			else{
+			else {
 				this.debounce('emailVerificationNotice.show',this.$.emailVerificationNotice.show.bind(this.$.emailVerificationNotice), 1000);
 			}
 		},
