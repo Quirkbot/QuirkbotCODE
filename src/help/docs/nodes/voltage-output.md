@@ -31,3 +31,5 @@ Comment
 
 ## Learn more
 Some link or activity
+
+[Voltage Output Node]: {{r_base_url}}/content-assets/documentation/nodes/VoltageOutput.png
