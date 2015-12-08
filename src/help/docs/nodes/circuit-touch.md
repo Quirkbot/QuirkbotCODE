@@ -31,3 +31,5 @@ Comment
 
 ## Learn more
 Some link or activity
+
+[Circuit Touch Node]: {{r_base_url}}/content-assets/documentation/nodes/CircuitTouch.png

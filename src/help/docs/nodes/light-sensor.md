@@ -21,6 +21,7 @@ max        | `0` - `1`               | Maximum value of the output range
 **Output**
 
 ## Example CODE
+
 Program | Link to Quirkbot CODE
 :-------|:---------------------
 Description | [Name](http://code.quirkbot.com/program/5655f35bd66de10100d133a9 "Go to Quirkbot CODE")
@@ -34,4 +35,4 @@ The sensor usually has a very wide sesetivity to different light conditions, fro
 ## Learn more
 Some link or activity
 
-[Light Sensor Node]: ./screenshots/1_connect/3_LightSensor.png
+[Light Sensor Node]: {{r_base_url}}/content-assets/documentation/nodes/LightSensor.png
