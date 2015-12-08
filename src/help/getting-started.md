@@ -58,7 +58,9 @@ To make strawbees move you dont't have to program anything right now. Just switc
 
 ![Strawbee to Motor]
 
-- **Building a motor mount:** There are many ways to connect a Servo motor to Strawbees. Check out these discriptions for [building motor mounts]() *coming soon*
+- **Building a motor mount:** There are many ways to connect a Servo motor to Strawbees. Check out these discriptions for [building motor mounts]() *coming soon* Here is also a simple type of motor mount you can build:
+
+![Build motor mount]
 
 - **The straw secures the Motor arm:** When attaching a straw to the Strawbee on the Servo Motor arm, make sure to slide it over both the Strawbee *and* the Motor arm itself, like this:
 
@@ -102,3 +104,4 @@ Upload code
 
 [Strawbee to Motor]: {{r_base_url}}/content-assets/documentation/getting-started/strawbee_to_motor.png
 [Whats in the box]: {{r_base_url}}/content-assets/documentation/getting-started/whats_in_the_box.png
+[Build motor mount]: {{r_base_url}}/content-assets/documentation/getting-started/build_motor_mount.png
