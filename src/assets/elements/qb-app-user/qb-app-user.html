@@ -329,14 +329,18 @@
 			.catch(function(){
 				this._loadingPrograms = false;
 			}.bind(this));
-			this.fire('iron-signal', {
-				name: 'track-event',
-				data: {
-					category: 'user-actions',
-					action: 'delete-program',
-					label: 'profile'
-				}
-			});
+			try{
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'user-actions',
+						action: 'delete-program',
+						label: 'profile'
+					}
+				});
+			}
+			catch(e){}
+
 		}
 	});
 })();

@@ -30,6 +30,16 @@
 			else{
 				window.location.hash = newHash;
 			}
+
+			try{
+				this.fire('iron-signal', {
+					name: 'track-page',
+					data: {
+						path: window.location.pathname + window.location.search  + window.location.hash
+					}
+				});
+			}
+			catch(e){}
 		},
 		_addRoutes: function(){
 			// Only listen to chages on the current path
