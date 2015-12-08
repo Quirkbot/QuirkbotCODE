@@ -81,10 +81,13 @@ Upload code
 
 <google-youtube video-id="Wz-Hy0kfnHo" fluid></google-youtube>
 
-Adding/Removeing and Connecting/disconnecting nodes
-Save share etc.
-Programming LEDs
-Attaching LEDs
+* Adding/Removeing and Connecting/disconnecting nodes
+
+* Save share etc.
+
+* Programming LEDs
+
+* Attaching LEDs
 
 
 
