@@ -171,9 +171,25 @@
 		},
 		_onAddToProfileButtonTap: function(){
 			this.modelController.addToProfile();
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'user-actions',
+					action: 'add-to-profile',
+					label: 'program'
+				}
+			});
 		},
 		_onQuirkbotsAreaButtonTap: function(){
 			this.quirkbotsArea.open();
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'user-actions',
+					action: 'quirkbots-area',
+					label: 'program'
+				}
+			});
 		},
 		_disableBackspaceBackHistory: function (event) {
 			var doPrevent = false;

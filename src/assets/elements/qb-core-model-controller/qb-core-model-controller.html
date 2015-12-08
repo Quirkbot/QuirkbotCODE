@@ -865,6 +865,16 @@
 				this.set('model.setupError', '');
 			}
 			this._log('log', { event: 'setupStart', detail: event.detail });
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'setup-start'
+					}
+				});
+			}
+			catch(e){}
 		},
 		_onSetupSuccess: function(event){
 			this.set('model.doingSetup', false);
@@ -873,6 +883,17 @@
 				this.set('model.setupError', '');
 			}
 			this._log('log', { event: 'setupSuccess', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'setup-success'
+					}
+				});
+			}
+			catch(e){}
 
 			if(this._reapplyPendingId()){
 				return;
@@ -883,6 +904,19 @@
 			this.set('model.setupError', event.detail);
 			this.processingStatus = 'fail';
 			this._log('error', { event: 'setupError', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'setup-error',
+						label: event.detail
+					}
+				});
+			}
+			catch(e){}
+
 			if(this._reapplyPendingId()){
 				return;
 			}
@@ -894,6 +928,17 @@
 				this.set('model.syncError', '');
 			}
 			this._log('log', { event: 'syncStart', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'sync-start',
+					}
+				});
+			}
+			catch(e){}
 		},
 		_onSyncSuccess: function(event){
 			this.set('model.doingSync', false);
@@ -902,12 +947,35 @@
 				this.set('model.syncError', '');
 			}
 			this._log('log', { event: 'syncSuccess', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'sync-success',
+					}
+				});
+			}
+			catch(e){}
 		},
 		_onSyncError: function(event){
 			this.set('model.doingSync', false);
 			this.set('model.syncError', event.detail);
 			this.processingStatus = 'fail';
 			this._log('error', { event: 'syncError', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'sync-error',
+						label: event.detail
+					}
+				});
+			}
+			catch(e){}
 		},
 		_onAddToProfileStart: function(event){
 			this.set('model.doingAddToProfile', true);
@@ -916,6 +984,17 @@
 				this.set('model.addToProfileError', '');
 			}
 			this._log('log', { event: 'addToProfileStart', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'add-to-profile-start',
+					}
+				});
+			}
+			catch(e){}
 		},
 		_onAddToProfileSuccess: function(event){
 			this.set('model.doingAddToProfile', false);
@@ -926,12 +1005,35 @@
 			this._log('log', { event: 'addToProfileSuccess', detail: event.detail });
 			this.sync()
 			.catch(function(){});
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'add-to-profile-success',
+					}
+				});
+			}
+			catch(e){}
 		},
 		_onAddToProfileError: function(event){
 			this.set('model.doingAddToProfile', false);
 			this.set('model.addToProfileError', event.detail);
 			this.processingStatus = 'fail';
 			this._log('error', { event: 'addToProfileError', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'add-to-profile-error',
+						label: event.detail
+					}
+				});
+			}
+			catch(e){}
 		},
 		_log: function(){
 			var level = arguments[0];

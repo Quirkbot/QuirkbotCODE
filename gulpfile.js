@@ -48,6 +48,18 @@ gulp.task('jshint', function () {
 	.pipe($.jshint.reporter('jshint-stylish'))
 	.pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
+/**
+ * Lint JavaScript fom SRC (this won't fail, so it's good for the dev environment)
+ */
+gulp.task('soft-jshint', function () {
+	return gulp.src([
+		SRC + '/assets/elements/**/*.js',
+		SRC + '/assets/elements/**/*.html',
+	])
+	.pipe($.jshint.extract()) // Extract JS from .html files
+	.pipe($.jshint())
+	.pipe($.jshint.reporter('jshint-stylish'))
+});
 
 /**
  * Runs Jekyll using --source SRC --destination DEST_DEV
@@ -280,6 +292,7 @@ gulp.task('clean:gzip', del.bind(null, [DEST_GZIP]));
 /* Builders ----------------------------------------------------------------- */
 gulp.task('build:dev', ['clean:dev'], function (cb) {
 	runSequence(
+		'soft-jshint',
 		'jekyll',
 	cb);
 });

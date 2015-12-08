@@ -168,6 +168,16 @@
 			var input = this._inputHitTest(centerX, centerY);
 			if(input){
 				input.set('data.value', value);
+				try {
+					this.fire('iron-signal', {
+						name: 'track-event',
+						data: {
+							category: 'user-actions',
+							action: 'nodes-connected'
+						}
+					});
+				}
+				catch(e){}
 			}
 
 			// Reset  any possible current hover input

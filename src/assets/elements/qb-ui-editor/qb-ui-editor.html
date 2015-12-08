@@ -141,6 +141,14 @@
 				this.textMode = false;
 				this.visualMode = true;
 			}
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'user-actions',
+					action: 'change-mode',
+					label: mode
+				}
+			});
 		},
 		_computeBusy: function(doingSetup, doingSync, doingAddToProfile) {
 			if(doingSetup || doingSync || doingAddToProfile){

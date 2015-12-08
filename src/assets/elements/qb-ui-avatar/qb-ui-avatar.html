@@ -185,6 +185,7 @@
 			window.localStorage.removeItem('qb-accessToken');
 			window.localStorage.removeItem('qb-refreshToken');
 			window.localStorage.removeItem('qb-tokenExpires');
+			this.fire('iron-signal', {name: 'track-user', data: '' });
 			this.goToHome();
 		},
 		_computeProfileUrl: function(userAppUrl, nickname){

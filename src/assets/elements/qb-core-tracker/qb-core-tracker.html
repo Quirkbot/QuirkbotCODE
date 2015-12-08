@@ -23,9 +23,9 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
 <dom-module id="qb-core-tracker">
 	<template>
 		<iron-signals
-			on-iron-signal-track-user="trackUser"
-			on-iron-signal-track-page="trackPage"
-			on-iron-signal-track-event="trackEvent">
+			on-iron-signal-track-user="_trackUser"
+			on-iron-signal-track-page="_trackPage"
+			on-iron-signal-track-event="_trackEvent">
 		</iron-signals>
 	</template>
 </dom-module>
@@ -49,29 +49,42 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
 					type: String
 				}
 			},
-			listeners: {
-				'track-event': '_trackEvent',
-				'track-page': '_trackPage',
-				'track-user': '_trackUser'
-			},
 			ready: function() {
 				window.ga('create', this.code, 'auto');
-				this.trackPage();
+
+				// Try to recover a  user from localStorage
+				try{
+					var userId = JSON.parse(localStorage.getItem('qb-user')).id;
+					this._trackUser({detail: userId});
+				}
+				catch(e){}
+
+				this.debounce('initial page', this._trackPage.bind(this), 500);
 			},
 			_trackEvent: function(e) {
 				//Add support for a non-interactin even that does not effect bounce rates - eg things that happen after a timeout
 				//ga('send', 'event', 'category', 'action', {'nonInteraction': 1});
 				window.ga('send', 'event', e.detail.category, e.detail.action, e.detail.label, e.detail.value);
+
+				console.log('_trackEvent', e.detail);
 			},
 			_trackPage: function(e) {
 				//Use set param, this way if we then send a subsequent event on the page it will be correctly associated with the same page
 				if (e !== undefined && e.detail.path !== undefined) {
 					window.ga('set', 'page', e.detail.path);
 				}
+				if(e && e.detail){
+					console.log('_trackPage', e.detail);
+				}
+				else{
+					console.log('_trackPage', 'initial');
+				}
+
 				window.ga('send', 'pageview');
 			},
 			_trackUser: function(e) {
-				window.ga('set', '&uid', e);
+				console.log('_trackUser', e.detail);
+				window.ga('set', '&uid', e.detail);
 			}
 		});
 	})();

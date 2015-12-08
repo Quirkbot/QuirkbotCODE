@@ -460,6 +460,17 @@
 			this.uploadSucceeded = false;
 			this.uploadErrorKey = '';
 
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'user-actions',
+						action: 'upload-code'
+					}
+				});
+			}
+			catch(e){}
+
 
 			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 30);
 
@@ -480,6 +491,16 @@
 						this.$.dialog.notifyResize();
 					}, 1500);
 					this.uploadProgress = 100;
+					try {
+						this.fire('iron-signal', {
+							name: 'track-event',
+							data: {
+								category: 'background-actions',
+								action: 'code-upload-succeed'
+							}
+						});
+					}
+					catch(e){}
 				}.bind(this))
 				.catch(function(error){
 					clearInterval(fakeUploadProgressTimer);
@@ -491,6 +512,17 @@
 						this.uploadProgress = 0;
 						this.$.dialog.notifyResize();
 					}, 1500);
+					try {
+						this.fire('iron-signal', {
+							name: 'track-event',
+							data: {
+								category: 'background-actions',
+								action: 'code-upload-failed',
+								label: 'upload-failed'
+							}
+						});
+					}
+					catch(e){}
 				}.bind(this));
 
 			}.bind(this))
@@ -503,17 +535,48 @@
 					this.uploadProgress = 0;
 					this.$.dialog.notifyResize();
 				}.bind(this), 1500);
+				try {
+					this.fire('iron-signal', {
+						name: 'track-event',
+						data: {
+							category: 'background-actions',
+							action: 'code-upload-failed',
+							label: 'compilation-failed'
+						}
+					});
+				}
+				catch(e){}
 			}.bind(this));
 		},
 		_onFailDismissButtonTap: function(){
 			this.async(function () {
 				this.pendingUploadProcess = false;
 			}, 500);
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'user-actions',
+						action: 'upload-code-fail-dismiss'
+					}
+				});
+			}
+			catch(e){}
 		},
 		_onFinalConfirmTap: function(){
 			this.async(function () {
 				this.pendingUploadProcess = false;
 			}, 500);
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'user-actions',
+						action: 'upload-code-final-confirm'
+					}
+				});
+			}
+			catch(e){}
 		},
 		_computeExtensionInstallationErrorKey: function(code){
 

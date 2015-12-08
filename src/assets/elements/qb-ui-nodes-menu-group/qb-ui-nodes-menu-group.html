@@ -141,6 +141,18 @@
 			node.style.position = 'fixed';
 			node.style.left = bounding.left + 'px';
 			node.style.top = bounding.top + 'px';
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'user-actions',
+						action: 'drag-node-start',
+						label: e.model.item.definition.id
+					}
+				});
+			}
+			catch(e){}
 		},
 		_onNodeDragEnd: function(e){
 			var node = e.model.item.element;
@@ -166,6 +178,17 @@
 				var y = bounding.top - dropAreaBounding.top + this.visualEditor.canvas.offsetY;
 
 				this.treeManager.add(type, x, y);
+				try {
+					this.fire('iron-signal', {
+						name: 'track-event',
+						data: {
+							category: 'user-actions',
+							action: 'drag-node-end',
+							label: e.model.item.definition.id
+						}
+					});
+				}
+				catch(e){}
 			}
 		}
 	});

@@ -412,6 +412,18 @@
 		},
 		_onDeletePress: function(){
 			this.treeManager.remove(this.data.id);
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'user-actions',
+						action: 'node-deleted',
+						label: this.definition.id
+					}
+				});
+			}
+			catch(e){}
 		},
 		/**
 		 * If you tap the background, send a controller-open signal, so all input

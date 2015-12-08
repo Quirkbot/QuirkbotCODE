@@ -230,18 +230,52 @@
 		_onResgisterCallToActionTap: function() {
 			this.$['login-container'].hide();
 			this.$['registration-container'].toggle();
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'call-to-action',
+					action: 'register',
+					label: 'home'
+				}
+			});
 		},
 		_onLoginCallToActionTap: function() {
 			this.$['registration-container'].hide();
 			this.$['login-container'].toggle();
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'call-to-action',
+					action: 'login',
+					label: 'home'
+				}
+			});
 		},
 		_onRequestPasswordResetCallToActionTap: function(){
 			this.$['password-reset-container'].toggle();
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'call-to-action',
+					action: 'reset-password',
+					label: 'home'
+				}
+			});
 		},
 		_onRegistrationResponse: function(){
 			this.$.registration.loading = true;
 			this.$.auth.authenticate(this.$.registration.nickname, this.$.registration.password)
-			.then(this._goToProfile.bind(this));
+			.then(function () {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'user-actions',
+						action: 'register',
+						label: 'home'
+					}
+				});
+				return this._goToProfile();
+			}.bind(this));
 		},
 		_onRequestPasswordResetSubmit: function() {
 			this.$['password-reset-result'].hide();
@@ -252,7 +286,17 @@
 		_onLoginSubmit: function(){
 			this.$.login.loading = true;
 			this.$.auth.authenticate(this.$.login.nickname, this.$.login.password)
-			.then(this._goToProfile.bind(this))
+			.then(function () {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'user-actions',
+						action: 'login',
+						label: 'home'
+					}
+				});
+				return this._goToProfile();
+			}.bind(this))
 			.catch(function(e){
 				this.$.login.loading = false;
 				this.$.login.errorCode = e.code;
