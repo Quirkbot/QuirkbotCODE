@@ -6,11 +6,12 @@
     "paper-elements": "PolymerElements/paper-elements",
     "platinum-elements": "PolymerElements/platinum-elements",
     "neon-elements": "PolymerElements/neon-elements",
+    "google-web-componenets" : "GoogleWebComponents/google-web-components",
     "page": "visionmedia/page.js",
     "observe-js": "Polymer/observe-js",
     "node-uuid": "broofa/node-uuid",
     "chrome-extension-api": "https://github.com/Quirkbot/ChromeExtensionAPI.git",
     "ace-element": "Quirkbot/ace-element",
-    "moment": "*",
+    "moment": "*"
   }
 }

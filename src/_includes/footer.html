@@ -1,0 +1,32 @@
+<nav class="menu">
+	{% assign arg1=site.data.strings.menu_help_title %}{% include f_translated_name %}
+	<h3 class="heading">{{r_translated_name}}</h3>
+	<ul>
+		<li>
+			{% assign arg1=site.data.nav.getting-started %}{% include f_get_page %}
+			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
+		</li>
+		<li>
+			{% assign arg1=site.data.nav.nodes-docs %}{% include f_get_page %}
+			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
+		</li>
+		<li>
+			<a href="http://forum.quirkbot.com">Quirkbot FORUM</a>
+		</li>
+	</ul>
+</nav>
+
+<nav class="menu">
+	{% assign arg1=site.data.strings.menu_legal_title %}{% include f_translated_name %}
+	<h3 class="heading">{{r_translated_name}}</h3>
+	<ul>
+		<li>
+			{% assign arg1=site.data.nav.terms-of-use %}{% include f_get_page %}
+			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
+		</li>
+		<li>
+			{% assign arg1=site.data.nav.privacy-policy %}{% include f_get_page %}
+			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
+		</li>
+	</ul>
+</nav>

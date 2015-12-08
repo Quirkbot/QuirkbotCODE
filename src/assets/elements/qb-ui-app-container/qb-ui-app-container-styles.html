@@ -46,9 +46,31 @@
 				background-color:  var(--qb-white);
 			}
 
+			:host .app-content > ::content img {
+				max-width: 100%;
+			}
+
 			:host .app-footer{
 				background-color: var(--qb-pink-transparent);
 				min-height: 10em;
+			}
+			:host .app-footer .footer-wrapper{
+				margin: 0 auto;
+				max-width: 52em;
+			}
+			:host .app-footer .footer-wrapper > ::content .footer{
+				@apply(--layout-horizontal);
+			}
+			:host .app-footer .footer-wrapper > ::content .menu{
+				color: var(--qb-white);
+				width: 14rem;
+			}
+			:host .app-footer .footer-wrapper > ::content .menu ul{
+				padding: 0;
+				list-style: none;
+			}
+			:host .app-footer .footer-wrapper > ::content .menu ul a{
+				text-decoration: none;
 			}
 			:host .quirkbot-logo {
 				display: block;
@@ -153,6 +175,10 @@
 				width: 168px;
 				height: 66px;
 			}
+			:host([cover]) .app-footer{
+				padding-top: 3rem;
+			}
+
 			@media (max-width: 52rem) {
 				:host .app-content{
 					width: 100%;
@@ -164,6 +190,9 @@
 				}
 				:host .app-main{
 					margin-top: 0;
+				}
+				:host .app-footer .footer-wrapper > ::content .footer{
+					@apply(--layout-vertical);
 				}
 				:host([cover]) .app-header{
 					min-height: 15rem;
