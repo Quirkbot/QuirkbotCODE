@@ -11,7 +11,7 @@
 			}
 			:host > a{
 				display: block;
-				color: inherit;
+				color: var(--qb-text-color) !important;
 				text-decoration: none;
 				border-radius: 9999rem;
 				border: 1px solid var(--qb-green-transparent);
@@ -23,7 +23,8 @@
 				@apply(--layout-justified);
 			}
 			:host > a:hover{
-
+				color: var(--qb-text-color) !important;
+				text-decoration: none !important;
 				border: 1px solid var(--qb-green-transparent);
 				background-color: var(--qb-green-transparent);
 			}

@@ -5,3 +5,7 @@ menu_legal_title:
 menu_help_title:
   name_t:
     en: Help
+
+menu_nodes_documentation_title:
+  name_t:
+    en: Nodes Documentation
