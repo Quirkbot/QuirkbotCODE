@@ -30,26 +30,26 @@ Quirkbot makes it easy to make Strawbees move. A great way to get started is to 
 
 To first get started with Strawbees there is a [great guide](http://www.strawbees.com/wp-content/uploads/2015/11/booklet_a4_small.pdf) that you also can download.
 
-To make strawbees move you dont't have to program anything right now. Just switch on the Quirkbot and use the program that comes preloaded:
+To make strawbees move you dont't have to program anything right now. Just switch on the Quirkbot, Plug in the motor and use the program that comes preloaded:
 
 #### 1. Switch On the Quirkbot:
 
-<google-youtube video-id="GkSwaykm1vs" fluid></google-youtube>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/GkSwaykm1vs?rel=0" frameborder="0" allowfullscreen></iframe>
 
 
-#### 2. This is how to attach the Motor Backpack:
+#### 2. Attach the Motor Backpack:
 
-<google-youtube video-id="XO3nd1q9Yx4" fluid></google-youtube>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XO3nd1q9Yx4?rel=0" frameborder="0" allowfullscreen></iframe>
 
 
-#### 3. Here is how you attach the Motor:
+#### 3. Attach the Motor:
 
-<google-youtube video-id="wWDKuAK6-ok" fluid></google-youtube>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wWDKuAK6-ok?rel=0" frameborder="0" allowfullscreen></iframe>
 
 
 #### 4. This is how the preloaded program works:
 
-<google-youtube video-id="4HHj5UaTJuU" fluid></google-youtube>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4HHj5UaTJuU?rel=0" frameborder="0" allowfullscreen></iframe>
 
 
 #### 5. Tips and trix to make your building more fun
@@ -62,7 +62,9 @@ To make strawbees move you dont't have to program anything right now. Just switc
 
 ![Build motor mount]
 
-- **The straw secures the Motor arm:** When attaching a straw to the Strawbee on the Servo Motor arm, make sure to slide it over both the Strawbee *and* the Motor arm itself, like this:
+- **The straw *secures* the motor arm:** When putting a straw on the Strawbee on the servo motor arm, make sure to slide it over both the Strawbee *and* the motor arm itself, like this:
+
+![Secure motor arm]
 
 - **Use other materials than straws:** Cardboard, Paper, Tape, Rubberbands, Aluinum foil and other light materials
 
@@ -72,7 +74,7 @@ To make strawbees move you dont't have to program anything right now. Just switc
 
 #### When the Quirkbot runs out of battery you need to charge it:
 
-<google-youtube video-id="DyBdUnRJQzo" fluid></google-youtube>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/DyBdUnRJQzo?rel=0" frameborder="0" allowfullscreen></iframe>
 
 ## Start programming
 
@@ -81,27 +83,37 @@ To change how the Quirkbot behaves you change the program inside of it. You do t
 
 Upload code
 
-<google-youtube video-id="Wz-Hy0kfnHo" fluid></google-youtube>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Wz-Hy0kfnHo?rel=0" frameborder="0" allowfullscreen></iframe>
 
 * Adding/Removeing and Connecting/disconnecting nodes
+ *coming soon*
 
 * Save share etc.
+ *coming soon*
 
 * Programming LEDs
+ *coming soon*
 
-* Attaching LEDs
+* Attaching LEDs and lightsensors:
+
+ <iframe width="560" height="315" src="https://www.youtube.com/embed/i8j6pVTig60?rel=0" frameborder="0" allowfullscreen></iframe>
 
 
 
 
 ## Learn More
 
-### Check out the documentation
+### Check out the documentation for the Nodes
+
+
+Nodes [documentation](http://code.quirkbot.com/help/docs/nodes/)  *coming soon*
 
 ### The Forum
 
-
+Check out the forum! Don't be afraid to ask us any question.
+[forum.quirkbot.com](http://forum.quirkbot.com/)
 
 [Strawbee to Motor]: {{r_base_url}}/content-assets/documentation/getting-started/strawbee_to_motor.png
 [Whats in the box]: {{r_base_url}}/content-assets/documentation/getting-started/whats_in_the_box.png
 [Build motor mount]: {{r_base_url}}/content-assets/documentation/getting-started/build_motor_mount.png
+[Secure motor arm]: {{r_base_url}}/content-assets/documentation/getting-started/secure_motor_arm.png
