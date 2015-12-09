@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 
 <dom-module id="qb-app-container-internal-styles">
 	<template>
@@ -44,10 +45,6 @@
 				margin: 1rem auto;
 				border-radius: 10px;
 				background-color:  var(--qb-white);
-			}
-
-			:host .app-content > ::content img {
-				max-width: 100%;
 			}
 
 			:host .app-footer{
@@ -211,10 +208,9 @@
 				}
 				:host([cover]) .editor-mode .code {
 					width: 108px;
-    				height: 46px
+					height: 46px
 				}
 			}
-
 		</style>
 	</template>
 </dom-module>
@@ -222,10 +218,117 @@
 <dom-module id="qb-app-container-styles">
 	<template>
 		<style>
-
-			qb-ui-app-container h1{
+			:host qb-ui-app-container .content > ::content h1{
 				margin-top: 0;
 			}
+		</style>
+	</template>
+</dom-module>
+
+<dom-module id="qb-app-container-content-styles">
+	<template>
+		<style>
+			:host qb-ui-app-container .content > ::content{
+				line-height: 1.5rem;
+			}
+			:host qb-ui-app-container .content > ::content h1{
+				margin-top: 0;
+				font-size: 3rem;
+				text-align: center;
+				line-height: 3rem;
+			}
+			:host qb-ui-app-container .content > ::content a{
+				color: var(--qb-blue);
+				text-decoration: none;
+			}
+			:host qb-ui-app-container .content > ::content a:hover{
+				text-decoration: underline;
+			}
+			:host qb-ui-app-container .content > ::content pre,
+			:host qb-ui-app-container .content > ::content code{
+				background-color: var(--qb-grey-soft-transparent);
+				padding: 0.2rem 0.3rem;
+				border-radius: 0.2rem;
+			}
+			:host qb-ui-app-container .content > ::content pre code{
+				background-color: transparent !important;
+				padding: 0 !important;
+				border-radius: 0 !important;
+			}
+
+			:host qb-ui-app-container .content > ::content img {
+				max-width: 100%;
+			}
+			:host qb-ui-app-container .content > ::content img:only-of-type {
+				display: block;
+				margin: 0 auto;
+			}
+			:host qb-ui-app-container .content > ::content table{
+				border-collapse: separate;
+				box-sizing: border-box;
+				border-spacing: 0;
+				width:100%;
+				margin:0px;
+				padding:0px;
+				table-layout: fixed;
+				border-radius: 10px 10px 0 0;
+				overflow: hidden;
+				border: solid 1px var(--qb-grey-soft-transparent);
+			}
+			:host qb-ui-app-container .content > ::content thead tr{
+				background: var(--qb-pink-soft-transparent);
+			}
+			:host qb-ui-app-container .content > ::content th,
+			:host qb-ui-app-container .content > ::content td{
+				padding: 1em;
+			}
+			:host qb-ui-app-container .content > ::content tbody{
+				font-size: 0.9rem;
+			}
+
+			:host qb-ui-app-container .content > ::content tbody tr:nth-child(odd){
+
+			}
+			:host qb-ui-app-container .content > ::content tbody tr:nth-child(even){
+				background: var(--qb-grey-light-soft-transparent);
+			}
+			/* Sidebar */
+			:host qb-ui-app-container .content > ::content .sidebar-main-container{
+				@apply(--layout-horizontal);
+			}
+			:host qb-ui-app-container .content > ::content .sidebar-container{
+				@apply(--layout-flex);
+			}
+			:host qb-ui-app-container .content > ::content .main-container{
+				@apply(--layout-flex-3);
+				margin-left: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar {
+				line-height: 1.25rem;
+				background: var(--qb-blue-light-soft-transparent);
+				border-radius: 10px;
+				padding: 1rem;
+				margin-right: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .title{
+				margin: 0;
+				font-size: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .subtitle{
+				margin: 0;
+				font-size: 0.9rem;
+				margin-top: 1rem;
+				color: var(--qb-pink-transparent)
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .list{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .item{
+				font-size: 0.8rem;
+			}
+			/* End Sidebar*/
 		</style>
 	</template>
 </dom-module>

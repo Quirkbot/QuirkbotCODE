@@ -10,12 +10,16 @@
 				{% include header.html %}
 			</div>
 			<div class="content">
-				{% include nodes_documentation_menu.html %}
-
-				<h1>{{query.first.name_t[page.lang]}}</h1>
-
-				{{ content }}
-			</div>
+				<div class="sidebar-main-container">
+					<div class="sidebar-container">
+						{% include nodes_documentation_menu.html %}
+					</div>
+					<div class="main-container">
+						<h1>{{query.first.name_t[page.lang]}}</h1>
+							{{ content }}
+						</div>
+					</div>
+				</div>
 			<div class="footer">
 				{% include footer.html %}
 			</div>
