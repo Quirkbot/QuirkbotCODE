@@ -205,7 +205,7 @@ gulp.task('gzip-compression', ['gzip-clone'], function () {
 gulp.task('s3', ['build:gzip'], function () {
 	var aws = JSON.parse(fs.readFileSync('./aws-config/'+argv.environment+'.json'));
 
-	var cacheControl = 'max-age=432000, no-transform, public';
+	var cacheControl = 'max-age=4320000, no-transform, public';
 
 	return merge (
 		gulp.src([ DEST_GZIP + '/**/*.html' ])
