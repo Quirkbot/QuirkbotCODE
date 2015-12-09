@@ -34,22 +34,22 @@ To make strawbees move you dont't have to program anything right now. Just switc
 
 #### 1. Switch On the Quirkbot:
 
-<google-youtube video-id="GkSwaykm1vs" height="315px" width="560px" rel="0"></google-youtube>
+<google-youtube video-id="GkSwaykm1vs" fluid rel="0"></google-youtube>
 
 
 #### 2. Attach the Motor Backpack:
 
-<google-youtube video-id="XO3nd1q9Yx4" height="315px" width="560px" rel="0"></google-youtube>
+<google-youtube video-id="XO3nd1q9Yx4" fluid rel="0"></google-youtube>
 
 
 #### 3. Attach the Motor:
 
-<google-youtube video-id="wWDKuAK6-ok" height="315px" width="560px" rel="0"></google-youtube>
+<google-youtube video-id="wWDKuAK6-ok" fluid rel="0"></google-youtube>
 
 
 #### 4. This is how the preloaded program works:
 
-<google-youtube video-id="4HHj5UaTJuU" height="315px" width="560px" rel="0"></google-youtube>
+<google-youtube video-id="4HHj5UaTJuU" fluid rel="0"></google-youtube>
 
 
 #### 5. Tips and trix to make your building more fun
@@ -74,7 +74,7 @@ To make strawbees move you dont't have to program anything right now. Just switc
 
 #### When the Quirkbot runs out of battery you need to charge it:
 
-<google-youtube video-id="DyBdUnRJQzo" height="315px" width="560px" rel="0"></google-youtube>
+<google-youtube video-id="DyBdUnRJQzo" fluid rel="0"></google-youtube>
 
 ## Start programming
 
@@ -83,7 +83,7 @@ To change how the Quirkbot behaves you change the program inside of it. You do t
 
 Upload code
 
-<google-youtube video-id="Wz-Hy0kfnHo" height="315px" width="560px" rel="0"></google-youtube>
+<google-youtube video-id="Wz-Hy0kfnHo" fluid rel="0"></google-youtube>
 
 * Adding/Removeing and Connecting/disconnecting nodes
  *coming soon*
@@ -96,7 +96,7 @@ Upload code
 
 * Attaching LEDs and lightsensors:
 
- <iframe width="560" height="315" src="https://www.youtube.com/embed/i8j6pVTig60?rel=0" frameborder="0" allowfullscreen></iframe>
+<google-youtube video-id="i8j6pVTig60" fluid rel="0"></google-youtube>
 
 
 
