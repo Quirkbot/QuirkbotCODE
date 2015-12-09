@@ -34,22 +34,22 @@ To make strawbees move you dont't have to program anything right now. Just switc
 
 #### 1. Switch On the Quirkbot:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GkSwaykm1vs?rel=0" frameborder="0" allowfullscreen></iframe>
+<google-youtube video-id="GkSwaykm1vs" height="315px" width="560px" rel="0"></google-youtube>
 
 
 #### 2. Attach the Motor Backpack:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/XO3nd1q9Yx4?rel=0" frameborder="0" allowfullscreen></iframe>
+<google-youtube video-id="XO3nd1q9Yx4" height="315px" width="560px" rel="0"></google-youtube>
 
 
 #### 3. Attach the Motor:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wWDKuAK6-ok?rel=0" frameborder="0" allowfullscreen></iframe>
+<google-youtube video-id="wWDKuAK6-ok" height="315px" width="560px" rel="0"></google-youtube>
 
 
 #### 4. This is how the preloaded program works:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/4HHj5UaTJuU?rel=0" frameborder="0" allowfullscreen></iframe>
+<google-youtube video-id="4HHj5UaTJuU" height="315px" width="560px" rel="0"></google-youtube>
 
 
 #### 5. Tips and trix to make your building more fun
@@ -74,7 +74,7 @@ To make strawbees move you dont't have to program anything right now. Just switc
 
 #### When the Quirkbot runs out of battery you need to charge it:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/DyBdUnRJQzo?rel=0" frameborder="0" allowfullscreen></iframe>
+<google-youtube video-id="DyBdUnRJQzo" height="315px" width="560px" rel="0"></google-youtube>
 
 ## Start programming
 
@@ -83,7 +83,7 @@ To change how the Quirkbot behaves you change the program inside of it. You do t
 
 Upload code
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Wz-Hy0kfnHo?rel=0" frameborder="0" allowfullscreen></iframe>
+<google-youtube video-id="Wz-Hy0kfnHo" height="315px" width="560px" rel="0"></google-youtube>
 
 * Adding/Removeing and Connecting/disconnecting nodes
  *coming soon*
