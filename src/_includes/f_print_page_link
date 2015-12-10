@@ -1,1 +1,1 @@
-{% include f_get_page  %}[{{r_get_page.title}}](r_get_page.url)
+{% include f_get_page  %}[{{r_get_page.title}}]({{r_get_page.url}})
