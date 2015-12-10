@@ -12,12 +12,10 @@ Node to control Light Emitting Diodes (LEDs). It both controls LEDs permanently 
 
 ## Connections
 
-{% assign arg1='list-of-places' %}{% include f_get_page %}
-
 Inputs     | Range/Value     | Function
 :----------|:----------------|:--------
 light      | `0` - `1`       | Set brightness of the LED: `0`=Off, `1`=Max, `0.5`=Half brightness
-place      | *any place*     | Choose where the LED is placed. (See: [{{r_get_page.title}}]({{r_get_page.url}}) for more info.)
+place      | *any place*     | Choose where the LED is placed. (See: {% assign arg1='list-of-places' %}{% include f_print_page_link %} for more info.)
 
 **No outputs**
 
