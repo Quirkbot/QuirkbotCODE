@@ -12,14 +12,15 @@
 			<div class="content">
 				<div class="sidebar-main-container">
 					<div class="sidebar-container">
+						{% include help_menu.html %}
 						{% include nodes_documentation_menu.html %}
 					</div>
 					<div class="main-container">
 						<h1>{{query.first.name_t[page.lang]}}</h1>
-							{{ content }}
-						</div>
+						{{ content }}
 					</div>
 				</div>
+			</div>
 			<div class="footer">
 				{% include footer.html %}
 			</div>
