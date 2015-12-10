@@ -1,4 +1,5 @@
 ---
+title: IR Proximity
 node: ir-proximity
 id: ir-proximity-docs
 ---

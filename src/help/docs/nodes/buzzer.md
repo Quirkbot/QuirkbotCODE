@@ -1,4 +1,5 @@
 ---
+title: Buzzer
 node: buzzer
 id: buzzer-docs
 ---

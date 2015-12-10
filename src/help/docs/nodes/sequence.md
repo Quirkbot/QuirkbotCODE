@@ -1,4 +1,5 @@
 ---
+title: Sequence
 node: sequence
 id: sequence-docs
 ---

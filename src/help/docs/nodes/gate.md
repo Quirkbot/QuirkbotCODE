@@ -1,4 +1,5 @@
 ---
+title: Gate
 node: gate
 id: gate-docs
 ---

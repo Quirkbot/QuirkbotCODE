@@ -1,4 +1,5 @@
 ---
+title: List
 node: list
 id: list-docs
 ---

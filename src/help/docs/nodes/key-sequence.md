@@ -1,4 +1,5 @@
 ---
+title: Key Sequence
 node: key-sequence
 id: key-sequence-docs
 ---

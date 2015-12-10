@@ -1,4 +1,5 @@
 ---
+title: Sonar
 node: sonar
 id: sonar-docs
 ---
