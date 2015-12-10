@@ -8,9 +8,9 @@ id: list-of-places
 ## Names of places in Quirkbot CODE:
 
 Name            | Quirkbot CODE
-:---------------|:-------------
+:---------------|:--------------
 *Pads:* |
-Horn            | `H`
+Horn            | `H`           
 Horn Front      | `HF`
 Horn Back       | `HB`
 Left Arm        | `LA`
