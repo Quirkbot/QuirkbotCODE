@@ -1,6 +1,4 @@
 <nav class="menu">
-	{% assign arg1=site.data.strings.menu_help_title %}{% include f_translated_name %}
-	<h3 class="heading">{{r_translated_name}}</h3>
 	<ul>
 		<li>
 			{% assign arg1=site.data.nav.getting-started %}{% include f_get_page %}
@@ -11,7 +9,7 @@
 			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
 		</li>
 		<li>
-			<a href="http://forum.quirkbot.com">Quirkbot FORUM</a>
+			<a href="http://forum.quirkbot.com" target="_blank">Quirkbot FORUM</a>
 		</li>
 	</ul>
 </nav>

@@ -1,5 +1,3 @@
-{% assign query = (site.nodes | where: 'id', page.node) %}
-
 <!DOCTYPE html>
 <html>
 	{% include head.html %}
@@ -12,14 +10,13 @@
 			<div class="content">
 				<div class="sidebar-main-container">
 					<div class="sidebar-container">
-						{% include nodes_documentation_menu.html %}
+						{% include tutorials_menu.html %}
 					</div>
 					<div class="main-container">
-						<h1>{{query.first.name_t[page.lang]}}</h1>
-							{{ content }}
-						</div>
+						{{ content }}
 					</div>
 				</div>
+			</div>
 			<div class="footer">
 				{% include footer.html %}
 			</div>

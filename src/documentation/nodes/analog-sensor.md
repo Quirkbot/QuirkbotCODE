@@ -6,7 +6,7 @@ id: analog-sensor-docs
 
 ![Analog Sensor Node]
 
-Node that read Analog input from any place on the quirkbot with Analog read capability. 
+Node that read Analog input from any place on the quirkbot with Analog read capability.
 
 ## Connections
 
