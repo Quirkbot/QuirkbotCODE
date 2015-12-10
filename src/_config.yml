@@ -19,7 +19,7 @@ defaults:
     scope:
       path: "tutorials"
     values:
-      layout: "tutorial"
+      layout: "single_tutorial"
       title_format: "{{title}} - Tutorial"
   -
     scope:

@@ -1,7 +1,12 @@
 <nav class="menu">
+	<h3 class="heading">Help</h3>
 	<ul>
 		<li>
 			{% assign arg1=site.data.nav.getting-started %}{% include f_get_page %}
+			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
+		</li>
+		<li>
+			{% assign arg1=site.data.nav.tutorials %}{% include f_get_page %}
 			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
 		</li>
 		<li>

@@ -3,21 +3,21 @@ title: Terms of Use
 id: terms-of-use
 ---
 
-# The Quirkbot Terms of Use
+# Quirkbot's Terms of Use
 
 ## 1. User Agreement
 
-**1.1** These Terms of Use constitute an agreement between you and the Quirkbot Team that governs your use of Quirkbot and all associated services (collectively "Quirkbot"). The Quirkbot Team is part of the Swedish based company with the same name (Quirkbot AB). Please read the Terms of Use carefully. By using Quirkbot you affirm that you have read, understood, and accepted the terms and conditions in the Terms of Use. If you do not agree with any of these conditions, please do not use Quirkbot.
+**1.1** These Terms of Use constitute an agreement between you and the Quirkbot Team that governs your use of Quirkbot and all associated services (collectively "Quirkbot"). The Quirkbot Team is part of the Swedish based company with the name Quirkbot AB. Please read the Terms of Use carefully. By using Quirkbot you affirm that you have read, understood, and accepted the terms and conditions in the Terms of Use. If you do not agree with any of these conditions, please do not use Quirkbot.
 
-**1.2** Your privacy is important to us. Please read our Privacy Policy, which identifies how the Quirkbot Team uses, collects, and stores information it collects through the Services. By using Quirkbot, you additionally agree that you are comfortable with Quirkbot's Privacy Policy.
+**1.2** Your privacy is important to us. Please read our Privacy Policy, which identifies how the Quirkbot Team uses, collects, and stores information it collects through the Services. By using Quirkbot, you additionally agree that you are comfortable with Quirkbot's {% assign arg1='privacy-policy' %}{% include f_print_page_link %}.
 
 **1.3** Quirkbot is open to children and adults of all ages, and we ask that you keep this in mind when using the Quirkbot services. When you use Quirkbot, you agree to abide by the Quirkbot Community Guidelines.
 
-**1.4** The Quirkbot Team may change the Terms of Use from time to time. You can always find the latest version of the Terms of Use at www.quirkbot.com. The date of the most recent revisions will appear on this page. Your continued use of the Services constitutes your acceptance of any changes to or revisions of the Terms of Use.
+**1.4** The Quirkbot Team may change the Terms of Use from time to time. You can always find the latest version of the Terms of Use at code.quirkbot.com. The date of the most recent revisions will appear on this page. Your continued use of the Services constitutes your acceptance of any changes to or revisions of the Terms of Use.
 
 ## 2. Account Creation and Maintenance
 
-**2.1** In order to use some features of the Services, you will need to register with Quirkbot and create an account. Creating an account is optional, but without an account you will not be able to save or publish projects or comments on Quirkbot. When registering for a personal account, you might be asked to provide certain personal information, such as your email address, gender, birth month and year, and country. Please see Quirkbot's Privacy Policy for Quirkbot's data retention and usage policies.
+**2.1** In order to use some features of the Services, you will need to register with Quirkbot and create an account. Creating an account is optional, but without an account you will not be able to save or publish projects or comments on Quirkbot. When registering for a personal account, you might be asked to provide certain personal information, such as your email address, gender, birth month and year, and country. Please see Quirkbot's {% assign arg1='privacy-policy' %}{% include f_print_page_link %}. for Quirkbot's data retention and usage policies.
 
 **2.2** You are responsible for keeping your password secret and your account secure. You are solely responsible for any use of your account, even if your account is used by another person. If any use of your account violates the Terms of Service, your account may be suspended or deleted.
 
@@ -52,7 +52,7 @@ Posting content deliberately designed to crash the Quirkbot website or editor; L
 
 **4.4** You may only submit user-generated projects that were created with the Quirkbot CODE editor. You may not upload any projects that were created, by you or by anyone else, with a modified version of the Quirkbot CODE editor.
 
-**4.5** Although the Quirkbot Team requires all users to comply with these Terms of Use, some inappropriate user-generated content may be submitted and displayed on the Quirkbot website. You understand that when you use Quirkbot you may be exposed to user-generated content that you find objectionable or offensive. If you see any content that violates the Community Guidelines or Terms of Use, please let us know by reporting it in the Quirkbot forum. You only need to report an item once. The Quirkbot Team reviews reported content every day.
+**4.5** Although the Quirkbot Team requires all users to comply with these Terms of Use, some inappropriate user-generated content may be submitted and displayed on the Quirkbot website. You understand that when you use Quirkbot you may be exposed to user-generated content that you find objectionable or offensive. If you see any content that violates the Community Guidelines or Terms of Use, please let us know by reporting it in the [Quirkbot Forum](http://forum.quirkbot.com). You only need to report an item once. The Quirkbot Team reviews reported content every day.
 
 **4.6** In addition to reviewing reported user-generated content, the Quirkbot Team reserves the right, but is not obligated, to monitor all uses of the Quirkbot service. The Quirkbot Team may edit, move, or delete any content that violates the Terms of Use or Community Guidelines, without notice.
 
@@ -63,11 +63,11 @@ Posting content deliberately designed to crash the Quirkbot website or editor; L
 **5.1** Except for any user-generated content, the Quirkbot Team owns and retains all rights in and to the Quirkbot, the design, functionality, and architecture of Quirkbot, and any software or content provided through Quirkbot (collectively "the Quirkbot IP"). If you want to use Quirkbot in a way that is not allowed by these Terms of Use, you must first contact the Quirkbot Team. Except for any rights explicitly granted under these Terms of Use, you are not granted any rights in and to any Quirkbot IP.
 
 **5.2** Quirkbot might provide support materials, including images, sounds, video, and sample code, to help users build projects. Such support materials are licensed under the Creative Commons Attribution-ShareAlike 2.0 license. You may also use screenshots of Quirkbot under the same license. Please note that this does not apply to materials that are also trademarked by the Quirkbot Team or other parties as described in parts 5.4 and 5.5, below.
-The Creative Commons Attribution-ShareAlike 2.0 license requires you to attribute any material you use to the original author. When you use Quirkbot support materials, or screenshots of the Quirkbot website, please use the following attribution: "Quirkbot is developed by the Quirkbot AB. See http://www.quirkbot.com
+The Creative Commons Attribution-ShareAlike 2.0 license requires you to attribute any material you use to the original author. When you use Quirkbot support materials, or screenshots of the Quirkbot website, please use the following attribution: "Quirkbot is developed by the Quirkbot AB. See http://www.quirkbot.com"
 
 **5.3** The source code for the Quirkbot library is available for download and subject to the copyright notice as indicated on the Quirkbot github account.
 
-**5.4** The Quirkbot name and the Quirkbot logo are Trademarks owned by the Quirkbot Company. Unless you are licensed by Quirkbot under a specific licensing program or agreement, you many not use these logos to label, promote, or endorse any product or service. You may use the Quirkbot Logo to refer to the Quirkbot website and programming language.
+**5.4** The Quirkbot name and the Quirkbot logo are Trademarks owned by Quirkbot AB. Unless you are licensed by Quirkbot under a specific licensing program or agreement, you many not use these logos to label, promote, or endorse any product or service. You may use the Quirkbot Logo to refer to the Quirkbot website and programming language.
 
 **5.5** The Quirkbot support materials library (under construction) may contain images and sounds that are trademarked by third parties. The fact that materials are included in the Quirkbot support materials library does not in any way limit or reduce intellectual property rights, including trademark rights, otherwise available to the materials' owners. Nothing in these Terms of Use or the Creative Commons 2.0 license will be construed to limit or reduce any party's rights in that party's valid trademarks. You may not use these materials to label, promote, or endorse any product or service. You are solely responsible for any violation of a third party's intellectual property rights caused by your misuse of these materials.
 
@@ -122,6 +122,6 @@ No waiver of any term of these Terms of Use shall be deemed a further or continu
 
 This document, together with all appendices, constitutes the entire Terms of Use and supersedes all previous agreements with the Quirkbot Team relating to the use of Quirkbot.
 
-*Revision date: 27th November 2015.*
+*Revision date: 10th December 2015.*
 
-*The Quirkbot Terms of Use was last updated: November 2015*
+*The Quirkbot Terms of Use was last updated: December 2015*
