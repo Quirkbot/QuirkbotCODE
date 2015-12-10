@@ -1,5 +1,5 @@
 <div class="sidebar">
-	{% assign arg1=site.data.strings.menu_help_title %}{% include f_translated_name %}
+	{% assign arg1=site.data.strings.menu_tutorials_title %}{% include f_translated_name %}
 	<h3 class="title">{{r_translated_name}}</h3>
 	<nav class="nav">
 		<!--<h4 class="subtitle">{{category.name_t[page.lang]}}</h4>-->
@@ -7,13 +7,6 @@
 			<li class="item">
 				{% assign arg1=site.data.nav.getting-started %}{% include f_get_page %}
 				<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
-			</li>
-			<li class="item">
-				{% assign arg1=site.data.nav.nodes-docs %}{% include f_get_page %}
-				<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
-			</li>
-			<li class="item">
-				<a href="http://forum.quirkbot.com" target="_blank">Quirkbot FORUM</a>
 			</li>
 		</ul>
 	</nav>

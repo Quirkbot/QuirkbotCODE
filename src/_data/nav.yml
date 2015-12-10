@@ -5,7 +5,7 @@ user-app: user-app
 reset-app: reset-app
 confirm-app: confirm-app
 
-help: help
+tutorials: tutorials
 getting-started: getting-started
 guides: guides
 nodes-docs: nodes-docs

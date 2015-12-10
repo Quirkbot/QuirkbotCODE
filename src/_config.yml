@@ -17,16 +17,17 @@ defaults:
       lang: "en"
   -
     scope:
-      path: "help"
+      path: "tutorials"
     values:
-      layout: "help"
+      layout: "tutorial"
+      title_format: "{{title}} - Tutorial"
   -
     scope:
-      path: "help/docs"
+      path: "documentation"
     values:
       title_format: "{{title}} - Documentation"
   -
     scope:
-      path: "help/docs/nodes"
+      path: "documentation/nodes"
     values:
       layout: "node_documentation"

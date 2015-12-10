@@ -10,7 +10,6 @@ id: list-of-places
 Pads            | Value
 :---------------|:-------------
 Horn            | `H`
->>>>>>> develop
 Horn Front      | `HF`
 Horn Back       | `HB`
 Left Arm        | `LA`
