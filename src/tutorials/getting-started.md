@@ -3,8 +3,6 @@ title: Getting Started
 id: getting-started
 ---
 
-{% assign arg1='light-sensor-docs' %}{% include f_print_page_link %}
-
 # Getting Started
 
 ## What’s in the box
