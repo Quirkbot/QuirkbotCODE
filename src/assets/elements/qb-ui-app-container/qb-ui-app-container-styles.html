@@ -23,7 +23,7 @@
 			}
 			:host .app-header .header-wrapper{
 				margin: 0 auto;
-				max-width: 52em;
+				max-width: var(--qb-desktop-width);
 				@apply(--layout-horizontal);
 				@apply(--layout-center);
 			}
@@ -40,20 +40,21 @@
 			:host .app-content{
 				position: relative;
 				box-sizing: border-box;
-				padding: 50px 20px;
-				width: 50rem;
+				padding: 3rem;
+				width: var(--qb-desktop-width);
 				margin: 1rem auto;
-				border-radius: 10px;
+				border-radius: 1rem;
 				background-color:  var(--qb-white);
 			}
 
 			:host .app-footer{
 				background-color: var(--qb-pink-transparent);
-				min-height: 10em;
+				min-height: 10rem;
 			}
 			:host .app-footer .footer-wrapper{
 				margin: 0 auto;
-				max-width: 52em;
+				padding: 3rem;
+				max-width: var(--qb-desktop-width);
 			}
 			:host .app-footer .footer-wrapper > ::content .footer{
 				@apply(--layout-horizontal);
@@ -145,8 +146,6 @@
 			:host([cover]) .app-main{
 				margin-top: -3rem;
 				margin-bottom: -3rem;
-				margin-left: 2rem;
-				margin-right: 2rem;
 				border-radius: 999rem;
 				background-color:  var(--qb-yellow);
 
@@ -155,7 +154,7 @@
 				z-index: 3;
 				margin-top: 2rem;
 				margin-bottom: 2em;
-				min-width: 40rem;
+				min-width: 30rem;
 			}
 			:host([cover]) qb-ui-avatar{
 				position: absolute;
@@ -172,15 +171,12 @@
 				width: 168px;
 				height: 66px;
 			}
-			:host([cover]) .app-footer{
-				padding-top: 3rem;
-			}
-
 			@media (max-width: 52rem) {
 				:host .app-content{
 					width: 100%;
 					margin: 0;
 					border-radius: 0;
+					padding: 1rem;
 				}
 				:host .app-header{
 					position: relative;
@@ -190,6 +186,9 @@
 				}
 				:host .app-footer .footer-wrapper > ::content .footer{
 					@apply(--layout-vertical);
+				}
+				:host .app-footer .footer-wrapper > ::content .footer .menu{
+					margin: 0 auto;
 				}
 				:host([cover]) .app-header{
 					min-height: 15rem;
@@ -211,6 +210,7 @@
 					height: 46px
 				}
 			}
+
 		</style>
 	</template>
 </dom-module>
@@ -228,14 +228,36 @@
 <dom-module id="qb-app-container-content-styles">
 	<template>
 		<style>
+			:host qb-ui-app-container .content > ::content .content > *{
+				max-width: 46rem;
+				margin:  var(--qb-text-line-height) auto;
+			}
+
 			:host qb-ui-app-container .content > ::content{
-				line-height: 1.5rem;
+				line-height: var(--qb-text-line-height);
 			}
 			:host qb-ui-app-container .content > ::content h1{
-				margin-top: 0;
 				font-size: 3rem;
+				line-height: 4.5rem;
 				text-align: center;
+			}
+			:host qb-ui-app-container .content > ::content h1:first-child{
+				margin-top: 0;
+			}
+			:host qb-ui-app-container .content > ::content h2{
+				font-size: 2rem;
 				line-height: 3rem;
+			}
+			:host qb-ui-app-container .content > ::content h3{
+				font-size: var(--qb-text-line-height);
+			}
+			:host qb-ui-app-container .content > ::content h4{
+				font-size: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .opening-paragraph{
+				font-size: 2rem;
+				line-height: 3rem;
+				text-align: center;
 			}
 			:host qb-ui-app-container .content > ::content a{
 				color: var(--qb-blue);
@@ -243,6 +265,32 @@
 			}
 			:host qb-ui-app-container .content > ::content a:hover{
 				text-decoration: underline;
+			}
+			:host qb-ui-app-container .content > ::content ul ul{
+				margin-top: var(--qb-text-line-height);
+				margin-bottom: var(--qb-text-line-height);
+			}
+			:host qb-ui-app-container .content > ::content ul li p{
+				margin: 0;
+			}
+			:host qb-ui-app-container .content > ::content ul li{
+				margin-bottom: var(--qb-text-line-height);
+			}
+			:host qb-ui-app-container .content > ::content ul li:last-child{
+				margin-bottom: 0 !important;
+			}
+
+			:host qb-ui-app-container .content > ::content .content > .google-youtube{
+				max-width: 40rem;
+			}
+			/* Code */
+			:host qb-ui-app-container .content > ::content .highlighter-rouge,
+			:host qb-ui-app-container .content > ::content pre{
+				white-space: pre-wrap;                 /* CSS3 browsers  */
+				white-space: -moz-pre-wrap !important; /* 1999+ Mozilla  */
+				white-space: -pre-wrap;                /* Opera 4 thru 6 */
+				white-space: -o-pre-wrap;              /* Opera 7 and up */
+				word-wrap: break-word;
 			}
 			:host qb-ui-app-container .content > ::content pre,
 			:host qb-ui-app-container .content > ::content code{
@@ -255,7 +303,9 @@
 				padding: 0 !important;
 				border-radius: 0 !important;
 			}
+			/* End Code */
 
+			/* Table */
 			:host qb-ui-app-container .content > ::content img {
 				max-width: 100%;
 			}
@@ -286,13 +336,71 @@
 			:host qb-ui-app-container .content > ::content tbody{
 				font-size: 0.9rem;
 			}
-
-			:host qb-ui-app-container .content > ::content tbody tr:nth-child(odd){
-
-			}
 			:host qb-ui-app-container .content > ::content tbody tr:nth-child(even){
 				background: var(--qb-grey-light-soft-transparent);
 			}
+			/* End Table */
+
+			/* Tutorials */
+			:host qb-ui-app-container .content > ::content .tutorials-index{
+				text-align: center;
+				max-width: 100%;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail{
+				display: inline-block;
+				border-radius: 1rem;
+				width: 15rem;
+				height: 15rem;
+				margin: 1rem;
+				box-sizing: border-box;
+				text-decoration: none;
+				position: relative;
+				overflow: hidden;
+				z-index: 0;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:hover{
+				text-decoration: none;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail .inner{
+				@apply(--layout-horizontal);
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail .color{
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				opacity: 0.5;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+1),
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+1) .color{
+				background-color: var(--qb-pink);
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+2),
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+2) .color{
+				background-color: var(--qb-blue);
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+3),
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+3) .color{
+				background-color: var(--qb-green);
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:hover .color{
+				opacity: 0;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail .title{
+				color: var(--qb-white);
+				@apply(--layout-self-center);
+				z-index: 0;
+				width: 100%;
+				font-size: 1.5rem;
+			}
+			/* End Tutorials */
+
 			/* Sidebar */
 			:host qb-ui-app-container .content > ::content .sidebar-main-container{
 				@apply(--layout-horizontal);

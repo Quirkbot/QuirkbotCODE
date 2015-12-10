@@ -13,3 +13,11 @@ menu_nodes_documentation_title:
 menu_apendix_title:
   name_t:
     en: Apendix
+
+related_tutorials:
+  name_t:
+    en: What to do next?
+
+view_all:
+  name_t:
+    en: View all

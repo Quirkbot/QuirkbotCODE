@@ -3,7 +3,7 @@ title: Privacy Policy
 id: privacy-policy
 ---
 
-# The Quirkbot Privacy Policy
+# Quirkbot's Privacy Policy
 
 *We made Quirkbot so people like you could create projects, share ideas, and build a community. To make this happen, we collect some information for our users. The Quirkbot Team understands how important privacy is to our community, especially kids and parents. We wrote this privacy policy to explain what information we collect, how we use it, and what we're doing to keep it safe. If you have any questions regarding this privacy policy, you can contact us.*
 
@@ -15,7 +15,7 @@ id: privacy-policy
 In order to build projects or comment on other users' projects, you need to make an account. During account creation, we may ask you for a username, your country, birth month and year, gender, and your email address (or your parent or guardian's email address if you are under 13 years old). We ask that you select a user name that does not disclose your real name or other information that could identify you. Other users can see your username and country, but not your age, gender, or email address.
 
 ### User-generated Content:
-All of your Quirkbot projects, comments, and forum posts are stored on the Quirkbot servers. Other users can see your projects, comments, and forum posts, along with your username. Because the Quirkbot Team is responsible for moderation, we have access to all content stored on the Quirkbot website. If you prefer to work on projects in complete privacy, you can program your Quirkbot offline by using the [Quirkbot Arduino Library](https://github.com/Quirkbot/QuirkbotArduinoLibrary/releases/latest) and [Quirkbot Arduino Hardware](https://github.com/Quirkbot/QuirkbotArduinoHardware/releases/latest).
+All of your Quirkbot projects, comments, and forum posts are stored on the Quirkbot servers. All your projects, comments, and forum posts, along with your username are public accessible, meaning that anyone can view them. Because the Quirkbot Team is responsible for moderation, we have access to all content stored on the Quirkbot website. If you prefer to work on projects in complete privacy, you can program your Quirkbot offline by using the [Quirkbot Arduino Library](https://github.com/Quirkbot/QuirkbotArduinoLibrary/releases/latest) and [Quirkbot Arduino Hardware](https://github.com/Quirkbot/QuirkbotArduinoHardware/releases/latest).
 
 ### Usage Information:
 When you use Quirkbot, our servers will automatically store a limited amount of information about how you use the website. This information includes a number that identifies your computer (the IP address), which pages you visited, and what browser you are using.
@@ -69,6 +69,6 @@ However, as effective as these measures are, no security system is impenetrable.
 
 We review our security measures and Privacy Policy on a periodic basis, and we may modify our policies as appropriate. We may also change or update our Privacy Policy if we add new services or features. If we make any changes to our privacy practices, we will amend this Privacy Policy accordingly and post the amended policy on the Quirkbot website. We encourage you to review our Privacy Policy on a regular basis.
 
-*Revision date: 27th November 2015.*
+*Revision date: 10th December 2015.*
 
-*The Quirkbot Privacy Policy was last updated: November 2015*
+*The Quirkbot Privacy Policy was last updated: December 2015*

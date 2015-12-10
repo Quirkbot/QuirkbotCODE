@@ -10,13 +10,15 @@
 				{% include header.html %}
 			</div>
 			<div class="content">
-				<div class="sidebar-main-container">
-					<div class="sidebar-container">
-						{% include tutorials_menu.html %}
-					</div>
-					<div class="main-container">
-						{{ content }}
-					</div>
+				{{ content }}
+				<div class="tutorials-index" block="markdown">
+					{% assign _tutorials = (site.pages | where: "layout", "single_tutorial" | where: "lang", page.lang) %}
+					{% for tutorial in _tutorials %}
+						{% assign url=tutorial.url %}
+						{% assign title=tutorial.title %}
+						{% assign image=tutorial.thumbnail %}
+						{% include tutorial_thumbnail.html %}
+					{% endfor %}
 				</div>
 			</div>
 			<div class="footer">
