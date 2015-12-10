@@ -10,20 +10,43 @@ Node that read Analog input from any place on the quirkbot with Analog read capa
 
 ## Connections
 
-Inputs     | Range/Value       | Function
-:----------|:------------------|:--------
-place      | `HB`, `LAB`, `LLB`, `RAB`, `RLB`, `BP1`, `BP2`, `LLF`, `LAF`| Choose where to read the Analog input.
-min        | `0` - `1`                   | Minimum value of the output range
-max        | `0` - `1`                   | Maximum value of the output range
+<div class="node-input-table" markdown="block">
+
+**Input:**
+
+- <span class='node-input'>place</span>
+	- Values: `HB`, `LAB`, `LLB`, `RAB`, `RLB`, `BP1`, `BP2`, `LLF`, `LAF`
+	- Choose where to read the Analog input.
+
+- <span class='node-input'>min</span>
+	- Range: `0` - `1`
+	- Minimum value of the output range
+
+- <span class='node-input'>max</span>
+	- Range: `0` - `1`
+	- Maximum value of the output range
+
+</div>
 
 
-**Output:** The Analog value as a number between the `min` and `max` value.
+<div class="node-output-table" markdown="block">
+
+**Output:** 
+
+- <span class='node-output'>out</span>
+	- Range: `min` - `max`
+	- The Analog value as a number between the `min` and `max` values.
+
+</div>
 
 ## Example CODE
 
-Program | Link to Quirkbot CODE
-:-------|:---------------------
-Description | [Name](http://code.quirkbot.com/program/5655f35bd66de10100d133a9 "Go to Quirkbot CODE")
+<div class="node-example-programs" markdown="block">
+
+- [Coin Touch](http://code.quirkbot.com/program/5655b359d66de10100d12694 "Go to Quirkbot CODE")
+	- Making an analog resitive sensor with your body, by connecting coins to the Quirkbot with alligator clips.
+
+</div>
 
 ## Hardware
 Resistive Sensors
