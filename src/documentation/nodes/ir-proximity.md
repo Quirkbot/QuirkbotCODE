@@ -4,8 +4,6 @@ node: ir-proximity
 id: ir-proximity-docs
 ---
 
-![IR Proximity Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ### Learn more
 Some link or activity
-
-[IR Proximity Node]: {{r_base_url}}/content-assets/documentation/nodes/IRProximity.png

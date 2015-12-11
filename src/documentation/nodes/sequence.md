@@ -4,8 +4,6 @@ node: sequence
 id: sequence-docs
 ---
 
-![Sequence Node]
-
 ## General
 Usage
 

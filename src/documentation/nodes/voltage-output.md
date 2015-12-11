@@ -4,8 +4,6 @@ node: voltage-output
 id: voltage-output-docs
 ---
 
-![Voltage Output Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Voltage Output Node]: {{r_base_url}}/content-assets/documentation/nodes/VoltageOutput.png

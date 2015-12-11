@@ -4,8 +4,6 @@ node: analog-sensor
 id: analog-sensor-docs
 ---
 
-![Analog Sensor Node]
-
 Node that read Analog input from any place on the quirkbot with Analog read capability.
 
 ## Connections
@@ -33,5 +31,3 @@ This Node is meant for using your own resitive sensors and input devices, but yo
 
 ## Learn more
 One very common resistive input devices is the Potentiometer.
-
-[Analog Sensor Node]: {{r_base_url}}/content-assets/documentation/nodes/AnalogSensor.png

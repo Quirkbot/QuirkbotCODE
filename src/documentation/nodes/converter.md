@@ -4,8 +4,6 @@ node: converter
 id: converter-docs
 ---
 
-![Converter Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Converter Node]: {{r_base_url}}/content-assets/documentation/nodes/Converter.png

@@ -4,8 +4,6 @@ node: key-sequence
 id: key-sequence-docs
 ---
 
-![Key Sequence Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Key Sequence Node]: {{r_base_url}}/content-assets/documentation/nodes/KeySequence.png

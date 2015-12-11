@@ -4,8 +4,6 @@ node: dual-color-led
 id: dual-color-led-docs
 ---
 
-![Dual Color LED Node]
-
 ## General
 
 Node to control Light Emitting Diodes (LEDs) With two leads and two colors. Like the 3mm Red-Blue LEDs that comes with the Quirkbot kits. It controls LEDs connected to the Arms, Legs, and Head.
@@ -34,5 +32,3 @@ The 2 lead dual color LEDs (or bi-color) is actually 2 LEDs inside one package c
 
 ## Learn more
 LEDs are everywhere! In a relativly short time the have become one of the most important techloigies in todays world. Learn more about the history of LEDs are and what makes them special from other lightsources: [Light-emitting diode on Wikipedia](https://en.wikipedia.org/wiki/Light-emitting_diode).
-
-[Dual Color LED Node]: {{r_base_url}}/content-assets/documentation/nodes/DualColorLED.png

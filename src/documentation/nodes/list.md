@@ -4,8 +4,6 @@ node: list
 id: list-docs
 ---
 
-![List Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[List Node]: {{r_base_url}}/content-assets/documentation/nodes/List.png

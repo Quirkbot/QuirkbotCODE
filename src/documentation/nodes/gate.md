@@ -4,8 +4,6 @@ node: gate
 id: gate-docs
 ---
 
-![Gate Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Gate Node]: {{r_base_url}}/content-assets/documentation/nodes/Gate.png

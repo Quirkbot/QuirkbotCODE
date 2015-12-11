@@ -4,8 +4,6 @@ node: key-press
 id: key-press-docs
 ---
 
-![Key Press Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Key Press Node]: {{r_base_url}}/content-assets/documentation/nodes/KeyPress.png

@@ -4,8 +4,6 @@ node: randomizer
 id: randomizer-docs
 ---
 
-![Randomizer Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Randomizer Node]: {{r_base_url}}/content-assets/documentation/nodes/Randomizer.png

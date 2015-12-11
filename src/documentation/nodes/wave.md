@@ -4,8 +4,6 @@ node: wave
 id: wave-docs
 ---
 
-![Wave Node]
-
 The Wave node outputs a continious Wave that oscillates (swings back and forth). There are a number of differet Waveforms (types of waves) that can be selected. The Wave Node can be used in many different situations like moveing a Servo Motor back and forth, blinking an LED or litterating trough a List.
 
 ## Connections
@@ -27,11 +25,7 @@ Program | Link to Quirkbot CODE
 Description | [Name](http://code.quirkbot.com/program/5655f35bd66de10100d133a9 "Go to Quirkbot CODE")
 
 ## Comment
-You can put a Wave into a Wave by connecting the ouput of one wave to the lenght input. This is called modulation and can create some very interesting results. 
+You can put a Wave into a Wave by connecting the ouput of one wave to the lenght input. This is called modulation and can create some very interesting results.
 
 ## Learn more
 Waves are fun and interesting! And the world in full of them. Kahn Acadamy has some good material on [Waves](https://www.khanacademy.org/science/physics/mechanical-waves-and-sound/mechanical-waves/v/introduction-to-waves).
-
-
-
-[Wave Node]: {{r_base_url}}/content-assets/documentation/nodes/Wave.png

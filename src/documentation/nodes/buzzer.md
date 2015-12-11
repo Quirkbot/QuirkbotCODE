@@ -4,8 +4,6 @@ node: buzzer
 id: buzzer-docs
 ---
 
-![Buzzer Node]
-
 ## General
 
 Usage
@@ -34,5 +32,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Buzzer Node]: {{r_base_url}}/content-assets/documentation/nodes/Buzzer.png

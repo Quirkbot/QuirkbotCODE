@@ -4,8 +4,6 @@ node: continuous-servo
 id: continuous-servo-docs
 ---
 
-![Continuous Servo Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Continuous Servo Node]: {{r_base_url}}/content-assets/documentation/nodes/ContinuousServo.png

@@ -4,8 +4,6 @@ node: sonar
 id: sonar-docs
 ---
 
-![Sonar Node]
-
 ## General
 Usage
 
@@ -32,5 +30,3 @@ Comment
 
 ## Learn more
 Some link or activity
-
-[Sonar Node]: {{r_base_url}}/content-assets/documentation/nodes/Sonar.png
