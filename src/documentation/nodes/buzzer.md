@@ -4,13 +4,13 @@ node: buzzer
 id: buzzer-docs
 ---
 
-Node for the DIY Buzzer backpack and for buzzers, piezos and small speakers connected in various ways. It outputs simple notes in set notevalues. You can controll it by sending it indivdual notes or by a continuous flow of numbers.
+Node for the DIY Buzzer Backpack and for other buzzers, piezos and small speakers connected in various ways. It outputs simple notes in set notevalues. You can controll it by sending it indivdual notes or by a continuous flow of numbers.
 
 ## Connections
 
 <div class="node-input-list" markdown="block">
 
-### Input:
+### Inputs
 
 - *note*
 	- Range: `NOTE_A1` - `NOTE_DS8` or `0` - `1`
@@ -22,10 +22,6 @@ Node for the DIY Buzzer backpack and for buzzers, piezos and small speakers conn
 
 </div>
 
-
-<div class="node-output-table" markdown="block">
-
-### No Output
 
 ## Example CODE
 

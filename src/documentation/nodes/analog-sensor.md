@@ -10,7 +10,7 @@ Node that read Analog input from any place on the quirkbot with Analog read capa
 
 <div class="node-input-list" markdown="block">
 
-### Input:
+### Inputs
 
 - *place*
 	- Values: `HB`, `LAB`, `LLB`, `RAB`, `RLB`, `BP1`, `BP2`, `LLF`, `LAF`
@@ -27,13 +27,13 @@ Node that read Analog input from any place on the quirkbot with Analog read capa
 </div>
 
 
-<div class="node-output-table" markdown="block">
+<div class="node-output-list" markdown="block">
 
-### Output: 
+### Outputs
 
 - *out*
-	- Range: `min` - `max`
-	- The Analog value as a number between the `min` and `max` values.
+	- Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
+	- The Analog value as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
 
 </div>
 
@@ -50,7 +50,7 @@ Node that read Analog input from any place on the quirkbot with Analog read capa
 Resistive Sensors
 
 ## Comment
-This Node is meant for using your own resitive sensors and input devices, but you can also use your own bodies resistance as a sensor, or to create a more or less random input voltage. *guide coming soon*. Good to know for advaned users is that the inputs `HB`, `LAB`, `LLB`, `RAB` and `RLB` are premanntly pulled to Ground with a 10k resistor.
+This Node is meant for using your own resitive sensors and input devices, but you can also use your own bodies resistance as a sensor, or to create a more or less random input voltage. *guide coming soon*. Good to know for advaned users is that the inputs `HB`, `LAB`, `LLB`, `RAB` and `RLB` are permanently pulled to Ground with a 10k resistor.
 
 ## Learn more
 One very common resistive input devices is the Potentiometer.

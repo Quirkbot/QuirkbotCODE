@@ -10,7 +10,7 @@ Usage
 
 <div class="node-input-list" markdown="block">
 
-### Input:
+### Inputs
 
 - *place*
 	- Values: `H`, `LA`, `LL`, `RA`, `RL`
@@ -29,11 +29,11 @@ Usage
 
 <div class="node-output-list" markdown="block">
 
-### Output:
+### Outputs
 
 - *out*
-	- Range: `min` - `max`
-	- The Value as a number between the <span class='node-input'>min</span> and <span class='node-input'>min</span> values.
+	- Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
+	- The Value as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
 
 </div>
 

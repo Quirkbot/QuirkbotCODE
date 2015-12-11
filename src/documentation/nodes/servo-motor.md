@@ -9,18 +9,30 @@ Node to control Servo Motors through the Servo Motor Backpack, or any Backpack w
 
 ## Connections
 
-Inputs     | Range/Value  | Function
-:----------|:-------------|:--------
-position   |  `0` - `1`   | Set positon of the Servo Motor: `0`=Min, `1`=Max, `0.5`=Middle
-place      | `SERVO_BP1`, `SERVO_BP2`, `BP1`, `BP2`, `BP3`, `BP4`, `BP5`, `BP6` | Choose where the Servo is connected.
+<div class="node-input-list" markdown="block">
 
-**No Outputs**
+### Inputs
+
+- *position*
+    - Range: `0` - `1`
+    - Set position of the Servo Motor:<br> `0`=Min<br> `1`=Max<br> `0.5`=Middle.
+
+- *place*
+    - Values: `SERVO_BP1`, `SERVO_BP2`, `BP1`, `BP2`, `BP3`, `BP4`, `BP5`, `BP6`
+    - Choose where the Servo is connected.
+
+</div>
+
 
 ## Example CODE
 
-Program | Link to Quirkbot CODE
-:-------|:---------------------
-Description | [Name](http://code.quirkbot.com/program/5655f35bd66de10100d133a9 "Go to Quirkbot CODE")
+<div class="node-example-programs" markdown="block">
+
+- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
+    - Description of example code.
+
+</div>
+
 
 ## Hardware
 Servo Motor

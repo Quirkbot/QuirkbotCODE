@@ -10,26 +10,19 @@ Node to control Light Emitting Diodes (LEDs) With two leads and two colors. Like
 
 <div class="node-input-list" markdown="block">
 
-### Input:
+### Inputs
 
 - *light*
 	- Range: `0` - `1`
-	- Set brightness of the LED: `0`=Off, `1`=Max,  `0.5`=Half brightness.
+	- Set brightness of the LED:<br> `0`=Off<br> `1`=Max<br>  `0.5`=Half brightness.
 
 - *color*
 	- Range: `0` - `1`
-	- Set color mix of the LED. So for R-B LEDs: `0`=Red, `1`=Blue, `0.5`=Equal mix
+	- Set color mix of the LED, So for R-B LEDs:<br> `0`=Red<br> `1`=Blue<br> `0.5`=Equal mix
 
 - *place*
 	- Values: `H`, `LA`, `LL`, `RA`, `RL`
 	- Choose where the LED is placed.
-
-</div>
-
-
-<div class="node-output-list" markdown="block">
-
-### No Output:
 
 </div>
 
