@@ -298,6 +298,9 @@
 				padding: 0.2rem 0.3rem;
 				border-radius: 0.2rem;
 			}
+			:host qb-ui-app-container .content > ::content code{
+				background-color: var(--qb-yellow);
+			}
 			:host qb-ui-app-container .content > ::content pre code{
 				background-color: transparent !important;
 				padding: 0 !important;
@@ -341,7 +344,56 @@
 			}
 			/* End Table */
 
-			/* Tutorials */
+
+			/* Sidebar */
+			:host qb-ui-app-container .content > ::content .sidebar-main-container{
+				@apply(--layout-horizontal);
+				max-width: 100%;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar-container{
+				@apply(--layout-flex);
+			}
+			:host qb-ui-app-container .content > ::content .main-container{
+				@apply(--layout-flex-3);
+				margin-left: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar {
+				line-height: 1.25rem;
+				background: var(--qb-blue-light-soft-transparent);
+				border-radius: 10px;
+				padding: 1rem;
+				margin-right: 1rem;
+				margin-bottom: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .title{
+				margin: 0;
+				font-size: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .nav{
+				margin-top: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .subtitle{
+				margin: 0;
+				font-size: 0.9rem;
+				color: var(--qb-pink-transparent)
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .list{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .item{
+				font-size: 0.8rem;
+				margin-bottom: 0;
+			}
+			/* End Sidebar*/
+		</style>
+	</template>
+</dom-module>
+
+<dom-module id="qb-app-container-tutorials-styles">
+	<template>
+		<style>
 			:host qb-ui-app-container .content > ::content .tutorials-index{
 				text-align: center;
 				max-width: 100%;
@@ -399,48 +451,65 @@
 				width: 100%;
 				font-size: 1.5rem;
 			}
-			/* End Tutorials */
 
-			/* Sidebar */
-			:host qb-ui-app-container .content > ::content .sidebar-main-container{
-				@apply(--layout-horizontal);
+		</style>
+	</template>
+</dom-module>
+
+<dom-module id="qb-app-container-nodes-documentation-styles">
+	<template>
+		<style>
+			:host qb-ui-app-container .content > ::content .node-reference-image{
+				max-width: 13rem;
 			}
-			:host qb-ui-app-container .content > ::content .sidebar-container{
-				@apply(--layout-flex);
-			}
-			:host qb-ui-app-container .content > ::content .main-container{
-				@apply(--layout-flex-3);
-				margin-left: 1rem;
-			}
-			:host qb-ui-app-container .content > ::content .sidebar {
-				line-height: 1.25rem;
-				background: var(--qb-blue-light-soft-transparent);
-				border-radius: 10px;
-				padding: 1rem;
-				margin-right: 1rem;
-				margin-bottom: 1rem;
-			}
-			:host qb-ui-app-container .content > ::content .sidebar .title{
-				margin: 0;
-				font-size: 1rem;
-			}
-			:host qb-ui-app-container .content > ::content .sidebar .nav{
-				margin-top: 1rem;
-			}
-			:host qb-ui-app-container .content > ::content .sidebar .subtitle{
-				margin: 0;
-				font-size: 0.9rem;
-				color: var(--qb-pink-transparent)
-			}
-			:host qb-ui-app-container .content > ::content .sidebar .list{
-				margin: 0;
-				padding: 0;
+			:host qb-ui-app-container .content > ::content .node-input-list ul,
+			:host qb-ui-app-container .content > ::content .node-output-list ul{
 				list-style: none;
+				padding: 0;
+				margin: 0 !important;
 			}
-			:host qb-ui-app-container .content > ::content .sidebar .item{
+			:host qb-ui-app-container .content > ::content .node-input-list ul li,
+			:host qb-ui-app-container .content > ::content .node-output-list ul li{
+				margin: 0 !important;
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list > ul > li,
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li{
+				border: solid 1px  var(--qb-grey-soft-transparent);
+				background-color: var(--qb-grey-light-soft-transparent);
+				padding: 1rem;
+				border-radius: 1rem;
+				position: relative;
+				margin-bottom: 1rem !important;
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list > ul > li > em,
+			:host qb-ui-app-container .content > ::content .node-input,
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > em,
+			:host qb-ui-app-container .content > ::content .node-output{
+				background-color: var(--qb-white);
+				border-radius: 1rem;
+				box-sizing: border-box;
+				background-color: white;
+				font-style: normal;
+				padding: 0.2rem 0.5rem;
+				font-weight: bold;
+				border: solid 1px  var(--qb-blue-transparent);
+			}
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > em,
+			:host qb-ui-app-container .content > ::content .node-output{
+				border: solid 1px  var(--qb-pink-transparent);
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list > ul > li > ul > li:first-child,
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > ul > li:first-child{
+				position: absolute;
+				top: 1rem;
+				right: 1rem;
 				font-size: 0.8rem;
 			}
-			/* End Sidebar*/
+			:host qb-ui-app-container .content > ::content .node-input-list > ul > li > ul > li:last-child,
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > ul > li:last-child{
+				margin-top: 1rem !important;
+				font-style: italic;
+			}
 		</style>
 	</template>
 </dom-module>
