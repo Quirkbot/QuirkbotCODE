@@ -4,7 +4,7 @@ node: wave
 id: wave-docs
 ---
 
-The Wave node outputs a continious Wave that oscillates (swings back and forth). There are a number of differet Waveforms (types of waves) that can be selected. The Wave Node can be used in many different situations like moveing a Servo Motor back and forth, blinking an LED or litterating trough a List.
+The Wave node outputs a continious Wave that oscillates (swings back and forth). There are a number of differet Waveforms (types of waves) that can be selected. The Wave Node can be used in many different situations like moveing a {% assign arg1='servo-motor-docs' %}{% include f_print_page_link %} back and forth, blinking an {% assign arg1='led-docs' %}{% include f_print_page_link %} or litterating trough a {% assign arg1='list-docs' %}{% include f_print_page_link %}.
 
 ## Connections
 

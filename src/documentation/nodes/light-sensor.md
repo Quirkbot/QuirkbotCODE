@@ -4,25 +4,48 @@ node: light-sensor
 id: light-sensor-docs
 ---
 
-## General
 Node that gets the analog data from a Light Sensor connected to the Arms, Legs, or Head of the Quirkbot. It gives the lightsesor power from the front pad and reads the back pad to deterimine the amount of hitting light the sensor. It also works with other sensors based on resistance.
-
 
 ## Connections
 
-Inputs     | Range/Value                 | Function
-:----------|:----------------------------|:--------
-place      | `H`, `LA`, `LL`, `RA`, `RL` | Choose where the Lightsensor is placed.
-min        | `0` - `1`                   | Minimum value of the output range
-max        | `0` - `1`                   | Maximum value of the output range
+<div class="node-input-table" markdown="block">
 
-**Output:** Amount of light that is a number between the `min` and `max` value.
+**Input:**
+
+- <span class='node-input'>place</span>
+	- Values: `H`, `LA`, `LL`, `RA`, `RL`
+	- Choose where to read the Analog input.
+
+- <span class='node-input'>min</span>
+	- Range: `0` - `1`
+	- Minimum value of the output range
+
+- <span class='node-input'>max</span>
+	- Range: `0` - `1`
+	- Maximum value of the output range
+
+</div>
+
+
+<div class="node-output-table" markdown="block">
+
+**Output:**
+
+- <span class='node-output'>out</span>
+	- Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
+	- Amount of light that is a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> value.
+
+</div>
+
 
 ## Example CODE
 
-Program | Link to Quirkbot CODE
-:-------|:---------------------
-Description | [Name](http://code.quirkbot.com/program/5655f35bd66de10100d133a9 "Go to Quirkbot CODE")
+<div class="node-example-programs" markdown="block">
+
+- [lightGauge](http://code.quirkbot.com/program/5669c1cf5a754e0100b75d6c "Go to Quirkbot CODE")
+	- This is the code for showing the meassured light by moving the arm of a Servo Motor
+
+</div>
 
 ## Hardware
 Light Sensor
