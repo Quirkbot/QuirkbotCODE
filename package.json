@@ -26,7 +26,7 @@
     "jshint-stylish": "^2.0.0",
     "merge-stream": "^0.1.7",
     "polybuild": "*",
-    "streamqueue" : "*",
+    "streamqueue": "*",
     "run-sequence": "^1.0.2",
     "web-component-tester": "^3.1.3",
     "yargs": "^3.29.0"
@@ -37,5 +37,8 @@
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "gulp-prompt": "^0.1.2"
   }
 }

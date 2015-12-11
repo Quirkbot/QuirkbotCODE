@@ -110,9 +110,9 @@ Examples:
 
 When you are ready to deploy, run:
 ```
-gulp s3 --environment=stage
+gulp deploy --environment=stage
 ```
 or
 ```
-gulp s3 --environment=production
+gulp deploy --environment=production
 ```

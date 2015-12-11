@@ -281,6 +281,23 @@ gulp.task('s3', ['build:gzip'], function () {
 	.pipe($.size({title: 's3'}));
 
 });
+/**
+ * Deploys the code. Asks for confirmation if deploying to production
+ */
+gulp.task('confirm-deploy', [], function () {
+	if(argv.environment == 'production'){
+		return gulp.src('')
+		.pipe($.prompt.confirm('You are about to deploy TO THE LIVE SITE! Are you sure you want to continue)'))
+		.pipe($.prompt.confirm('Really sure?!'))
+	}
+
+});
+gulp.task('deploy', function (cb) {
+	runSequence(
+		'confirm-deploy',
+		's3',
+	cb);
+});
 
 /* Cleaners ----------------------------------------------------------------- */
 /**
