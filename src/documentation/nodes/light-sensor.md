@@ -8,35 +8,34 @@ Node that gets the analog data from a Light Sensor connected to the Arms, Legs, 
 
 ## Connections
 
-<div class="node-input-table" markdown="block">
+<div class="node-input-list" markdown="block">
 
-**Input:**
+### Input:
 
-- <span class='node-input'>place</span>
+- *place*
 	- Values: `H`, `LA`, `LL`, `RA`, `RL`
 	- Choose where to read the Analog input.
 
-- <span class='node-input'>min</span>
+- *min*
 	- Range: `0` - `1`
 	- Minimum value of the output range
 
-- <span class='node-input'>max</span>
+- *max*
 	- Range: `0` - `1`
 	- Maximum value of the output range
 
 </div>
 
 
-<div class="node-output-table" markdown="block">
+<div class="node-output-list" markdown="block">
 
-**Output:**
+### Output:
 
-- <span class='node-output'>out</span>
+- *out*
 	- Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
 	- Amount of light that is a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> value.
 
 </div>
-
 
 ## Example CODE
 
@@ -46,6 +45,7 @@ Node that gets the analog data from a Light Sensor connected to the Arms, Legs, 
 	- This is the code for showing the meassured light by moving the arm of a Servo Motor
 
 </div>
+
 
 ## Hardware
 Light Sensor

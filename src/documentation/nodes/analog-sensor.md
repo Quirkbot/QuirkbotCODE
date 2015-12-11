@@ -8,19 +8,19 @@ Node that read Analog input from any place on the quirkbot with Analog read capa
 
 ## Connections
 
-<div class="node-input-table" markdown="block">
+<div class="node-input-list" markdown="block">
 
-**Input:**
+### Input:
 
-- <span class='node-input'>place</span>
+- *place*
 	- Values: `HB`, `LAB`, `LLB`, `RAB`, `RLB`, `BP1`, `BP2`, `LLF`, `LAF`
 	- Choose where to read the Analog input.
 
-- <span class='node-input'>min</span>
+- *min*
 	- Range: `0` - `1`
 	- Minimum value of the output range
 
-- <span class='node-input'>max</span>
+- *max*
 	- Range: `0` - `1`
 	- Maximum value of the output range
 
@@ -29,9 +29,9 @@ Node that read Analog input from any place on the quirkbot with Analog read capa
 
 <div class="node-output-table" markdown="block">
 
-**Output:** 
+### Output: 
 
-- <span class='node-output'>out</span>
+- *out*
 	- Range: `min` - `max`
 	- The Analog value as a number between the `min` and `max` values.
 

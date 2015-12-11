@@ -4,25 +4,46 @@ node: dual-color-led
 id: dual-color-led-docs
 ---
 
-## General
-
 Node to control Light Emitting Diodes (LEDs) With two leads and two colors. Like the 3mm Red-Blue LEDs that comes with the Quirkbot kits. It controls LEDs connected to the Arms, Legs, and Head.
 
 ## Connections
 
-Inputs     | Range/Value(s)          | Function
-:----------|:------------------------|:--------
-light      | `0` - `1`               | Set brightness of the LED: `0`=Off, `1`=Max,  `0.5`=Half brightness
-color      | `0` - `1`               | Set color mix of the LED. So for R-B LEDs: `0`=Red, `1`=Blue, `0.5`=Equal mix
-place      | `H`,`LA`,`LL`,`RA`,`RL` | Choose where the LED is placed.
+<div class="node-input-list" markdown="block">
 
-**No outputs**
+### Input:
+
+- *light*
+	- Range: `0` - `1`
+	- Set brightness of the LED: `0`=Off, `1`=Max,  `0.5`=Half brightness.
+
+- *color*
+	- Range: `0` - `1`
+	- Set color mix of the LED. So for R-B LEDs: `0`=Red, `1`=Blue, `0.5`=Equal mix
+
+- *place*
+	- Values: `H`, `LA`, `LL`, `RA`, `RL`
+	- Choose where the LED is placed.
+
+</div>
+
+
+<div class="node-output-list" markdown="block">
+
+### No Output:
+
+</div>
+
 
 ## Example CODE
 
-Program | Link to Quirkbot CODE
-:-------|:---------------------
-Funky Blinking Horn | [DualColorLED example](http://code.quirkbot.com/program/5655f68dd31f000100c5e758 "Go to Quirkbot CODE")
+<div class="node-example-programs" markdown="block">
+
+- [DualColorLED example](http://code.quirkbot.com/program/5655f68dd31f000100c5e758 "Go to Quirkbot CODE")
+	- Funky Blinking Horn.
+
+</div>
+
+
 
 ## Hardware
 Dual color LEDs

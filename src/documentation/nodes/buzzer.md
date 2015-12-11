@@ -8,15 +8,15 @@ Node for the DIY Buzzer backpack and for buzzers, piezos and small speakers conn
 
 ## Connections
 
-<div class="node-input-table" markdown="block">
+<div class="node-input-list" markdown="block">
 
-**Input:**
+### Input:
 
-- <span class='node-input'>note</span>
+- *note*
 	- Range: `NOTE_A1` - `NOTE_DS8` or `0` - `1`
 	- Minimum value of the output range
 
-- <span class='node-input'>place</span>
+- *place*
 	- Values: *All places*
 	- Choose where to put the speaker. DIY Buzzer backpack is on `BP1`
 
@@ -25,7 +25,7 @@ Node for the DIY Buzzer backpack and for buzzers, piezos and small speakers conn
 
 <div class="node-output-table" markdown="block">
 
-**No Output**
+### No Output
 
 ## Example CODE
 

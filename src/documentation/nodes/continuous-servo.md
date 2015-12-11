@@ -4,23 +4,47 @@ node: continuous-servo
 id: continuous-servo-docs
 ---
 
-## General
 Usage
 
 ## Connections
 
-Inputs     | Range/Value       | Function
-:----------|:------------------|:--------
-in1        | -                 |  XXX
-in2        | -                 | ddd
+<div class="node-input-list" markdown="block">
 
-**Output**
+### Input:
+
+- *place*
+	- Values: `H`, `LA`, `LL`, `RA`, `RL`
+	- Choose where to read the input.
+
+- *min*
+	- Range: `0` - `1`
+	- Minimum value of the output range
+
+- *max*
+	- Range: `0` - `1`
+	- Maximum value of the output range
+
+</div>
+
+
+<div class="node-output-list" markdown="block">
+
+### Output:
+
+- *out*
+	- Range: `min` - `max`
+	- The Value as a number between the <span class='node-input'>min</span> and <span class='node-input'>min</span> values.
+
+</div>
 
 ## Example CODE
 
-Program | Link to Quirkbot CODE
-:-------|:---------------------
-Description | [Name](http://code.quirkbot.com/program/5655f35bd66de10100d133a9 "Go to Quirkbot CODE")
+<div class="node-example-programs" markdown="block">
+
+- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
+	- Description of example code.
+
+</div>
 
 ## Hardware
 If any specific to the node
