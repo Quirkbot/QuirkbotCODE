@@ -4,7 +4,7 @@ node: gate
 id: gate-docs
 ---
 
-Usage
+The Gate is a Node used to turn on and off a stream of numbers. It's inserted between two other Nodes to stop or allow data to go from one to the other. 
 
 ## Connections
 
@@ -12,17 +12,13 @@ Usage
 
 ### Inputs
 
-- *place*
-	- Values: `H`, `LA`, `LL`, `RA`, `RL`
-	- Choose where to read the input.
+- *in*
+	- Range: *any type of data*
+	- The input data to stop or allow.
 
-- *min*
-	- Range: `0` - `1`
-	- Minimum value of the output range
-
-- *max*
-	- Range: `0` - `1`
-	- Maximum value of the output range
+- *trigger*
+	- Values: `0`, `1`
+	- `0`=The gate is **closed** and will stop data.<br> `1`= The gate is **open** and and will allow data to go to the <span class='node-output'>out</span>.
 
 </div>
 
@@ -32,8 +28,8 @@ Usage
 ### Outputs
 
 - *out*
-	- Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
-	- The Value as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
+	- Range: *any type of data*
+	- Any data from <span class='node-input'>in</span> when the gate is open.
 
 </div>
 
@@ -47,11 +43,10 @@ Usage
 </div>
 
 
-## Hardware
-If any specific to the node
-
 ## Comment
 Comment
 
 ## Learn more
-Some link or activity
+Learn about logic gates.
+
+

@@ -39,7 +39,7 @@ Servo Motor
 Servo Motor Backpack
 
 ## Comment
-Servo motors are quite fragile, so avoid moving the arm by yourself. Let the Quirkbot move it. Never use force or try to move it past its end positions. You can easily break it.
+Servo motors have gears instide that are quite fragile, so avoid moving the arm by yourself. Let the Quirkbot move it. Never use force or try to move it past its end positions. You can easily break it.
 
 ## Learn more
 Servo Motors know their position because they have a built in Sensor that detects what position the Motor is in.

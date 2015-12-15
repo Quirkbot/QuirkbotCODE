@@ -4,7 +4,8 @@ node: key-sequence
 id: key-sequence-docs
 ---
 
-Usage
+Node that makes the Quirkbot acting like an external keyboard when connected to the computer and enables sending sequence of keypresses ad defined by the {% assign arg1='sequence-docs' %}{% include f_print_page_link %} or {% assign arg1='list-docs' %}{% include f_print_page_link %} Nodes.
+
 
 ## Connections
 
@@ -12,17 +13,14 @@ Usage
 
 ### Inputs
 
-- *place*
-    - Values: `H`, `LA`, `LL`, `RA`, `RL`
-    - Choose where to read the input.
+- *key*
+    - Values: `KEY_`*any key* see List Of Keys
+    - Creates a Key Press as soon as it gets a new key.
 
-- *min*
-    - Range: `0` - `1`
-    - Minimum value of the output range
+ - *hold time*
+    - Range: `0` - `100`
+    - Number of secons a key is held down once it's been pressed.
 
-- *max*
-    - Range: `0` - `1`
-    - Maximum value of the output range
 
 </div>
 
@@ -43,4 +41,4 @@ If any specific to the node
 Comment
 
 ## Learn more
-Some link or activity
+Learn more abour ASCII

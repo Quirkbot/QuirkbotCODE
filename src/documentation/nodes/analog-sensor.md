@@ -33,7 +33,7 @@ Node that read Analog input from any place on the quirkbot with Analog read capa
 
 - *out*
 	- Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
-	- The Analog value as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
+	- The Analog value as a non repeating number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
 
 </div>
 

@@ -55,10 +55,10 @@ Node to convert a stream of numbers from one range to another range. This Node c
 </div>
 
 ## Comment
-Comment
+The math formula for the converter is *coming soon*
 
 ## Learn more
-Some link or activity
+Conversions are used alot in real life, learn more about the metcric system and si units. Celsius and Farenheit Scales...
 
 
 [Converter Examples]: {{r_base_url}}/content-assets/documentation/nodes-examples/converter_examples.png

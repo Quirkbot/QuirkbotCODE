@@ -4,7 +4,7 @@ node: randomizer
 id: randomizer-docs
 ---
 
-Usage
+Node to send out a Random number at a given interval.
 
 ## Connections
 
@@ -12,17 +12,17 @@ Usage
 
 ### Inputs
 
-- *place*
-    - Values: `H`, `LA`, `LL`, `RA`, `RL`
-    - Choose where to read the input.
+- *interval*
+    - Range: `0` - `1000`
+    - The time in seconds between sening out a random number
 
 - *min*
-    - Range: `0` - `1`
-    - Minimum value of the output range
+    - Range: `0` - `1000`
+    - Minimum possible value of the random number
 
 - *max*
-    - Range: `0` - `1`
-    - Maximum value of the output range
+    - Range: `0` - `1000`
+    - Maximum possible value of the random number
 
 </div>
 
@@ -32,7 +32,7 @@ Usage
 
 - *out*
     - Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
-    - The Value as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
+    - The random number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
 
 </div>
 
@@ -45,11 +45,8 @@ Usage
 
 </div>
 
-## Hardware
-If any specific to the node
-
 ## Comment
-Comment
+This is a pseudo random number generator, meaning that it is not truly random, but creates it's numbers with an algorithm that appears to send random numbers. It's using this algorithm: *coming soon*
 
 ## Learn more
-Some link or activity
+Where does true randomness exist? How random can you be? If you ask your friends to say a random numbers, will their answers be random? Check out: [Numberphiles video on Random Numbers](https://www.youtube.com/watch?v=SxP30euw3-0).

@@ -4,7 +4,7 @@ node: key-press
 id: key-press-docs
 ---
 
-Usage
+Node that makes the Quirkbot acting like an external keyboard when connected to the computer and enables sending a keypresses from a defined Key.
 
 ## Connections
 
@@ -12,17 +12,13 @@ Usage
 
 ### Inputs
 
-- *place*
-    - Values: `H`, `LA`, `LL`, `RA`, `RL`
+- *trigger*
+    - Values: `0`, `1`
+    - `1`=Key press down<br> `0`=Key relese
+
+- *key*
+    - Values: `KEY_`*any key* see List Of Keys
     - Choose where to read the input.
-
-- *min*
-    - Range: `0` - `1`
-    - Minimum value of the output range
-
-- *max*
-    - Range: `0` - `1`
-    - Maximum value of the output range
 
 </div>
 
@@ -35,9 +31,6 @@ Usage
     - Description of example code.
 
 </div>
-
-## Hardware
-If any specific to the node
 
 ## Comment
 Comment

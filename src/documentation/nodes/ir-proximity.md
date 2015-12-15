@@ -4,7 +4,7 @@ node: ir-proximity
 id: ir-proximity-docs
 ---
 
-Usage
+Node to use with the DIY IR Proximity Backpack. The IR Proximity detects amount of Infra Read light from an IR-LED that reflects from back to a IR Detector.
 
 ## Connections
 
@@ -12,16 +12,12 @@ Usage
 
 ### Inputs
 
-- *place*
-    - Values: `H`, `LA`, `LL`, `RA`, `RL`
-    - Choose where to read the input.
-
 - *min*
-    - Range: `0` - `1`
+    - Range: `0` - `1000`
     - Minimum value of the output range
 
 - *max*
-    - Range: `0` - `1`
+    - Range: `0` - `1000`
     - Maximum value of the output range
 
 </div>
@@ -32,7 +28,7 @@ Usage
 
 - *out*
     - Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
-    - The Value as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
+    - The amount of reflected IR Light in a range between <span class='node-input'>min</span> and <span class='node-input'>max</span> values. Non repeating, meaning it only sends numbers when something changes. 
 
 </div>
 
@@ -46,10 +42,10 @@ Usage
 </div>
 
 ## Hardware
-If any specific to the node
+DIY IR Proximity Backpack
 
 ## Comment
-Comment
+Build instructions for the DIY IR Proximity Backpack
 
 ### Learn more
-Some link or activity
+What is IR Learn about the electromagnetic spectrum
