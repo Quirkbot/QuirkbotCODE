@@ -4,7 +4,7 @@ node: sonar
 id: sonar-docs
 ---
 
-Usage.
+Sonar node is for using the Kit backpack to connect to a [Grove Ultrasonic Ranger](http://www.seeedstudio.com/wiki/Grove_-_Ultrasonic_Ranger) from Seeedstudio. The Sonar meassures the distance to an object by bouncing ultrasound its surface.
 
 ## Connections
 
@@ -13,8 +13,12 @@ Usage.
 ### Inputs
 
 - *place*
-    - Values: `H`, `LA`, `LL`, `RA`, `RL`
-    - Choose where to read the input.
+    - Values: `BP1` - `BP6`
+    - Choose where the Grove Ultrasonic Ranger is connected
+
+- *meters*
+    - Range: `0` - `4`
+    - Maximum distance the sensor responds to in meters
 
 - *min*
     - Range: `0` - `1`
@@ -32,7 +36,7 @@ Usage.
 
 - *out*
     - Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
-    - The Value as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
+    - The distance form an object as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
 
 </div>
 
@@ -46,10 +50,11 @@ Usage.
 </div>
 
 ## Hardware
-If any specific to the node
+DYI Kit Backpack
+[Grove Ultrasonic Ranger](http://www.seeedstudio.com/wiki/Grove_-_Ultrasonic_Ranger)
 
 ## Comment
-Comment
+This is the first test in a line of Nodes to utilize the Grove line of sensors and acuators. The Kit Backpack have e place for the Grove connector that can be soldered on.
 
 ## Learn more
-Some link or activity
+Ultrasound is connonly used in robotics and as a smart feature in cars to avoid colissions. It is also very similar to ecolocation used by bats to navigate in total darkness.

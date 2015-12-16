@@ -4,7 +4,7 @@ node: voltage-output
 id: voltage-output-docs
 ---
 
-Usage.
+Node that outputs a voltage between 0 volts and the battery voltage (3.2 - 4.2V). The Node is using Pulse-width modulation and can be used on any place on the Quirkbot.
 
 ## Connections
 
@@ -12,27 +12,13 @@ Usage.
 
 ### Inputs
 
+- *in*
+    - Range: `0` - `1`
+    - Form 0 volts to battery voltage.
+
 - *place*
-    - Values: `H`, `LA`, `LL`, `RA`, `RL`
+    - Values: *any place*
     - Choose where to read the input.
-
-- *min*
-    - Range: `0` - `1`
-    - Minimum value of the output range.
-
-- *max*
-    - Range: `0` - `1`
-    - Maximum value of the output range.
-
-</div>
-
-<div class="node-output-list" markdown="block">
-
-### Outputs
-
-- *out*
-    - Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
-    - The Value as a number between the <span class='node-input'>min</span> and <span class='node-input'>max</span> values.
 
 </div>
 
@@ -45,11 +31,8 @@ Usage.
 
 </div>
 
-## Hardware
-If any specific to the node
-
 ## Comment
-Comment
+The Maximum voltage is limited to the how much charge is curretly in the battry. The maximum current that can safey be used from the `BP1` - `BP6` is around 40mA. The Arms, Legs and Horn is protected by curren limiting resistors, but the Backpack connector is not, so take great care when experimenting with them, Never physically connect two backpack places directly or even with an LED (without a resitor). This may damage the Quirkbot beyond repare.
 
 ## Learn more
-Some link or activity
+Lern about Ohms law.
