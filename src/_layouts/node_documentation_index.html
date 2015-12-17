@@ -1,0 +1,47 @@
+{% assign query = (site.pages | where: 'id', page.id) %}
+
+<!DOCTYPE html>
+<html>
+	{% include head.html %}
+	<body
+		class="layout_node_documentation_index fullbleed layout vertical"
+		qb-unresolved>
+		{% include app_shell_simple.html %}
+		<qb-app-content-page {% include common_attributes.html %}>
+			<div class="header">
+				{% include header.html %}
+			</div>
+			<div class="content">
+				<div class="sidebar-main-container">
+					<div class="sidebar-container">
+						{% include nodes_documentation_menu.html %}
+					</div>
+					<div class="main-container">
+						<h1>{{page.title}}</h1>
+						{{content}}
+
+						{% assign _categories = (site.node_categories | sort: 'index') %}
+						{% for category in _categories %}
+							{% for node in site.nodes %}
+								{% if node.taxonomy.categories contains category.id %}
+									{% assign docs = (site.pages | where: "node", node.id | where: "lang", page.lang | where: "layout", "node_documentation_single" ) %}
+									{% assign docs = docs.first %}
+										<a href="{{docs.url}}" class="node-reference-image-link">
+											<img
+												class="node-reference-image"
+												alt="{{node.name_t[page.lang]}}"
+												src="{{r_base_url}}/content-assets/documentation/nodes/{{node.id}}.png"/>
+										</a>
+								{% endif %}
+							{% endfor %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				{% include footer.html %}
+			</div>
+		</qb-app-content-page>
+		{% include foot.html %}
+	</body>
+</html>

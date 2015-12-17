@@ -290,7 +290,7 @@
 					this._loadingPrograms = false;
 					return reject('No user defined, cant get programs.');
 				}
-				this.$.auth.apiCall('GET', 'program/?author=' + this._userModel.id)
+				this.$.auth.apiCall('GET', 'program/?author=' + this._userModel.id + '&limit=200')
 				.then(function (programs) {
 					this._programsModel = programs;
 					this._loadingPrograms = false;

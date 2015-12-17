@@ -1,7 +1,10 @@
+{% assign query = (site.pages | where: 'id', page.id) %}
 <!DOCTYPE html>
 <html>
 	{% include head.html %}
-	<body class="fullbleed layout vertical" qb-unresolved>
+	<body
+		class="layout_default fullbleed layout vertical"
+		qb-unresolved>
 		{% include app_shell_simple.html %}
 		<qb-app-content-page {% include common_attributes.html %}>
 			<div class="header">

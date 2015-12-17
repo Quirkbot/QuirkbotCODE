@@ -1,9 +1,11 @@
-{% assign query = page %}
+{% assign query = (site.nodes | where: 'id', page.node) %}
 
 <!DOCTYPE html>
 <html>
 	{% include head.html %}
-	<body class="fullbleed layout vertical" qb-unresolved>
+	<body
+		class="layout_tutorial_index fullbleed layout vertical"
+		qb-unresolved>
 		{% include app_shell_simple.html %}
 		<qb-app-content-page {% include common_attributes.html %}>
 			<div class="header">
@@ -12,7 +14,7 @@
 			<div class="content">
 				{{ content }}
 				<div class="tutorials-index" block="markdown">
-					{% assign _tutorials = (site.pages | where: "layout", "single_tutorial" | where: "lang", page.lang) %}
+					{% assign _tutorials = (site.pages | where: "layout", "tutorial_single" | where: "lang", page.lang) %}
 					{% for tutorial in _tutorials %}
 						{% assign url=tutorial.url %}
 						{% assign title=tutorial.title %}
