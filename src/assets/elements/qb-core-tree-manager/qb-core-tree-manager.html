@@ -230,18 +230,23 @@
 		},
 		_verifyCompilation: function(id){
 			return new Promise(function(resolve, reject){
-				// Try 3 times before giving up
-				this._verifySingleCompilation(id)
-				.then(resolve)
-				.catch(function(){
+				// Try 5 times before giving up
+				var count = 0;
+				var max = 5;
+				var tryToVerify = function () {
 					this._verifySingleCompilation(id)
 					.then(resolve)
-					.catch(function(){
-						this._verifySingleCompilation(id)
-						.then(resolve)
-						.catch(reject);
+					.catch(function() {
+						count++;
+						if(count === max){
+							reject.apply(this, arguments);
+						}
+						else{
+							tryToVerify();
+						}
 					}.bind(this));
-				}.bind(this));
+				}.bind(this);
+				tryToVerify();
 			}.bind(this));
 		},
 		_verifySingleCompilation: function(id){
@@ -273,7 +278,7 @@
 					var timer = setTimeout(function(){
 						request.abort();
 					}.bind(this), 10000);
-				}.bind(this), 2000);
+				}.bind(this), 2500);
 			}.bind(this));
 		},
 		_nodesSort: function(a, b){
