@@ -1,0 +1,22 @@
+---
+id: key-sequence
+name_t:
+  en: Key Sequence
+taxonomy:
+  categories:
+    - usb
+  tags: []
+type: KeySequence
+inputs:
+  -
+    id: key
+    default: NO_KEY
+  -
+    id: holdTime
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+outputs: []

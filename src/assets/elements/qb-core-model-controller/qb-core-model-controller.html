@@ -1,0 +1,1094 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/promise-polyfill/promise-polyfill-lite.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../../bower_components/observe-js/observe-js.html">
+
+<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
+<link rel="import" href="../qb-core-uuid/qb-core-uuid.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+
+<dom-module id="qb-core-model-controller">
+	<template>
+
+		<qb-core-i18n
+			key="ide/untitled-program"
+			value="{{_ideUntitledProgramName}}"
+			hidden>Untitled CODE</qb-core-i18n>
+
+		<iron-ajax
+			id="loader"
+			handle-as="json">
+		</iron-ajax>
+
+		<iron-ajax
+			id="updater"
+			handle-as="json"
+			content-type="application/json"
+			method="PUT">
+		</iron-ajax>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreModelController = Polymer({
+		is: 'qb-core-model-controller',
+		behaviors:[
+			window.Quirkbot.SelfPropertyBehavior
+		],
+		properties: {
+			auth: {
+				type: Object
+			},
+			model: {
+				type: Object,
+				notify: true,
+				value: function(){
+					return {tree:[]};
+				}
+			},
+
+			programId: {
+				type: String,
+				reflectToAttribute: true,
+				notify: true,
+				observer: '_programIdChanged'
+			},
+			user: {
+				type: Object
+			},
+			userOwnsProgramLocally:{
+				type: Boolean,
+				value: false
+			},
+			verbose: {
+				type: String,
+				value: ''
+			},
+			verboseStack: {
+				type: Boolean,
+				value: false
+			},
+			_modelHash: {
+				type: String,
+				observer: '_modelHashChanged'
+			},
+			processingStatus:{
+				type: String,
+				notify: true,
+				value: ''
+			}
+		},
+		observers: [
+			'_guaranteeProgramName(model.name)',
+			'_computeOwnership(model.author, user.id)',
+			'_versionChanged(model.version)'
+		],
+		listeners:{
+			'setupStart' : '_onSetupStart',
+			'setupSuccess' : '_onSetupSuccess',
+			'setupError' : '_onSetupError',
+			'syncStart' : '_onSyncStart',
+			'syncSuccess' : '_onSyncSuccess',
+			'syncError' : '_onSyncError',
+			'addToProfileStart' : '_onAddToProfileStart',
+			'addToProfileSuccess' : '_onAddToProfileSuccess',
+			'addToProfileError' : '_onAddToProfileError'
+		},
+		_guaranteeProgramName: function(name){
+			if(!name){
+				this.set('model.name', this._ideUntitledProgramName);
+			}
+		},
+		_computeOwnership: function(authorId, userId){
+			if(authorId === userId){
+				this.userOwnsProgramLocally = true;
+			}
+			else{
+				this.userOwnsProgramLocally = false;
+			}
+		},
+		ready: function(){
+			/**
+			 * Set a global MODEL for debug
+			 */
+			window.MODEL = this;
+
+			// Start monitoring changes in the tree
+			this._updateModelHash();
+		},
+		setup: function(programId){
+			var promise = function (resolve, reject) {
+				// Set the programId property
+				if(this.programId !== programId){
+					this.programId = programId;
+				}
+
+				// ID same as the current model, nothing to do here
+				if(programId && (programId === this.model.id ) ){
+					return resolve('nothing-to-do');
+				}
+
+				if(this.isBusy('setup')){
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: 'setup',
+						message: 'System is busy.'
+					};
+					this._log('error', rejectMessage);
+					this.fire('setupError', 'busy');
+					reject(rejectMessage);
+					return;
+				}
+
+				if(this.model && this.model.doingSetup){
+					this._log('warning', 'Trying to change the programId during the setup process. New programId will be stored and reapplied as soon as the setup process finishes.', programId);
+					this.pendingId = programId;
+					return resolve('pending-id');
+				}
+
+				this.fire('setupStart', programId ? programId : '');
+
+
+
+				// Check if there is a user
+				this._guaranteeUserExists()
+				.then(function(){
+					// User is logged in
+					if(!programId){
+						// No program ID
+						this._createEmptyProgram()
+						//.then(this._createNewId.bind(this))
+						.then(function(){
+							this.fire('setupSuccess', 'new-program');
+							resolve('new-program');
+						}.bind(this));
+						return;
+					}
+					// There is a program ID, try lo load it
+					this._loadRemotely()
+					.then(function(){
+						// Loaded. Check if user owns the program
+						this._guaranteeUserOwnsProgramLocally()
+						.then(function(){
+							// Yes, End of process
+							this.fire('setupSuccess', 'existing-program');
+							resolve('existing-program');
+						}.bind(this))
+						.catch(function(){
+							// User doesn't own the program
+							this.fire('setupSuccess', 'not-in-profile');
+							resolve('not-in-profile');
+						}.bind(this));
+					}.bind(this))
+					.catch(function(error){
+						// Could not load remotely, resolve correct error
+						var type;
+						if(error.errorCode === 'PROGRAM_NOT_FOUND'){
+							type = 'not-found';
+						}
+						else if(error.errorCode === 'AUTH_GRANT' || error.errorCode === 'NOT_AUTHENTICATED' ){
+							type = 'forbidden';
+						}
+						else {
+							type = 'offline';
+						}
+						var rejectMessage = {
+							element: 'qb-core-model-controller',
+							method: 'setup',
+							message: 'Error trying to load remotely.',
+							payload: arguments
+						};
+						this._log('error', rejectMessage);
+						this.fire('setupError', type);
+						reject(rejectMessage);
+					}.bind(this));
+				}.bind(this))
+				.catch(function(){
+					// No user
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: 'setup',
+						message: 'There is no user..',
+						payload: arguments
+					};
+					this._log('error', rejectMessage);
+					this.fire('setupError', 'no-user');
+					reject(rejectMessage);
+				}.bind(this));
+			}.bind(this);
+			return new Promise(promise);
+		},
+		addToProfile:function(){
+			var promise = function (resolve, reject) {
+				if(this.isBusy()){
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: 'addToProfile',
+						message: 'System is busy.'
+					};
+					this._log('error', rejectMessage);
+					this.fire('addToProfileError', 'busy');
+					reject(rejectMessage);
+					return;
+				}
+
+				this.fire('addToProfileStart', this.programId);
+
+				// Check if there is a user
+				this._guaranteeUserExists()
+				.then(function(){
+					console.log('user in');
+
+					// Flag that now the user owns the progrma
+					this.userOwnsProgramLocally = true;
+					// Set the current id as the original id
+					this.set('model.original', this.model.id);
+					// Clear the original id
+					this.set('model.id', '');
+					// Set version to 0
+					this.set('model.version', 0);
+
+					this.fire('addToProfileSuccess', '');
+					resolve();
+				}.bind(this))
+				.catch(function(){
+					console.log('user out');
+					// No user
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: 'addToProfile',
+						message: 'There is no user.',
+						payload: arguments
+					};
+					this._log('error', rejectMessage);
+					this.fire('addToProfileError', 'no-user');
+					reject(rejectMessage);
+				}.bind(this));
+			}.bind(this);
+			return new Promise(promise);
+		},
+		sync: function(){
+			var promise = function (resolve, reject) {
+
+				if(this.isBusy()){
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: 'sync',
+						message: 'System is busy.'
+					};
+					this._log('error', rejectMessage);
+					this.fire('syncError', 'busy');
+					reject(rejectMessage);
+					return;
+				}
+
+				this.fire('syncStart', this.programId);
+
+				// Check if there is a user
+				this._guaranteeUserExists()
+				.then(function(){
+					// User exists, check if it owns the program
+					this._guaranteeUserOwnsProgramLocally()
+					.then(function(){
+						// Check if there is the model has an id...
+						if(this.model.id){
+							// There is an id: update
+							this._updateRemotely()
+							.then(function(type){
+								this.fire('syncSuccess', type);
+								resolve(type);
+							}.bind(this))
+							.catch(function(error){
+								// Put failed
+								var rejectMessage = {
+									element: 'qb-core-model-controller',
+									method: 'sync',
+									message: 'Error trying to update data on server',
+									payload: arguments
+								};
+								console.log(error.errorCode);
+								this._log('error', rejectMessage);
+								this.fire('syncError', error.errorCode);
+								reject(rejectMessage);
+							}.bind(this));
+						}
+						else{
+							// There is no id: create
+							this._createRemotely()
+							.then(function(type){
+								this.fire('syncSuccess', type);
+								resolve(type);
+							}.bind(this))
+							.catch(function(error){
+								// Put failed
+								var rejectMessage = {
+									element: 'qb-core-model-controller',
+									method: 'sync',
+									message: 'Error trying to create data on server',
+									payload: arguments
+								};
+								console.log(error.errorCode);
+								this._log('error', rejectMessage);
+								this.fire('syncError', error.errorCode);
+								reject(rejectMessage);
+							}.bind(this));
+						}
+					}.bind(this))
+					.catch(function(){
+						// No user
+						var rejectMessage = {
+							element: 'qb-core-model-controller',
+							method: 'sync',
+							message: 'User does not own the program.',
+							payload: arguments
+						};
+						this._log('error', rejectMessage);
+						this.fire('syncError', 'forbidden');
+						reject(rejectMessage);
+					}.bind(this));
+
+
+				}.bind(this))
+				.catch(function(){
+					// No user
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: 'sync',
+						message: 'There is no user.',
+						payload: arguments
+					};
+					this._log('error', rejectMessage);
+					this.fire('syncError', 'no-user');
+					reject(rejectMessage);
+				}.bind(this));
+
+			}.bind(this);
+			return new Promise(promise);
+		},
+		isBusy: function(bypass){
+			if(!this.model) {
+				return false;
+			}
+
+			var doingSetup = (bypass === 'setup') ? false : this.model.doingSetup;
+			var doingSync = (bypass === 'sync') ? false : this.model.doingSync;
+			var doingAddToProfile = (bypass === 'addToProfile') ? false : this.model.doingAddToProfile;
+
+			return (doingSetup || doingSync || doingAddToProfile);
+		},
+		getRawModel: function () {
+			return this._modelToRawData(this.model);
+		},
+		_continuosSync: function () {
+			this.cancelDebouncer('_continuosSync');
+			this.processingStatus = 'pending';
+			this.debounce('_continuosSync', function () {
+				this.sync()
+				.then(function() {
+					this.processingStatus = 'success';
+				}.bind(this))
+				.catch(function() {
+					this.processingStatus = 'fail';
+				}.bind(this));
+			}, 5000);
+
+			this.async(this._continuosSync, 10000);
+		},
+		_updateModelHash: function () {
+			// Convert the model to string
+			this._guaranteeUserOwnsProgramLocally()
+			.then(function(){
+				var raw = this._modelToRawData(this.model);
+				var source = {
+					name: raw.name,
+					tree: raw.tree
+				};
+				this._modelHash = JSON.stringify(source);
+			}.bind(this))
+			.catch(function(){});
+
+			this.async(this._updateModelHash, 3000);
+		},
+		_modelHashChanged: function (hash, oldHash) {
+			// ignore the first Change
+			if(!hash || !oldHash){
+				return;
+			}
+
+			// If the tree changes, bump the version
+			this.set('model.version', (this.model.version || 0 ) + 1);
+		},
+		_versionChanged: function(version){
+			if(!version || !this._modelHash){
+				return;
+			}
+			//console.log(version );
+			// If the version changes, sync
+			this.cancelDebouncer('versions sync');
+			this.processingStatus = 'pending';
+			this.debounce('versions sync', function () {
+				this.sync()
+				.then(function() {
+					this.processingStatus = 'success';
+				}.bind(this))
+				.catch(function() {
+					this.processingStatus = 'fail';
+				}.bind(this));
+			}, 3000);
+		},
+		_programIdChanged:function(programId){
+			if(typeof programId === 'undefined'){
+				return;
+			}
+			this.debounce('_programIdChanged', function() {
+				this._log('log', {event: '_programIdChanged', detail: programId});
+				this.setup(programId)
+				.catch(function(){});
+			}.bind(this), 100);
+		},
+		_reapplyPendingId: function(){
+			if(typeof this.pendingId !== 'undefined'){
+				this._log('log', 'Reapplying pendingId', this.pendingId);
+				var pendingId = this.pendingId;
+				delete this.pendingId;
+				this.programId = pendingId;
+				return true;
+			}
+			return false;
+		},
+		_createEmptyProgram : function(){
+			var promise = function (resolve) {
+				var doingSetup = this.model.doingSetup;
+				var doingSync = this.model.doingSync;
+				var doingAddToProfile = this.model.doingAddToProfile;
+				this._modelHash = '';
+				this._replaceModel({
+					id: '',
+					author: '',
+					original: '',
+					name: this._ideUntitledProgramName,
+					version: 0,
+					doingSync: doingSync,
+					doingSetup: doingSetup,
+					doingAddToProfile: doingAddToProfile,
+					syncError: '',
+					setupError: '',
+					addToProfileError: '',
+					tree:[]
+				});
+
+				resolve();
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_createNewId : function(){
+			var promise = function (resolve) {
+				var programId = window.uuid.v4();
+				this.set('model.id', programId);
+				this.programId = programId;
+				resolve();
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_guaranteeUserExists : function(){
+			var promise = function (resolve, reject) {
+				if(this.user && this.user.id){
+					if(this.auth){
+						if(this.auth.isAuthenticated()){
+							resolve(this.user);
+						}
+						else{
+							this.auth.refresh()
+							.then(function () {
+								resolve(this.user);
+							}.bind(this))
+							.catch(function () {
+								var rejectMessageAccessFailed = {
+									element: 'qb-core-model-controller',
+									method: '_guaranteeUserExists',
+									message: 'Problem trying to refresh token',
+									payload: arguments
+								};
+								this._log('log', rejectMessageAccessFailed);
+								reject(rejectMessageAccessFailed);
+							}.bind(this));
+						}
+					}
+					else{
+						var rejectMessageNoAuth = {
+							element: 'qb-core-model-controller',
+							method: '_guaranteeUserExists',
+							message: '{{auth}} is not defined'
+						};
+						this._log('log', rejectMessageNoAuth);
+						reject(rejectMessageNoAuth);
+					}
+
+				}
+				else{
+					var rejectMessageNoUser = {
+						element: 'qb-core-model-controller',
+						method: '_guaranteeUserExists',
+						message: '{{user}} is not defined'
+					};
+					this._log('log', rejectMessageNoUser);
+					reject(rejectMessageNoUser);
+				}
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_guaranteeUserOwnsProgramLocally : function(){
+			var promise = function (resolve, reject) {
+				if(!this.userOwnsProgramLocally){
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_guaranteeUserOwnsProgramLocally',
+						message: 'userOwnsProgramLocally is false'
+					};
+					this._log('log', rejectMessage);
+					reject(rejectMessage);
+				}
+				else {
+					resolve();
+				}
+
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_loadLocally : function(){
+			var promise = function (resolve, reject) {
+				var raw = window.localStorage.getItem('qb_' + this.programId);
+				if( raw !== null){
+					try {
+						var model = JSON.parse(raw);
+						this._replaceModel(this._rawDataToModel(model));
+						resolve();
+					} catch(e) {
+						var rejectMessage = {
+							element: 'qb-core-model-controller',
+							method: '_loadLocally',
+							message: 'Could not parse stored data to JSON.',
+							payload: e
+						};
+						this._log('error', rejectMessage);
+						reject(rejectMessage);
+					}
+				}
+				else{
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_loadLocally',
+						message: 'Localstorage for this id is empty'
+					};
+					this._log('warning', rejectMessage);
+					reject(rejectMessage);
+				}
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_loadRemotely : function(){
+			var promise = function (resolve, reject) {
+				if(!this.auth){
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_loadRemotely',
+						errorCode: 2, // unhadled
+						message: '{{auth}} is not defined.'
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+					return;
+				}
+
+				this.auth.apiCall('GET', 'program/' + this.programId)
+				.then(function (result) {
+					// Loaded successfully!
+					this._replaceModel(this._rawDataToModel(result));
+					this._modelHash = '';
+					resolve();
+				}.bind(this))
+				.catch(function(error){
+					var code;
+					if(error){
+						code = error.code;
+					}
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_loadRemotely -> auth.apiCall',
+						errorCode: code,
+						message: 'Not successful response.'
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+				}.bind(this));
+
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_saveLocally : function(){
+			var promise = function (resolve, reject) {
+				try {
+					if (this.model === null) {
+						window.localStorage.removeItem('qb_'+this.programId);
+					} else {
+						window.localStorage.setItem('qb_'+this.programId, JSON.stringify(this.model));
+					}
+					resolve();
+				}
+				catch(e) {
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_saveLocally',
+						message: 'localStorage could not be saved. Safari incoginito mode?',
+						payload: e
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+				}
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_updateRemotely : function(){
+			var promise = function (resolve, reject) {
+				if(!this.auth ){
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_updateRemotely',
+						errorCode: 'API_NOT_DEFINED',
+						message: '{{auth}} is not defined.'
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+					return;
+				}
+
+				this.auth.apiCall('PUT', 'program/' + this.programId, this._modelToRawData(this.model))
+				.then(function (result) {
+					var currentVersion = this.model.version;
+
+					// Loaded successfully!
+					var resultType;
+					if(result.version > currentVersion){
+						// Server data is more recent, so we replace the local
+						// data with it.
+						resultType = 'from-server';
+						this._replaceModel(this._rawDataToModel(result));
+						this._modelHash = '';
+					}
+					else{
+						// Local data is more recent then server's data.
+						// (Server should have replaced it's data)
+						resultType = 'to-server';
+					}
+					resolve(resultType);
+				}.bind(this))
+				.catch(function(error){
+					var code;
+					if(error){
+						code = error.code;
+					}
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_updateRemotely -> auth.apiCall',
+						errorCode: code,
+						message: 'Not successful response.'
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+				}.bind(this));
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_createRemotely : function(){
+			var promise = function (resolve, reject) {
+				if(!this.auth ){
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_createRemotely',
+						errorCode: 'API_NOT_DEFINED',
+						message: '{{auth}} is not defined.'
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+					return;
+				}
+
+				this.auth.apiCall('POST', 'program', this._modelToRawData(this.model))
+				.then(function (result) {
+					//var currentVersion = this.model.version;
+					this._replaceModel(this._rawDataToModel(result));
+					// Loaded successfully!
+					var resultType;
+					// The id from the server is different, this means that
+					// the program only existed locally, and now was created
+					// on the server too.
+					// We replace the local id with the server one.
+					resultType = 'created-on-server';
+					this.programId = result.id;
+					resolve(resultType);
+				}.bind(this))
+				.catch(function(error){
+					var code;
+					if(error){
+						code = error.code;
+					}
+					var rejectMessage = {
+						element: 'qb-core-model-controller',
+						method: '_createRemotely -> auth.apiCall',
+						errorCode: code,
+						message: 'Not successful response.'
+					};
+					this._log('error', rejectMessage);
+					reject(rejectMessage);
+				}.bind(this));
+			}.bind(this);
+			return new Promise(promise);
+		},
+		_rawDataToModel : function(data){
+			var model = data;
+			model.doingSetup = this.model.doingSetup;
+			model.doingSync = this.model.doingSync;
+			model.doingAddToProfile = this.model.doingAddToProfile;
+			return model;
+		},
+		_modelToRawData : function(model){
+			var safeModel = {};
+			Object.keys(model).forEach(function(key){
+				safeModel[key] = model[key];
+			});
+
+			delete safeModel.tree;
+			var safeTree = [];
+			this.model.tree.forEach(function(node){
+				var safeNode = {};
+				safeTree.push(safeNode);
+				Object.keys(node).forEach(function(key){
+					safeNode[key] = node[key];
+				});
+				delete safeNode.element;
+
+				delete safeNode.inputs;
+				if(node.inputs && node.inputs.length){
+					safeNode.inputs = [];
+					node.inputs.forEach(function(input){
+						if(!input.children && typeof input.value === 'undefined'){
+							return;
+						}
+
+						var safeInput = {};
+
+						Object.keys(input).forEach(function(key){
+							safeInput[key] = input[key];
+						});
+						delete safeInput.element;
+
+						delete safeInput.children;
+						if(input.children && input.children.length){
+							safeInput.children = [];
+							input.children.forEach(function(child){
+								if(typeof child.value === 'undefined'){
+									return;
+								}
+								var safeChild = {};
+								safeInput.children.push(safeChild);
+								Object.keys(child).forEach(function(key){
+									safeChild[key] = child[key];
+								});
+								delete safeChild.element;
+							});
+						}
+						if(safeInput.children && !safeInput.children.length){
+							return;
+						}
+						if(!safeInput.children && typeof input.value === 'undefined'){
+							return;
+						}
+
+						safeNode.inputs.push(safeInput);
+					});
+				}
+				delete safeNode.outputs;
+				if(safeNode.inputs && !safeNode.inputs.length){
+					delete safeNode.inputs;
+				}
+				/*if(node.outputs && node.outputs.length){
+					safeNode.outputs = [];
+					node.outputs.forEach(function(output){
+						var safeOutput = {};
+						safeNode.outputs.push(safeOutput);
+						Object.keys(output).forEach(function(key){
+							safeOutput[key] = output[key];
+						})
+						delete safeOutput.element;
+					})
+				}*/
+			});
+			safeModel.tree = safeTree;
+			delete safeModel.doingSync;
+			delete safeModel.doingSetup;
+			delete safeModel.doingAddToProfile;
+			delete safeModel.syncError;
+			delete safeModel.setupError;
+			delete safeModel.addToProfileError;
+			return safeModel;
+		},
+		_replaceModel: function(data){
+			this.set('model.id', data.id || '');
+			this.set('model.author', data.author || '');
+			this.set('model.original', data.original || '');
+			this.set('model.name', data.name || '');
+			this.set('model.version', data.version || 0);
+			this.set('model.doingSync', data.doingSync || false);
+			this.set('model.doingSetup', data.doingSetup || false);
+			this.set('model.doingAddToProfile', data.doingAddToProfile || false);
+			this.set('model.syncError', data.syncError || '');
+			this.set('model.setupError', data.setupError || '');
+			this.set('model.addToProfileError', data.addToProfileError || '');
+
+			// For the tree, empty it first, the re-add all elements
+			this.splice('model.tree', 0, this.model.tree.length);
+
+			if(data.tree && data.tree.length){
+				data.tree.forEach(function(treeItem){
+					this.push('model.tree', treeItem);
+				}.bind(this));
+			}
+		},
+		_onSetupStart: function(event){
+			this.set('model.doingSetup', true);
+			this.processingStatus = 'pending';
+			if(this.model.setupError){
+				this.set('model.setupError', '');
+			}
+			this._log('log', { event: 'setupStart', detail: event.detail });
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'setup-start'
+					}
+				});
+			}
+			catch(e){}
+		},
+		_onSetupSuccess: function(event){
+			this.set('model.doingSetup', false);
+			this.processingStatus = 'success';
+			if(this.model.setupError){
+				this.set('model.setupError', '');
+			}
+			this._log('log', { event: 'setupSuccess', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'setup-success'
+					}
+				});
+			}
+			catch(e){}
+
+			if(this._reapplyPendingId()){
+				return;
+			}
+		},
+		_onSetupError: function(event){
+			this.set('model.doingSetup', false);
+			this.set('model.setupError', event.detail);
+			this.processingStatus = 'fail';
+			this._log('error', { event: 'setupError', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'setup-error',
+						label: event.detail
+					}
+				});
+			}
+			catch(e){}
+
+			if(this._reapplyPendingId()){
+				return;
+			}
+		},
+		_onSyncStart: function(event){
+			this.set('model.doingSync', true);
+			this.processingStatus = 'pending';
+			if(this.model.syncError){
+				this.set('model.syncError', '');
+			}
+			this._log('log', { event: 'syncStart', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'sync-start',
+					}
+				});
+			}
+			catch(e){}
+		},
+		_onSyncSuccess: function(event){
+			this.set('model.doingSync', false);
+			this.processingStatus = 'success';
+			if(this.model.syncError){
+				this.set('model.syncError', '');
+			}
+			this._log('log', { event: 'syncSuccess', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'sync-success',
+					}
+				});
+			}
+			catch(e){}
+		},
+		_onSyncError: function(event){
+			this.set('model.doingSync', false);
+			this.set('model.syncError', event.detail);
+			this.processingStatus = 'fail';
+			this._log('error', { event: 'syncError', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'sync-error',
+						label: event.detail
+					}
+				});
+			}
+			catch(e){}
+		},
+		_onAddToProfileStart: function(event){
+			this.set('model.doingAddToProfile', true);
+			this.processingStatus = 'pending';
+			if(this.model.addToProfileError){
+				this.set('model.addToProfileError', '');
+			}
+			this._log('log', { event: 'addToProfileStart', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'add-to-profile-start',
+					}
+				});
+			}
+			catch(e){}
+		},
+		_onAddToProfileSuccess: function(event){
+			this.set('model.doingAddToProfile', false);
+			this.processingStatus = 'success';
+			if(this.model.addToProfileError){
+				this.set('model.addToProfileError', '');
+			}
+			this._log('log', { event: 'addToProfileSuccess', detail: event.detail });
+			this.sync()
+			.catch(function(){});
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'add-to-profile-success',
+					}
+				});
+			}
+			catch(e){}
+		},
+		_onAddToProfileError: function(event){
+			this.set('model.doingAddToProfile', false);
+			this.set('model.addToProfileError', event.detail);
+			this.processingStatus = 'fail';
+			this._log('error', { event: 'addToProfileError', detail: event.detail });
+
+			try {
+				this.fire('iron-signal', {
+					name: 'track-event',
+					data: {
+						category: 'qb-core-model-controller',
+						action: 'add-to-profile-error',
+						label: event.detail
+					}
+				});
+			}
+			catch(e){}
+		},
+		_log: function(){
+			var level = arguments[0];
+
+			if(!this.verbose) {
+				return;
+			}
+			if(this.verbose === 'error'	&& (level === 'warning' || level === 'log')) {
+				return;
+			}
+			if(this.verbose === 'warning' && level === 'log') {
+				return;
+			}
+
+			var args = [];
+			for (var i = 0; i < arguments.length; i++) {
+				args[i] = arguments[i];
+			}
+
+			if(level === 'error') {
+				args[0] = 'color: red;';
+				args.unshift(' %cERROR (<qb-core-model-controller>)');
+			}
+			if(level === 'warning') {
+				args[0] = 'color: orange;';
+				args.unshift(' %cWARNING (<qb-core-model-controller>)');
+			}
+			if(level === 'log') {
+				args[0] = 'color: black;';
+				args.unshift(' %cLOG (<qb-core-model-controller>)');
+			}
+
+			if(this.verboseStack){
+				if(Error){
+					try{
+						var error = new Error();
+						if(error.stack){
+							args.push(error.stack.toString());
+						}
+					}
+					catch(e){}
+
+				}
+			}
+
+			if(level === 'error') {
+				return console.log.apply(console, args);
+			}
+			if(level === 'warning') {
+				return console.log.apply(console, args);
+			}
+			if(level === 'log') {
+				return console.log.apply(console, args);
+			}
+		}
+	});
+})();
+</script>

@@ -1,0 +1,37 @@
+{% assign query = (site.nodes | where: 'id', page.node) %}
+
+<!DOCTYPE html>
+<html>
+	{% include head.html %}
+	<body
+		class="layout_node_documentation_single fullbleed layout vertical"
+		qb-unresolved>
+		{% include app_shell_simple.html %}
+		<qb-app-content-page {% include common_attributes.html %}>
+			<div class="header">
+				{% include header.html %}
+			</div>
+			<div class="content">
+				<div class="sidebar-main-container">
+					<div class="sidebar-container">
+						{% include nodes_documentation_menu.html %}
+					</div>
+					<div class="main-container">
+						<h1>{{query.first.name_t[page.lang]}}</h1>
+
+						<img
+							class="node-reference-image"
+							alt="{{query.first.name_t[page.lang]}}"
+							src="{{r_base_url}}/content-assets/documentation/nodes/{{query.first.id}}.png"/>
+
+						{{ content }}
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				{% include footer.html %}
+			</div>
+		</qb-app-content-page>
+		{% include foot.html %}
+	</body>
+</html>

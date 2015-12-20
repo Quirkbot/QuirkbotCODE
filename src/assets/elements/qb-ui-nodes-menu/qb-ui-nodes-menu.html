@@ -1,0 +1,112 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<link rel="import" href="../qb-ui-nodes-menu-group/qb-ui-nodes-menu-group.html">
+<link rel="import" href="../qb-ui-nodes-menu-tag/qb-ui-nodes-menu-tag.html">
+
+<dom-module id='qb-ui-nodes-menu'>
+	<style>
+		:host{
+			display: block;
+			overflow-y: scroll;
+			padding: 2px 8px;
+			box-sizing: border-box;
+			@apply(--layout-vertical);
+		}
+		:host .menu{
+			overflow-y: scroll;
+			max-height: calc(100%);
+		}
+		:host .footer{
+			@apply(--layout-flex);
+			margin: 3px 0;
+			border-radius: 10px;
+			background-color: var(--qb-grey-light-transparent);
+		}
+	</style>
+	<template>
+		<div class="menu">
+			<template
+				is="dom-repeat"
+				items="{{categories}}"
+				sort="sortByName"
+				observe="name">
+				<qb-ui-nodes-menu-group
+					tree-manager="{{treeManager}}"
+					drop-area="{{dropArea}}"
+					visual-editor="{{visualEditor}}"
+					data="{{item}}"
+					tags="{{selectedTags}}">
+				</qb-ui-nodes-menu-group>
+			</template>
+		</div>
+		<div class="footer">
+		</div>
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINodesMenu = Polymer({
+		is: 'qb-ui-nodes-menu',
+		properties: {
+			dropArea: Object,
+			visualEditor: Object,
+			treeManager: Object,
+			nodeDefinitions: Array,
+			taxonomyDefinitions: Object,
+
+			categories: Array,
+			tags: Array,
+			selectedTags: Array
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		observers:[
+			'_computeCategoriesAndTags(taxonomyDefinitions, nodeDefinitions)'
+		],
+		_computeCategoriesAndTags: function(taxonomyDefinitions, nodeDefinitions) {
+			if(typeof nodeDefinitions === 'undefined' || typeof taxonomyDefinitions === 'undefined' ){
+				return;
+			}
+			var nodesByCategory = {};
+			var nodesByTags = {};
+			this._taxonomyPush(nodeDefinitions, nodesByCategory, 'categories');
+			this._taxonomyPush(nodeDefinitions, nodesByTags, 'tags');
+
+			this.categories = [];
+			taxonomyDefinitions.categories.forEach(function (definition) {
+				var nodes = nodesByCategory[definition.id];
+				this.push('categories', {
+					definition: definition,
+					nodes: nodes
+				});
+			}.bind(this));
+
+			this.tags = [];
+			this.selectedTags = [];
+			taxonomyDefinitions.tags.forEach(function (definition) {
+				this.push('tags', {
+					definition: definition
+				});
+				this.push('selectedTags',definition.id);
+			}.bind(this));
+		},
+		_taxonomyPush: function (list, container, type) {
+			list.forEach(function (node) {
+				node.taxonomy[type].forEach(function (key) {
+					if(!container[key]){
+						container[key] = [];
+					}
+					container[key].push({
+						definition: node
+					});
+				});
+			});
+		}
+	});
+})();
+</script>

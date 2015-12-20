@@ -39,14 +39,26 @@ var AUTOPREFIXER_BROWSERS = [
  */
 gulp.task('jshint', function () {
 	return gulp.src([
-		SRC + '/_static/elements/**/*.js',
-		SRC + '/_static/elements/**/*.html',
+		SRC + '/assets/elements/**/*.js',
+		SRC + '/assets/elements/**/*.html',
 	])
 	.pipe(reload({stream: true, once: true}))
 	.pipe($.jshint.extract()) // Extract JS from .html files
 	.pipe($.jshint())
 	.pipe($.jshint.reporter('jshint-stylish'))
 	.pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+});
+/**
+ * Lint JavaScript fom SRC (this won't fail, so it's good for the dev environment)
+ */
+gulp.task('soft-jshint', function () {
+	return gulp.src([
+		SRC + '/assets/elements/**/*.js',
+		SRC + '/assets/elements/**/*.html',
+	])
+	.pipe($.jshint.extract()) // Extract JS from .html files
+	.pipe($.jshint())
+	.pipe($.jshint.reporter('jshint-stylish'))
 });
 
 /**
@@ -88,10 +100,10 @@ gulp.task('polymer-copy', function () {
 	var app = gulp.src([ DEST_DEV + '/**/*'])
 	.pipe(gulp.dest(DEST_POLYMER));
 
-	var swBootstrap = gulp.src([DEST_DEV + '/_static/bower_components/platinum-sw/bootstrap/*.js'])
-	.pipe(gulp.dest(DEST_POLYMER + '/_static/elements/bootstrap'));
+	var swBootstrap = gulp.src([DEST_DEV + '/assets/bower_components/platinum-sw/bootstrap/*.js'])
+	.pipe(gulp.dest(DEST_POLYMER + '/assets/elements/bootstrap'));
 
-	var swToolbox = gulp.src([DEST_DEV + '/_static/bower_components/sw-toolbox/*.js'])
+	var swToolbox = gulp.src([DEST_DEV + '/assets/bower_components/sw-toolbox/*.js'])
 	.pipe(gulp.dest(DEST_POLYMER + '/sw-toolbox'));
 
 	return merge(app, swBootstrap, swToolbox)
@@ -118,9 +130,9 @@ gulp.task('polymer-use-minified-paths', function () {
  * Polybuild
  */
 gulp.task('polymer-polybuild', function () {
-	return gulp.src(DEST_POLYMER + '/_static/elements/elements.html')
+	return gulp.src(DEST_POLYMER + '/assets/elements/elements.html')
 	.pipe(polybuild({maximumCrush: true}))
-	.pipe(gulp.dest(DEST_POLYMER + '/_static/elements/'))
+	.pipe(gulp.dest(DEST_POLYMER + '/assets/elements/'))
 	.pipe($.size({title: 'polymer-polybuild'}));
 });
 /**
@@ -128,24 +140,24 @@ gulp.task('polymer-polybuild', function () {
  */
 gulp.task('polymer-clean',
 	del.bind(null, [
-		DEST_POLYMER + '/_static/test',
+		DEST_POLYMER + '/assets/test',
 
-		DEST_POLYMER + '/_static/bower_components/**/*',
+		DEST_POLYMER + '/assets/bower_components/**/*',
 
-		'!' + DEST_POLYMER + '/_static/bower_components/ace-element',
-			  DEST_POLYMER + '/_static/bower_components/ace-element/**/*',
-		'!' + DEST_POLYMER + '/_static/bower_components/ace-element/src-min-noconflict',
-			  DEST_POLYMER + '/_static/bower_components/ace-element/src-min-noconflict/**/*',
-		'!' + DEST_POLYMER + '/_static/bower_components/ace-element/src-min-noconflict/mode-c_cpp.js',
-		'!' + DEST_POLYMER + '/_static/bower_components/ace-element/src-min-noconflict/theme-monokai.js',
+		'!' + DEST_POLYMER + '/assets/bower_components/ace-element',
+			  DEST_POLYMER + '/assets/bower_components/ace-element/**/*',
+		'!' + DEST_POLYMER + '/assets/bower_components/ace-element/src-min-noconflict',
+			  DEST_POLYMER + '/assets/bower_components/ace-element/src-min-noconflict/**/*',
+		'!' + DEST_POLYMER + '/assets/bower_components/ace-element/src-min-noconflict/mode-c_cpp.js',
+		'!' + DEST_POLYMER + '/assets/bower_components/ace-element/src-min-noconflict/theme-monokai.js',
 
-		'!' + DEST_POLYMER + '/_static/bower_components/webcomponentsjs',
-			  DEST_POLYMER + '/_static/bower_components/webcomponentsjs/**/*',
-		'!' + DEST_POLYMER + '/_static/bower_components/webcomponentsjs/webcomponents-lite.min.js',
+		'!' + DEST_POLYMER + '/assets/bower_components/webcomponentsjs',
+			  DEST_POLYMER + '/assets/bower_components/webcomponentsjs/**/*',
+		'!' + DEST_POLYMER + '/assets/bower_components/webcomponentsjs/webcomponents-lite.min.js',
 
-			  DEST_POLYMER + '/_static/elements/**/*',
-		'!' + DEST_POLYMER + '/_static/elements/elements.build.html',
-		'!' + DEST_POLYMER + '/_static/elements/elements.build.js'
+			  DEST_POLYMER + '/assets/elements/**/*',
+		'!' + DEST_POLYMER + '/assets/elements/elements.build.html',
+		'!' + DEST_POLYMER + '/assets/elements/elements.build.js'
 	]
 ));
 /**
@@ -193,7 +205,7 @@ gulp.task('gzip-compression', ['gzip-clone'], function () {
 gulp.task('s3', ['build:gzip'], function () {
 	var aws = JSON.parse(fs.readFileSync('./aws-config/'+argv.environment+'.json'));
 
-	var cacheControl = 'max-age=432000, no-transform, public';
+	var cacheControl = 'max-age=4320000, no-transform, public';
 
 	return merge (
 		gulp.src([ DEST_GZIP + '/**/*.html' ])
@@ -269,6 +281,23 @@ gulp.task('s3', ['build:gzip'], function () {
 	.pipe($.size({title: 's3'}));
 
 });
+/**
+ * Deploys the code. Asks for confirmation if deploying to production
+ */
+gulp.task('confirm-deploy', [], function () {
+	if(argv.environment == 'production'){
+		return gulp.src('')
+		.pipe($.prompt.confirm('You are about to deploy TO THE LIVE SITE! Are you sure you want to continue)'))
+		.pipe($.prompt.confirm('Really sure?!'))
+	}
+
+});
+gulp.task('deploy', function (cb) {
+	runSequence(
+		'confirm-deploy',
+		's3',
+	cb);
+});
 
 /* Cleaners ----------------------------------------------------------------- */
 /**
@@ -280,6 +309,7 @@ gulp.task('clean:gzip', del.bind(null, [DEST_GZIP]));
 /* Builders ----------------------------------------------------------------- */
 gulp.task('build:dev', ['clean:dev'], function (cb) {
 	runSequence(
+		'soft-jshint',
 		'jekyll',
 	cb);
 });

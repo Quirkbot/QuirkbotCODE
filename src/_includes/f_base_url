@@ -1,0 +1,18 @@
+{% assign r_base_url = '.' %}
+{% assign depth = page.url | split: '/' | size %}
+{% if    depth == 1 %}{% assign r_base_url = '.' %}
+{% elsif depth == 2 %}{% assign r_base_url = '..' %}
+{% elsif depth == 3 %}{% assign r_base_url = '../..' %}
+{% elsif depth == 4 %}{% assign r_base_url = '../../..' %}
+{% elsif depth == 5 %}{% assign r_base_url = '../../../..' %}
+{% elsif depth == 6 %}{% assign r_base_url = '../../../../..' %}
+{% elsif depth == 7 %}{% assign r_base_url = '../../../../../..' %}
+{% elsif depth == 8 %}{% assign r_base_url = '../../../../../../..' %}
+{% elsif depth == 9 %}{% assign r_base_url = '../../../../../../../..' %}{% endif %}
+
+
+{% if page.lang != "en" %}
+	{% capture r_base_lang_url %}{{r_base_url}}/{{page.lang}}{% endcapture %}
+{% else %}
+	{% capture r_base_lang_url %}{{r_base_url}}{% endcapture %}
+{% endif %}

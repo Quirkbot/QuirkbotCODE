@@ -1,0 +1,163 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+
+<link rel="import" href="../qb-ui-editor-visual/qb-ui-editor-visual.html">
+<link rel="import" href="../qb-ui-editor-text/qb-ui-editor-text.html">
+<link rel="import" href="../qb-ui-nodes-menu/qb-ui-nodes-menu.html">
+
+<dom-module id='qb-ui-editor'>
+	<style>
+		:host{
+			display: block;
+		}
+		:host .paper-drawer-panel,
+		:host .editor{
+			width: 100%;
+			height: 100%;
+		}
+
+		:host *{
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		:host #dropArea{
+			/* create a z-index context to avoid nodes to "leak" outwards */
+			position: relative;
+			z-index: 0;
+		}
+
+		:host .interaction-blocker{
+			background-color: var(--qb-text-background-color-transparent);
+			position: absolute;
+			top:0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 0;
+			z-index: -1;
+			transition: opacity 0.5s;
+			-webkit-transition: opacity 0.5s;
+			transition-delay: 0.6s;
+			-webkit-transition-delay: 0.6s;
+		}
+		:host([busy]) .interaction-blocker{
+			opacity: 1;
+			z-index: 1;
+		}
+
+
+	</style>
+
+	<template>
+
+		<paper-drawer-panel
+			right-drawer
+			drawer-width="200px">
+			<qb-ui-nodes-menu
+				drawer
+
+				id="menu"
+				visual-editor="{{visualEditor}}"
+				tree-manager="{{treeManager}}"
+				node-definitions="{{nodeDefinitions}}"
+				taxonomy-definitions="{{taxonomyDefinitions}}">
+			</qb-ui-nodes-menu>
+			<div
+				id="dropArea"
+				main>
+				<qb-ui-editor-visual
+					hidden$="[[!visualMode]]"
+					class="editor"
+					self="{{visualEditor}}"
+					model="{{model}}"
+					model-controller="{{modelController}}"
+					tree-manager="{{treeManager}}"
+					node-definitions="{{nodeDefinitions}}"
+					tree-manager="{{treeManager}}"
+					constant-definitions="{{constantDefinitions}}">
+				</qb-ui-editor-visual>
+				<qb-ui-editor-text
+					hidden$="[[!textMode]]"
+					class="editor"
+					self="{{textEditor}}"
+					computed-code="{{computedCode}}">
+				</qb-ui-editor-text>
+			</div>
+		</paper-drawer-panel>
+
+		<div class="interaction-blocker"></div>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UIEditor = Polymer({
+		is: 'qb-ui-editor',
+		properties: {
+			model: Object,
+			modelController: {
+				type: Object
+			},
+			treeManager: Object,
+			computedCode: String,
+			nodeDefinitions: Object,
+			constantDefinitions: Object,
+			taxonomyDefinitions: Object,
+			mode:{
+				type: String,
+				value: 'visual',
+				notify: true,
+				observer: '_modeChanged'
+			},
+			visualEditor: Object,
+			textEditor: Object,
+			visualMode: Boolean,
+			textMode: Boolean,
+
+			busy: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true,
+				computed: '_computeBusy(model.doingSetup, model.doingSync, model.doingAddToProfile)'
+			}
+		},
+		attached: function () {
+			this.$.menu.dropArea = this.$.dropArea;
+		},
+		_modeChanged: function (mode) {
+			if(mode === 'text'){
+				this.textMode = true;
+				this.visualMode = false;
+				if(this.treeManager){
+					this.treeManager.computeCode();
+				}
+			}
+			else {
+				this.textMode = false;
+				this.visualMode = true;
+			}
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'user-actions',
+					action: 'change-mode',
+					label: mode
+				}
+			});
+		},
+		_computeBusy: function(doingSetup, doingSync, doingAddToProfile) {
+			if(doingSetup || doingSync || doingAddToProfile){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	});
+})();
+</script>

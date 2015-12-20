@@ -1,0 +1,67 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<style is="custom-style">
+:root {
+	--qb-desktop-width: 70rem;
+	--qb-tablet-width: 52rem;
+	--qb-mobile-width: 30rem;
+
+	--qb-interactive-color: var(--qb-yellow);
+	--qb-interactive-color-transparent: var(--qb-yellow-transparent);
+	--qb-interactive-color-hard-transparent: var(--qb-yellow-hard-transparent);
+
+	--qb-interactive-hover-color: var(--qb-yellow-light);
+	--qb-interactive-hover-color-transparent: var(--qb-yellow-light-transparent);
+	--qb-interactive-hover-color-hard-transparent: var(--qb-yellow-light-hard-transparent);
+
+	--qb-interactive-hover-color: var(--qb-yellow-light);
+
+	--qb-action-color: var(--qb-pink);
+	--qb-action-color-transparent: var(--qb-pink-transparent);
+	--qb-action-color-hard-transparent: var(--qb-pink-hard-transparent);
+	--qb-action-inactive-color: var(--qb-grey);
+	--qb-action-inactive-color-transparent: var(--qb-grey-transparent);
+	--qb-action-inactive-color-soft-transparent: var(--qb-grey-soft-transparent);
+	--qb-action-inactive-color-hard-transparent: var(--qb-grey-hard-transparent);
+
+	--qb-text-color: var(--qb-black);
+	--qb-text-color-transparent: var(--qb-black-transparent);
+	--qb-text-color-hard-transparent: var(--qb-black-hard-transparent);
+	--qb-text-background-color: var(--qb-white);
+	--qb-text-background-color-transparent: var(--qb-white-transparent);
+	--qb-text-background-color-soft-transparent: var(--qb-white-soft-transparent);
+	--qb-text-background-color-hard-transparent: var(--qb-white-hard-transparent);
+
+	--qb-node-color: var(--qb-blue);
+	--qb-node-color-transparent: var(--qb-blue-transparent);
+	--qb-node-color-hard-transparent: var(--qb-blue-hard-transparent);
+
+	--iron-overlay-backdrop-background-color: var(--qb-grey);
+	--iron-overlay-backdrop-background-opacity: 0.5;
+
+	--paper-progress-container-color: var(--qb-grey-light);
+	--paper-slider-active-color: var(--qb-interactive-color);
+	--paper-slider-knob-color: var(--qb-pink-transparent-solid);
+	--paper-slider-knob-start-color: var(--qb-action-color-transparent);
+	--paper-slider-knob-start-border-color: rgba(255,255,255,0);
+	--paper-slider-pin-color: var(--qb-interactive-color);
+	--paper-slider-font-color:var(--qb-black);
+
+	--qb-svg-stroke-animation-theme: {
+		animation: animated-dash 13s linear;
+		-webkit-animation: animated-dash 13s linear;
+		animation-iteration-count: infinite;
+		-webkit-animation-iteration-count: infinite;
+	};
+}
+:root {
+	font-family: var(--qb-font-familiy-text);
+	color: var(--qb-black);
+}
+a {
+	color: inherit;
+}
+body /deep/ paper-slider{
+	@apply(--qb-font-code);
+}
+</style>

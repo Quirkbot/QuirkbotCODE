@@ -1,0 +1,44 @@
+{% assign query = (site.nodes | where: 'id', page.node) %}
+
+<!DOCTYPE html>
+<html>
+	{% include head.html %}
+	<body
+		class="layout_tutorial_single fullbleed layout vertical"
+		qb-unresolved>
+		{% include app_shell_simple.html %}
+		<qb-app-content-page {% include common_attributes.html %}>
+			<div class="header">
+				{% include header.html %}
+			</div>
+			<div class="content">
+				{% assign arg1=site.data.nav.tutorials %}{% include f_get_page %}
+				{% assign arg1=site.data.strings.view_all %}{% include f_translated_name %}
+				<a href="{{r_get_page.url}}">{{r_translated_name}} {{r_get_page.title}}</a>
+
+				{{ content }}
+
+				{% if page.related_tutorials %}
+					<hr>
+					{% assign arg1=site.data.strings.related_tutorials %}{% include f_translated_name %}
+					<h1 class="tutorials-realted-title">{{r_translated_name}}</h1>
+					<div class="tutorials-index" block="markdown">
+						{% for id in page.related_tutorials %}
+							{% assign _tutorials = (site.pages | where: "id", id | where: "lang", page.lang) %}
+							{% for tutorial in _tutorials %}
+								{% assign url=tutorial.url %}
+								{% assign title=tutorial.title %}
+								{% assign image=tutorial.thumbnail %}
+								{% include tutorial_thumbnail.html %}
+							{% endfor %}
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+			<div class="footer">
+				{% include footer.html %}
+			</div>
+		</qb-app-content-page>
+		{% include foot.html %}
+	</body>
+</html>

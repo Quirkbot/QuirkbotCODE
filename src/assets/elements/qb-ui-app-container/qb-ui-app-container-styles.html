@@ -1,0 +1,515 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+<dom-module id="qb-app-container-internal-styles">
+	<template>
+		<style>
+			:host{
+				display: flex;
+				min-height: 100vh;
+				flex-direction: column;
+
+			}
+			:host .app-header{
+				position: fixed;
+				width: 100%;
+				box-sizing: border-box;
+				background-color: var(--qb-blue-transparent-solid);
+				padding: 0 16px;
+				height: 4rem;
+				z-index: 2;
+				/*@apply(--layout-horizontal);
+				@apply(--layout-center);*/
+			}
+			:host .app-header .header-wrapper{
+				margin: 0 auto;
+				max-width: var(--qb-desktop-width);
+				@apply(--layout-horizontal);
+				@apply(--layout-center);
+			}
+
+			:host .app-main{
+				flex: 1;
+				margin-top: 4rem;
+				background-color:  var(--qb-grey-light-transparent);
+				@apply(--layout-horizontal);
+				@apply(--layout-center);
+				@apply(--layout-center-justified);
+			}
+
+			:host .app-content{
+				position: relative;
+				box-sizing: border-box;
+				padding: 3rem;
+				width: var(--qb-desktop-width);
+				margin: 1rem auto;
+				border-radius: 1rem;
+				background-color:  var(--qb-white);
+			}
+
+			:host .app-footer{
+				background-color: var(--qb-pink-transparent);
+				min-height: 10rem;
+			}
+			:host .app-footer .footer-wrapper{
+				margin: 0 auto;
+				padding: 3rem;
+				max-width: var(--qb-desktop-width);
+			}
+			:host .app-footer .footer-wrapper > ::content .footer{
+				@apply(--layout-horizontal);
+			}
+			:host .app-footer .footer-wrapper > ::content .menu{
+				color: var(--qb-white);
+				width: 14rem;
+			}
+			:host .app-footer .footer-wrapper > ::content .menu ul{
+				padding: 0;
+				list-style: none;
+			}
+			:host .app-footer .footer-wrapper > ::content .menu ul a{
+				text-decoration: none;
+			}
+			:host .quirkbot-logo {
+				display: block;
+				/*margin-left: 24px;*/
+				margin-top: 0;
+				width: 153px;
+				height: 64px;
+				position: relative;
+			}
+			:host .quirkbot-logo iron-image{
+				width: 100%;
+				height: 100%;
+			}
+			:host .editor-mode {
+				background-color: var(--qb-grey-light-transparent);
+				border-radius: 10px;
+				padding: 7px 10px;
+				margin-left: 15px;
+				z-index: 1;
+				color: var(--qb-black);
+			}
+			:host .editor-mode.with-controls {
+				font-size: 14px;
+				margin: 42px 0 0 20px;
+			}
+			:host .editor-mode .code {
+				width: 87px;
+				height: 34px;
+			}
+			:host .editor-mode.with-controls .code {
+				width: 116px;
+				height: 46px;
+			}
+			:host .editor-mode .controls{
+				padding: 0 5px;
+				margin-top: 9px;
+				cursor: pointer;
+			}
+			:host .editor-mode paper-toggle-button{
+				cursor: pointer;
+				margin: 3px 10px;
+				padding: 0;
+				--paper-toggle-button-unchecked-button-color: var(--qb-yellow);
+				--paper-toggle-button-checked-button-color: var(--qb-yellow);
+				--paper-toggle-button-unchecked-bar-color:  var(--qb-blue-transparent);
+				--paper-toggle-button-checked-bar-color:  var(--qb-pink-transparent);
+				--paper-toggle-button-unchecked-ink-color:  var(--qb-pink-transparent);
+				--paper-toggle-button-checked-ink-color:  var(--qb-pink-transparent);
+
+				--paper-toggle-button-unchecked-button:{
+					box-shadow: 0 0 0 3px var(--qb-pink-transparent) !important;
+					top: -2px !important;
+					height: 18px !important;
+					width: 18px !important;
+				};
+				--paper-toggle-button-unchecked-bar:{
+					opacity: 1 !important;
+				};
+			}
+			:host qb-ui-avatar{
+				min-width: 170px;
+			}
+
+			:host([cover]) .app-header{
+				background-color: var(--qb-blue-transparent);
+				position: relative;
+				height: 40vh;
+				min-height: 19rem;
+				z-index: 1;
+				/*@apply(--layout-vertical);*/
+			}
+			:host([cover]) .app-header .header-wrapper{
+				@apply(--layout-vertical);
+			}
+			:host([cover]) .app-main{
+				margin-top: -3rem;
+				margin-bottom: -3rem;
+				border-radius: 999rem;
+				background-color:  var(--qb-yellow);
+
+			}
+			:host([cover]) .app-content{
+				z-index: 3;
+				margin-top: 2rem;
+				margin-bottom: 2em;
+				min-width: 30rem;
+			}
+			:host([cover]) qb-ui-avatar{
+				position: absolute;
+				top: 0.8rem;
+				right: 1rem;
+			}
+			:host([cover]) .quirkbot-logo{
+				margin-left: 0;
+				margin-top: 0;
+				width: 350px;
+				height: 143px;
+			}
+			:host([cover]) .editor-mode .code {
+				width: 168px;
+				height: 66px;
+			}
+			@media (max-width: 52rem) {
+				:host .app-content{
+					width: 100%;
+					margin: 0;
+					border-radius: 0;
+					padding: 1rem;
+				}
+				:host .app-header{
+					position: relative;
+				}
+				:host .app-main{
+					margin-top: 0;
+				}
+				:host .app-footer .footer-wrapper > ::content .footer{
+					@apply(--layout-vertical);
+				}
+				:host .app-footer .footer-wrapper > ::content .footer .menu{
+					margin: 0 auto;
+				}
+				:host([cover]) .app-header{
+					min-height: 15rem;
+				}
+				:host([cover]) .app-main{
+					margin-top: 0;
+					margin: 0;
+				}
+				:host([cover])  .app-content{
+					min-width:0;
+					margin-top: 0;
+					margin-bottom: 0;
+				}
+				:host([cover]) .quirkbot-logo{
+					width: 100%;
+				}
+				:host([cover]) .editor-mode .code {
+					width: 108px;
+					height: 46px
+				}
+			}
+
+		</style>
+	</template>
+</dom-module>
+
+<dom-module id="qb-app-container-styles">
+	<template>
+		<style>
+			:host qb-ui-app-container .content > ::content h1{
+				margin-top: 0;
+			}
+		</style>
+	</template>
+</dom-module>
+
+<dom-module id="qb-app-container-content-styles">
+	<template>
+		<style>
+			:host qb-ui-app-container .content > ::content .content > *{
+				max-width: 46rem;
+				margin:  var(--qb-text-line-height) auto;
+			}
+
+			:host qb-ui-app-container .content > ::content{
+				line-height: var(--qb-text-line-height);
+			}
+			:host qb-ui-app-container .content > ::content h1{
+				font-size: 3rem;
+				line-height: 4.5rem;
+				text-align: center;
+			}
+			:host qb-ui-app-container .content > ::content h1:first-child{
+				margin-top: 0;
+			}
+			:host qb-ui-app-container .content > ::content h2{
+				font-size: 2rem;
+				line-height: 3rem;
+			}
+			:host qb-ui-app-container .content > ::content h3{
+				font-size: var(--qb-text-line-height);
+			}
+			:host qb-ui-app-container .content > ::content h4{
+				font-size: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .opening-paragraph{
+				font-size: 2rem;
+				line-height: 3rem;
+				text-align: center;
+			}
+			:host qb-ui-app-container .content > ::content a{
+				color: var(--qb-blue);
+				text-decoration: none;
+			}
+			:host qb-ui-app-container .content > ::content a:hover{
+				text-decoration: underline;
+			}
+			:host qb-ui-app-container .content > ::content ul ul{
+				margin-top: var(--qb-text-line-height);
+				margin-bottom: var(--qb-text-line-height);
+			}
+			:host qb-ui-app-container .content > ::content ul li p{
+				margin: 0;
+			}
+			:host qb-ui-app-container .content > ::content ul li{
+				margin-bottom: var(--qb-text-line-height);
+			}
+			:host qb-ui-app-container .content > ::content ul li:last-child{
+				margin-bottom: 0 !important;
+			}
+
+			:host qb-ui-app-container .content > ::content .content > .google-youtube{
+				max-width: 40rem;
+			}
+			/* Code */
+			:host qb-ui-app-container .content > ::content .highlighter-rouge,
+			:host qb-ui-app-container .content > ::content pre{
+				white-space: pre-wrap;                 /* CSS3 browsers  */
+				white-space: -moz-pre-wrap !important; /* 1999+ Mozilla  */
+				white-space: -pre-wrap;                /* Opera 4 thru 6 */
+				white-space: -o-pre-wrap;              /* Opera 7 and up */
+				word-wrap: break-word;
+			}
+			:host qb-ui-app-container .content > ::content pre,
+			:host qb-ui-app-container .content > ::content code{
+				background-color: var(--qb-grey-soft-transparent);
+				padding: 0.2rem 0.3rem;
+				border-radius: 0.2rem;
+			}
+			:host qb-ui-app-container .content > ::content code{
+				background-color: var(--qb-yellow);
+			}
+			:host qb-ui-app-container .content > ::content pre code{
+				background-color: transparent !important;
+				padding: 0 !important;
+				border-radius: 0 !important;
+			}
+			/* End Code */
+
+			/* Table */
+			:host qb-ui-app-container .content > ::content img {
+				max-width: 100%;
+			}
+			:host qb-ui-app-container .content > ::content img:only-of-type {
+				display: block;
+				margin: 0 auto;
+			}
+			:host qb-ui-app-container .content > ::content table{
+				border-collapse: separate;
+				box-sizing: border-box;
+				border-spacing: 0;
+				width:100%;
+				margin:0px;
+				padding:0px;
+				table-layout: fixed;
+				border-radius: 10px 10px 0 0;
+				overflow: hidden;
+				border: solid 1px var(--qb-grey-soft-transparent);
+				margin-bottom: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content thead tr{
+				background: var(--qb-pink-soft-transparent);
+			}
+			:host qb-ui-app-container .content > ::content th,
+			:host qb-ui-app-container .content > ::content td{
+				padding: 1em;
+			}
+			:host qb-ui-app-container .content > ::content tbody{
+				font-size: 0.9rem;
+			}
+			:host qb-ui-app-container .content > ::content tbody tr:nth-child(even){
+				background: var(--qb-grey-light-soft-transparent);
+			}
+			/* End Table */
+
+
+			/* Sidebar */
+			:host qb-ui-app-container .content > ::content .sidebar-main-container{
+				@apply(--layout-horizontal);
+				max-width: 100%;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar-container{
+				@apply(--layout-flex);
+			}
+			:host qb-ui-app-container .content > ::content .main-container{
+				@apply(--layout-flex-3);
+				margin-left: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar {
+				line-height: 1.25rem;
+				background: var(--qb-blue-light-soft-transparent);
+				border-radius: 10px;
+				padding: 1rem;
+				margin-right: 1rem;
+				margin-bottom: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .title{
+				margin: 0;
+				font-size: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .nav{
+				margin-top: 1rem;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .subtitle{
+				margin: 0;
+				font-size: 0.9rem;
+				color: var(--qb-pink-transparent)
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .list{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			:host qb-ui-app-container .content > ::content .sidebar .item{
+				font-size: 0.8rem;
+				margin-bottom: 0;
+			}
+			/* End Sidebar*/
+		</style>
+	</template>
+</dom-module>
+
+<dom-module id="qb-app-container-tutorials-styles">
+	<template>
+		<style>
+			:host qb-ui-app-container .content > ::content .tutorials-index{
+				text-align: center;
+				max-width: 100%;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail{
+				display: inline-block;
+				border-radius: 1rem;
+				width: 15rem;
+				height: 15rem;
+				margin: 1rem;
+				box-sizing: border-box;
+				text-decoration: none;
+				position: relative;
+				overflow: hidden;
+				z-index: 0;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:hover{
+				text-decoration: none;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail .inner{
+				@apply(--layout-horizontal);
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail .color{
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				opacity: 0.5;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+1),
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+1) .color{
+				background-color: var(--qb-pink);
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+2),
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+2) .color{
+				background-color: var(--qb-blue);
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+3),
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:nth-child(3n+3) .color{
+				background-color: var(--qb-green);
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail:hover .color{
+				opacity: 0;
+			}
+			:host qb-ui-app-container .content > ::content .tutorial-thumbnail .title{
+				color: var(--qb-white);
+				@apply(--layout-self-center);
+				z-index: 0;
+				width: 100%;
+				font-size: 1.5rem;
+			}
+
+		</style>
+	</template>
+</dom-module>
+
+<dom-module id="qb-app-container-nodes-documentation-styles">
+	<template>
+		<style>
+			:host qb-ui-app-container .content > ::content .node-reference-image{
+				max-width: 13rem;
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list ul,
+			:host qb-ui-app-container .content > ::content .node-output-list ul{
+				list-style: none;
+				padding: 0;
+				margin: 0 !important;
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list ul li,
+			:host qb-ui-app-container .content > ::content .node-output-list ul li{
+				margin: 0 !important;
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list > ul > li,
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li{
+				border: solid 1px var(--qb-grey-soft-transparent);
+				background-color: var(--qb-grey-light-soft-transparent);
+				padding: 1rem;
+				border-radius: 1rem;
+				position: relative;
+				margin-bottom: 1rem !important;
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list > ul > li > em,
+			:host qb-ui-app-container .content > ::content .node-input,
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > em,
+			:host qb-ui-app-container .content > ::content .node-output{
+				background-color: var(--qb-white);
+				border-radius: 1rem;
+				box-sizing: border-box;
+				background-color: white;
+				font-style: normal;
+				padding: 0.2rem 0.5rem;
+				font-weight: bold;
+				border: solid 1px var(--qb-blue-transparent);
+			}
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > em,
+			:host qb-ui-app-container .content > ::content .node-output{
+				border: solid 1px var(--qb-pink-transparent);
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list > ul > li > ul > li:first-child,
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > ul > li:first-child{
+				position: absolute;
+				top: 1rem;
+				right: 1rem;
+				font-size: 0.8rem;
+			}
+			:host qb-ui-app-container .content > ::content .node-input-list > ul > li > ul > li:last-child,
+			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > ul > li:last-child{
+				margin-top: 1rem !important;
+				font-style: italic;
+			}
+		</style>
+	</template>
+</dom-module>

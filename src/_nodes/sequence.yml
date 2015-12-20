@@ -1,0 +1,23 @@
+---
+id: sequence
+name_t:
+  en: Sequence
+taxonomy:
+  categories:
+    - brains
+  tags: []
+type: Sequence
+inputs:
+  -
+    id: trigger
+    default: 0
+  -
+    id: duration
+    default: 1
+  -
+    id: items
+    default: 0
+    multiple: true
+outputs:
+  -
+    id: out

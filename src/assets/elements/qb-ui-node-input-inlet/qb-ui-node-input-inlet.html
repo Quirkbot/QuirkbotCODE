@@ -1,0 +1,136 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<dom-module id='qb-ui-node-input-inlet'>
+	<style>
+		:host{
+			display: block;
+			--size: var(--qb-ui-node-input-inlet-size, 20px);
+			width: var(--size);
+			height: var(--size);
+			--iron-icon-width: calc(var(--size) + 20%);
+			--iron-icon-height: calc(var(--size) + 20%);
+			@apply(--qb-ui-node-input-inlet);
+		}
+
+		:host div{
+			border-radius: 999px;
+			background-color: var(--qb-ui-node-input-inlet-background-color, --qb-interactive-color);
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+		:host iron-icon{
+			fill: var(--qb-ui-node-input-inlet-foreground-color, --qb-node-color-transparent);
+			position: absolute;
+			top: -10%;
+			left: -10%;
+			bottom: 0;
+			right: 0;
+		}
+
+		:host([connection-type="Output"]) iron-icon,
+		:host([output-is-hovering]) iron-icon{
+			fill: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color-transparent);
+		}
+
+	</style>
+
+	<template>
+
+		<div></div>
+		<iron-icon
+			id="inlet-icon"
+			icon="[[resolveIconName('connector-border-left', 'qb-buttons')]]">
+		</iron-icon>
+
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UINodeInputInlet = Polymer({
+		is: 'qb-ui-node-input-inlet',
+		properties:{
+			containerInput:{
+				type: Object
+			},
+			connectionType:{
+				type: String,
+				reflectToAttribute: true
+			},
+			outputIsHovering:{
+				type: Boolean,
+				reflectToAttribute: true
+			},
+		},
+		listeners: {
+			'track': '_onTrack',
+
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		_onTrack: function(e){
+			// If there is a reference outlet, brodcast the event to it
+			if(this.referenceOutlet){
+				e.target = this.referenceOutlet;
+				this.referenceOutlet._handleTrack.apply(this.referenceOutlet, [e]);
+				if(e.detail.state === 'end'){
+					delete this.referenceOutlet;
+				}
+				return;
+			}
+			if(e.detail.state !== 'start'){
+				return;
+			}
+			if(this.containerInput.data.type !== 'Output'){
+				return;
+			}
+
+			var connection = this.containerInput.connection;
+
+			// "Remove" the output from the input
+			this.containerInput._setTypedValue.bind(this.containerInput)('Number');
+
+			// Hijact the "dragOutlet" from the output that is currenctly connected.
+			if(connection){
+				var outlet = connection.output.element.dragOutlet;
+				var inletBounding = this.getBoundingClientRect();
+				var outletBounding = outlet.getBoundingClientRect();
+				var diffX = inletBounding.left - outletBounding.left;
+				var diffY = inletBounding.top - outletBounding.top;
+
+				// Move the outlet to the exact same position as the inlet
+				outlet.set('data.visualX', diffX);
+				outlet.set('data.visualY', diffY);
+				outlet.fire('dragmove');
+				// Move the node to the front
+				outlet.containerOutput.containerNode.moveToFront();
+				// Store the outlet, and pipe the track event to it
+				this.referenceOutlet = outlet;
+				e.target = this.referenceOutlet;
+				this.referenceOutlet._handleTrack.apply(this.referenceOutlet, [e]);
+
+				try {
+					this.fire('iron-signal', {
+						name: 'track-event',
+						data: {
+							category: 'user-actions',
+							action: 'nodes-disconnected'
+						}
+					});
+				}
+				catch(e){}
+			}
+
+
+
+		}
+	});
+})();
+</script>

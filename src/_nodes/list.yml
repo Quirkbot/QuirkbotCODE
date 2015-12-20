@@ -1,0 +1,20 @@
+---
+id: list
+name_t:
+  en: List
+taxonomy:
+  categories:
+    - brains
+  tags: []
+type: List
+inputs:
+  -
+    id: in
+    default: 0
+  -
+    id: items
+    default: 0
+    multiple: true
+outputs:
+  -
+    id: out

@@ -1,4 +1,6 @@
-{% include base.html %}
+{% include f_site_title %}
+{% include f_external_services %}
+
 <head>
 	<meta charset="utf-8">
 	<meta name="description" content="">
@@ -7,10 +9,10 @@
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 
-	<title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-	<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" />
-	<meta name="apple-mobile-web-app-title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-	<meta name="application-name" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+	<title>{{r_site_title}}</title>
+	<meta property="og:title" content="{{r_site_title}}" />
+	<meta name="apple-mobile-web-app-title" content="{{r_site_title}}">
+	<meta name="application-name" content="{{r_site_title}}">
 	{% if page.url == '/'   %}
 		<meta name="description" content="{{site.description}}">
 		<meta property="og:description" content="{{site.description}}">
@@ -19,69 +21,37 @@
 		<meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
 	{% endif %}
 
-	<meta property="og:image" content="{{root-url}}_static/images/logo/og.png" />
+	<meta property="og:image" content="{{r_external_services_root_url}}assets/images/logo/og.png" />
 
-	<link rel="apple-touch-icon" sizes="57x57" href="{{base}}/apple-touch-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="{{base}}/apple-touch-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="{{base}}/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="{{base}}/apple-touch-icon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="{{base}}/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="{{base}}/apple-touch-icon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="{{base}}/apple-touch-icon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="{{base}}/apple-touch-icon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="{{base}}/apple-touch-icon-180x180.png">
-	<link rel="icon" type="image/png" href="{{base}}/favicon-32x32.png" sizes="32x32">
-	<link rel="icon" type="image/png" href="{{base}}/android-chrome-192x192.png" sizes="192x192">
-	<link rel="icon" type="image/png" href="{{base}}/favicon-96x96.png" sizes="96x96">
-	<link rel="icon" type="image/png" href="{{base}}/favicon-16x16.png" sizes="16x16">
-	<link rel="mask-icon" href="{{base}}/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="apple-touch-icon" sizes="57x57" href="{{r_base_url}}/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="{{r_base_url}}/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="{{r_base_url}}/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="{{r_base_url}}/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="{{r_base_url}}/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="{{r_base_url}}/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="{{r_base_url}}/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="{{r_base_url}}/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="{{r_base_url}}/apple-touch-icon-180x180.png">
+	<link rel="icon" type="image/png" href="{{r_base_url}}/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="{{r_base_url}}/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="{{r_base_url}}/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="{{r_base_url}}/favicon-16x16.png" sizes="16x16">
+	<link rel="mask-icon" href="{{r_base_url}}/safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="msapplication-TileColor" content="#da532c">
-	<meta name="msapplication-TileImage" content="/{{base}}mstile-144x144.png">
+	<meta name="msapplication-TileImage" content="/{{r_base_url}}mstile-144x144.png">
 	<meta name="theme-color" content="#ffffff">
 
-	<link rel="manifest" href="{{root-url}}manifest.json">
+	<link rel="manifest" href="{{r_external_services_root_url}}manifest.json">
 
-	<link rel="stylesheet" href="{{base}}/_static/styles/main.css">
+	<link rel="stylesheet" href="{{r_base_url}}/assets/styles/main.css">
 
-	<script src="{{base}}/_static/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-
-	<link rel="import" href="{{base}}/_static/elements/elements.html" async>
-
-	<!-- Setup app shell -->
+	<script src="{{r_base_url}}/assets/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<script>
-		(function () {
-			function resolve() {
-				document.body.removeAttribute('qb-unresolved');
-			}
-			if (window.WebComponents) {
-				addEventListener('WebComponentsReady', resolve);
-			} else {
-			if (document.readyState === 'interactive' || document.readyState === 'complete') {
-				resolve();
-			} else {
-				addEventListener('DOMContentLoaded', resolve);
-			}
-		}
-		}());
+		//window.Polymer = window.Polymer || {};
+		//window.Polymer.dom = 'shadow';
 	</script>
-	<style>
-		[qb-unresolved] > * {
-			display: none !important;
-		}
 
-		[qb-unresolved] #app-shell {
-			display: block !important;
-		}
+	<link rel="import" href="{{r_base_url}}/assets/elements/elements.html" async>
 
-		#app-shell {
-			z-index: 9999 !important;
-			display: none !important;
-			position: fixed !important;
-			width: 100% !important;
-			height: 100% !important;
-			top:0 !important;
-			left:0 !important;
-			background-color: white;
-		}
-	</style>
+	{% include app_shell_setup.html %}
 </head>

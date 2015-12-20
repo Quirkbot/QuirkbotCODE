@@ -1,20 +1,33 @@
 title: Quirkbot CODE
 description: Program your Quirkbot with an easy to use, visual interface!
 baseurl: "/"
-urls:
-    production:
-        root: http://code.quirkbot.com/
-        compiler: https://quirkbot-compiler.herokuapp.com/
-        api: http://api-production-1079277390.us-east-1.elb.amazonaws.com/
-    stage:
-        root: http://code-stage.quirkbot.com/
-        compiler: https://quirkbot-compiler-stage.herokuapp.com/
-        api: http://ec2contai-ecselast-1aa8efo9kdp65-1013516278.us-east-1.elb.amazonaws.com/
-    development:
-        root: http://ide-local.quirkbot.com:4000/
-        compiler: http://localhost:8080/
-        api: http://localhost:3001/
-# Build settings
-markdown: kramdown
-include:
-  - _static
+
+collections:
+  - node_categories
+  - nodes
+
+# Defaults
+permalink:  pretty
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "default"
+      lang: "en"
+  -
+    scope:
+      path: "tutorials"
+    values:
+      layout: "tutorial_single"
+      title_format: "{{title}} - Tutorial"
+  -
+    scope:
+      path: "documentation"
+    values:
+      title_format: "{{title}} - Documentation"
+  -
+    scope:
+      path: "documentation/nodes"
+    values:
+      layout: "node_documentation_single"

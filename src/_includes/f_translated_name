@@ -1,0 +1,1 @@
+{% assign r_translated_name = arg1.name_t[page.lang] %}

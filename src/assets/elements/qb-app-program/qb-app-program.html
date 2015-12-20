@@ -1,0 +1,221 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+
+<link rel="import" href="../qb-core-auth/qb-core-auth.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-router/qb-core-router.html">
+<link rel="import" href="../qb-core-node-definitions/qb-core-node-definitions.html">
+<link rel="import" href="../qb-core-model-controller/qb-core-model-controller.html">
+<link rel="import" href="../qb-core-tree-manager/qb-core-tree-manager.html">
+
+<link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+<link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
+<link rel="import" href="../qb-ui-editor/qb-ui-editor.html">
+<link rel="import" href="../qb-ui-toolbar/qb-ui-toolbar.html">
+<link rel="import" href="../qb-ui-quirkbots-area/qb-ui-quirkbots-area.html">
+<link rel="import" href="../qb-ui-warnings-overlay/qb-ui-warnings-overlay.html">
+
+<dom-module id='qb-app-program'>
+	<style>
+		:host{
+			display: block;
+			width: 100%;
+			height: 100%;
+
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		:host qb-ui-toolbar{
+			z-index: 2;
+		}
+
+	</style>
+	<template>
+
+		<qb-core-i18n
+			url-format="{{stringsUrl}}"
+			locale="{{locale}}">
+		</qb-core-i18n>
+
+		<qb-core-router
+			entry="{{programId}}">
+		</qb-core-router>
+
+		<qb-core-auth
+			id="auth"
+			self="{{auth}}"
+			api-url="[[apiUrl]]"
+			client-id="[[clientId]]"
+			user="{{user}}">
+		</qb-core-auth>
+
+		<qb-core-node-definitions
+			url="[[nodesUrl]]"
+			nodes="{{nodeDefinitions}}"
+			groups="{{groupDefinitions}}"
+			constants="{{constantDefinitions}}"
+			taxonomies="{{taxonomyDefinitions}}">
+		</qb-core-node-definitions>
+
+		<qb-core-model-controller
+			program-id="{{programId}}"
+			api="[[programsApiUrl]]"
+			self="{{modelController}}"
+			model="{{model}}"
+			processing-status="{{processingStatus}}"
+			user="[[user]]"
+			auth="[[auth]]"
+			verbose="log">
+		</qb-core-model-controller>
+
+		<qb-core-tree-manager
+			self="{{treeManager}}"
+			compiler-url="{{compilerUrl}}"
+			computed-code="{{computedCode}}"
+			model-controller="{{modelController}}"
+			model="{{model}}"
+			node-definitions="{{nodeDefinitions}}"
+			constant-definitions="{{constantDefinitions}}">
+		</qb-core-tree-manager>
+
+		<qb-ui-account-verification-reminder
+			user="[[user]]"
+			auth="[[auth]]">
+		</qb-ui-account-verification-reminder>
+
+		<qb-ui-quirkbots-area
+			self="{{quirkbotsArea}}"
+			chrome-webstore-id="{{chromeWebstoreId}}"
+			tree-manager="{{treeManager}}">
+		</qb-ui-quirkbots-area>
+
+		<qb-ui-warnings-overlay
+			model="{{model}}">
+		</qb-ui-warnings-overlay>
+
+		<paper-header-panel mode="seamed">
+
+			<qb-ui-toolbar
+				class="paper-header"
+				editor-mode={{editorMode}}
+				model="{{model}}"
+				processing-status="[[processingStatus]]"
+				user="[[user]]"
+				home-url="[[homeUrl]]"
+				register-app-url="[[registerAppUrl]]"
+				user-app-url="[[userAppUrl]]"
+				program-app-url="[[programAppUrl]]"
+				on-quirkbots-area-button-tap="_onQuirkbotsAreaButtonTap"
+				on-add-to-profile-button-tap="_onAddToProfileButtonTap">
+			</qb-ui-toolbar>
+
+			<qb-ui-editor
+				class="fit"
+				mode={{editorMode}}
+				model="{{model}}"
+				model-controller="{{modelController}}"
+				tree-manager="{{treeManager}}"
+				computed-code="{{computedCode}}"
+				node-definitions="{{nodeDefinitions}}"
+				constant-definitions="{{constantDefinitions}}"
+				taxonomy-definitions="{{taxonomyDefinitions}}">
+			</qb-ui-editor>
+
+		</paper-header-panel>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.AppProgram = Polymer({
+		is: 'qb-app-program',
+		properties: {
+			programId: {
+				type: String,
+				notify: true
+			},
+			locale: String,
+			clientId: String,
+			chromeWebstoreId: String,
+			compilerUrl: String,
+			apiUrl: String,
+			homeUrl: String,
+			programAppUrl: String,
+			registerAppUrl: String,
+			userAppUrl: String,
+			nodesUrl: String,
+			stringsUrl: String,
+
+			modelController: {
+				type: Object
+			},
+			model: Object,
+			processingStatus: String,
+			treeManager: Object,
+			nodeDefinitions: Array,
+			constantDefinitions: Array,
+			taxonomyDefinitions: Object,
+			editorMode: String,
+			quirkbotsArea: Object
+		},
+		created: function () {
+			this.listen(document, 'keydown', '_disableBackspaceBackHistory');
+		},
+		_onAddToProfileButtonTap: function(){
+			this.modelController.addToProfile();
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'user-actions',
+					action: 'add-to-profile',
+					label: 'program'
+				}
+			});
+		},
+		_onQuirkbotsAreaButtonTap: function(){
+			this.quirkbotsArea.open();
+			this.fire('iron-signal', {
+				name: 'track-event',
+				data: {
+					category: 'user-actions',
+					action: 'quirkbots-area',
+					label: 'program'
+				}
+			});
+		},
+		_disableBackspaceBackHistory: function (event) {
+			var doPrevent = false;
+			if (event.keyCode === 8) {
+				var d = event.srcElement || event.target;
+				if ((d.tagName.toUpperCase() === 'INPUT' &&
+				(
+					d.type.toUpperCase() === 'TEXT' ||
+					d.type.toUpperCase() === 'PASSWORD' ||
+					d.type.toUpperCase() === 'FILE' ||
+					d.type.toUpperCase() === 'SEARCH' ||
+					d.type.toUpperCase() === 'EMAIL' ||
+					d.type.toUpperCase() === 'NUMBER' ||
+					d.type.toUpperCase() === 'DATE' )
+				) ||
+					d.tagName.toUpperCase() === 'TEXTAREA') {
+					doPrevent = d.readOnly || d.disabled;
+				}
+				else {
+					doPrevent = true;
+				}
+			}
+			if (doPrevent) {
+				event.preventDefault();
+			}
+		}
+	});
+})();
+</script>

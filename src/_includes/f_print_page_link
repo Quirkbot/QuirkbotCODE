@@ -1,0 +1,1 @@
+{% include f_get_page  %}<a href='{{r_get_page.url}}'>{{r_get_page.title}}</a>

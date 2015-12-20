@@ -1,0 +1,37 @@
+---
+id: randomizer
+name_t:
+  en: Randomizer
+taxonomy:
+  categories:
+    - brains
+  tags: []
+type: Randomizer
+inputs:
+  -
+    id: interval
+    default: 0.5
+    validation:
+      type: range
+      data:
+        min: 0.05
+        max: 5
+  -
+    id: min
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: max
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+outputs:
+  -
+    id: out

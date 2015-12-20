@@ -1,0 +1,22 @@
+{% assign query = (site.pages | where: 'id', page.id) %}
+<!DOCTYPE html>
+<html>
+	{% include head.html %}
+	<body
+		class="layout_app_confirm fullbleed layout vertical"
+		qb-unresolved>
+		{% include app_shell_simple.html %}
+		<qb-app-account-verification {% include common_attributes.html %}>
+			<div class="header">
+				{% include header.html %}
+			</div>
+			<div class="content">
+				{{ content }}
+			</div>
+			<div class="footer">
+				{% include footer.html %}
+			</div>
+		</qb-app-account-verification>
+		{% include foot.html %}
+	</body>
+</html>

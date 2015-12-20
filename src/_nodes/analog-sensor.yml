@@ -1,0 +1,65 @@
+---
+id: analog-sensor
+type: AnalogSensor
+name_t:
+  en: Analog Sensor
+taxonomy:
+  categories:
+    - connect
+  tags: []
+inputs:
+  -
+    id: place
+    default: NO_LOCATION
+    validation:
+      type: list
+      data:
+        -
+          id: no-location
+          value: NO_LOCATION
+        -
+          id: place-horn-back
+          value: HB
+        -
+          id: place-left-arm-back
+          value: LAB
+        -
+          id: place-right-arm-back
+          value: RAB
+        -
+          id: place-left-leg-back
+          value: LLB
+        -
+          id: place-right-leg-back
+          value: RLB
+        -
+          id: place-backpack-1
+          value: BP1
+        -
+          id: place-backpack-2
+          value: BP2
+        -
+          id: place-left-leg-front
+          value: LLF
+        -
+          id: place-left-arm-front
+          value: LAF
+  -
+    id: min
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: max
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+outputs:
+  -
+    id: out

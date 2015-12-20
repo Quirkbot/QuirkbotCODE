@@ -1,0 +1,23 @@
+menu_legal_title:
+  name_t:
+    en: Legal
+
+menu_tutorials_title:
+  name_t:
+    en: Tutorials
+
+menu_nodes_documentation_title:
+  name_t:
+    en: Nodes Documentation
+
+menu_apendix_title:
+  name_t:
+    en: Apendix
+
+related_tutorials:
+  name_t:
+    en: What to do next?
+
+view_all:
+  name_t:
+    en: View all

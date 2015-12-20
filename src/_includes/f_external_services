@@ -1,0 +1,16 @@
+{% if jekyll.environment == "production" %}
+	{% assign r_external_services_root_url = {{site.data.external-services.production.root}} %}
+	{% assign r_external_services_api_url = {{site.data.external-services.production.api}} %}
+	{% assign r_external_services_compiler_url = {{site.data.external-services.production.compiler}} %}
+	{% assign r_external_services_ga_code = {{site.data.external-services.production.ga_code}} %}
+{% elsif jekyll.environment == "stage" %}
+	{% assign r_external_services_root_url = {{site.data.external-services.stage.root}} %}
+	{% assign r_external_services_api_url = {{site.data.external-services.stage.api}} %}
+	{% assign r_external_services_compiler_url = {{site.data.external-services.stage.compiler}} %}
+	{% assign r_external_services_ga_code = {{site.data.external-services.stage.ga_code}} %}
+{% else %}
+	{% assign r_external_services_root_url = {{site.data.external-services.development.root}} %}
+	{% assign r_external_services_api_url = {{site.data.external-services.development.api}} %}
+	{% assign r_external_services_compiler_url = {{site.data.external-services.development.compiler}} %}
+	{% assign r_external_services_ga_code = {{site.data.external-services.development.ga_code}} %}
+{% endif %}

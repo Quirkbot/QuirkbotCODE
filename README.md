@@ -11,7 +11,7 @@
 git clone https://github.com/Quirkbot/QuirkbotCODE.git
 cd QuirkbotCODE
 npm install
-cd src/_statitc/
+cd src/assets/
 bower install
 ```
 ## Distribution Setups
@@ -23,10 +23,10 @@ There are different distribution "setups". All setups have the same content, but
 #### `dev` distribution
 It's the content of `/src` compiled with Jekyll.
 
-The final content get's deployed to `/dist`.
+The final content get's deployed to `/dist_dev`.
 
 #### `polymer` distribution
-Same as `dev`, but the content also needs to pass through a JSLint test first, and afterwards, the main Polymer resources (`/_static/elements/elements.html`) gets "polybuilt" to `/_static/elements/elements.build.html` and `/_static/elements/elements.build.js`. Service worker elements also get placed in the correct paths, and paths are updated to use minified resources.
+Same as `dev`, but the content also needs to pass through a JSLint test first, and afterwards, the main Polymer resources (`/src/assets/elements/elements.html`) gets "polybuilt" to `/src/assets/elements/elements.build.html` and `/src/assets/elements/elements.build.js`. Service worker elements also get placed in the correct paths, and paths are updated to use minified resources.
 
 The final content get's deployed to `/dist_polymer`.
 
@@ -110,9 +110,9 @@ Examples:
 
 When you are ready to deploy, run:
 ```
-gulp s3 --environment=stage
+gulp deploy --environment=stage
 ```
 or
 ```
-gulp s3 --environment=production
+gulp deploy --environment=production
 ```
