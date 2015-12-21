@@ -44,7 +44,7 @@ First thing to do is to switch on the Quirkbot! The most important thing to thin
 
 ### 4. Build something!
 
-Quirkbot makes it easy to make Strawbees move. A great way to get started is to just start building! 
+Quirkbot makes it easy to make Strawbees move. A great way to get started is to just start building!
 
 To first get started with Strawbees there is a [great guide](http://www.strawbees.com/wp-content/uploads/2015/11/booklet_a4_small.pdf) that you also can download. Only tools needed is a pair of scissors to cut the straws.
 
@@ -57,7 +57,7 @@ To make Strawbees move you don't have to program anything right now. Just switch
 
 - **Attach a Strawbee to your motor:** Snap on a Strawbee on the back of your Servo Motors arm, like this:
 
-![Strawbee to Motor]
+![Strawbee to Motor]{: width="422px"}
 
 You need a small Phillips screwdriver to fasten the screw. The arm can be places in different positions depending on what you want to build.
 
@@ -103,25 +103,30 @@ You create new code in the Quirkbot by connecting nodes together and changing th
 
 Here is how you do some basic things:
 
-#### Add and Delete Nodes 
+#### Add and Delete Nodes
 By dragging and dropping into your program, and press the X to get rid of them.
-![Add and Delete]
+
+![Add and Delete]{: width="424px"}
 
 #### Connect and disconnect the nodes:
 The connections makes a continuous stream of data go from one node to the other.
-![Connect Nodes]
+
+![Connect Nodes]{: width="477px"}
 
 #### Choose Place
 All Nodes that control some external part like an LED or Servo Motor needs ti know where that part is placed.
-![Choose Place]
+
+![Choose Place]{: width="244px"}
 
 #### Change Value
 By dragging the slider or type in the value directly.
-![Change Value]
 
-#### Save Your Code and give it a name. 
+![Change Value]{: width="328px"}
+
+#### Save Your Code and give it a name.
 When you do this the code will automatically get a web address. If you want to share your code just share this address, Don't worry, none but you can change it. If someone shares code with you and you want to make your own copy, press *Clone CODE*. This is now your code and you can make any changes.
-![Save Code]
+
+![Save Code]{: width="277px"}
 
 
 *there is of course much more to learn about programming the quirkbot and many more examples are coming soon*
@@ -143,10 +148,10 @@ The Nodes [documentation](http://code.quirkbot.com/help/docs/nodes/) is starting
 Check out the forum! Don't be afraid to ask us any question.
 [forum.quirkbot.com](http://forum.quirkbot.com/)
 
-[Strawbee to Motor]: {{r_base_url}}/content-assets/documentation/getting-started/strawbee_to_motor.png
-[Whats in the box]: {{r_base_url}}/content-assets/documentation/getting-started/whats_in_the_box.png
-[Build motor mount]: {{r_base_url}}/content-assets/documentation/getting-started/build_motor_mount.png
-[Secure motor arm]: {{r_base_url}}/content-assets/documentation/getting-started/secure_motor_arm.png
+[Strawbee to Motor]: {{r_base_url}}/content-assets/documentation/getting-started/strawbee_to_motor.jpg
+[Whats in the box]: {{r_base_url}}/content-assets/documentation/getting-started/whats_in_the_box.jpg
+[Build motor mount]: {{r_base_url}}/content-assets/documentation/getting-started/build_motor_mount.jpg
+[Secure motor arm]: {{r_base_url}}/content-assets/documentation/getting-started/secure_motor_arm.jpg
 
 
 [Add and Delete]: {{r_base_url}}/content-assets/documentation/gif/add_delete.gif
