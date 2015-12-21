@@ -18,7 +18,7 @@ Node for using continuously rotating servo motors. These types of motors, someti
 
 - *direction*
 	- Values: `0`, `1`
-	- Rotational direction:<br> `0`=Clocwise<br> `1`=Counter Clocwise
+	- Rotational direction:<br> `0`=Clocwise<br> `1`=Counter Clockwise
 
 - *place*
 	- Values: `SERVO_BP1`, `SERVO_BP2`
@@ -38,9 +38,10 @@ Node for using continuously rotating servo motors. These types of motors, someti
 
 ## Hardware
 Continuous Servo Motors
+Servo Motor Backpack
 
 ## Comment
-Servo motors usually have gears instide that are quite fragile, so avoid moving the arm by yourself. Let the Quirkbot move it. Never use force or you can easily break it.
+Servo motors usually have gears inside that are quite fragile, so avoid moving the arm by yourself. Let the Quirkbot move it. Never use force or you can easily break it.
 
 ## Learn more
 Continuous Servo Motors know their speed and direction because they have a built in Sensor that detects how the motor moves.

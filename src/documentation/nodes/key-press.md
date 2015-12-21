@@ -4,7 +4,7 @@ node: key-press
 id: key-press-docs
 ---
 
-Node that makes the Quirkbot acting like an external keyboard when connected to the computer and enables sending a keypresses from a defined Key.
+Node that makes the Quirkbot acting like an external keyboard when connected to the computer and enables sending a key presses from a defined Key.
 
 ## Connections
 
@@ -14,7 +14,7 @@ Node that makes the Quirkbot acting like an external keyboard when connected to 
 
 - *trigger*
     - Values: `0`, `1`
-    - `1`=Key press down<br> `0`=Key relese
+    - `1`=Key press down<br> `0`=Key release
 
 - *key*
     - Values: `KEY_`*any key* see List Of Keys

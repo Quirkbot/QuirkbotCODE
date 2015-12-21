@@ -4,7 +4,7 @@ node: sonar
 id: sonar-docs
 ---
 
-Sonar node is for using the Kit backpack to connect to a [Grove Ultrasonic Ranger](http://www.seeedstudio.com/wiki/Grove_-_Ultrasonic_Ranger) from Seeedstudio. The Sonar meassures the distance to an object by bouncing ultrasound its surface.
+Sonar node is for using the Kit backpack to connect to a [Grove Ultrasonic Ranger](http://www.seeedstudio.com/wiki/Grove_-_Ultrasonic_Ranger) from Seeed Studio. The Sonar measures the distance to an object by bouncing ultrasound its surface.
 
 ## Connections
 
@@ -54,7 +54,7 @@ DYI Kit Backpack
 [Grove Ultrasonic Ranger](http://www.seeedstudio.com/wiki/Grove_-_Ultrasonic_Ranger)
 
 ## Comment
-This is the first test in a line of Nodes to utilize the Grove line of sensors and acuators. The Kit Backpack have e place for the Grove connector that can be soldered on.
+This is the first test in a line of Nodes to utilize the Grove line of sensors and actuators. The Kit Backpack have e place for the Grove connector that can be soldered on.
 
 ## Learn more
-Ultrasound is connonly used in robotics and as a smart feature in cars to avoid colissions. It is also very similar to ecolocation used by bats to navigate in total darkness.
+Ultrasound is commonly used in robotics and as a smart feature in cars to avoid collisions. It is also very similar to echolocation used by bats to navigate in total darkness.

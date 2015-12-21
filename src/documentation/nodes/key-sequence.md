@@ -4,7 +4,7 @@ node: key-sequence
 id: key-sequence-docs
 ---
 
-Node that makes the Quirkbot acting like an external keyboard when connected to the computer and enables sending sequence of keypresses ad defined by the {% assign arg1='sequence-docs' %}{% include f_print_page_link %} or {% assign arg1='list-docs' %}{% include f_print_page_link %} Nodes.
+Node that makes the Quirkbot acting like an external keyboard when connected to the computer and enables sending sequence of key presses as defined by the {% assign arg1='sequence-docs' %}{% include f_print_page_link %} or {% assign arg1='list-docs' %}{% include f_print_page_link %} Nodes.
 
 
 ## Connections
@@ -19,7 +19,7 @@ Node that makes the Quirkbot acting like an external keyboard when connected to 
 
  - *hold time*
     - Range: `0` - `100`
-    - Number of secons a key is held down once it's been pressed.
+    - Number of seconds a key is held down once it's been pressed.
 
 
 </div>
@@ -41,4 +41,4 @@ If any specific to the node
 Comment
 
 ## Learn more
-Learn more abour ASCII
+Learn more about ASCII

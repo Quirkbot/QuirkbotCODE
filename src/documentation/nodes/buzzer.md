@@ -4,7 +4,7 @@ node: buzzer
 id: buzzer-docs
 ---
 
-Node for the DIY Buzzer Backpack and for other buzzers, piezos and small speakers connected in various ways. It outputs simple notes in set notevalues. You can controll it by sending it indivdual notes or by a continuous flow of numbers.
+Node for the DIY Buzzer Backpack and for other buzzers, piezo elements and small speakers connected in various ways. It outputs simple notes at set note values. You can control it by sending it individual notes or by a continuous flow of numbers.
 
 ## Connections
 
@@ -46,4 +46,4 @@ There is a chance that the Buzzer Node and the Servo Motor will not work at the 
 
 ## Learn more
 
-Piezo elements are interesting electronic components! Learn more about the Piezo electroc effect.
+Piezo elements are interesting electronic components! Learn more about the Piezo electric effect.
