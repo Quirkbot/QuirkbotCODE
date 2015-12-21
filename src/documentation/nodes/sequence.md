@@ -4,7 +4,7 @@ node: sequence
 id: sequence-docs
 ---
 
-The Sequence Node can make a sequence of any numbers or values. You can specify how long it will take for the sequence to run trough all the values, and trigger a run. After a run, the sequence will stop, but it can be triggered again.
+The Sequence Node can make a sequence of any numbers or values. You can specify how long it will take for the sequence to run trough all the values, and trigger a run. After a run, the sequence will stop, and is ready to be triggered again.
 
 ## Connections
 
@@ -47,7 +47,7 @@ The Sequence Node can make a sequence of any numbers or values. You can specify 
 </div>
 
 ## Comment
-One fun way to use the sequence is to connect ot to {% assign arg1='key-sequence-docs' %}{% include f_print_page_link %} and play melodies in a web synth like [this one](http://www.websynths.com/).
+One fun way to use the sequence is to connect it to {% assign arg1='key-sequence-docs' %}{% include f_print_page_link %} and play melodies in a web synth like [this one](http://www.websynths.com/).
 
 ## Learn more
 Some link or activity

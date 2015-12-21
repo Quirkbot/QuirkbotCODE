@@ -14,7 +14,7 @@ Node to send out a Random number at a given interval.
 
 - *interval*
     - Range: `0` - `1000`
-    - The time in seconds between sening out a random number
+    - The time in seconds between sending out a random number
 
 - *min*
     - Range: `0` - `1000`

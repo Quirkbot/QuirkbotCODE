@@ -39,4 +39,4 @@ Single color LEDs
 You can use almost any 3mm or 5mm LED with the Quirkbot, just cut the leads to the right length. (See hardware documentation: LEDs (soon!))
 
 ## Learn more
-The change in brightness of the LED is achieved by a method called PWM (Pulse Width Modulation). There are many Youtube videos and tutorials explaing this concept, like the beginnig of [this video](https://www.youtube.com/watch?v=YmPziPfaByw).
+The change in brightness of the LED is achieved by a method called PWM (Pulse Width Modulation). There are many YouTube videos and tutorials explaining this concept, like the beginning of [this video](https://www.youtube.com/watch?v=YmPziPfaByw).
