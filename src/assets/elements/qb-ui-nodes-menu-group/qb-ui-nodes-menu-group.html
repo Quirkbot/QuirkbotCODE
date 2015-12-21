@@ -33,6 +33,9 @@
 			font-size: 14px ;
 			margin: 0;
 		}
+		:host .collapse{
+			overflow: hidden;
+		}
 		:host .nodes-container{
 			position: relative;
 		}
@@ -69,6 +72,7 @@
 		</paper-item>
 
 		<iron-collapse
+			class="collapse"
 			opened$="{{opened}}">
 			<template
 				is="dom-repeat"

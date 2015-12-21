@@ -56,6 +56,7 @@ lang: en
 	"ide/user/programs/title": "CODEs",
 	"ide/user/programs/empty": "This user hasn't created any CODE yet.",
 	"ide/user/programs/create-new": "Create new CODE",
+	"ide/user/programs/inspiration": "Need some inspiration? <a href='{% assign arg1='tutorials' %}{% include f_print_page_url %}'>Check out the tutorials!</a>",
 	"ide/user/programs/item/modified": "Last modified:",
 
 	"IDE - Toolbar ------------------------------------------------------" : "",
@@ -514,7 +515,7 @@ lang: en
 	"register/registration/birthdate/year/placeholder": "Year",
 
 	"register/registration/terms/label": "Terms and conditions",
-	"register/registration/terms/placeholder": "I've read and accepted the <a href='/info/terms-of-use' target='_blank'>terms of use</a> and the <a href='/info/privacy-policy' target='_blank'>privacy policy</a>.",
+	"register/registration/terms/placeholder": "I've read and accepted the <a href='{% assign arg1='terms-of-use' %}{% include f_print_page_url %}' target='_blank'>terms of use</a> and the <a href='{% assign arg1='privacy-policy' %}{% include f_print_page_url %}' target='_blank'>privacy policy</a>.",
 	"register/registration/terms/tip": "",
 	"register/registration/terms/error/pre-validation": "You must read and agree to the terms and conditions.",
 

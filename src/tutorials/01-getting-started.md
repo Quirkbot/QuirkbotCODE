@@ -1,6 +1,8 @@
 ---
 title: Getting Started
 id: getting-started
+permalink: tutorials/getting-started/
+related_tutorials:
 ---
 
 # Getting Started

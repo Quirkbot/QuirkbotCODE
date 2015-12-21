@@ -1,7 +1,7 @@
 ---
 title: Tutorials
 id: tutorials
-layout: tutorials_index
+layout: tutorial_index
 ---
 
 # Quirkbot Tutorials
