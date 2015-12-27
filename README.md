@@ -42,22 +42,22 @@ Every distribution setup respond to the same set of command line tasks:
 - `watch`
 - `clean`
 
-#### `gulp build:{distribution}` task
+#### `npm run gulp -- build:{distribution}` task
 Builds the content of the `/src` to one of the distribution directories.
-- `gulp build:dev` (builds to `/dist`)
-- `gulp build:polymer` (builds to `/dist_polymer`)
-- `gulp build:gzip` (builds to `/dist_gzip`)
+- `npm run gulp -- build:dev` (builds to `/dist`)
+- `npm run gulp -- build:polymer` (builds to `/dist_polymer`)
+- `npm run gulp -- build:gzip` (builds to `/dist_gzip`)
 
-#### `gulp serve:{distribution}` task
+#### `npm run gulp -- serve:{distribution}` task
 Serves the content of the distribution directory.
-- `gulp serve:dev` (serves at http://localhost:4000)
-- `gulp serve:polymer` (serves at http://localhost:4001)
-- `gulp serve:gzip` (serves at http://localhost:4002)
+- `npm run gulp -- serve:dev` (serves at http://localhost:4000)
+- `npm run gulp -- serve:polymer` (serves at http://localhost:4001)
+- `npm run gulp -- serve:gzip` (serves at http://localhost:4002)
 
-#### `gulp watch:{distribution}` task
+#### `npm run gulp -- watch:{distribution}` task
 Serves the content of the distribution directory and rebuilds every time there is a file change.
 
-#### `gulp clean:{distribution}` task
+#### `npm run gulp -- clean:{distribution}` task
 Cleans the content of the distribution directory.
 
 ## Environment flags
@@ -70,13 +70,13 @@ There are 3 possible values for the flags
 
 Sample usage
 ```
-gulp build:dev --environment=production
-gulp serve:polymer --environment=stage
+npm run gulp -- build:dev --environment=production
+npm run gulp -- serve:polymer --environment=stage
 
 # no flag...
-gulp watch:gzip
+npm run gulp -- watch:gzip
 # ...same as:
-gulp watch:gzip --environment=development
+npm run gulp -- watch:gzip --environment=development
 ```
 ## Deploying
 To deploy the `gzip` setup to Amazon S3, please create the corresponding configuration
@@ -110,9 +110,9 @@ Examples:
 
 When you are ready to deploy, run:
 ```
-gulp deploy --environment=stage
+npm run gulp -- deploy --environment=stage
 ```
 or
 ```
-gulp deploy --environment=production
+npm run gulp -- deploy --environment=production
 ```

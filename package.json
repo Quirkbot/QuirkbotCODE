@@ -32,8 +32,8 @@
     "yargs": "^3.29.0"
   },
   "scripts": {
-    "test": "gulp test:local",
-    "start": "gulp serve"
+    "gulp" : "node ./node_modules/gulp/bin/gulp.js",
+    "gulp:xunit": "npm run gulp -- --reporter xunit"
   },
   "engines": {
     "node": ">=0.10.0"
