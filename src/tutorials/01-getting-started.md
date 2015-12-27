@@ -141,12 +141,11 @@ When you do this the code will automatically get a web address. If you want to s
 
 ### Check out the documentation for the Nodes
 
-The Nodes [documentation](http://code.quirkbot.com/help/docs/nodes/) is starting to take shape. and will soon have many useful examples.
+The {% assign arg1='nodes-docs'%}{% include f_print_page_link %} is starting to take shape. and will soon have many useful examples.
 
 ### The Forum
 
-Check out the forum! Don't be afraid to ask us any question.
-[forum.quirkbot.com](http://forum.quirkbot.com/)
+Check out the [Quirkbot Forum](http://forum.quirkbot.com/)! Don't be afraid to ask us any question.
 
 [Strawbee to Motor]: {{r_base_url}}/content-assets/documentation/getting-started/strawbee_to_motor.jpg
 [Whats in the box]: {{r_base_url}}/content-assets/documentation/getting-started/whats_in_the_box.jpg
