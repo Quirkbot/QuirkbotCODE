@@ -1,0 +1,70 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<link rel="import" href="../qb-core-browser-extension/qb-core-browser-extension.html">
+
+<dom-module id='qb-core-hardware-interface'>
+	<template>
+		<qb-core-browser-extension
+			id="chromeApp"
+			extension-id="[[chromeWebstoreId]]"
+			connected="{{connected}}"
+			model="{{model}}"
+			installing="{{installing}}"
+			installation-error-code="{{installationErrorCode}}">
+		</qb-core-browser-extension>
+	</template>
+</dom-module>
+<script>
+(function () {
+
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreHardwareInterface = Polymer({
+		is: 'qb-core-hardware-interface',
+		hostAttributes:{
+			hidden: true
+		},
+		properties: {
+			chromeWebstoreId: String,
+
+			model: {
+				type: Object,
+				value: {quirkbots:[]},
+				notify: true
+			},
+			avaiable: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			connected: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			installing: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			installationErrorCode: {
+				type: String,
+				notify: true
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		ready: function(){
+			this.avaiable = typeof window.chrome !== 'undefined';
+		},
+		install: function(){
+			return this.$.chromeApp.install();
+		},
+		upload: function( quirkbotUuid, hexString ){
+			return this.$.chromeApp.upload(quirkbotUuid, hexString);
+		}
+	});
+})();
+</script>

@@ -3,22 +3,22 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-auth/qb-core-auth.html">
-<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-core-hardware-interface/qb-core-hardware-interface.html">
+
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
 
-<dom-module id='qb-app-content-page'>
+<dom-module id='qb-app-factory-reset'>
 	<template>
 		<style include="qb-app-container-styles"></style>
 		<style include="qb-app-container-content-styles"></style>
 		<style include="qb-app-container-tutorials-styles"></style>
 		<style include="qb-app-container-nodes-documentation-styles"></style>
-		<style>
-			:host{}
-		</style>
 
 		<qb-core-i18n
 			url-format="[[stringsUrl]]"
@@ -32,6 +32,16 @@
 			user={{user}}>
 		</qb-core-auth>
 
+		<qb-core-hardware-interface
+			id="hardwareInterface"
+			chrome-webstore-id="[[chromeWebstoreId]]"
+			avaiable="{{hardwareInterfaceAvaiable}}"
+			connected="{{hardwareInterfaceConnected}}"
+			installing="{{hardwareInterfaceInstalling}}"
+			installation-error-code="{{hardwareInterfaceInstallationErrorCode}}"
+			model="{{hardwareInterfaceModel}}">
+		</qb-core-hardware-interface>
+
 		<qb-ui-app-container
 			home-url="[[homeUrl]]"
 			register-app-url="[[registerAppUrl]]"
@@ -41,9 +51,11 @@
 			<div class="header">
 				<content select=".header"></content>
 			</div>
-			
+
 			<div class="content">
 				<content select=".content"></content>
+
+
 			</div>
 
 			<div class="footer">
@@ -57,8 +69,8 @@
 <script>
 (function () {
 	window.Quirkbot = window.Quirkbot || {};
-	window.Quirkbot.AppContentPage = Polymer({
-		is: 'qb-app-content-page',
+	window.Quirkbot.AppFactoryReset = Polymer({
+		is: 'qb-app-factory-reset',
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
 		],
@@ -75,7 +87,12 @@
 			nodesUrl: String,
 			stringsUrl: String,
 
-			user:Object
+			user:Object,
+
+			hardwareInterfaceAvaiable: Boolean,
+			hardwareInterfaceConnected: Boolean,
+			hardwareInterfaceInstalling: Boolean,
+			hardwareInterfaceInstallationErrorCode: String
 		}
 	});
 })();
