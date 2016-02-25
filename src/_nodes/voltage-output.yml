@@ -1,5 +1,5 @@
 ---
-id: voltage-output
+object_id: voltage-output
 name_t:
   en: Voltage Output
 taxonomy:

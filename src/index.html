@@ -1,5 +1,5 @@
 ---
 layout: app_register
-id: home
+object_id: home
 title: Quirkbot CODE
 ---

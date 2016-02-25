@@ -1,6 +1,6 @@
 ---
 title: Privacy Policy
-id: privacy-policy
+object_id: privacy-policy
 ---
 
 # Quirkbot's Privacy Policy

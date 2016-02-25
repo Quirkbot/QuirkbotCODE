@@ -1,4 +1,4 @@
-{% assign query = (site.nodes | where: 'id', page.node) %}
+{% assign query = (site.nodes | where: 'object_id', page.node) %}
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,7 @@
 						<img
 							class="node-reference-image"
 							alt="{{query.first.name_t[page.lang]}}"
-							src="{{r_base_url}}/content-assets/documentation/nodes/{{query.first.id}}.png"/>
+							src="{{r_base_url}}/content-assets/documentation/nodes/{{query.first.object_id}}.png"/>
 
 						{{ content }}
 					</div>

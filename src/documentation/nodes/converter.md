@@ -1,7 +1,7 @@
 ---
 title: Converter
 node: converter
-id: converter-docs
+object_id: converter-docs
 ---
 
 Node to convert a stream of numbers from one range to another range. This Node can be used to amplify, compress, shift or invert a signal from one Node to another. This can be useful in many situations, for instance to change the signal from a sensor so that it creates the behavior you want in a Servo Motor.

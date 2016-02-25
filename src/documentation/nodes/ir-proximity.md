@@ -1,7 +1,7 @@
 ---
 title: IR Proximity
 node: ir-proximity
-id: ir-proximity-docs
+object_id: ir-proximity-docs
 ---
 
 Node to use with the DIY IR Proximity Backpack. The IR Proximity detects amount of Infra Read light from an IR-LED that reflects from back to a IR Detector.

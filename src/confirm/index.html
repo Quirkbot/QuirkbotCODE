@@ -1,5 +1,5 @@
 ---
 layout: app_confirm
-id: confirm-app
+object_id: confirm-app
 title: Account Confirmation
 ---

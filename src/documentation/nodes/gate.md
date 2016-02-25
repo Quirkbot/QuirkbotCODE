@@ -1,7 +1,7 @@
 ---
 title: Gate
 node: gate
-id: gate-docs
+object_id: gate-docs
 ---
 
 The Gate is a Node used to turn on and off a stream of numbers. It's inserted between two other Nodes to stop or allow data to go from one to the other. 

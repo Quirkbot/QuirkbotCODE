@@ -1,7 +1,7 @@
 ---
 title: Servo Motor
 node: servo-motor
-id: servo-motor-docs
+object_id: servo-motor-docs
 ---
 
 Node to control Servo Motors through the Servo Motor Backpack, or any Backpack with a Servo Motor Connector. Servo Motors have an arm that can move to specific position. Maximum movement is a little less than half a rotation, about 120 - 180 degrees, depending on the motor.

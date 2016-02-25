@@ -77,13 +77,13 @@ gulp.task('jekyll', function (gulpCallBack){
 			environment = 'development';
 
 	}
-	console.log(environment)
 	var spawn = require('child_process').spawn;
 	var jekyll = spawn(
 		'jekyll', ['build', '--source', SRC, '--destination', DEST_DEV],
 		{
 			stdio: 'inherit',
 			env: {
+				PATH: process.env.PATH,
 				JEKYLL_ENV: environment
 			}
 		}

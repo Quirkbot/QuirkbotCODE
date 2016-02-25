@@ -1,7 +1,7 @@
 ---
 title: Circuit Touch
 node: makey-touch
-id: circuit-touch-docs
+object_id: circuit-touch-docs
 ---
 
 Node that turns the Arms, Legs or Horn into a circular touch sensor. It detects when a weak current flows from the front to pad to Ground. (Ground can be the Left Eye or the back pad). Because it's so sensitive, the current can flow trough your body or anything else that has water in it or is made from a conductor, like metal. To activate the sensor, simply pinch the arm that you choose as place.

@@ -6,7 +6,7 @@ layout: null
 	"nodes" : [
 		{% for node in site.nodes %}
 			{
-				"id" : {{node.id | jsonify}},
+				"id" : {{node.object_id | jsonify}},
 				"type" : {{node.type | jsonify}},
 				"taxonomy" : {{node.taxonomy | jsonify}},
 				"inputs" : {{node.inputs | jsonify}},
@@ -19,7 +19,7 @@ layout: null
 			{% assign categories = (site.node_categories | sort: 'index') %}
 			{% for category in categories %}
 				{
-					"id" : {{category.id | jsonify}}
+					"id" : {{category.object_id | jsonify}}
 				}{% if forloop.last == false %},{% endif %}
 			{% endfor %}
 		],

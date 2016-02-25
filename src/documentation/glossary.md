@@ -1,6 +1,6 @@
 ---
 title: Glossary
-id: glossary
+object_id: glossary
 ---
 
 # Glossary

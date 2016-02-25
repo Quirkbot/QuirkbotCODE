@@ -173,7 +173,7 @@ lang: en
 	"CATEGORIES ---------------------------------------------------------" : "",
 	{% for category in site.node_categories %}
 		{% assign arg1 = category %}{% include f_translated_name  %}
-		"category/{{category.id}}" : {{r_translated_name | jsonify}},
+		"category/{{category.object_id}}" : {{r_translated_name | jsonify}},
 	{% endfor %}
 
 	"TAGS ---------------------------------------------------------------" : "",
@@ -185,7 +185,7 @@ lang: en
 
 	{% for node in site.nodes %}
 		{% assign arg1 = node %}{% include f_translated_name  %}
-		"node/name/{{node.id}}" : {{r_translated_name | jsonify}},
+		"node/name/{{node.object_id}}" : {{r_translated_name | jsonify}},
 	{% endfor %}
 
 	"CONNECTIONS --------------------------------------------------------" : "",

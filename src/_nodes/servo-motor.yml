@@ -1,5 +1,5 @@
 ---
-id: servo-motor
+object_id: servo-motor
 name_t:
   en: Servo Motor
 taxonomy:

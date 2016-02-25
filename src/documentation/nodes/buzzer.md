@@ -1,7 +1,7 @@
 ---
 title: Buzzer
 node: buzzer
-id: buzzer-docs
+object_id: buzzer-docs
 ---
 
 Node for the DIY Buzzer Backpack and for other buzzers, piezo elements and small speakers connected in various ways. It outputs simple notes at set note values. You can control it by sending it individual notes or by a continuous flow of numbers.

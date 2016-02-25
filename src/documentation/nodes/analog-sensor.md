@@ -1,7 +1,7 @@
 ---
 title: Analog Sensor
 node: analog-sensor
-id: analog-sensor-docs
+object_id: analog-sensor-docs
 ---
 
 Node that reads Analog input from any place on the Quirkbot that have Analog read capability.

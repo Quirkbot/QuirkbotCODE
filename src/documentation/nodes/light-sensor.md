@@ -1,7 +1,7 @@
 ---
 title: Light Sensor
 node: light-sensor
-id: light-sensor-docs
+object_id: light-sensor-docs
 ---
 
 Node that gets the analog data from a physical Light Sensor connected to the Arms, Legs, or Head of the Quirkbot. It gives the Light Sensor power from the front pad and reads the back pad to determine the amount of light hitting the sensor. It also works with other sensors based on resistance.

@@ -1,7 +1,7 @@
 ---
 title: List
 node: list
-id: list-docs
+object_id: list-docs
 ---
 
 Node for creating a list of any numbers or values. The items on the list can also be used as routable inputs for any stream of numbers. You can add up to 100 items by kicking the the <span class='node-input'>+</span> sign and removing items by clicking the <span class='node-input'>-</span> sign next to them.

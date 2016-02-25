@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-id: getting-started
+object_id: getting-started
 permalink: tutorials/getting-started/
 related_tutorials:
 ---

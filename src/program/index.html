@@ -1,5 +1,5 @@
 ---
 layout: app_program
-id: program-app
+object_id: program-app
 title: Quirkbot CODE Program
 ---

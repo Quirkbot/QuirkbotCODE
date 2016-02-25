@@ -1,5 +1,5 @@
 ---
-id: buzzer
+object_id: buzzer
 type: Buzzer
 name_t:
   en: Buzzer

@@ -1,7 +1,7 @@
 ---
 title: Dual Color Led
 node: dual-color-led
-id: dual-color-led-docs
+object_id: dual-color-led-docs
 ---
 
 Node to control Light Emitting Diodes (LEDs) With two leads and two colors. Like the 3 mm Red-Blue LEDs that comes with the Quirkbot kits. It controls LEDs connected to the Arms, Legs, and Head.
