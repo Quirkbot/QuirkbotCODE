@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-behavior-syncs-quirkbot-model/qb-behavior-syncs-quirkbot-model.html">
+
+<script>
+(function () {
+
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreHardwareMidi = Polymer({
+		is: 'qb-core-hardware-midi',
+		properties: {
+			model: {
+				type: Object,
+				value: {quirkbots:[]},
+				notify: true
+			},
+			connected: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			installing: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			installationErrorCode: {
+				type: String,
+				notify: true
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior,
+			window.Quirkbot.SyncsQuirkbotModelBehavior
+		],
+		created: function(){
+
+		},
+		install: function(){
+
+		},
+		upload: function( quirkbotUuid, hexString ){
+			console.log( quirkbotUuid, hexString);
+		}
+	});
+})();
+</script>

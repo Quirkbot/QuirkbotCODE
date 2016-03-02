@@ -1,15 +1,14 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
 <link rel="import" href="../qb-core-auth/qb-core-auth.html">
-<link rel="import" href="../qb-core-hardware-interface/qb-core-hardware-interface.html">
 
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
+<link rel="import" href="../qb-ui-quirkbots-area/qb-ui-quirkbots-area.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
 
@@ -19,6 +18,16 @@
 		<style include="qb-app-container-content-styles"></style>
 		<style include="qb-app-container-tutorials-styles"></style>
 		<style include="qb-app-container-nodes-documentation-styles"></style>
+
+		<style>
+			.reset-area {
+				text-align: center;
+			}
+			.reset-button{
+				background: var(--qb-green);
+				color: var(--qb-white);
+			}
+		</style>
 
 		<qb-core-i18n
 			url-format="[[stringsUrl]]"
@@ -32,15 +41,19 @@
 			user={{user}}>
 		</qb-core-auth>
 
-		<qb-core-hardware-interface
-			id="hardwareInterface"
+		<iron-ajax
+			auto
+			url="[[compilerUrl]]cfirmware-reset"
+			handle-as="json"
+			last-response="{{ajaxResponse}}">
+		</iron-ajax>
+
+		<qb-ui-quirkbots-area
+			id="quirkbotsArea"
 			chrome-webstore-id="[[chromeWebstoreId]]"
-			avaiable="{{hardwareInterfaceAvaiable}}"
-			connected="{{hardwareInterfaceConnected}}"
-			installing="{{hardwareInterfaceInstalling}}"
-			installation-error-code="{{hardwareInterfaceInstallationErrorCode}}"
-			model="{{hardwareInterfaceModel}}">
-		</qb-core-hardware-interface>
+			compiler-url="[[compilerUrl]]"
+			hex="[[ajaxResponse.value]]">
+		</qb-ui-quirkbots-area>
 
 		<qb-ui-app-container
 			home-url="[[homeUrl]]"
@@ -54,8 +67,14 @@
 
 			<div class="content">
 				<content select=".content"></content>
-
-
+				<div class="reset-area">
+					<paper-button
+						class="reset-button"
+						on-tap="_onCallToActionTap">
+						<qb-core-i18n
+							key="ide/factory-reset/page/call-to-action"></qb-core-i18n>
+					</paper-button>
+				</div>
 			</div>
 
 			<div class="footer">
@@ -89,10 +108,16 @@
 
 			user:Object,
 
-			hardwareInterfaceAvaiable: Boolean,
-			hardwareInterfaceConnected: Boolean,
-			hardwareInterfaceInstalling: Boolean,
-			hardwareInterfaceInstallationErrorCode: String
+			ajaxResponse: Object
+		},
+		observers:[
+			'_computeHardwareInterfaceModelString(hardwareInterfaceModel.*)'
+		],
+		_computeHardwareInterfaceModelString: function () {
+			this.hardwareInterfaceModelString = JSON.stringify(this.hardwareInterfaceModel, null, '\t');
+		},
+		_onCallToActionTap: function() {
+			this.$.quirkbotsArea.open();
 		}
 	});
 })();

@@ -1,0 +1,83 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-meta/iron-meta.html">
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.SyncsQuirkbotModelBehavior = {
+		SyncsQuirkbotModelBehavior: true,
+		_syncInternalModel: function(internalName, model){
+			if(typeof model === 'undefined' || typeof model.quirkbots === 'undefined' || typeof model.quirkbots.length === 'undefined'){
+				return;
+			}
+			if(typeof this[internalName] === 'undefined'){
+				return;
+			}
+			if(typeof this[internalName].quirkbots === 'undefined'){
+				this[internalName].quirkbots = [];
+			}
+
+			// Manage quirkbots
+			if(!model.quirkbots.length && this[internalName].quirkbots.length){
+				this.splice(internalName + '.quirkbots', 0, this[internalName].quirkbots.length);
+			}
+			model.quirkbots.forEach(function(newQuirkbot){
+				var index = this.findOneIndexByKey(this[internalName].quirkbots, 'uuid', newQuirkbot.uuid);
+				if(index === -1){
+					index = this[internalName].quirkbots.length;
+					this.push(internalName + '.quirkbots', newQuirkbot);
+				}
+				else{
+					Object.keys(newQuirkbot).forEach(function(key){
+						if(typeof newQuirkbot[key] === 'object'){
+							if(!this[internalName].quirkbots[index][key]){
+								this.set(internalName + '.quirkbots.'+index+'.'+key, {});
+							}
+							Object.keys(newQuirkbot[key]).forEach(function(subKey){
+								if(this[internalName].quirkbots[index][key][subKey] !==  newQuirkbot[key][subKey]){
+									this.set(internalName + '.quirkbots.'+index+'.'+key+'.'+subKey, newQuirkbot[key][subKey]);
+								}
+							}.bind(this));
+						}
+						else{
+							if(this[internalName].quirkbots[index][key] !==  newQuirkbot[key]){
+								this.set(internalName + '.quirkbots.'+index+'.'+key, newQuirkbot[key]);
+							}
+
+						}
+					}.bind(this));
+				}
+			}.bind(this));
+			if(model.quirkbots.length !== this[internalName].quirkbots.length){
+				for(var i = this[internalName].quirkbots.length-1; i >=0 ; i--){
+					var quirkbot = this[internalName].quirkbots[i];
+					var newIndex = this.findOneIndexByKey(model.quirkbots, 'uuid', quirkbot.uuid);
+					if(newIndex === -1){
+						this.splice(internalName + '.quirkbots', i, 1);
+					}
+				}
+			}
+
+			// Manage all the other properties
+			Object.keys(model).forEach(function(key){
+				if(key === 'quirkbots'){
+					return;
+				}
+				var value = model[key];
+				if(typeof value === 'object'){
+					if(typeof this[internalName][key] !== 'object'){
+						this.set(internalName + '.'+key, {});
+					}
+					Object.keys(value).forEach(function(subKey){
+						this.set(internalName + '.' + key + '.' + subKey, value[subKey]);
+					}.bind(this));
+				}
+				else{
+					this.set(internalName + '.'+key, value);
+				}
+			}.bind(this));
+		}
+
+	};
+})();
+</script>
