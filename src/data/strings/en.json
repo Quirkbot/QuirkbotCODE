@@ -108,7 +108,7 @@ lang: en
 	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/webstore/manual-installation/" : "Install manually",
 
 	"ide/quirkbots-area/dialog/warning/no-quirkbots/header" :		"No Quirkbots detected",
-	"ide/quirkbots-area/dialog/warning/no-quirkbots/description" : 	"Is your Quirkbot is turned ON and connected to a working USB port?",
+	"ide/quirkbots-area/dialog/warning/no-quirkbots/description" : 	"Is your Quirkbot is turned ON and connected to a working USB port?<br><br>If the problem persists, try enabling {% assign arg1='recovery-mode'%}{% assign arg2='_blank'%}{% include f_print_page_link %}.",
 	"ide/quirkbots-area/dialog/warning/no-quirkbots/dismiss" : 		"Cancel",
 
 	"ide/quirkbots-area/dialog/warning/no-serial-permission/header" :		"Update Linux settings",
