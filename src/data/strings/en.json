@@ -78,6 +78,7 @@ lang: en
 	"ide/quirkbots-area/dialog/quirkbots/confirm" : 		"Upload",
 	"ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name" : "Quirkbot",
 	"ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id" : "sn",
+	"ide/quirkbots-area/dialog/quirkbots/single-quirkbot/bootloader" : "Recovery Mode",
 
 	"ide/quirkbots-area/dialog/quirkbots/uploading/header" :		"Uploading...",
 	"ide/quirkbots-area/dialog/quirkbots/uploading/description" : 	"Please don't disconnect your Quirkbot.",

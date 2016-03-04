@@ -2,7 +2,6 @@
 <link rel="import" href="../../bower_components/chrome-extension-api/chrome-extension-api-client.html">
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
-<link rel="import" href="../qb-behavior-syncs-quirkbot-model/qb-behavior-syncs-quirkbot-model.html">
 
 <script>
 (function () {
@@ -39,8 +38,7 @@
 			}
 		},
 		behaviors:[
-			window.Quirkbot.UtilsBehavior,
-			window.Quirkbot.SyncsQuirkbotModelBehavior
+			window.Quirkbot.UtilsBehavior
 		],
 		adapter: {},
 		created: function(){
@@ -99,12 +97,16 @@
 			}
 		},
 		_monitorExtensionConnection: function(){
-			var interval = 1000;
+			var interval = 1500;
+			if(typeof this._monitorExtensionConnectionTimeoutCount === 'undefined'){
+				this._monitorExtensionConnectionTimeoutCount = 0;
+			}
 			// Ping the extension to see if we are connected. We will not get
 			// an error in case we can't access to extension (eg. running from
 			// an unauthrized domain), so we need to timeout to notify failure
 			var timeout = setTimeout(function () {
-				if(this.connected){
+				this._monitorExtensionConnectionTimeoutCount++;
+				if(this.connected && this._monitorExtensionConnectionTimeoutCount > 2){
 					console.log('Disconnected from extensionId: ' + this.extensionId);
 					this.connected = false;
 					if(this.model.quirkbots.length){
@@ -118,6 +120,7 @@
 			}
 			this.adapter.ping()
 			.then(function(){
+				this._monitorExtensionConnectionTimeoutCount = 0;
 				if(!this.connected){
 					console.log('Connected to extensionId: ' + this.extensionId);
 					this.connected = true;

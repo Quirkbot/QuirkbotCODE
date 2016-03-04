@@ -54,7 +54,7 @@
 				window.Quirkbot._CoreHardwareInterfaceSingleton.chromeWebstoreId = this.pendingChromeWebstoreId;
 				delete this.pendingChromeWebstoreId;
 			}
-			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'model-updated', '_onModelChanged');
+			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'model-changed', '_onModelChanged');
 			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'avaiable-changed', '_onAvaiableChanged');
 			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'connected-changed', '_onConnectedChanged');
 			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'installing-changed', '_onInstallingChanged');
@@ -66,7 +66,7 @@
 			this.installationErrorCode = window.Quirkbot._CoreHardwareInterfaceSingleton.installationErrorCode;
 		},
 		dettached: function() {
-			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'model-updated', '_onModelChanged');
+			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'model-changed', '_onModelChanged');
 			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'avaiable-changed', '_onAvaiableChanged');
 			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'connected-changed', '_onConnectedChanged');
 			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'installing-changed', '_onInstallingChanged');
@@ -87,19 +87,19 @@
 			}
 		},
 		_onModelChanged: function(event) {
-			this._syncInternalModel('model', event.detail);
+			this._syncInternalModel('model', event.detail.value);
 		},
 		_onAvaiableChanged: function(event) {
-			this.avaiable = event.detail;
+			this.avaiable = event.detail.value;
 		},
 		_onConnectedChanged: function(event) {
-			this.connected = event.detail;
+			this.connected = event.detail.value;
 		},
 		_onInstallingChanged: function(event) {
-			this.installing = event.detail;
+			this.installing = event.detail.value;
 		},
 		_onInstallingErrorCodeChanged: function(event) {
-			this.installationErrorCode = event.detail;
+			this.installationErrorCode = event.detail.value;
 		}
 	});
 })();

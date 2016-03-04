@@ -76,13 +76,13 @@
 
 			<template
 				is="dom-if"
-				if="{{hardwareInterfaceAvaiable}}">
+				if="[[hardwareInterfaceAvaiable]]">
 				<template
 					is="dom-if"
-					if="{{hardwareInterfaceConnected}}">
+					if="[[hardwareInterfaceConnected]]">
 					<template
 						is="dom-if"
-						if="{{hardwareInterfaceModel.platform.serialPermissionError}}">
+						if="[[hardwareInterfaceModel.platform.serialPermissionError]]">
 						<div
 							class="dialog-content">
 							<h3 class="header">
@@ -105,17 +105,17 @@
 					</template>
 					<template
 						is="dom-if"
-						if="{{!hardwareInterfaceModel.platform.serialPermissionError}}">
+						if="[[!hardwareInterfaceModel.platform.serialPermissionError]]">
 						<template
 							is="dom-if"
-							if="{{hardwareInterfaceModel.quirkbots.length}}">
+							if="[[hardwareInterfaceModel.quirkbots.length]]">
 							<template
 								is="dom-if"
-								if="{{pendingUploadProcess}}">
+								if="[[pendingUploadProcess]]">
 
 								<template
 									is="dom-if"
-									if="{{!uploadCompleted}}">
+									if="[[!uploadCompleted]]">
 									<div
 										class="dialog-content">
 										<h3 class="header">
@@ -145,10 +145,10 @@
 
 								<template
 									is="dom-if"
-									if="{{uploadCompleted}}">
+									if="[[uploadCompleted]]">
 									<template
 										is="dom-if"
-										if="{{!uploadSucceeded}}">
+										if="[[!uploadSucceeded]]">
 										<div
 											class="dialog-content">
 											<h3 class="header">
@@ -163,11 +163,11 @@
 
 											<template
 												is="dom-if"
-												if="{{uploadErrorKey}}">
+												if="[[uploadErrorKey]]">
 												<qb-ui-notice
 													error>
 													<qb-core-i18n
-													key="{{uploadErrorKey}}"></qb-core-i18n>
+													key="[[uploadErrorKey]]"></qb-core-i18n>
 												</qb-ui-notice>
 											</template>
 										</div>
@@ -189,7 +189,7 @@
 									</template>
 									<template
 										is="dom-if"
-										if="{{uploadSucceeded}}">
+										if="[[uploadSucceeded]]">
 										<div
 											class="dialog-content">
 											<h3 class="header">
@@ -219,7 +219,7 @@
 							</template>
 							<template
 								is="dom-if"
-								if="{{!pendingUploadProcess}}">
+								if="[[!pendingUploadProcess]]">
 								<div
 									class="dialog-content">
 									<h3 class="header">
@@ -237,11 +237,12 @@
 										selected="{{selectedQuirkbotUuid}}">
 										<template
 											is="dom-repeat"
-											items="{{quirkbots}}"
+											items="[[hardwareInterfaceModel.quirkbots]]"
 											sort="sortByUuid"
-											observe="uuid">
+											observe="uuid bootloader">
 											<qb-ui-quirkbot-upload-item
-												uuid="[[item.uuid]]">
+												uuid="[[item.uuid]]"
+												bootloader="[[item.bootloader]]">
 											</qb-ui-quirkbot-upload-item>
 										</template>
 									</iron-selector>
@@ -265,7 +266,7 @@
 						</template>
 						<template
 							is="dom-if"
-							if="{{!hardwareInterfaceModel.quirkbots.length}}">
+							if="[[!hardwareInterfaceModel.quirkbots.length]]">
 							<div
 								class="dialog-content">
 								<h3 class="header">
@@ -298,7 +299,7 @@
 				</template>
 				<template
 					is="dom-if"
-					if="{{!hardwareInterfaceConnected}}">
+					if="[[!hardwareInterfaceConnected]]">
 					<div
 						class="dialog-content">
 						<h3 class="header">
@@ -311,11 +312,11 @@
 
 							<template
 								is="dom-if"
-								if="{{hardwareInterfaceInstallationErrorCode}}">
+								if="[[hardwareInterfaceInstallationErrorCode]]">
 								<qb-ui-notice
 									error>
 									<qb-core-i18n
-										key="{{hardwareInterfaceInstallationErrorKey}}"></qb-core-i18n>
+										key="[[hardwareInterfaceInstallationErrorKey]]"></qb-core-i18n>
 								</qb-ui-notice>
 							</template>
 						</div>
@@ -329,14 +330,14 @@
 						</paper-button>
 						<template
 							is="dom-if"
-							if="{{hardwareInterfaceInstalling}}">
+							if="[[hardwareInterfaceInstalling]]">
 							<qb-ui-status-indicator
 								state="pending">
 							</qb-ui-status-indicator>
 						</template>
 						<template
 							is="dom-if"
-							if="{{!hardwareInterfaceInstalling}}">
+							if="[[!hardwareInterfaceInstalling]]">
 							<paper-button
 								dialog-continue
 								on-tap="_onInstallButtonTap">
@@ -349,7 +350,7 @@
 			</template>
 			<template
 				is="dom-if"
-				if="{{!hardwareInterfaceAvaiable}}">
+				if="[[!hardwareInterfaceAvaiable]]">
 				<div
 					class="dialog-content">
 					<h3 class="header">
@@ -404,19 +405,27 @@
 			 **/
 			code: Object,
 
-			hardwareInterfaceAvaiable: Boolean,
-			hardwareInterfaceConnected: Boolean,
-			hardwareInterfaceInstalling: Boolean,
-			hardwareInterfaceInstallationErrorCode: String,
+			hardwareInterfaceAvaiable: {
+				type: Boolean,
+				value: false
+			},
+			hardwareInterfaceConnected: {
+				type: Boolean,
+				value: false
+			},
+			hardwareInterfaceInstalling: {
+				type: Boolean,
+				value: false
+			},
+			hardwareInterfaceInstallationErrorCode: {
+				type: String,
+				value: ''
+			},
 			hardwareInterfaceInstallationErrorKey:{
 				type: String,
 				computed: '_computeHardwareInterfaceInstallationErrorKey(hardwareInterfaceInstallationErrorCode)'
 			},
 			hardwareInterfaceModel: Object,
-			quirkbots: {
-				type: Array,
-				value: []
-			},
 			selectedQuirkbotUuid: {
 				type: String
 			},
@@ -452,18 +461,14 @@
 			this.hardwareInterfaceInstallationErrorCode = '';
 
 			this.debounce('openDialog', this.$.dialog.open.bind(this.$.dialog), 100);
-			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 1000);
+			this.debounce('notifyResize', this._notifyResize.bind(this), 1000);
 		},
 		_onInstallButtonTap: function(){
-			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
+			this._notifyResize();
 
 			this.$.hardwareInterface.install()
-			.then(function(){
-				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
-			}.bind(this))
-			.catch(function(){
-				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
-			}.bind(this));
+			.then(this._notifyResize.bind(this))
+			.catch(this._notifyResize.bind(this));
 		},
 		_onUploadButtonTap: function(){
 			this.pendingUploadProcess = true;
@@ -485,7 +490,7 @@
 			catch(e){}
 
 
-			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 30);
+			this._notifyResize();
 
 			// Decide if the hex is going to come from {{hex}} or {{code}}
 			var getHexString = function() {
@@ -648,15 +653,7 @@
 				this.uploadErrorKey = '';
 			}
 
-			this.debounce('_computeQuirkbots', function(){
-				this.splice('quirkbots', 0, this.quirkbots.length);
-				this.hardwareInterfaceModel.quirkbots.forEach(function(quirkbot){
-					this.push('quirkbots', quirkbot);
-				}.bind(this));
-
-				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
-
-			}, 10);
+			this._notifyResize();
 
 		},
 		_notifyResize: function () {

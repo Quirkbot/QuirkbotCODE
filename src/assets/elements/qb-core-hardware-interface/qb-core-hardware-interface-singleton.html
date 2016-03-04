@@ -62,7 +62,6 @@
 			window.Quirkbot.UtilsBehavior,
 			window.Quirkbot.SyncsQuirkbotModelBehavior
 		],
-
 		ready: function(){
 			this.avaiable = typeof window.chrome !== 'undefined';
 		},
@@ -73,9 +72,8 @@
 			return this.$.chromeApp.upload(quirkbotUuid, hexString);
 		},
 		_chromeAppModelChanged: function(chromeAppModel) {
-			this._syncInternalModel('model', chromeAppModel);
-			this.debounce('forward-model-chnage', function() {
-				this.fire('model-updated', this.model);
+			this.debounce('forward-model-change', function() {
+				this.model = chromeAppModel;
 			}.bind(this), 5);
 		}
 	});
