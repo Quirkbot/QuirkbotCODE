@@ -1,7 +1,7 @@
 ---
 title: Squeeze Sensor
 node: squeeze-sensor
-id: squeeze-sensor-docs
+object_id: squeeze-sensor-docs
 ---
 
 Node that is a self calibrating version of the {% assign arg1='light-sensor-docs' %}{% include f_print_page_link %}. It gets analog data from a physical Light Sensor connected to the Arms, Legs, or Head of the Quirkbot. It gives the Light Sensor power from the front pad, and reads the back pad to determine the amount of light hitting the sensor. The data is then continuously calibrated to the environment to get maximum amount of output range. The Node gets it name from an input device you can build by putting a light source in the other end of a drinking straw and squeezing the drinking straw to change the amount of light reaching the Light Sensor. It also works with other sensors based on resistance.

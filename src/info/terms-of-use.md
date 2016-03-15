@@ -1,6 +1,6 @@
 ---
 title: Terms of Use
-id: terms-of-use
+object_id: terms-of-use
 ---
 
 # Quirkbot's Terms of Use

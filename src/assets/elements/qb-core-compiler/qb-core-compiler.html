@@ -1,0 +1,125 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="qb-core-compiler">
+	<template>
+		<iron-ajax
+			id="loader"
+			handle-as="json">
+		</iron-ajax>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreCompiler = Polymer({
+		is: 'qb-core-compiler',
+		properties: {
+			compilerUrl:{
+				type: String
+			}
+		},
+		compile: function(code){
+			return new Promise(function(resolve, reject){
+
+				if(code === this._code){
+					return resolve(this._hex);
+				}
+				this._code = code;
+
+				this._enterCompilationQueue(code)
+				.then(this._verifyCompilation.bind(this))
+				.then(function(hex){
+					this._hex = hex;
+					resolve(hex);
+				}.bind(this))
+				.catch(reject);
+
+			}.bind(this));
+		},
+		_enterCompilationQueue: function(code){
+			return new Promise(function(resolve, reject){
+				var onResponse = function(event){
+					clearTimeout(timer);
+					this.$.loader.removeEventListener('response', onResponse);
+					if(!event || !event.detail || !event.detail.response || !event.detail.response._id){
+						return reject('BAD_RESPONSE');
+					}
+					resolve(event.detail.response._id);
+				}.bind(this);
+				var onError = function(){
+					clearTimeout(timer);
+					this.$.loader.removeEventListener('error', onError);
+					return reject('NETWORK_ERROR');
+				}.bind(this);
+				var url = this.compilerUrl;
+				if (url.charAt(url.length - 1) === '/') {
+					url = url.substr(0, url.length - 1);
+				}
+				this.$.loader.addEventListener('response', onResponse);
+				this.$.loader.addEventListener('error', onError);
+				this.$.loader.url = url + '/' + window.encodeURIComponent(code);
+				var request = this.$.loader.generateRequest();
+				var timer = setTimeout(function(){
+					request.abort();
+				}.bind(this), 10000);
+
+			}.bind(this));
+		},
+		_verifyCompilation: function(id){
+			return new Promise(function(resolve, reject){
+				// Try 5 times before giving up
+				var count = 0;
+				var max = 5;
+				var tryToVerify = function () {
+					this._verifySingleCompilation(id)
+					.then(resolve)
+					.catch(function() {
+						count++;
+						if(count === max){
+							reject.apply(this, arguments);
+						}
+						else{
+							tryToVerify();
+						}
+					}.bind(this));
+				}.bind(this);
+				tryToVerify();
+			}.bind(this));
+		},
+		_verifySingleCompilation: function(id){
+			return new Promise(function(resolve, reject){
+				// Wait a bit before requesting
+				setTimeout(function() {
+					var onResponse = function(event){
+						clearTimeout(timer);
+						this.$.loader.removeEventListener('response', onResponse);
+						if(!event || !event.detail || !event.detail.response || !event.detail.response.hex){
+							return reject('BAD_RESPONSE');
+						}
+						resolve(event.detail.response.hex);
+					}.bind(this);
+					var onError = function(){
+						clearTimeout(timer);
+						this.$.loader.removeEventListener('error', onError);
+						return reject('NETWORK_ERROR');
+					}.bind(this);
+					var url = this.compilerUrl;
+					if (url.charAt(url.length - 1) === '/') {
+						url = url.substr(0, url.length - 1);
+					}
+					this.$.loader.addEventListener('response', onResponse);
+					this.$.loader.addEventListener('error', onError);
+					this.$.loader.url = url + '/i' + id;
+					var request = this.$.loader.generateRequest();
+					var timer = setTimeout(function(){
+						request.abort();
+					}.bind(this), 10000);
+				}.bind(this), 3700);
+			}.bind(this));
+		}
+	});
+
+})();
+</script>

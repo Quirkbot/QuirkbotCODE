@@ -1,7 +1,7 @@
 ---
 title: Key Press
 node: key-press
-id: key-press-docs
+object_id: key-press-docs
 ---
 
 Node that makes the Quirkbot acting like an external keyboard when connected to the computer and enables sending a key presses from a defined Key.

@@ -1,12 +1,12 @@
-{% assign query = (site.pages | where: 'id', page.id) %}
+{% assign query = (site.pages | where: 'object_id', page.object_id) %}
 <!DOCTYPE html>
 <html>
 	{% include head.html %}
 	<body
-		class="layout_app_reset fullbleed layout vertical"
+		class="layout_app_factory_reset fullbleed layout vertical"
 		qb-unresolved>
 		{% include app_shell_simple.html %}
-		<qb-app-password-reset {% include common_attributes.html %}>
+		<qb-app-factory-reset {% include common_attributes.html %}>
 			<div class="header">
 				{% include header.html %}
 			</div>
@@ -16,7 +16,7 @@
 			<div class="footer">
 				{% include footer.html %}
 			</div>
-		</qb-app-password-reset>
+		</qb-app-factory-reset>
 		{% include foot.html %}
 	</body>
 </html>

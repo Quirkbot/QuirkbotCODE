@@ -1,7 +1,7 @@
 ---
 title: Continuous Servo
 node: continuous-servo
-id: continuous-servo-docs
+object_id: continuous-servo-docs
 ---
 
 Node for using continuously rotating servo motors. These types of motors, sometimes (incorrectly) referred to as "360 servos", have two things you can control: The **Speed** of the rotation and the **direction** of the rotation. Unlike the other servo motors where you can tell the motor to move its arm to a specific location, continuous servos only know it's own speed and rotational direction.

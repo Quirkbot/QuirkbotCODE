@@ -7,17 +7,16 @@
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 
-<link rel="import" href="../qb-behavior-self-property/qb-behavior-self-property.html">
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
-<link rel="import" href="../qb-core-browser-extension/qb-core-browser-extension.html">
+<link rel="import" href="../qb-core-compiler/qb-core-compiler.html">
+<link rel="import" href="../qb-core-hardware-interface/qb-core-hardware-interface.html">
+
 
 <link rel="import" href="../qb-ui-notice/qb-ui-notice.html">
 <link rel="import" href="../qb-ui-quirkbot-upload-item/qb-ui-quirkbot-upload-item.html">
 <link rel="import" href="../qb-ui-status-indicator/qb-ui-status-indicator.html">
-
-
 
 <dom-module id='qb-ui-quirkbots-area'>
 	<template>
@@ -48,14 +47,20 @@
 				@apply(--layout-self-center);
 			}
 		</style>
-		<qb-core-browser-extension
-			id="extension"
-			extension-id="{{chromeWebstoreId}}"
-			connected="{{connectedToExtension}}"
-			model="{{extensionModel}}"
-			installing="{{installingExtension}}"
-			installation-error-code="{{extensionInstallationErrorCode}}">
-		</qb-core-browser-extension>
+		<qb-core-hardware-interface
+			id="hardwareInterface"
+			chrome-webstore-id="[[chromeWebstoreId]]"
+			avaiable="{{hardwareInterfaceAvaiable}}"
+			connected="{{hardwareInterfaceConnected}}"
+			installing="{{hardwareInterfaceInstalling}}"
+			installation-error-code="{{hardwareInterfaceInstallationErrorCode}}"
+			model="{{hardwareInterfaceModel}}">
+		</qb-core-hardware-interface>
+
+		<qb-core-compiler
+			id="compiler"
+			compiler-url="[[compilerUrl]]">
+		</qb-core-compiler>
 
 		<paper-dialog
 			modal
@@ -71,13 +76,13 @@
 
 			<template
 				is="dom-if"
-				if="{{browserChrome}}">
+				if="[[hardwareInterfaceAvaiable]]">
 				<template
 					is="dom-if"
-					if="{{connectedToExtension}}">
+					if="[[hardwareInterfaceConnected]]">
 					<template
 						is="dom-if"
-						if="{{extensionModel.platform.serialPermissionError}}">
+						if="[[hardwareInterfaceModel.platform.serialPermissionError]]">
 						<div
 							class="dialog-content">
 							<h3 class="header">
@@ -100,17 +105,17 @@
 					</template>
 					<template
 						is="dom-if"
-						if="{{!extensionModel.platform.serialPermissionError}}">
+						if="[[!hardwareInterfaceModel.platform.serialPermissionError]]">
 						<template
 							is="dom-if"
-							if="{{extensionModel.quirkbots.length}}">
+							if="[[hardwareInterfaceModel.quirkbots.length]]">
 							<template
 								is="dom-if"
-								if="{{pendingUploadProcess}}">
+								if="[[pendingUploadProcess]]">
 
 								<template
 									is="dom-if"
-									if="{{!uploadCompleted}}">
+									if="[[!uploadCompleted]]">
 									<div
 										class="dialog-content">
 										<h3 class="header">
@@ -140,10 +145,10 @@
 
 								<template
 									is="dom-if"
-									if="{{uploadCompleted}}">
+									if="[[uploadCompleted]]">
 									<template
 										is="dom-if"
-										if="{{!uploadSucceeded}}">
+										if="[[!uploadSucceeded]]">
 										<div
 											class="dialog-content">
 											<h3 class="header">
@@ -158,11 +163,11 @@
 
 											<template
 												is="dom-if"
-												if="{{uploadErrorKey}}">
+												if="[[uploadErrorKey]]">
 												<qb-ui-notice
 													error>
 													<qb-core-i18n
-													key="{{uploadErrorKey}}"></qb-core-i18n>
+													key="[[uploadErrorKey]]"></qb-core-i18n>
 												</qb-ui-notice>
 											</template>
 										</div>
@@ -184,7 +189,7 @@
 									</template>
 									<template
 										is="dom-if"
-										if="{{uploadSucceeded}}">
+										if="[[uploadSucceeded]]">
 										<div
 											class="dialog-content">
 											<h3 class="header">
@@ -214,7 +219,7 @@
 							</template>
 							<template
 								is="dom-if"
-								if="{{!pendingUploadProcess}}">
+								if="[[!pendingUploadProcess]]">
 								<div
 									class="dialog-content">
 									<h3 class="header">
@@ -232,11 +237,12 @@
 										selected="{{selectedQuirkbotUuid}}">
 										<template
 											is="dom-repeat"
-											items="{{quirkbots}}"
+											items="[[hardwareInterfaceModel.quirkbots]]"
 											sort="sortByUuid"
-											observe="uuid">
+											observe="uuid bootloader">
 											<qb-ui-quirkbot-upload-item
-												uuid="[[item.uuid]]">
+												uuid="[[item.uuid]]"
+												bootloader="[[item.bootloader]]">
 											</qb-ui-quirkbot-upload-item>
 										</template>
 									</iron-selector>
@@ -260,7 +266,7 @@
 						</template>
 						<template
 							is="dom-if"
-							if="{{!extensionModel.quirkbots.length}}">
+							if="[[!hardwareInterfaceModel.quirkbots.length]]">
 							<div
 								class="dialog-content">
 								<h3 class="header">
@@ -273,7 +279,7 @@
 								</qb-ui-notice>
 								<template
 									is="dom-if"
-									if="[[_allEqual(extensionModel.platform.os, 'win')]]">
+									if="[[_allEqual(hardwareInterfaceModel.platform.os, 'win')]]">
 									<qb-ui-notice>
 										<qb-core-i18n
 											key="ide/quirkbots-area/dialog/warning/windows-drivers/description"></qb-core-i18n>
@@ -293,24 +299,24 @@
 				</template>
 				<template
 					is="dom-if"
-					if="{{!connectedToExtension}}">
+					if="[[!hardwareInterfaceConnected]]">
 					<div
 						class="dialog-content">
 						<h3 class="header">
 							<qb-core-i18n
-								key="ide/quirkbots-area/dialog/warning/no-browser-extension/header"></qb-core-i18n>
+								key="ide/quirkbots-area/dialog/warning/no-browser-dependencies/header"></qb-core-i18n>
 						</h3>
 						<div>
 							<qb-core-i18n
-								key="ide/quirkbots-area/dialog/warning/no-browser-extension/description"></qb-core-i18n>
+								key="ide/quirkbots-area/dialog/warning/no-browser-dependencies/description"></qb-core-i18n>
 
 							<template
 								is="dom-if"
-								if="{{extensionInstallationErrorCode}}">
+								if="[[hardwareInterfaceInstallationErrorCode]]">
 								<qb-ui-notice
 									error>
 									<qb-core-i18n
-										key="{{extensionInstallationErrorKey}}"></qb-core-i18n>
+										key="[[hardwareInterfaceInstallationErrorKey]]"></qb-core-i18n>
 								</qb-ui-notice>
 							</template>
 						</div>
@@ -320,23 +326,23 @@
 						<paper-button
 							dialog-dismiss>
 							<qb-core-i18n
-								key="ide/quirkbots-area/dialog/warning/no-browser-extension/dismiss"></qb-core-i18n>
+								key="ide/quirkbots-area/dialog/warning/no-browser-dependencies/dismiss"></qb-core-i18n>
 						</paper-button>
 						<template
 							is="dom-if"
-							if="{{installingExtension}}">
+							if="[[hardwareInterfaceInstalling]]">
 							<qb-ui-status-indicator
 								state="pending">
 							</qb-ui-status-indicator>
 						</template>
 						<template
 							is="dom-if"
-							if="{{!installingExtension}}">
+							if="[[!hardwareInterfaceInstalling]]">
 							<paper-button
 								dialog-continue
-								on-tap="_onInstallExtensionTap">
+								on-tap="_onInstallButtonTap">
 								<qb-core-i18n
-									key="ide/quirkbots-area/dialog/warning/no-browser-extension/confirm"></qb-core-i18n>
+									key="ide/quirkbots-area/dialog/warning/no-browser-dependencies/confirm"></qb-core-i18n>
 							</paper-button>
 						</template>
 					</div>
@@ -344,7 +350,7 @@
 			</template>
 			<template
 				is="dom-if"
-				if="{{!browserChrome}}">
+				if="[[!hardwareInterfaceAvaiable]]">
 				<div
 					class="dialog-content">
 					<h3 class="header">
@@ -387,19 +393,39 @@
 		is: 'qb-ui-quirkbots-area',
 		properties: {
 			chromeWebstoreId:String,
-			treeManager: Object,
-			connectedToExtension: Boolean,
-			installingExtension: Boolean,
-			extensionInstallationErrorCode: String,
-			extensionInstallationErrorKey:{
+			compilerUrl:String,
+			/**
+			 * The program that will be uploaded. In case it is undefined,
+			 * `code` will be compiled and used instead.
+			 **/
+			hex: String,
+			/**
+			 * The code that will be compiled and uploaded. If `hex` is defined,
+			 * this will be ignored.
+			 **/
+			code: Object,
+
+			hardwareInterfaceAvaiable: {
+				type: Boolean,
+				value: false
+			},
+			hardwareInterfaceConnected: {
+				type: Boolean,
+				value: false
+			},
+			hardwareInterfaceInstalling: {
+				type: Boolean,
+				value: false
+			},
+			hardwareInterfaceInstallationErrorCode: {
 				type: String,
-				computed: '_computeExtensionInstallationErrorKey(extensionInstallationErrorCode)'
+				value: ''
 			},
-			browserChrome: Boolean,
-			quirkbots: {
-				type: Array,
-				value: []
+			hardwareInterfaceInstallationErrorKey:{
+				type: String,
+				computed: '_computeHardwareInterfaceInstallationErrorKey(hardwareInterfaceInstallationErrorCode)'
 			},
+			hardwareInterfaceModel: Object,
 			selectedQuirkbotUuid: {
 				type: String
 			},
@@ -425,32 +451,24 @@
 			}
 		},
 		behaviors:[
-			window.Quirkbot.SelfPropertyBehavior,
 			window.Quirkbot.UtilsBehavior
 		],
 		observers:[
-			'_computeQuirkbots(extensionModel.quirkbots.splices)',
-			'_notifyResize(browserChrome, connectedToExtension, pendingUploadProcess, uploadCompleted, uploadSucceeded, extensionModel.platform.serialPermissionError, extensionModel.quirkbots.length)'
+			'_computeQuirkbots(hardwareInterfaceModel.quirkbots.splices)',
+			'_notifyResize(hardwareInterfaceAvaiable, hardwareInterfaceConnected, pendingUploadProcess, uploadCompleted, uploadSucceeded, hardwareInterfaceModel.platform.serialPermissionError, hardwareInterfaceModel.quirkbots.length)'
 		],
-		ready: function(){
-			this.browserChrome = typeof window.chrome !== 'undefined';
-		},
 		open: function(){
-			this.extensionInstallationErrorCode = '';
+			this.hardwareInterfaceInstallationErrorCode = '';
 
 			this.debounce('openDialog', this.$.dialog.open.bind(this.$.dialog), 100);
-			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 1000);
+			this.debounce('notifyResize', this._notifyResize.bind(this), 1000);
 		},
-		_onInstallExtensionTap: function(){
-			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
+		_onInstallButtonTap: function(){
+			this._notifyResize();
 
-			this.$.extension.install()
-			.then(function(){
-				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
-			}.bind(this))
-			.catch(function(){
-				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
-			}.bind(this));
+			this.$.hardwareInterface.install()
+			.then(this._notifyResize.bind(this))
+			.catch(this._notifyResize.bind(this));
 		},
 		_onUploadButtonTap: function(){
 			this.pendingUploadProcess = true;
@@ -472,9 +490,27 @@
 			catch(e){}
 
 
-			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 30);
+			this._notifyResize();
 
-			this.treeManager.compileHex()
+			// Decide if the hex is going to come from {{hex}} or {{code}}
+			var getHexString = function() {
+				return new Promise(function (resolve, reject) {
+					if(this.hex){
+						resolve(this.hex);
+						return;
+					}
+
+					if(this.code){
+						this.$.compiler.compile(this.code)
+						.then(resolve)
+						.catch(reject);
+						return;
+					}
+					reject('Neither {{hex}} or {{code}} are defined.');
+				}.bind(this));
+			}.bind(this);
+
+			getHexString()
 			.then(function(hexString){
 				var fakeUploadProgressTimer = setInterval(function(){
 					this.uploadProgress += 5;
@@ -482,7 +518,7 @@
 						clearInterval(fakeUploadProgressTimer);
 					}
 				}.bind(this), 300);
-				this.$.extension.upload(this.selectedQuirkbotUuid, hexString)
+				this.$.hardwareInterface.upload(this.selectedQuirkbotUuid, hexString)
 				.then(function(){
 					clearInterval(fakeUploadProgressTimer);
 					this.async(function(){
@@ -578,9 +614,9 @@
 			}
 			catch(e){}
 		},
-		_computeExtensionInstallationErrorKey: function(code){
+		_computeHardwareInterfaceInstallationErrorKey: function(code){
 
-			var base = 'ide/quirkbots-area/dialog/warning/no-browser-extension/error/';
+			var base = 'ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/';
 			var error;
 			switch (code) {
 				case '':
@@ -601,11 +637,11 @@
 		},
 		_computeQuirkbots: function(){
 			var newSelectedId;
-			if(!this.extensionModel.quirkbots.length){
+			if(!this.hardwareInterfaceModel || !this.hardwareInterfaceModel.quirkbots.length){
 				newSelectedId = '';
 			}
-			else if(!this.findOneObjectByKey(this.extensionModel.quirkbots, 'uuid', this.selectedQuirkbotUuid)){
-				newSelectedId = this.extensionModel.quirkbots[0].uuid;
+			else if(!this.findOneObjectByKey(this.hardwareInterfaceModel.quirkbots, 'uuid', this.selectedQuirkbotUuid)){
+				newSelectedId = this.hardwareInterfaceModel.quirkbots[0].uuid;
 			}
 
 			if(typeof newSelectedId !== 'undefined'){
@@ -617,18 +653,9 @@
 				this.uploadErrorKey = '';
 			}
 
-			this.debounce('_computeQuirkbots', function(){
-				this.splice('quirkbots', 0, this.quirkbots.length);
-				this.extensionModel.quirkbots.forEach(function(quirkbot){
-					this.push('quirkbots', quirkbot);
-				}.bind(this));
-
-				this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 300);
-
-			}, 10);
+			this._notifyResize();
 
 		},
-
 		_notifyResize: function () {
 			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 100);
 		},

@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 
@@ -46,6 +46,16 @@
 			font-size: 10px;
 			opacity: 0.5;
 		}
+		:host .bootloader{
+			position: absolute;
+			top:0;
+			right: 0;
+			@apply(--qb-font-code);
+			text-transform: uppercase;
+			font-size: 7px;
+			line-height: 7px;
+			opacity: 0.8;
+		}
 		:host paper-progress {
 			width: 100%;
 			--paper-progress-container-color: var(--qb-white);
@@ -64,6 +74,13 @@
 				key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name"></qb-core-i18n></span></div>
 			<div class="id"><span><qb-core-i18n
 			key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id"></qb-core-i18n>: <span>[[uuid]]</span></span></div>
+
+			<template is="dom-if" if="[[bootloader]]">
+				<qb-core-i18n
+					class="bootloader"
+					key="ide/quirkbots-area/dialog/quirkbots/single-quirkbot/bootloader"></qb-core-i18n>
+			</template>
+
 			<paper-progress
 				hidden$="[[!uploadProgress]]"
 				class="transiting"
@@ -82,6 +99,9 @@
 		properties:{
 			uuid: {
 				type: String
+			},
+			bootloader: {
+				type: Boolean
 			},
 			uploadProgress: {
 				type: Number,

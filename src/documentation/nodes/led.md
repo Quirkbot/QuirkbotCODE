@@ -1,7 +1,7 @@
 ---
 title: LED
 node: led
-id: led-docs
+object_id: led-docs
 ---
 
 Node to control Light Emitting Diodes (LEDs). It both controls LEDs permanently connected to the Quirkbot like the Eyes, or external LEDs you attach to the Arms, Legs, and Head. (Also works with the backpack pins if you are building your own backpack.)

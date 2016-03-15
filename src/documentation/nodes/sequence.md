@@ -1,7 +1,7 @@
 ---
 title: Sequence
 node: sequence
-id: sequence-docs
+object_id: sequence-docs
 ---
 
 The Sequence Node can make a sequence of any numbers or values. You can specify how long it will take for the sequence to run trough all the values, and trigger a run. After a run, the sequence will stop, and is ready to be triggered again.

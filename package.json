@@ -19,6 +19,7 @@
     "gulp-minify-html": "^1.0.4",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.3",
+    "gulp-prompt": "^0.1.2",
     "gulp-s3": "^0.3.0",
     "gulp-serve": "*",
     "gulp-size": "^1.0.0",
@@ -37,8 +38,5 @@
   },
   "engines": {
     "node": ">=0.10.0"
-  },
-  "dependencies": {
-    "gulp-prompt": "^0.1.2"
   }
 }

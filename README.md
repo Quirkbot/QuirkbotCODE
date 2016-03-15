@@ -116,3 +116,15 @@ or
 ```
 npm run gulp -- deploy --environment=production
 ```
+## Updating dependencies
+
+### Bower
+The bower dependencies are intentionally locked to avoid surprises, but it's recommended that you keep them updated - you will just have to do it manually, one by one.
+
+In order to make your life easier, use `npm-check-updates`.
+
+```
+npm install -g npm-check-updates
+cd src/assets
+ncu -m bower
+```

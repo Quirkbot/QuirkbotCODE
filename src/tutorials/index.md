@@ -1,6 +1,6 @@
 ---
 title: Tutorials
-id: tutorials
+object_id: tutorials
 layout: tutorial_index
 ---
 

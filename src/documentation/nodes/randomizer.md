@@ -1,7 +1,7 @@
 ---
 title: Randomizer
 node: randomizer
-id: randomizer-docs
+object_id: randomizer-docs
 ---
 
 Node to send out a Random number at a given interval.

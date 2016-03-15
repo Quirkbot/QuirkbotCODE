@@ -2,16 +2,16 @@
   "name": "QuirkbotCODE assets",
   "private": true,
   "dependencies": {
-    "iron-elements": "PolymerElements/iron-elements",
-    "paper-elements": "PolymerElements/paper-elements",
-    "platinum-elements": "PolymerElements/platinum-elements",
-    "neon-elements": "PolymerElements/neon-elements",
-    "google-web-componenets" : "GoogleWebComponents/google-web-components",
-    "page": "visionmedia/page.js",
-    "observe-js": "Polymer/observe-js",
-    "node-uuid": "broofa/node-uuid",
-    "chrome-extension-api": "https://github.com/Quirkbot/ChromeExtensionAPI.git",
-    "ace-element": "Quirkbot/ace-element",
-    "moment": "*"
+    "iron-elements": "1.0.8",
+    "paper-elements": "1.0.7",
+    "platinum-elements": "PolymerElements/platinum-elements#2.0.0",
+    "neon-elements": "PolymerElements/neon-elements#1.0.0",
+    "google-web-components": "GoogleWebComponents/google-web-components#1.0.1",
+    "page": "visionmedia/page.js#4895e378a7080a519390e286a22b02a87a055b10",
+    "observe-js": "0.5.7",
+    "node-uuid": "1.4.7",
+    "chrome-extension-api": "Quirkbot/ChromeExtensionAPI#b620567794c5d1381725433c20e1cc7dcaf22e40",
+    "ace-element": "Quirkbot/ace-element#23238611789f0c41dda7d8b5e74d39ee942e9f39",
+    "moment": "2.12.0"
   }
 }

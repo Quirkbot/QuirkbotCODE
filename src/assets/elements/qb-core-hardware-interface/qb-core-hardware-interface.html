@@ -1,0 +1,106 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-behavior-syncs-quirkbot-model/qb-behavior-syncs-quirkbot-model.html">
+
+<link rel="import" href="qb-core-hardware-interface-singleton.html">
+
+<script>
+(function () {
+
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot._CoreHardwareInterfaceSingleton = null;
+	window.Quirkbot.CoreHardwareInterface = Polymer({
+		is: 'qb-core-hardware-interface',
+		hostAttributes:{
+			hidden: true
+		},
+		properties: {
+			chromeWebstoreId: {
+				type: String,
+				observer: '_chromeWebstoreIdChanged'
+			},
+			model: {
+				type: Object,
+				value: {quirkbots:[]},
+				notify: true
+			},
+			avaiable: {
+				type: Boolean,
+				notify: true
+			},
+			connected: {
+				type: Boolean,
+				notify: true
+			},
+			installing: {
+				type: Boolean,
+				notify: true
+			},
+			installationErrorCode: {
+				type: String,
+				notify: true
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior,
+			window.Quirkbot.SyncsQuirkbotModelBehavior
+		],
+		attached: function() {
+			if(!window.Quirkbot._CoreHardwareInterfaceSingleton){
+				window.Quirkbot._CoreHardwareInterfaceSingleton = document.createElement('qb-core-hardware-interface-singleton');
+			}
+			if(this.pendingChromeWebstoreId){
+				window.Quirkbot._CoreHardwareInterfaceSingleton.chromeWebstoreId = this.pendingChromeWebstoreId;
+				delete this.pendingChromeWebstoreId;
+			}
+			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'model-changed', '_onModelChanged');
+			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'avaiable-changed', '_onAvaiableChanged');
+			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'connected-changed', '_onConnectedChanged');
+			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'installing-changed', '_onInstallingChanged');
+			this.listen(window.Quirkbot._CoreHardwareInterfaceSingleton, 'installationErrorCode-changed', '_onInstallingErrorCodeChanged');
+			this._syncInternalModel('model', window.Quirkbot._CoreHardwareInterfaceSingleton.model);
+			this.avaiable = window.Quirkbot._CoreHardwareInterfaceSingleton.avaiable;
+			this.connected = window.Quirkbot._CoreHardwareInterfaceSingleton.connected;
+			this.installing = window.Quirkbot._CoreHardwareInterfaceSingleton.installing;
+			this.installationErrorCode = window.Quirkbot._CoreHardwareInterfaceSingleton.installationErrorCode;
+		},
+		dettached: function() {
+			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'model-changed', '_onModelChanged');
+			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'avaiable-changed', '_onAvaiableChanged');
+			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'connected-changed', '_onConnectedChanged');
+			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'installing-changed', '_onInstallingChanged');
+			this.unlisten(window.Quirkbot._CoreHardwareInterfaceSingleton, 'installationErrorCode-changed', '_onInstallingErrorCodeChanged');
+		},
+		install: function(){
+			return window.Quirkbot._CoreHardwareInterfaceSingleton.install();
+		},
+		upload: function( quirkbotUuid, hexString ){
+			return window.Quirkbot._CoreHardwareInterfaceSingleton.upload(quirkbotUuid, hexString);
+		},
+		_chromeWebstoreIdChanged: function(value) {
+			if(window.Quirkbot._CoreHardwareInterfaceSingleton){
+				window.Quirkbot._CoreHardwareInterfaceSingleton.chromeWebstoreId = value;
+			}
+			else{
+				this.pendingChromeWebstoreId = value;
+			}
+		},
+		_onModelChanged: function(event) {
+			this._syncInternalModel('model', event.detail.value);
+		},
+		_onAvaiableChanged: function(event) {
+			this.avaiable = event.detail.value;
+		},
+		_onConnectedChanged: function(event) {
+			this.connected = event.detail.value;
+		},
+		_onInstallingChanged: function(event) {
+			this.installing = event.detail.value;
+		},
+		_onInstallingErrorCodeChanged: function(event) {
+			this.installationErrorCode = event.detail.value;
+		}
+	});
+})();
+</script>

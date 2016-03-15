@@ -1,5 +1,5 @@
 ---
 layout: app_user
-id: user-app
+object_id: user-app
 title: Profile Quirkbot CODE
 ---

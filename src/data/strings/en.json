@@ -40,6 +40,8 @@ lang: en
 	"ide/password-reset/page/submit": "Reset",
 	"ide/password-reset/page/error/RESET_REQUEST_NOT_FOUND": "Invalid reset. This request has probably exipired.",
 
+	"ide/factory-reset/page/call-to-action": "Upload factory program",
+
 	"AVATAR -------------------------------------------------------------" : "",
 	"ide/avatar/login": "Login",
 	"ide/avatar/logout": "Logout",
@@ -76,6 +78,7 @@ lang: en
 	"ide/quirkbots-area/dialog/quirkbots/confirm" : 		"Upload",
 	"ide/quirkbots-area/dialog/quirkbots/single-quirkbot/name" : "Quirkbot",
 	"ide/quirkbots-area/dialog/quirkbots/single-quirkbot/id" : "sn",
+	"ide/quirkbots-area/dialog/quirkbots/single-quirkbot/bootloader" : "Recovery Mode",
 
 	"ide/quirkbots-area/dialog/quirkbots/uploading/header" :		"Uploading...",
 	"ide/quirkbots-area/dialog/quirkbots/uploading/description" : 	"Please don't disconnect your Quirkbot.",
@@ -96,17 +99,17 @@ lang: en
 	"ide/quirkbots-area/dialog/warning/wrong-browser/dismiss" : 	"Cancel",
 	"ide/quirkbots-area/dialog/warning/wrong-browser/confirm" :		"Get Chrome",
 
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/header" : 				"Install Quirkbot for Chrome",
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/description" : 			"To access Quirkbots you need to first install the browser extension.",
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/dismiss" : 				"Cancel",
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/confirm" : 				"Install",
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/error/unhanlded" : 		"There was an error installing the app, please try again",
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/error/user-cancelled" : "<b>Installation failed, please try again.</b><br>Click on the <i>Add app</i> button when the installation dialog appears.",
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/error/webstore" : 		"It seems that you can't access the Chrome Web Store. This could be a problem with your internet connection, or you could be in a country where Google's servers are blocked.<br><br>If you know Google is blocked, please follow <a href='https://github.com/Quirkbot/QuirkbotChromeExtension/releases' target='_blank'>this guide</a> to install the app manually.<br><br>If the problem may be on your internet connection, please try again when you are online.",
-	"ide/quirkbots-area/dialog/warning/no-browser-extension/error/webstore/manual-installation/" : "Install manually",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/header" : 				"Dependencies missing",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/description" : 			"Please install the dependencies in order to be able to access Quirkbots.",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/dismiss" : 				"Cancel",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/confirm" : 				"Install",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/unhanlded" : 		"There was an error installing, please try again",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/user-cancelled" : "<b>Installation failed, please try again.</b><br>Click on the <i>Add app</i> button when the installation dialog appears.",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/webstore" : 		"It seems that you can't access the Chrome Web Store. This could be a problem with your internet connection, or you could be in a country where Google's servers are blocked.<br><br>If you know Google is blocked, please follow <a href='https://github.com/Quirkbot/QuirkbotChromeExtension/releases' target='_blank'>this guide</a> to install the app manually.<br><br>If the problem may be on your internet connection, please try again when you are online.",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/webstore/manual-installation/" : "Install manually",
 
 	"ide/quirkbots-area/dialog/warning/no-quirkbots/header" :		"No Quirkbots detected",
-	"ide/quirkbots-area/dialog/warning/no-quirkbots/description" : 	"Is your Quirkbot is turned ON and connected to a working USB port?",
+	"ide/quirkbots-area/dialog/warning/no-quirkbots/description" : 	"Is your Quirkbot is turned ON and connected to a working USB port?<br><br>If the problem persists, try enabling {% assign arg1='recovery-mode'%}{% assign arg2='_blank'%}{% include f_print_page_link %}.",
 	"ide/quirkbots-area/dialog/warning/no-quirkbots/dismiss" : 		"Cancel",
 
 	"ide/quirkbots-area/dialog/warning/no-serial-permission/header" :		"Update Linux settings",
@@ -173,7 +176,7 @@ lang: en
 	"CATEGORIES ---------------------------------------------------------" : "",
 	{% for category in site.node_categories %}
 		{% assign arg1 = category %}{% include f_translated_name  %}
-		"category/{{category.id}}" : {{r_translated_name | jsonify}},
+		"category/{{category.object_id}}" : {{r_translated_name | jsonify}},
 	{% endfor %}
 
 	"TAGS ---------------------------------------------------------------" : "",
@@ -185,7 +188,7 @@ lang: en
 
 	{% for node in site.nodes %}
 		{% assign arg1 = node %}{% include f_translated_name  %}
-		"node/name/{{node.id}}" : {{r_translated_name | jsonify}},
+		"node/name/{{node.object_id}}" : {{r_translated_name | jsonify}},
 	{% endfor %}
 
 	"CONNECTIONS --------------------------------------------------------" : "",

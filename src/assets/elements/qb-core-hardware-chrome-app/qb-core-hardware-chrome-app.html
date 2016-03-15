@@ -7,15 +7,14 @@
 (function () {
 
 	window.Quirkbot = window.Quirkbot || {};
-	window.Quirkbot.CoreBrowserExtension = Polymer({
-		is: 'qb-core-browser-extension',
+	window.Quirkbot.CoreHardwareChromeApp = Polymer({
+		is: 'qb-core-hardware-chrome-app',
 		hostAttributes:{
 			hidden: true
 		},
 		properties: {
 			extensionId: {
 				type: String,
-				value: 'ackaalhbfjagidmjlhlokoblhbnahegd',
 				observer: '_extensionIdChanged',
 			},
 			model: {
@@ -98,12 +97,16 @@
 			}
 		},
 		_monitorExtensionConnection: function(){
-			var interval = 1000;
+			var interval = 1500;
+			if(typeof this._monitorExtensionConnectionTimeoutCount === 'undefined'){
+				this._monitorExtensionConnectionTimeoutCount = 0;
+			}
 			// Ping the extension to see if we are connected. We will not get
 			// an error in case we can't access to extension (eg. running from
 			// an unauthrized domain), so we need to timeout to notify failure
 			var timeout = setTimeout(function () {
-				if(this.connected){
+				this._monitorExtensionConnectionTimeoutCount++;
+				if(this.connected && this._monitorExtensionConnectionTimeoutCount > 5){
 					console.log('Disconnected from extensionId: ' + this.extensionId);
 					this.connected = false;
 					if(this.model.quirkbots.length){
@@ -117,6 +120,7 @@
 			}
 			this.adapter.ping()
 			.then(function(){
+				this._monitorExtensionConnectionTimeoutCount = 0;
 				if(!this.connected){
 					console.log('Connected to extensionId: ' + this.extensionId);
 					this.connected = true;
@@ -144,66 +148,7 @@
 			}.bind(this));
 		},
 		_onAdapterModelChange: function(model){
-
-			// Manage quirkbots
-			if(!model.quirkbots.length && this.model.quirkbots.length){
-				this.splice('model.quirkbots', 0, this.model.quirkbots.length);
-			}
-			model.quirkbots.forEach(function(newQuirkbot){
-				var index = this.findOneIndexByKey(this.model.quirkbots, 'uuid', newQuirkbot.uuid);
-				if(index === -1){
-					index = this.model.quirkbots.length;
-					this.push('model.quirkbots', newQuirkbot);
-				}
-				else{
-					Object.keys(newQuirkbot).forEach(function(key){
-						if(typeof newQuirkbot[key] === 'object'){
-							if(!this.model.quirkbots[index][key]){
-								this.set('model.quirkbots.'+index+'.'+key, {});
-							}
-							Object.keys(newQuirkbot[key]).forEach(function(subKey){
-								if(this.model.quirkbots[index][key][subKey] !==  newQuirkbot[key][subKey]){
-									this.set('model.quirkbots.'+index+'.'+key+'.'+subKey, newQuirkbot[key][subKey]);
-								}
-							}.bind(this));
-						}
-						else{
-							if(this.model.quirkbots[index][key] !==  newQuirkbot[key]){
-								this.set('model.quirkbots.'+index+'.'+key, newQuirkbot[key]);
-							}
-
-						}
-					}.bind(this));
-				}
-			}.bind(this));
-			if(model.quirkbots.length !== this.model.quirkbots.length){
-				for(var i = this.model.quirkbots.length-1; i >=0 ; i--){
-					var quirkbot = this.model.quirkbots[i];
-					var newIndex = this.findOneIndexByKey(model.quirkbots, 'uuid', quirkbot.uuid);
-					if(newIndex === -1){
-						this.splice('model.quirkbots', i, 1);
-					}
-				}
-			}
-
-			// Manage all the other properties
-			Object.keys(model).forEach(function(key){
-				if(key === 'quirkbots'){
-					return;
-				}
-				var value = model[key];
-				if(typeof value === 'object'){
-					if(typeof this.model[key] !== 'object'){
-						this.set('model.'+key, {});
-					}
-					Object.keys(value).forEach(function(subKey){
-						this.set('model.' + key + '.' + subKey, value[subKey]);
-					}.bind(this));
-				}
-				else{
-					this.set('model.'+key, value);
-				}
-			}.bind(this));
+			this.model = model;
 		}
 	});
 })();

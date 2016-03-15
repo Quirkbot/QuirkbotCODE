@@ -1,7 +1,7 @@
 ---
 title: Sonar
 node: sonar
-id: sonar-docs
+object_id: sonar-docs
 ---
 
 Sonar node is for using the Kit backpack to connect to a [Grove Ultrasonic Ranger](http://www.seeedstudio.com/wiki/Grove_-_Ultrasonic_Ranger) from Seeed Studio. The Sonar measures the distance to an object by bouncing ultrasound its surface.

@@ -1,4 +1,4 @@
-{% assign query = (site.pages | where: 'id', page.id) %}
+{% assign query = (site.pages | where: 'object_id', page.object_id) %}
 
 <!DOCTYPE html>
 <html>
@@ -23,14 +23,14 @@
 						{% assign _categories = (site.node_categories | sort: 'index') %}
 						{% for category in _categories %}
 							{% for node in site.nodes %}
-								{% if node.taxonomy.categories contains category.id %}
-									{% assign docs = (site.pages | where: "node", node.id | where: "lang", page.lang | where: "layout", "node_documentation_single" ) %}
+								{% if node.taxonomy.categories contains category.object_id %}
+									{% assign docs = (site.pages | where: "node", node.object_id | where: "lang", page.lang | where: "layout", "node_documentation_single" ) %}
 									{% assign docs = docs.first %}
 										<a href="{{docs.url}}" class="node-reference-image-link">
 											<img
 												class="node-reference-image"
 												alt="{{node.name_t[page.lang]}}"
-												src="{{r_base_url}}/content-assets/documentation/nodes/{{node.id}}.png"/>
+												src="{{r_base_url}}/content-assets/documentation/nodes/{{node.object_id}}.png"/>
 										</a>
 								{% endif %}
 							{% endfor %}

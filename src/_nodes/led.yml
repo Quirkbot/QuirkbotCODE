@@ -1,5 +1,5 @@
 ---
-id: led
+object_id: led
 name_t:
   en: LED
 taxonomy:

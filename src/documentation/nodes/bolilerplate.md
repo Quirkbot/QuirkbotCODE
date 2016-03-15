@@ -1,7 +1,7 @@
 ---
 title: Node name
 node: node-name
-id: node-name-docs
+object_id: node-name-docs
 ---
 
 Usage

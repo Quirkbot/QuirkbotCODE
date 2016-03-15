@@ -1,7 +1,7 @@
 ---
 title: Voltage Output
 node: voltage-output
-id: voltage-output-docs
+object_id: voltage-output-docs
 ---
 
 Node that outputs a voltage between 0 volts and the battery voltage (3.2 - 4.2V). The Node is using Pulse-width modulation and can be used on any place on the Quirkbot.

@@ -1,0 +1,81 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-behavior-syncs-quirkbot-model/qb-behavior-syncs-quirkbot-model.html">
+
+<link rel="import" href="../qb-core-hardware-chrome-app/qb-core-hardware-chrome-app.html">
+
+<dom-module id='qb-core-hardware-interface-singleton'>
+	<template>
+		<qb-core-hardware-chrome-app
+			id="chromeApp"
+			extension-id="[[chromeWebstoreId]]"
+			connected="{{connected}}"
+			model="{{chromeAppModel}}"
+			installing="{{installing}}"
+			installation-error-code="{{installationErrorCode}}">
+		</qb-core-hardware-chrome-app>
+	</template>
+</dom-module>
+<script>
+(function () {
+
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.CoreHardwareInterfaceSingleton = Polymer({
+		is: 'qb-core-hardware-interface-singleton',
+		hostAttributes:{
+			hidden: true
+		},
+		properties: {
+			chromeWebstoreId: String,
+
+			model:{
+				type: Object,
+				value: {quirkbots:[]},
+				notify: true
+			},
+			chromeAppModel: {
+				type: Object,
+				observer:'_chromeAppModelChanged'
+			},
+			avaiable: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			connected: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			installing: {
+				type: Boolean,
+				value: false,
+				notify: true
+			},
+			installationErrorCode: {
+				type: String,
+				notify: true
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior,
+			window.Quirkbot.SyncsQuirkbotModelBehavior
+		],
+		ready: function(){
+			this.avaiable = typeof window.chrome !== 'undefined';
+		},
+		install: function(){
+			return this.$.chromeApp.install();
+		},
+		upload: function( quirkbotUuid, hexString ){
+			return this.$.chromeApp.upload(quirkbotUuid, hexString);
+		},
+		_chromeAppModelChanged: function(chromeAppModel) {
+			this.debounce('forward-model-change', function() {
+				this.model = chromeAppModel;
+			}.bind(this), 5);
+		}
+	});
+})();
+</script>

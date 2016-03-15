@@ -76,7 +76,6 @@
 
 		<qb-core-tree-manager
 			self="{{treeManager}}"
-			compiler-url="{{compilerUrl}}"
 			computed-code="{{computedCode}}"
 			model-controller="{{modelController}}"
 			model="{{model}}"
@@ -90,9 +89,10 @@
 		</qb-ui-account-verification-reminder>
 
 		<qb-ui-quirkbots-area
-			self="{{quirkbotsArea}}"
-			chrome-webstore-id="{{chromeWebstoreId}}"
-			tree-manager="{{treeManager}}">
+			id="quirkbotsArea"
+			chrome-webstore-id="[[chromeWebstoreId]]"
+			compiler-url="[[compilerUrl]]"
+			code="[[computedCode]]">
 		</qb-ui-quirkbots-area>
 
 		<qb-ui-warnings-overlay
@@ -163,8 +163,7 @@
 			nodeDefinitions: Array,
 			constantDefinitions: Array,
 			taxonomyDefinitions: Object,
-			editorMode: String,
-			quirkbotsArea: Object
+			editorMode: String
 		},
 		created: function () {
 			this.listen(document, 'keydown', '_disableBackspaceBackHistory');
@@ -181,7 +180,8 @@
 			});
 		},
 		_onQuirkbotsAreaButtonTap: function(){
-			this.quirkbotsArea.open();
+			this.treeManager.computeCode();
+			this.$.quirkbotsArea.open();
 			this.fire('iron-signal', {
 				name: 'track-event',
 				data: {

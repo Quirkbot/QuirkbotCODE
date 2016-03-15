@@ -1,6 +1,6 @@
 ---
 title: List of Places
-id: list-of-places
+object_id: list-of-places
 ---
 
 # List of places
