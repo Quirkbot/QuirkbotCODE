@@ -106,7 +106,7 @@
 			// an unauthrized domain), so we need to timeout to notify failure
 			var timeout = setTimeout(function () {
 				this._monitorExtensionConnectionTimeoutCount++;
-				if(this.connected && this._monitorExtensionConnectionTimeoutCount > 2){
+				if(this.connected && this._monitorExtensionConnectionTimeoutCount > 5){
 					console.log('Disconnected from extensionId: ' + this.extensionId);
 					this.connected = false;
 					if(this.model.quirkbots.length){

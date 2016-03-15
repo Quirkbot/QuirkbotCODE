@@ -12,6 +12,6 @@
     "node-uuid": "1.4.7",
     "chrome-extension-api": "Quirkbot/ChromeExtensionAPI#b620567794c5d1381725433c20e1cc7dcaf22e40",
     "ace-element": "Quirkbot/ace-element#23238611789f0c41dda7d8b5e74d39ee942e9f39",
-    "moment": "2.11.2"
+    "moment": "2.12.0"
   }
 }
