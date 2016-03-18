@@ -5,15 +5,19 @@ title: Recovery Mode
 ---
 
 # Recovery Mode
-If you are seeing the "No Quirkbots Detected" message when trying to upload code to your Quirkbot, you may need to enable *Recovery Mode*.
+If your Quirkbot has stopped working and is not being detected anymore, you should enable *Recovery Mode*. While on *Recovery Mode*, the Quirkbot should be detectable again, allowing you to upload new code to it.
+
+<p class="google-youtube"><google-youtube video-id="KyipPLAemxo" fluid rel="0"></google-youtube></p>
 
 ## Enabling Recovery Mode
 
-1. Connect your Quirkbot to a working USB port.
-2. Turn your Quirkbot ON.
-3. Using a jumper wire, quickly connect the **Reset Pin** (↺) to the **Right Eye** (Quirkbot's perspective).
-4. The the two **Mouth LEDs** should blink, confirming you have enabled *Recovery Mode*.
-5. Your Quirkbot should now be detectable again, allowing you to upload programs.
+1. Make sure [*Google Chrome* is up to date](https://support.google.com/chrome/answer/95414){:target="_blank"}.
+2. Make sure [*Quirkbot for Chrome* is installed and up to date](https://chrome.google.com/webstore/detail/quirkbot-for-chrome/ackaalhbfjagidmjlhlokoblhbnahegd){:target="_blank"}.
+3. Connect your Quirkbot to a working USB port.
+4. Turn your Quirkbot ON.
+5. Using a jumper wire, quickly connect the **Reset Pin** (↺) to the **Right Eye** (Quirkbot's perspective).
+6. The the two **Mouth LEDs** should blink, confirming you have enabled *Recovery Mode*.
+7. Your Quirkbot should now be detectable again, allowing you to upload programs.
 
 *If your Quirkbot is still not detected even on Recovery Mode, please try to use a different USB cable and a different USB port. If the problem persists, please make bug report on the [forum](http://forurm.quirkbot.com).*
 
