@@ -199,6 +199,7 @@ lang: en
 	"node/connection/name/items" : 		"items",
 	"node/connection/name/place" : 		"place",
 	"node/connection/name/position" : 	"position",
+	"node/connection/name/sensitivity" :"sensitivity",
 	"node/connection/name/speed" : 		"speed",
 	"node/connection/name/direction" : 	"direction",
 	"node/connection/name/duration" : 	"duration",
