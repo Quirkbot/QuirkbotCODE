@@ -14,6 +14,10 @@
 			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
 		</li>
 		<li>
+			{% assign arg1=site.data.nav.recovery-mode %}{% include f_get_page %}
+			<a href="{{r_get_page.url}}">{{r_get_page.title}}</a>
+		</li>
+		<li>
 			<a href="http://forum.quirkbot.com" target="_blank">Quirkbot FORUM</a>
 		</li>
 	</ul>

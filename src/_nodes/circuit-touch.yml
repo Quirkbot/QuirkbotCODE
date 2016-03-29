@@ -33,6 +33,14 @@ inputs:
           id: place-right-leg
           value: RL
   -
+    id: sensitivity
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
     id: min
     default: 0
     validation:
