@@ -84,7 +84,8 @@
 					hidden$="[[!textMode]]"
 					class="editor"
 					self="{{textEditor}}"
-					computed-code="{{computedCode}}">
+					computed-code="[[computedCode]]"
+					text-editor-code="{{textEditorCode}}">
 				</qb-ui-editor-text>
 			</div>
 		</paper-drawer-panel>
@@ -105,6 +106,10 @@
 			},
 			treeManager: Object,
 			computedCode: String,
+			textEditorCode: {
+				type: String,
+				notify: true
+			},
 			nodeDefinitions: Object,
 			constantDefinitions: Object,
 			taxonomyDefinitions: Object,
@@ -135,6 +140,11 @@
 				this.visualMode = false;
 				if(this.treeManager){
 					this.treeManager.computeCode();
+					// A little trick to force the text editor to update
+					// the computed code once we switch from visual to text.
+					var computedCode = this.computedCode;
+					this.computedCode = '';
+					this.computedCode = computedCode;
 				}
 			}
 			else {

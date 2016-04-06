@@ -26,7 +26,7 @@
 			mode="c_cpp"
 			theme="monokai"
 			font-size="14px"
-			readonly="true"
+			on-editor-input="_editorCodeChanged"
 			value="[[computedCode]]"></ace-element>
 	</template>
 </dom-module>
@@ -39,7 +39,16 @@
 			window.Quirkbot.SelfPropertyBehavior
 		],
 		properties: {
-			computedCode: String
+			computedCode: {
+				type: String
+			},
+			textEditorCode: {
+				type: String,
+				notify: true
+			}
+		},
+		_editorCodeChanged: function(event){
+			this.textEditorCode = event.detail.value;
 		}
 
 	});
