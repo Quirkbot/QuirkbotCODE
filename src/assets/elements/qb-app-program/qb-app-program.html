@@ -92,7 +92,7 @@
 			id="quirkbotsArea"
 			chrome-webstore-id="[[chromeWebstoreId]]"
 			compiler-url="[[compilerUrl]]"
-			code="[[computedCode]]">
+			code="[[currentCode]]">
 		</qb-ui-quirkbots-area>
 
 		<qb-ui-warnings-overlay
@@ -121,7 +121,8 @@
 				model="{{model}}"
 				model-controller="{{modelController}}"
 				tree-manager="{{treeManager}}"
-				computed-code="{{computedCode}}"
+				computed-code="[[computedCode]]"
+				text-editor-code="{{textEditorCode}}"
 				node-definitions="{{nodeDefinitions}}"
 				constant-definitions="{{constantDefinitions}}"
 				taxonomy-definitions="{{taxonomyDefinitions}}">
@@ -153,17 +154,31 @@
 			userAppUrl: String,
 			nodesUrl: String,
 			stringsUrl: String,
-
 			modelController: {
 				type: Object
 			},
 			model: Object,
 			processingStatus: String,
+			editorMode: {
+				type: String,
+				observer: '_computeCurrentCode'
+			},
 			treeManager: Object,
+			computedCode: {
+				type: String,
+				observer: '_computeCurrentCode'
+			},
+			textEditorCode: {
+				type: String,
+				observer: '_computeCurrentCode'
+			},
+			currentCode: {
+				type: String
+			},
 			nodeDefinitions: Array,
 			constantDefinitions: Array,
 			taxonomyDefinitions: Object,
-			editorMode: String
+
 		},
 		created: function () {
 			this.listen(document, 'keydown', '_disableBackspaceBackHistory');
@@ -190,6 +205,19 @@
 					label: 'program'
 				}
 			});
+		},
+		_computeCurrentCode: function(){
+			this.debounce('_computeCurrentCode', function() {
+				if(this.editorMode === 'visual'){
+					this.currentCode = this.computedCode;
+					return;
+				}
+				if(this.editorMode === 'text'){
+					this.currentCode = this.textEditorCode;
+					return;
+				}
+			}, 100);
+
 		},
 		_disableBackspaceBackHistory: function (event) {
 			var doPrevent = false;
