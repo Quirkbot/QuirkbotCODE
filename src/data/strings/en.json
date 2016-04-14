@@ -116,7 +116,7 @@ lang: en
 	"ide/quirkbots-area/dialog/warning/no-serial-permission/description" : 	"Copy and paste the script bellow in terminal, and hit enter. You will need the <b>administrator password</b> and after to <b>restart the computer</b>.<br><br><pre>wget -nv http://code.quirkbot.com/downloads/quirkbot-linux-installer.sh -O - | sh</pre>",
 	"ide/quirkbots-area/dialog/warning/no-serial-permission/dismiss" : 		"Cancel",
 
-	"ide/quirkbots-area/dialog/warning/windows-drivers/description" :	"Have you installed the drivers?<br><a href='http://code.quirkbot.com/downloads/quirkbot-windows-drivers.exe' target='blank'>Download Windows drivers</a>",
+	"ide/quirkbots-area/dialog/warning/windows-drivers/description" :	"Have you installed the drivers?<br><a href='http://code.quirkbot.com/downloads/quirkbot-windows-drivers-latest.exe' target='blank'>Download Windows drivers</a>",
 
 	"ide/quirkbots-area/dialog/dismiss":	"Cancel",
 	"ide/quirkbots-area/dialog/confirm":	"OK",
