@@ -92,7 +92,7 @@
 			id="quirkbotsArea"
 			chrome-webstore-id="[[chromeWebstoreId]]"
 			compiler-url="[[compilerUrl]]"
-			code="[[computedCode]]">
+			code="[[currentCode]]">
 		</qb-ui-quirkbots-area>
 
 		<qb-ui-warnings-overlay
@@ -173,16 +173,12 @@
 				observer: '_computeCurrentCode'
 			},
 			currentCode: {
-				type: String,
-				observer: '_onCurrentCodeChanged'
+				type: String
 			},
 			nodeDefinitions: Array,
 			constantDefinitions: Array,
 			taxonomyDefinitions: Object,
 
-		},
-		_onCurrentCodeChanged: function(){
-			//console.log('_onCurrentCodeChanged', arguments[0])
 		},
 		created: function () {
 			this.listen(document, 'keydown', '_disableBackspaceBackHistory');
