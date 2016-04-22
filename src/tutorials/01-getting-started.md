@@ -46,7 +46,7 @@ First thing to do is to switch on the Quirkbot! The most important thing to thin
 
 Quirkbot makes it easy to make Strawbees move. A great way to get started is to just start building!
 
-To first get started with Strawbees there is a [great guide](http://www.strawbees.com/wp-content/uploads/2015/11/booklet_a4_small.pdf) that you also can download. Only tools needed is a pair of scissors to cut the straws.
+To first get started with Strawbees, check their [website](http://strawbees.com) for instructions. The only tools needed is a pair of scissors to cut the straws.
 
 To make Strawbees move you don't have to program anything right now. Just switch on the Quirkbot, Plug in the motor and use the program that comes preloaded. This is how the factory preset program works:
 

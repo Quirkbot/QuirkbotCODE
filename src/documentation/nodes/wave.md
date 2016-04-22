@@ -46,16 +46,6 @@ The Wave node outputs a continuous Wave that oscillates (swings back and forth).
 
 </div>
 
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-    - Description of example code.
-
-</div>
-
-
 ## Comment
 You can put a Wave into a Wave by connecting the output of one wave to the length input. This is called modulation and can create some very interesting results.
 

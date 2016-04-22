@@ -38,16 +38,6 @@ Node that is a self calibrating version of the {% assign arg1='light-sensor-docs
 </div>
 
 
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-    - Description of example code.
-
-</div>
-
-
 ## Hardware
 
 Light Sensor

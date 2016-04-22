@@ -36,15 +36,6 @@ Node to send out a Random number at a given interval.
 
 </div>
 
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-    - Description of example code.
-
-</div>
-
 ## Comment
 This is a pseudo random number generator, meaning that it is not truly random, but creates it's numbers with an algorithm that appears to send random numbers. It's using this algorithm: *coming soon*
 

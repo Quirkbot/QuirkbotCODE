@@ -23,16 +23,6 @@ Node for using continuously rotating servo motors. These types of motors, someti
 - *place*
 	- Values: `SERVO_BP1`, `SERVO_BP2`
 	- Choose where the Servo is connected.
-	
-</div>
-
-
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-	- Description of example code.
 
 </div>
 
