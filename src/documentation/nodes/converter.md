@@ -45,15 +45,6 @@ Node to convert a stream of numbers from one range to another range. This Node c
 	- The converted stream of numbers.
 </div>
 
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-	- Description of example code.
-
-</div>
-
 ## Comment
 The math formula for the converter is *coming soon*
 

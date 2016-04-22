@@ -38,15 +38,6 @@ Node that turns the Arms, Legs or Horn into a circular touch sensor. It detects 
 </div>
 
 
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-	- Description of example code.
-
-</div>
-
 ## Hardware
 Crocodile Clips
 

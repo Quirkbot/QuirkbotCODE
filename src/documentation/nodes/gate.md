@@ -4,7 +4,7 @@ node: gate
 object_id: gate-docs
 ---
 
-The Gate is a Node used to turn on and off a stream of numbers. It's inserted between two other Nodes to stop or allow data to go from one to the other. 
+The Gate is a Node used to turn on and off a stream of numbers. It's inserted between two other Nodes to stop or allow data to go from one to the other.
 
 ## Connections
 
@@ -30,15 +30,6 @@ The Gate is a Node used to turn on and off a stream of numbers. It's inserted be
 - *out*
 	- Range: *any type of data*
 	- Any data from <span class='node-input'>in</span> when the gate is open.
-
-</div>
-
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-	- Description of example code.
 
 </div>
 

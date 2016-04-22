@@ -23,17 +23,6 @@ Node to control Servo Motors through the Servo Motor Backpack, or any Backpack w
 
 </div>
 
-
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-    - Description of example code.
-
-</div>
-
-
 ## Hardware
 Servo Motor
 Servo Motor Backpack

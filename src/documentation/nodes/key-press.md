@@ -23,15 +23,6 @@ Node that makes the Quirkbot acting like an external keyboard when connected to 
 </div>
 
 
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-    - Description of example code.
-
-</div>
-
 ## Comment
 Comment
 

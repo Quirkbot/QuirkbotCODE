@@ -46,15 +46,6 @@ The list output, like most nodes has a non repeat behavior meaning that the valu
 
 </div>
 
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-    - Description of example code.
-
-</div>
-
 ## Comment
 The List can be controlled from a variety of nodes, and can be used quite creatively to solve many different situations.
 

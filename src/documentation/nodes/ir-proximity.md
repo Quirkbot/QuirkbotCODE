@@ -28,16 +28,7 @@ Node to use with the DIY IR Proximity Backpack. The IR Proximity detects amount 
 
 - *out*
     - Range: <span class='node-input'>min</span> - <span class='node-input'>max</span>
-    - The amount of reflected IR Light in a range between <span class='node-input'>min</span> and <span class='node-input'>max</span> values. Non repeating, meaning it only sends numbers when something changes. 
-
-</div>
-
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-    - Description of example code.
+    - The amount of reflected IR Light in a range between <span class='node-input'>min</span> and <span class='node-input'>max</span> values. Non repeating, meaning it only sends numbers when something changes.
 
 </div>
 

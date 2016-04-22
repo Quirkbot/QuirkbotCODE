@@ -40,15 +40,6 @@ Sonar node is for using the Kit backpack to connect to a [Grove Ultrasonic Range
 
 </div>
 
-## Example CODE
-
-<div class="node-example-programs" markdown="block">
-
-- [Example Code](http://code.quirkbot.com/program/XXXXXXXXXXXXXXXX "Go to Quirkbot CODE")
-    - Description of example code.
-
-</div>
-
 ## Hardware
 DYI Kit Backpack
 [Grove Ultrasonic Ranger](http://www.seeedstudio.com/wiki/Grove_-_Ultrasonic_Ranger)
