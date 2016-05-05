@@ -22,11 +22,11 @@
 		},
 		compile: function(code){
 			return new Promise(function(resolve, reject){
-
-				if(code === this._code){
+				if(code === this._code && this._hex){
 					return resolve(this._hex);
 				}
 				this._code = code;
+				delete this._hex;
 
 				this._enterCompilationQueue(code)
 				.then(this._verifyCompilation.bind(this))
