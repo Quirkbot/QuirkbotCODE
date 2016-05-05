@@ -75,10 +75,14 @@
 				var tryToVerify = function () {
 					this._verifySingleCompilation(id)
 					.then(resolve)
-					.catch(function() {
+					.catch(function(error) {
+						// If it is a compilation error, reject early
+						if(error === 'COMPILATION_ERROR'){
+							return reject(error);
+						}
 						count++;
 						if(count === max){
-							reject.apply(this, arguments);
+							reject(error);
 						}
 						else{
 							tryToVerify();
@@ -95,9 +99,21 @@
 					var onResponse = function(event){
 						clearTimeout(timer);
 						this.$.loader.removeEventListener('response', onResponse);
-						if(!event || !event.detail || !event.detail.response || !event.detail.response.hex){
+						if(!event || !event.detail || !event.detail.response){
 							return reject('BAD_RESPONSE');
 						}
+						if(event.detail.response.pending){
+							return reject('PENDING');
+						}
+						if(!event.detail.response.pending){
+							if(event.detail.response.error){
+								return reject('COMPILATION_ERROR');
+							}
+							if(!event.detail.response.hex){
+								return reject('NO_HEX');
+							}
+						}
+
 						resolve(event.detail.response.hex);
 					}.bind(this);
 					var onError = function(){
