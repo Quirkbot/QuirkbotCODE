@@ -564,13 +564,27 @@
 				}.bind(this));
 
 			}.bind(this))
-			.catch(function(){
-				console.error(arguments);
+			.catch(function(error){
+				console.error(error);
 				setTimeout(function(){
 					this.uploadCompleted = true;
 					this.uploadSucceeded = false;
-					this.uploadErrorKey = 'ide/quirkbots-area/dialog/quirkbots/upload-fail/compiler-description';
 					this.uploadProgress = 0;
+					this.uploadErrorKey = 'ide/quirkbots-area/dialog/quirkbots/upload-fail/';
+					switch (error) {
+						case 'COMPILATION_ERROR':
+							this.uploadErrorKey += 'compilation-error';
+							break;
+						case 'ROM_MAX':
+						case 'RAM_MAX':
+							this.uploadErrorKey += 'memory-overflow';
+							break;
+						case 'BAD_RESPONSE':
+							this.uploadErrorKey += 'bad-response';
+							break;
+						default:
+							this.uploadErrorKey += 'connection-error';
+					}
 					this.$.dialog.notifyResize();
 				}.bind(this), 1500);
 				try {
