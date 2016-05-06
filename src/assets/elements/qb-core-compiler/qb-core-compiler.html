@@ -77,7 +77,7 @@
 					.then(resolve)
 					.catch(function(error) {
 						// If it is a compilation error, reject early
-						if(error === 'COMPILATION_ERROR'){
+						if(error === 'COMPILATION_ERROR' || error === 'ROM_MAX' || error === 'RAM_MAX'  ){
 							return reject(error);
 						}
 						count++;
@@ -107,7 +107,11 @@
 						}
 						if(!event.detail.response.pending){
 							if(event.detail.response.error){
-								return reject('COMPILATION_ERROR');
+								var error = event.detail.response.error;
+								if(error !== 'ROM_MAX' && error !== 'RAM_MAX' ){
+									error = 'COMPILATION_ERROR';
+								}
+								return reject(error);
 							}
 							if(!event.detail.response.hex){
 								return reject('NO_HEX');

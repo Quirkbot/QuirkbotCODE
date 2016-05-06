@@ -89,7 +89,10 @@ lang: en
 	"ide/quirkbots-area/dialog/quirkbots/upload-success/confirm" : 		"Close",
 
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/header" :				"Upload failed :(",
-	"ide/quirkbots-area/dialog/quirkbots/upload-fail/compiler-description" :"Ops... there seems to have a problem with your internet connection.",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/connection-error" :	"Ops... there seems to have a problem with the internet connection.",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/bad-response" :		"We are having problems connecting to the server. Please try again.",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/compilation-error" :	"Ops... There seems to be an error on your code, please revise it and try again.",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/memory-overflow" :		"Whoa there cowboy! Your program is too big to fit on the Quirkbot's memory! Try removing some nodes. ",
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/uploader-description" :"Weird... something went wrong. Please try again.",
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/dismiss" : 			"Cancel",
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/retry" : 				"Retry",
