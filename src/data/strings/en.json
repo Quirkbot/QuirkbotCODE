@@ -93,7 +93,7 @@ lang: en
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/bad-response" :		"We are having problems connecting to the server. Please try again.",
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/compilation-error" :	"Ops... There seems to be an error on your code, please revise it and try again.",
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/memory-overflow" :		"Whoa there cowboy! Your program is too big to fit on the Quirkbot's memory! Try removing some nodes. ",
-	"ide/quirkbots-area/dialog/quirkbots/upload-fail/uploader-description" :"Weird... something went wrong. Please try again.",
+	"ide/quirkbots-area/dialog/quirkbots/upload-fail/uploader-description" :"Weird... something went wrong.<br><br>If the problem persists, try enabling {% assign arg1='recovery-mode'%}{% assign arg2='_blank'%}{% include f_print_page_link %}.",
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/dismiss" : 			"Cancel",
 	"ide/quirkbots-area/dialog/quirkbots/upload-fail/retry" : 				"Retry",
 

@@ -5,12 +5,13 @@ production:
     ga_code: UA-50042401-3
 stage:
     root: http://code-stage.quirkbot.com/
-    compiler: https://quirkbot-compiler-stage.herokuapp.com/
-    #api: http://ec2contai-ecselast-1aa8efo9kdp65-1013516278.us-east-1.elb.amazonaws.com/
+    #compiler: https://quirkbot-compiler-stage.herokuapp.com/
+    compiler: http://quirkbot-compiler-web-stage.us-east-1.elasticbeanstalk.com/
     api: http://api-production-1079277390.us-east-1.elb.amazonaws.com/
     ga_code: UX-XXXXXXX-X
 development:
     root: http://ide-local.quirkbot.com:4000/
-    compiler: http://localhost:8080/
+    #compiler: http://localhost:8080/
+    compiler: http://quirkbot-compiler-web-stage.us-east-1.elasticbeanstalk.com/
     api: http://api-production-1079277390.us-east-1.elb.amazonaws.com/
     ga_code: UX-XXXXXXX-X
