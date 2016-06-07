@@ -562,13 +562,14 @@
 		_loadLocally : function(){
 			var promise = function (resolve, reject) {
 				var raw = window.localStorage.getItem('qb_' + this.programId);
+				var rejectMessage;
 				if( raw !== null){
 					try {
 						var model = JSON.parse(raw);
 						this._replaceModel(this._rawDataToModel(model));
 						resolve();
 					} catch(e) {
-						var rejectMessage = {
+						rejectMessage = {
 							element: 'qb-core-model-controller',
 							method: '_loadLocally',
 							message: 'Could not parse stored data to JSON.',
@@ -579,7 +580,7 @@
 					}
 				}
 				else{
-					var rejectMessage = {
+					rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: '_loadLocally',
 						message: 'Localstorage for this id is empty'

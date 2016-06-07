@@ -194,7 +194,13 @@
 		},
 		_request: function (ajax) {
 			return new Promise(function(resolve, reject) {
-				var request = ajax.generateRequest();
+				var request, timer;
+
+				timer = setTimeout(function(){
+					request.abort();
+				}.bind(this), 15000);
+
+				request = ajax.generateRequest();
 				request.completes
 				.then(function(e){
 					clearTimeout(timer);
@@ -236,10 +242,6 @@
 					}
 					reject(response);
 				}.bind(this));
-
-				var timer = setTimeout(function(){
-					request.abort();
-				}.bind(this), 15000);
 
 			}.bind(this));
 		},

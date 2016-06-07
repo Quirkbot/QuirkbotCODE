@@ -40,6 +40,12 @@
 		},
 		_enterCompilationQueue: function(code){
 			return new Promise(function(resolve, reject){
+				var request, timer;
+
+				timer = setTimeout(function(){
+					request.abort();
+				}.bind(this), 15000);
+
 				var onResponse = function(event){
 					clearTimeout(timer);
 					this.$.loader.removeEventListener('response', onResponse);
@@ -60,10 +66,7 @@
 				this.$.loader.addEventListener('response', onResponse);
 				this.$.loader.addEventListener('error', onError);
 				this.$.loader.url = url + '/' + window.encodeURIComponent(code);
-				var request = this.$.loader.generateRequest();
-				var timer = setTimeout(function(){
-					request.abort();
-				}.bind(this), 10000);
+				request = this.$.loader.generateRequest();
 
 			}.bind(this));
 		},
@@ -96,6 +99,10 @@
 			return new Promise(function(resolve, reject){
 				// Wait a bit before requesting
 				setTimeout(function() {
+					var timer, request;
+					timer = setTimeout(function(){
+						request.abort();
+					}.bind(this), 10000);
 					var onResponse = function(event){
 						clearTimeout(timer);
 						this.$.loader.removeEventListener('response', onResponse);
@@ -132,8 +139,8 @@
 					this.$.loader.addEventListener('response', onResponse);
 					this.$.loader.addEventListener('error', onError);
 					this.$.loader.url = url + '/i' + id;
-					var request = this.$.loader.generateRequest();
-					var timer = setTimeout(function(){
+					request = this.$.loader.generateRequest();
+					timer = setTimeout(function(){
 						request.abort();
 					}.bind(this), 10000);
 				}.bind(this), 3700);
