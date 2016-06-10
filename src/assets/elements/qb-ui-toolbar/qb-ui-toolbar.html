@@ -93,7 +93,7 @@
 				<qb-ui-input-text
 					class="name"
 					value="{{model.name}}"
-					 hidden$="[[!user.id]]">
+					disabled$="[[!user.id]]">
 				</qb-ui-input-text>
 
 				<div hidden$="[[!user.id]]">
@@ -218,7 +218,7 @@
 		_windowTitleChanged: function (name) {
 			window.document.title = name;
 		},
-		_computeHideAddToProfile:function( author, userId){
+		_computeHideAddToProfile:function(author, userId){
 			if(userId && author !== userId){
 				this._hideAddToProfile = false;
 				return;
