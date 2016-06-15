@@ -62,6 +62,9 @@
 				color: var(--qb-pink);
 				padding-left: 2.6em;
 			}
+			:host .main-button.no-icon{
+				padding-left: 0.75em;
+			}
 			:host .main-button iron-icon{
 				color: var(--qb-black);
 				position: absolute;
@@ -79,6 +82,7 @@
 				max-width: 100px;
 				overflow: hidden;
 			}
+
 
 		</style>
 
@@ -140,7 +144,17 @@
 			if="[[!user.nickname]]">
 			<a href="[[registerAppUrl]]">
 				<paper-button
-					class="button main-button dropdown-trigger">
+					class="button main-button no-icon dropdown-trigger">
+					<div class="label">
+						<qb-core-i18n
+							key="ide/avatar/register">
+						</qb-core-i18n>
+					</div>
+				</paper-button>
+			</a>
+			<a href="[[registerAppUrl]]">
+				<paper-button
+					class="button main-button blue dropdown-trigger">
 					<iron-icon
 						icon="[[resolveIconName('login', 'qb-icons')]]">
 					</iron-icon><div class="label">
@@ -150,6 +164,7 @@
 					</div>
 				</paper-button>
 			</a>
+
 		</template>
 
 

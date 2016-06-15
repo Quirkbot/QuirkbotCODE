@@ -101,121 +101,101 @@
 			</div>
 
 			<div class="content">
+				
+				<qb-ui-account-verification-reminder
+					user="[[user]]"
+					auth="[[auth]]">
+				</qb-ui-account-verification-reminder>
+
 				<template
 					is="dom-if"
-					if="[[_notAuthenticated]]">
+					if="[[_userNotFound]]">
 					<div class="user-header">
 						<iron-icon
 							class="icon"
-							icon="[[resolveIconName('denied', 'qb-icons')]]">
+							icon="[[resolveIconName('question-mark', 'qb-icons')]]">
 						</iron-icon>
 						<span class="label"><qb-core-i18n
-							key="ide/user/forbidden/title"></span>
+							key="ide/user/not-found/title"></span>
 					</div>
 					<div class="description">
 						<qb-core-i18n
-							key="ide/user/forbidden/description"></qb-core-i18n>
+							key="ide/user/not-found/description"></qb-core-i18n>
 					</div>
 				</template>
+
 				<template
 					is="dom-if"
-					if="[[!_notAuthenticated]]">
+					if="[[!_userNotFound]]">
 
-					<qb-ui-account-verification-reminder
-						user="[[user]]"
-						auth="[[auth]]">
-					</qb-ui-account-verification-reminder>
-
-					<template
-						is="dom-if"
-						if="[[_userNotFound]]">
-						<div class="user-header">
-							<iron-icon
-								class="icon"
-								icon="[[resolveIconName('question-mark', 'qb-icons')]]">
-							</iron-icon>
-							<span class="label"><qb-core-i18n
-								key="ide/user/not-found/title"></span>
-						</div>
-						<div class="description">
-							<qb-core-i18n
-								key="ide/user/not-found/description"></qb-core-i18n>
-						</div>
-					</template>
-
-					<template
-						is="dom-if"
-						if="[[!_userNotFound]]">
-
-						<div class="user-header">
-							<iron-icon
-								class="icon"
-								icon="[[resolveIconName('user', 'qb-icons')]]">
-							</iron-icon>
-							<span class="label">[[_userModel.nickname]]</span>
-						</div>
+					<div class="user-header">
+						<iron-icon
+							class="icon"
+							icon="[[resolveIconName('user', 'qb-icons')]]">
+						</iron-icon>
+						<span class="label">[[_userModel.nickname]]</span>
+					</div>
 
 
-						<div class="description">
-							<template
-								is="dom-if"
-								if="[[_ownsProfile]]">
-								<a href="[[programAppUrl]]">
-									<paper-button
-										class="new-program-button">
-										<iron-icon
-											class="icon"
-											icon="[[resolveIconName('add', 'qb-icons')]]">
-										</iron-icon>
-										<qb-core-i18n
-											key="ide/user/programs/create-new"></qb-core-i18n>
-									</paper-button>
-								</a>
-								<qb-core-i18n
-									class="inspiration-notice"
-									key="ide/user/programs/inspiration"></qb-core-i18n>
-							</template>
-
-							<template
-								is="dom-if"
-								if="[[!_ownsProfile]]">
-								<template
-									is="dom-if"
-									if="[[!_programsModel.length]]">
+					<div class="description">
+						<template
+							is="dom-if"
+							if="[[_ownsProfile]]">
+							<a href="[[programAppUrl]]">
+								<paper-button
+									class="new-program-button">
+									<iron-icon
+										class="icon"
+										icon="[[resolveIconName('add', 'qb-icons')]]">
+									</iron-icon>
 									<qb-core-i18n
-										key="ide/user/programs/empty"></qb-core-i18n>
-								</template>
-							</template>
+										key="ide/user/programs/create-new"></qb-core-i18n>
+								</paper-button>
+							</a>
+							<qb-core-i18n
+								class="inspiration-notice"
+								key="ide/user/programs/inspiration"></qb-core-i18n>
+						</template>
 
-						</div>
-
-
-						<div class="programs">
-							<template
-								is="dom-repeat"
-								items="[[_programsModel]]"
-								sort="_sortProgramsByUpdateTime">
-								<qb-ui-profile-program-item
-									delete-button="[[_ownsProfile]]"
-									program-app-url="[[programAppUrl]]"
-									program="[[item]]"
-									on-delete="_onProgramDelete">
-								</qb-ui-profile-program-item>
-							</template>
+						<template
+							is="dom-if"
+							if="[[!_ownsProfile]]">
 							<template
 								is="dom-if"
-								if="[[_loadingPrograms]]">
-								<div
-									class="loading-indicator fit horizontal layout center center-justified">
-									<qb-ui-status-indicator
-										state="pending">
-									</qb-ui-status-indicator>
-								</div>
+								if="[[!_programsModel.length]]">
+								<qb-core-i18n
+									key="ide/user/programs/empty"></qb-core-i18n>
 							</template>
-						</div>
+						</template>
 
-					</template>
+					</div>
+
+
+					<div class="programs">
+						<template
+							is="dom-repeat"
+							items="[[_programsModel]]"
+							sort="_sortProgramsByUpdateTime">
+							<qb-ui-profile-program-item
+								delete-button="[[_ownsProfile]]"
+								program-app-url="[[programAppUrl]]"
+								program="[[item]]"
+								on-delete="_onProgramDelete">
+							</qb-ui-profile-program-item>
+						</template>
+						<template
+							is="dom-if"
+							if="[[_loadingPrograms]]">
+							<div
+								class="loading-indicator fit horizontal layout center center-justified">
+								<qb-ui-status-indicator
+									state="pending">
+								</qb-ui-status-indicator>
+							</div>
+						</template>
+					</div>
 				</template>
+
 			</div>
 			<div class="footer">
 				<content select=".footer"></content>

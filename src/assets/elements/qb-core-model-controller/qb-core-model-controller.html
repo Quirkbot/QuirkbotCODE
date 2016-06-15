@@ -155,8 +155,8 @@
 
 
 				// Check if there is a user
-				this._guaranteeUserExists()
-				.then(function(){
+				//this._guaranteeUserExists()
+				//.then(function(){
 					// User is logged in
 					if(!programId){
 						// No program ID
@@ -206,19 +206,19 @@
 						this.fire('setupError', type);
 						reject(rejectMessage);
 					}.bind(this));
-				}.bind(this))
-				.catch(function(){
-					// No user
-					var rejectMessage = {
-						element: 'qb-core-model-controller',
-						method: 'setup',
-						message: 'There is no user..',
-						payload: arguments
-					};
-					this._log('error', rejectMessage);
-					this.fire('setupError', 'no-user');
-					reject(rejectMessage);
-				}.bind(this));
+				// }.bind(this))
+				// .catch(function(){
+				// 	// No user
+				// 	var rejectMessage = {
+				// 		element: 'qb-core-model-controller',
+				// 		method: 'setup',
+				// 		message: 'There is no user..',
+				// 		payload: arguments
+				// 	};
+				// 	this._log('error', rejectMessage);
+				// 	this.fire('setupError', 'no-user');
+				// 	reject(rejectMessage);
+				// }.bind(this));
 			}.bind(this);
 			return new Promise(promise);
 		},
@@ -562,13 +562,14 @@
 		_loadLocally : function(){
 			var promise = function (resolve, reject) {
 				var raw = window.localStorage.getItem('qb_' + this.programId);
+				var rejectMessage;
 				if( raw !== null){
 					try {
 						var model = JSON.parse(raw);
 						this._replaceModel(this._rawDataToModel(model));
 						resolve();
 					} catch(e) {
-						var rejectMessage = {
+						rejectMessage = {
 							element: 'qb-core-model-controller',
 							method: '_loadLocally',
 							message: 'Could not parse stored data to JSON.',
@@ -579,7 +580,7 @@
 					}
 				}
 				else{
-					var rejectMessage = {
+					rejectMessage = {
 						element: 'qb-core-model-controller',
 						method: '_loadLocally',
 						message: 'Localstorage for this id is empty'

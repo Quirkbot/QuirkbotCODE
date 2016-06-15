@@ -205,13 +205,23 @@ gulp.task('gzip-compression', ['gzip-clone'], function () {
 gulp.task('s3', ['build:gzip'], function () {
 	var aws = JSON.parse(fs.readFileSync('./aws-config/'+argv.environment+'.json'));
 
-	var cacheControl = 'max-age=4320000, no-transform, public';
+	var longCacheControl = 'max-age=604800, public, no-transform';
+	var quickCacheControl = 'max-age=120, public, no-transform';
 
 	return merge (
-		gulp.src([ DEST_GZIP + '/**/*.html' ])
+		gulp.src([ DEST_GZIP + '/**/index.html' ])
 		.pipe($.s3(aws, {
 			headers: {
-				'Cache-Control': cacheControl,
+				'Cache-Control': quickCacheControl,
+				'content-encoding': 'gzip',
+				'content-type': 'text/html'
+			}
+		})),
+
+		gulp.src([ DEST_GZIP + '/**/*.html', '!' + DEST_GZIP + '/**/index.html' ])
+		.pipe($.s3(aws, {
+			headers: {
+				'Cache-Control': longCacheControl,
 				'content-encoding': 'gzip',
 				'content-type': 'text/html'
 			}
@@ -220,7 +230,7 @@ gulp.task('s3', ['build:gzip'], function () {
 		gulp.src([ DEST_GZIP + '/**/*.js' ])
 		.pipe($.s3(aws, {
 			headers: {
-				'Cache-Control': cacheControl,
+				'Cache-Control': longCacheControl,
 				'content-encoding': 'gzip',
 				'content-type': 'application/javascript'
 			}
@@ -229,7 +239,7 @@ gulp.task('s3', ['build:gzip'], function () {
 		gulp.src([ DEST_GZIP + '/**/*.css' ])
 		.pipe($.s3(aws, {
 			headers: {
-				'Cache-Control': cacheControl,
+				'Cache-Control': longCacheControl,
 				'content-encoding': 'gzip',
 				'content-type': 'text/css'
 			}
@@ -238,7 +248,7 @@ gulp.task('s3', ['build:gzip'], function () {
 		gulp.src([ DEST_GZIP + '/**/*.json' ])
 		.pipe($.s3(aws, {
 			headers: {
-				'Cache-Control': cacheControl,
+				'Cache-Control': longCacheControl,
 				'content-encoding': 'gzip',
 				'content-type': 'application/json'
 			}
@@ -247,7 +257,7 @@ gulp.task('s3', ['build:gzip'], function () {
 		gulp.src([ DEST_GZIP + '/**/*.svg' ])
 		.pipe($.s3(aws, {
 			headers: {
-				'Cache-Control': cacheControl,
+				'Cache-Control': longCacheControl,
 				'content-encoding': 'gzip',
 				'content-type': 'image/svg+xml'
 			}
@@ -256,7 +266,7 @@ gulp.task('s3', ['build:gzip'], function () {
 		gulp.src([ DEST_GZIP + '/**/*.woff2' ])
 		.pipe($.s3(aws, {
 			headers: {
-				'Cache-Control': cacheControl,
+				'Cache-Control': longCacheControl,
 				'content-encoding': 'gzip',
 				'content-type': 'application/font-woff2'
 			}
@@ -274,7 +284,7 @@ gulp.task('s3', ['build:gzip'], function () {
 		])
 		.pipe($.s3(aws, {
 			headers: {
-				'Cache-Control': cacheControl
+				'Cache-Control': longCacheControl
 			}
 		}))
 	)

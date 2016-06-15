@@ -2,6 +2,7 @@
 layout: null
 lang: en
 ---
+{% include f_external_services %}
 {
 	"locale/name" : "English",
 
@@ -15,7 +16,7 @@ lang: en
 	"ide/account-verification/reminder/more-info": "More information",
 	"ide/account-verification/dialog/header": "Account verification",
 	"ide/account-verification/dialog/title": "Please click on the link we sent to:",
-	"ide/account-verification/dialog/description": "Only verified accounts can save and browse CODE.<br><br><b>Can't find the verification message?</b><br><ul><li>Wait for ten minutes. The message may take a while to arrive.</li><li>Check your spam folder.<li>Still can't find it? Resend the verification.</li></ul>",
+	"ide/account-verification/dialog/description": "<b>Can't find the verification message?</b><br><ul><li>Wait for ten minutes. The message may take a while to arrive.</li><li>Check your spam folder.<li>Still can't find it? Resend the verification.</li></ul>",
 	"ide/account-verification/dialog/cancel": "Close",
 	"ide/account-verification/dialog/continue": "Resend verification",
 	"ide/account-verification/page/title": "Account verification",
@@ -43,7 +44,8 @@ lang: en
 	"ide/factory-reset/page/call-to-action": "Upload factory program",
 
 	"AVATAR -------------------------------------------------------------" : "",
-	"ide/avatar/login": "Login",
+	"ide/avatar/login": "Log in",
+	"ide/avatar/register": "Join Quirkbot",
 	"ide/avatar/logout": "Logout",
 	"ide/avatar/profile": "Go to profile",
 	"ide/avatar/new-program": "Create new CODE",
@@ -108,7 +110,7 @@ lang: en
 	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/confirm" : 				"Install",
 	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/unhanlded" : 		"There was an error installing, please try again",
 	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/user-cancelled" : "<b>Installation failed, please try again.</b><br>Click on the <i>Add app</i> button when the installation dialog appears.",
-	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/webstore" : 		"It seems that you can't access the Chrome Web Store. This could be a problem with your internet connection, or you could be in a country where Google's servers are blocked.<br><br>If you know Google is blocked, please follow <a href='https://github.com/Quirkbot/QuirkbotChromeExtension/releases' target='_blank'>this guide</a> to install the app manually.<br><br>If the problem may be on your internet connection, please try again when you are online.",
+	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/webstore" : 		"It seems that you can't access the Chrome Web Store. This could be a problem with your internet connection, or you could be in a country where Google's servers are blocked.<br><br>If you know Google is blocked, please <a href='{{r_external_services_downloads_url}}quirkbot-chrome-app-latest.zip' target='_blank'>download the app</a> and follow the <a href='https://developer.chrome.com/extensions/getstarted#unpacked' target='_blank'>guide to install it manually</a>.<br><br>If the problem may be on your internet connection, please try again when you are online.",
 	"ide/quirkbots-area/dialog/warning/no-browser-dependencies/error/webstore/manual-installation/" : "Install manually",
 
 	"ide/quirkbots-area/dialog/warning/no-quirkbots/header" :		"No Quirkbots detected",
@@ -116,10 +118,10 @@ lang: en
 	"ide/quirkbots-area/dialog/warning/no-quirkbots/dismiss" : 		"Cancel",
 
 	"ide/quirkbots-area/dialog/warning/no-serial-permission/header" :		"Update Linux settings",
-	"ide/quirkbots-area/dialog/warning/no-serial-permission/description" : 	"Copy and paste the script bellow in terminal, and hit enter. You will need the <b>administrator password</b> and after to <b>restart the computer</b>.<br><br><pre>wget -nv http://code.quirkbot.com/downloads/quirkbot-linux-installer.sh -O - | sh</pre>",
+	"ide/quirkbots-area/dialog/warning/no-serial-permission/description" : 	"Copy and paste the script bellow in terminal, and hit enter. You will need the <b>administrator password</b> and after to <b>restart the computer</b>.<br><br><pre>wget -nv {{r_external_services_downloads_url}}quirkbot-linux-installer-latest.sh -O - | sh</pre>",
 	"ide/quirkbots-area/dialog/warning/no-serial-permission/dismiss" : 		"Cancel",
 
-	"ide/quirkbots-area/dialog/warning/windows-drivers/description" :	"Have you installed the drivers?<br><a href='http://code.quirkbot.com/downloads/quirkbot-windows-drivers-latest.exe' target='blank'>Download Windows drivers</a>",
+	"ide/quirkbots-area/dialog/warning/windows-drivers/description" :	"Have you installed the drivers?<br><a href='{{r_external_services_downloads_url}}quirkbot-windows-drivers-latest.exe' target='blank'>Download Windows drivers</a>",
 
 	"ide/quirkbots-area/dialog/dismiss":	"Cancel",
 	"ide/quirkbots-area/dialog/confirm":	"OK",
@@ -135,18 +137,18 @@ lang: en
 	"ide/warnings/setup/not-found/description": "The CODE you are trying to access doesn't exist.",
 	"ide/warnings/setup/not-found/continue": "Create new CODE",
 
-	"ide/warnings/setup/no-user/title": "Restricted access",
+	"ide/warnings/setup/no-user/title": "Limited access",
 	"ide/warnings/setup/no-user/header": "You are not logged in",
-	"ide/warnings/setup/no-user/description": "You can continue as a guest, but you won't be able to open or save any CODE.",
+	"ide/warnings/setup/no-user/description": "You can continue as a guest, but you won't be able to save any CODE.",
 	"ide/warnings/setup/no-user/cancel": "Continue as guest",
-	"ide/warnings/setup/no-user/continue": "Login",
+	"ide/warnings/setup/no-user/continue": "Log in",
 	"ide/warnings/setup/no-user/continue/link": "/",
 
 	"ide/warnings/setup/forbidden/title": "Can't load CODE",
 	"ide/warnings/setup/forbidden/header": "Access denied",
-	"ide/warnings/setup/forbidden/description": "Your login has expired, please login again before continuing.",
+	"ide/warnings/setup/forbidden/description": "Your session has expired, please log in again before continuing.",
 	"ide/warnings/setup/forbidden/cancel": "Cancel",
-	"ide/warnings/setup/forbidden/continue": "Login",
+	"ide/warnings/setup/forbidden/continue": "Log in",
 	"ide/warnings/setup/forbidden/continue/link": "/",
 
 	"ide/warnings/sync/offline/title": "Can't sync CODE",
@@ -161,9 +163,9 @@ lang: en
 
 	"ide/warnings/sync/AUTH_GRANT/title": "Can't sync CODE",
 	"ide/warnings/sync/AUTH_GRANT/header": "Access denied",
-	"ide/warnings/sync/AUTH_GRANT/description": "Your login has expired, please login again before continuing.",
+	"ide/warnings/sync/AUTH_GRANT/description": "Your session has expired, please log in again before continuing.",
 	"ide/warnings/sync/AUTH_GRANT/cancel": "Close",
-	"ide/warnings/sync/AUTH_GRANT/continue": "Login",
+	"ide/warnings/sync/AUTH_GRANT/continue": "Log in",
 	"ide/warnings/sync/AUTH_GRANT/continue/link": "/",
 
 	"ide/warnings/sync/forbidden/title": "Can't sync CODE",
@@ -454,7 +456,7 @@ lang: en
 
 	"REGISTER ###########################################################" : "",
 
-	"register/registration/call-to-action": "Register",
+	"register/registration/call-to-action": "Join",
 	"register/registration/error/E_VALIDATION" : "There are errors in the inputs.",
 	"register/registration/error/CONNECTION_REFUSED" : "Quirkbot CODE is having problems connecting to the servers, please try again later.",
 
@@ -526,9 +528,9 @@ lang: en
 	"register/registration/terms/tip": "",
 	"register/registration/terms/error/pre-validation": "You must read and agree to the terms and conditions.",
 
-	"register/registration/submit": "Register",
+	"register/registration/submit": "Join",
 
-	"register/login/call-to-action": "Login",
+	"register/login/call-to-action": "Log in",
 	"register/login/error/E_VALIDATION" : "There are errors in the inputs.",
 	"register/login/error/AUTH_GRANT" : "You have entered an invalid username or password.",
 	"register/login/error/CONNECTION_REFUSED" : "Quirkbot CODE is having problems connecting to the servers, please try again later.",
@@ -543,7 +545,7 @@ lang: en
 	"register/login/password/error/pre-validation": "Password is required.",
 	"register/login/password/error/pre-validation": "Password is required.",
 
-	"register/login/submit": "Login",
+	"register/login/submit": "Log in",
 
 	"register/password-reset/call-to-action": "Forgot your password?",
 	"register/password-reset/heading": "Reset password",
@@ -554,8 +556,8 @@ lang: en
 	"register/password-reset/error/CONNECTION_REFUSED" : "Quirkbot CODE is having problems connecting to the servers, please try again later.",
 	"register/password-reset/submit": "Request password reset",
 	"register/password-reset/success": "Request sent! Please check your email for instructions.",
-	"ide/password-reset/page/success/description": "Password reseted successfully! Please login to continue.",
-	"ide/password-reset/page/success/call-to-action": "Login",
+	"ide/password-reset/page/success/description": "Password reseted successfully! Please log in to continue.",
+	"ide/password-reset/page/success/call-to-action": "Log in",
 	"ide/password-reset/error/CONNECTION_REFUSED" : "Quirkbot CODE is having problems connecting to the servers, please try again later.",
 
 
