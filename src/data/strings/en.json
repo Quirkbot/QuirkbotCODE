@@ -223,6 +223,7 @@ lang: en
 	"node/connection/name/note" : 		"note",
 	"node/connection/name/holdTime" : 	"hold time",
 	"node/connection/name/offset" : 	"offset",
+	"node/connection/name/channel" : 	"channel",
 
 	"DATALISTS ----------------------------------------------------------" : "",
 	"node/connection/datalist/sine-wave" : 		"Sine",
@@ -453,6 +454,13 @@ lang: en
 	"node/connection/datalist/key-vertical_bar":"|",
 	"node/connection/datalist/key-closing_brace":"}",
 	"node/connection/datalist/key-tilde":"~",
+
+	"node/connection/datalist/no-channel":"No Channel",
+	"node/connection/datalist/channel-1":"Channel 1",
+	"node/connection/datalist/channel-2":"Channel 2",
+	"node/connection/datalist/channel-3":"Channel 3",
+	"node/connection/datalist/channel-4":"Channel 4",
+
 
 	"REGISTER ###########################################################" : "",
 

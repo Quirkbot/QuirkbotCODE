@@ -283,6 +283,7 @@
 			treeManager: Object,
 			nodeDefinitions: Object,
 			constantDefinitions: Object,
+			taxonomyDefinitions: Object,
 			data: {
 				type: Object,
 				observer: '_dataChanged'
@@ -304,7 +305,7 @@
 			window.Quirkbot.UtilsBehavior
 		],
 		observers:[
-			'_dataAndNodeDefinitionsChanged(data, nodeDefinitions)',
+			'_dataAndDefinitionsChanged(data, nodeDefinitions, constantDefinitions, taxonomyDefinitions)',
 			'_constrainDrag(data.visualX, data.visualY)',
 			'_idChanged(data.id)'
 		],
@@ -354,7 +355,7 @@
 			}
 
 		},
-		_dataAndNodeDefinitionsChanged: function(data, nodeDefinitions){
+		_dataAndDefinitionsChanged: function(data, nodeDefinitions, constantDefinitions, taxonomyDefinitions){
 			if(!data || !nodeDefinitions) {
 				return;
 			}
@@ -365,6 +366,20 @@
 			}
 
 			this.definition = definition;
+
+			// Set the color of the node based on the category
+			if(taxonomyDefinitions && taxonomyDefinitions.categories && definition && definition.taxonomy && definition.taxonomy.categories && definition.taxonomy.categories.length){
+				var mainCategory = taxonomyDefinitions.categories.filter(function(category){
+					return category.id === definition.taxonomy.categories[0];
+				})[0];
+				if(mainCategory && mainCategory.color){
+					var cssColor = this.parseCSSColor(mainCategory.color);
+					if(cssColor){
+						this.style.backgroundColor = 'rgba('+cssColor.r+','+cssColor.g+','+cssColor.b+',0.5)';
+					}
+
+				}
+			}
 
 			this.outputs = [];
 			definition.outputs.forEach(function(outputDefinition){
