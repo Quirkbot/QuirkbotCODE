@@ -28,30 +28,22 @@
 				/* for some reason this is fixing the scrollbar bug */
 				-webkit-transform: translateZ(0);
 			}
-			:host paper-item {
-				--paper-item-min-height: 22px;
-				--paper-item:{
-					cursor: pointer;
-					margin: 0;
-					font-size: 13px;
-					background-color: transparent;
-				};
+			:host .item {
+				height: 22px;
+				cursor: pointer;
+				margin: 0;
+				font-size: 13px;
+				background-color: transparent;
 			}
-			:host paper-item:nth-child(odd) {
-				--paper-item:{
-					cursor: pointer;
-					margin: 0;
-					font-size: 13px;
-					background-color: var(--qb-white-transparent);
-
-				};
+			:host .item:nth-child(odd) {
+				background-color: var(--qb-white-transparent);
 			}
-			:host paper-item[selected] {
+			:host .item[selected] {
 				background-color: var(--qb-interactive-color-hard-transparent);
 			}
 
-			:host paper-item iron-icon{
-				margin-left: -10px;
+			:host .item iron-icon{
+				margin-left: 5px;
 				margin-right: 5px;
 				height: 22px;
 				width: 22px;
@@ -67,7 +59,8 @@
 			selected-item="{{selected}}"
 			selection-enabled>
 			<template>
-				<paper-item
+				<div
+					class="item"
 					name="[[item.value]]"
 					selected$="[[selected]]">
 					<iron-icon
@@ -76,7 +69,7 @@
 					</iron-icon>
 					<qb-core-i18n
 						key="[[item.translationKey]]"></qb-core-i18n>
-				</paper-item>
+				</div>
 			</template>
 		</iron-list>
 
@@ -110,10 +103,8 @@
 				this.$.ironList.fire('resize');
 			},
 			_selectFromValue:function(value, items){
+
 				if(!value || !items){
-					return;
-				}
-				if(this.selectedValue === value && this.selected){
 					return;
 				}
 				var item = this.findOneObjectByKey(items, 'value', value);
@@ -125,7 +116,6 @@
 				if(!selected){
 					return;
 				}
-
 				this.selectedValue = selected.value;
 			}
 		});

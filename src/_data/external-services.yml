@@ -12,8 +12,8 @@ stage:
     ga_code: UX-XXXXXXX-X
 development:
     root: http://ide-local.quirkbot.com:4000/
-    compiler: http://localhost:8080/
-    #compiler: https://compiler-stage.quirkbot.com/
+    #compiler: http://localhost:8080/
+    compiler: https://compiler-stage.quirkbot.com/
     api: https://api-stage.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
     ga_code: UX-XXXXXXX-X
