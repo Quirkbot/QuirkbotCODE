@@ -43,6 +43,9 @@
 			:host .description a{
 				color: inherit;
 			}
+			:host .description a.button-container:hover{
+				text-decoration: none;
+			}
 			:host .description .label{
 				font-weight: bold;
 				font-size: 1.5rem;
@@ -101,7 +104,7 @@
 			</div>
 
 			<div class="content">
-				
+
 				<qb-ui-account-verification-reminder
 					user="[[user]]"
 					auth="[[auth]]">
@@ -141,7 +144,8 @@
 						<template
 							is="dom-if"
 							if="[[_ownsProfile]]">
-							<a href="[[programAppUrl]]">
+							<a href="[[programAppUrl]]"
+								class="button-container">
 								<paper-button
 									class="new-program-button">
 									<iron-icon
