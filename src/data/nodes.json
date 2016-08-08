@@ -19,7 +19,8 @@ layout: null
 			{% assign categories = (site.node_categories | sort: 'index') %}
 			{% for category in categories %}
 				{
-					"id" : {{category.object_id | jsonify}}
+					"id" : {{category.object_id | jsonify}},
+					"color" : {{category.color | jsonify}}
 				}{% if forloop.last == false %},{% endif %}
 			{% endfor %}
 		],

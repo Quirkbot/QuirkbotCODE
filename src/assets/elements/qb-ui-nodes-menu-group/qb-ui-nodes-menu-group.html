@@ -81,13 +81,15 @@
 				observe="name">
 				<div class="nodes-container">
 					<qb-ui-nodes-menu-item
-						data="{{item}}">
+						data="{{item}}"
+						category-definition="{{data.definition}}">
 					</qb-ui-nodes-menu-item>
 					<qb-ui-nodes-menu-item
 						drag
 						on-dragstart="_onNodeDragStart"
 						on-dragend="_onNodeDragEnd"
-						data="{{item}}">
+						data="{{item}}"
+						category-definition="{{data.definition}}">
 					</qb-ui-nodes-menu-item>
 				</div>
 

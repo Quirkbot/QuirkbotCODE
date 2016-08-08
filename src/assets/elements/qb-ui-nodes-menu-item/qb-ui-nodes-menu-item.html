@@ -65,7 +65,7 @@
 		}
 	</style>
 	<template>
-		<paper-item role="menuitem">
+		<paper-item role="menuitem" id="nodeElement">
 
 			<div class="type-container">
 				<div
@@ -106,8 +106,14 @@
 			icon: {
 				type: String,
 				computed: '_computeIcon(data)'
+			},
+			categoryDefinition: {
+				type: Object
 			}
 		},
+		observers:[
+			'_dataAndCategoryDefinitionChanged(data, categoryDefinition)',
+		],
 		behaviors:[
 			window.Quirkbot.DraggableBehavior,
 			window.Quirkbot.UtilsBehavior
@@ -123,6 +129,16 @@
 		},
 		_computeIcon: function(data){
 			return this.resolveIconName(data.definition.id, 'qb-nodes');
+		},
+		_dataAndCategoryDefinitionChanged: function(data, categoryDefinition){
+
+			if(categoryDefinition && categoryDefinition.color){
+
+				var cssColor = this.parseCSSColor(categoryDefinition.color);
+				if(cssColor){
+					this.$.nodeElement.style.backgroundColor = 'rgba('+cssColor.r+','+cssColor.g+','+cssColor.b+',0.5)';
+				}
+			}
 		}
 	});
 })();
