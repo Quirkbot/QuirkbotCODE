@@ -110,12 +110,6 @@
 
 			ajaxResponse: Object
 		},
-		observers:[
-			'_computeHardwareInterfaceModelString(hardwareInterfaceModel.*)'
-		],
-		_computeHardwareInterfaceModelString: function () {
-			this.hardwareInterfaceModelString = JSON.stringify(this.hardwareInterfaceModel, null, '\t');
-		},
 		_onCallToActionTap: function() {
 			this.$.quirkbotsArea.open();
 		}
