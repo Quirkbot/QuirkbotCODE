@@ -4,6 +4,12 @@ production:
     api: https://api.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
     ga_code: UA-50042401-3
+lite:
+    root: http://localhost:9510/
+    compiler: http://localhost:9511/
+    api: http://localhost:9512/
+    downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
+    ga_code: UA-50042401-8
 stage:
     root: https://code-stage.quirkbot.com/
     compiler: https://compiler-stage.quirkbot.com/
