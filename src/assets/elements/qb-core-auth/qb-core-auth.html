@@ -314,7 +314,7 @@
 							this.set('user.' + key, user[key]);
 						}.bind(this));
 						this.fire('iron-signal', {name: 'track-user', data: this.user.id });
-
+						this.fire('user-ready', this.user);
 						resolve(user);
 					}
 					else{

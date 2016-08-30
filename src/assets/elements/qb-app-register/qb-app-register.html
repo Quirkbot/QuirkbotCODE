@@ -14,6 +14,7 @@
 <link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
 <link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
 <link rel="import" href="../qb-ui-request-password-reset-form/qb-ui-request-password-reset-form.html">
+<link rel="import" href="../qb-ui-status-indicator/qb-ui-status-indicator.html">
 
 <dom-module id='qb-app-register'>
 	<template>
@@ -94,7 +95,8 @@
 			id="auth"
 			api-url="[[apiUrl]]"
 			client-id="[[clientId]]"
-			user="{{user}}">
+			user="{{user}}"
+			on-user-ready="_onUserReady">
 		</qb-core-auth>
 
 		<qb-ui-app-container
@@ -130,17 +132,11 @@
 					<template
 						is="dom-if"
 						if="[[user]]">
-						<a href="[[programAppUrl]]">
-							<paper-button
-								class="button new-program">
-								<iron-icon
-									class="icon"
-									icon="[[resolveIconName('add', 'qb-icons')]]">
-								</iron-icon>
-								<qb-core-i18n
-									key="ide/user/programs/create-new"></qb-core-i18n>
-							</paper-button>
-						</a>
+						<qb-ui-status-indicator
+							state="pending">
+						</qb-ui-status-indicator>
+						<p><qb-core-i18n
+							key="register/profile-redirect"></qb-core-i18n></p>
 					</template>
 				</div>
 
@@ -269,6 +265,9 @@
 					label: 'home'
 				}
 			});
+		},
+		_onUserReady: function () {
+			return this._goToProfile();
 		},
 		_onRegistrationResponse: function(){
 			this.$.registration.loading = true;

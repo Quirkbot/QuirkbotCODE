@@ -555,6 +555,8 @@ lang: en
 
 	"register/login/submit": "Log in",
 
+	"register/profile-redirect": "Loading your profile...",
+
 	"register/password-reset/call-to-action": "Forgot your password?",
 	"register/password-reset/heading": "Reset password",
 	"register/password-reset/nickname/label": "Nickname",
