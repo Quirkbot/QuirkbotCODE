@@ -66,17 +66,13 @@ gulp.task('soft-jshint', function () {
  */
 gulp.task('jekyll', function (gulpCallBack){
 	var environment;
-	switch (argv.environment) {
-		case 'production':
-			environment = argv.environment;
-			break;
-		case 'stage':
-			environment = argv.environment;
-			break;
-		default:
-			environment = 'development';
-
+	if(!argv.environment){
+		environment = 'development';
 	}
+	else {
+		environment = argv.environment;
+	}
+
 	var spawn = require('child_process').spawn;
 	var jekyll = spawn(
 		'jekyll', ['build', '--source', SRC, '--destination', DEST_DEV],
