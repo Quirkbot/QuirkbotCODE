@@ -44,6 +44,11 @@
 	<link rel="manifest" href="{{r_external_services_root_url}}manifest.json">
 
 	<script src="{{r_base_url}}/assets/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+	{% if jekyll.environment == "lite" %}
+		<script src="{{r_base_url}}/injected_script.js"></script>
+	{% endif %}
+
 	<script>
 		//window.Polymer = window.Polymer || {};
 		//window.Polymer.dom = 'shadow';
