@@ -37,7 +37,7 @@
   "scripts": {
     "gulp" : "node ./node_modules/gulp/bin/gulp.js",
     "gulp:xunit": "npm run gulp -- --reporter xunit",
-    "postinstall": "cd node_modules/quirkbot-code-static && npm install && cd src/assets && bower install && cd ../.. npm run gulp -- build:polymer --environment=lite"
+    "postinstall": "pwd && npm install && cd src/assets && bower install && cd ../.. npm run gulp -- build:polymer --environment=lite"
   },
   "engines": {
     "node": ">=0.10.0"
