@@ -31,13 +31,11 @@
     "polybuild": "*",
     "streamqueue": "*",
     "run-sequence": "^1.0.2",
-    "web-component-tester": "^3.1.3",
     "yargs": "^3.29.0"
   },
   "scripts": {
     "gulp" : "node ./node_modules/gulp/bin/gulp.js",
-    "gulp:xunit": "npm run gulp -- --reporter xunit",
-    "postinstall": "pwd && npm install && cd src/assets && bower install && cd ../.. && npm run gulp -- build:polymer --environment=lite"
+    "gulp:xunit": "npm run gulp -- --reporter xunit"
   },
   "engines": {
     "node": ">=0.10.0"
