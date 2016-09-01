@@ -63,9 +63,10 @@ Cleans the content of the distribution directory.
 ## Environment flags
 All the command line task accepts a `--environment` flag. This flag will be used internally by Jerkyll to enable/disable features and also to control environment specific settings (@see `/src/_config.yml`).
 
-There are 3 possible values for the flags
+There are 4 possible values for the flags
 - `--environment=development` (default)
 - `--environment=production`
+- `--environment=lite`
 - `--environment=stage`
 
 Sample usage
@@ -116,6 +117,14 @@ or
 ```
 npm run gulp -- deploy --environment=production
 ```
+
+## Publishing to NPM registry
+**Do not call `npm publish` directly!** Use instead:
+```
+npm run custom_publish
+```
+It will call `npm shrinkwrap` and build the distributions in all the environments before publishing it to NPM.
+
 ## Updating dependencies
 
 ### Bower

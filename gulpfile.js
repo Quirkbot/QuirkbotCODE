@@ -62,6 +62,17 @@ gulp.task('soft-jshint', function () {
 });
 
 /**
+ * Update manifest version (using the version from package.json)
+ */
+gulp.task('manifest-version', function () {
+	var fs = require('fs');
+	var packageJson = JSON.parse(fs.readFileSync('package.json'));
+
+	return gulp.src(SRC + '/manifest.json')
+	.pipe($.jsonEditor({version: packageJson.version}))
+	.pipe(gulp.dest(SRC),{ overwrite: true })
+});
+/**
  * Runs Jekyll using --source SRC --destination DEST_DEV
  */
 gulp.task('jekyll', function (gulpCallBack){
@@ -316,12 +327,14 @@ gulp.task('clean:gzip', del.bind(null, [DEST_GZIP]));
 gulp.task('build:dev', ['clean:dev'], function (cb) {
 	runSequence(
 		'soft-jshint',
+		'manifest-version',
 		'jekyll',
 	cb);
 });
 gulp.task('build:polymer', ['clean:polymer'], function (cb) {
 	runSequence(
 		'jshint',
+		'manifest-version',
 		'jekyll',
 		'polymer-copy',
 		'polymer-use-minified-paths',

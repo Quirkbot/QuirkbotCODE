@@ -1,6 +1,6 @@
 {
   "name": "quirkbot-code-static",
-  "version": "0.4.5",
+  "version": "0.4.7",
   "author": "Quirkbot",
   "homepage": "https://github.com/Quirkbot/QuirkbotCODE",
   "devDependencies": {
@@ -18,11 +18,12 @@
     "gulp-html-autoprefixer": "0.0.1",
     "gulp-if": "^1.2.1",
     "gulp-jshint": "^1.6.3",
+    "gulp-json-editor": "^2.2.1",
     "gulp-load-plugins": "^0.10.0",
     "gulp-minify-html": "^1.0.4",
+    "gulp-prompt": "^0.1.2",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.3",
-    "gulp-prompt": "^0.1.2",
     "gulp-s3": "^0.3.0",
     "gulp-serve": "*",
     "gulp-size": "^1.0.0",
@@ -30,12 +31,12 @@
     "jshint-stylish": "^2.0.0",
     "merge-stream": "^0.1.7",
     "polybuild": "*",
-    "streamqueue": "*",
     "run-sequence": "^1.0.2",
+    "streamqueue": "*",
     "yargs": "^3.29.0"
   },
   "scripts": {
-    "gulp" : "node ./node_modules/gulp/bin/gulp.js",
+    "gulp": "node ./node_modules/gulp/bin/gulp.js",
     "gulp:xunit": "npm run gulp -- --reporter xunit",
     "custom_publish": "sh prepublish.sh && npm publish"
   },

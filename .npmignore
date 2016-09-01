@@ -1,9 +1,10 @@
+.git
 .DS_Store
+.sass-cache
+.tmp
+dist_dev
+dist_polymer
+dist_gzip
 node_modules
 npm-debug.log
-quirkbot.zip
-quirkbot-chrome-app
-quirkbot-chrome-app.zip
-quirkbot-chrome-app-*
-s3_publish
 aws-config
