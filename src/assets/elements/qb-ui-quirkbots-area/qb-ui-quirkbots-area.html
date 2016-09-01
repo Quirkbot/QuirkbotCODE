@@ -427,7 +427,10 @@
 				type: String,
 				computed: '_computeHardwareInterfaceInstallationErrorKey(hardwareInterfaceInstallationErrorCode)'
 			},
-			hardwareInterfaceModel: Object,
+			hardwareInterfaceModel:{
+				type: Object,
+				value: {}
+			},
 			selectedQuirkbotUuid: {
 				type: String
 			},
@@ -464,6 +467,15 @@
 
 			this.debounce('openDialog', this.$.dialog.open.bind(this.$.dialog), 100);
 			this.debounce('notifyResize', this._notifyResize.bind(this), 1000);
+			this.debounce('tryToAutoUpload', this.tryToAutoUpload.bind(this), 100);
+		},
+		/**
+		 * If there is only one Quirkbot connected, start uploading automatically
+		 **/
+		tryToAutoUpload: function(){
+			if(this.hardwareInterfaceAvaiable && this.hardwareInterfaceConnected && !this.pendingUploadProcess && !this.hardwareInterfaceModel.platform.serialPermissionError &&  this.hardwareInterfaceModel.quirkbots.length === 1){
+				this._onUploadButtonTap();
+			}
 		},
 		_onInstallButtonTap: function(){
 			this._notifyResize();
@@ -653,7 +665,7 @@
 		},
 		_computeQuirkbots: function(){
 			var newSelectedId;
-			if(!this.hardwareInterfaceModel || !this.hardwareInterfaceModel.quirkbots.length){
+			if(!this.hardwareInterfaceModel || !this.hardwareInterfaceModel.quirkbots || !this.hardwareInterfaceModel.quirkbots.length){
 				newSelectedId = '';
 			}
 			else if(!this.findOneObjectByKey(this.hardwareInterfaceModel.quirkbots, 'uuid', this.selectedQuirkbotUuid)){
@@ -672,6 +684,7 @@
 			this._notifyResize();
 
 		},
+
 		_notifyResize: function () {
 			this.debounce('notifyResize', this.$.dialog.notifyResize.bind(this.$.dialog), 100);
 		},

@@ -116,7 +116,6 @@
 				.then(resolve)
 				.catch(function(error){
 					this.user = null;
-					this.fire('iron-signal', {name: 'track-user', data: '' });
 					reject(error);
 				}.bind(this));
 			}.bind(this));
@@ -276,10 +275,33 @@
 		},
 		_processInitialValues: function(){
 			this.debounce('initial refresh', function(){
-				this.refresh()
-				.catch(function (error) {
-					this.fire('authenticate-error', error);
-				}.bind(this));
+				// If there are access tokens and they are not expired, try to
+				// set the user directly.
+				if(this.accessToken && this.refreshToken && this.expires > Date.now()){
+					this._setUser()
+					.catch(function (error) {
+						this.fire('authenticate-error', error);
+					}.bind(this));
+				}
+				// If there is at least a refresh token, try to refresh.
+				else if(this.refreshToken){
+					this.refresh()
+					.catch(function (error) {
+						this.fire('authenticate-error', error);
+					}.bind(this));
+				}
+				// If there is a global default user, try to authenticate
+				// using those credentials. (this is used in the Lite version)
+				else if(window.QUIRKBOT_CODE_DEFAULT_USER_NICKNAME && window.QUIRKBOT_CODE_DEFAULT_USER_PASSWORD) {
+					this.authenticate(window.QUIRKBOT_CODE_DEFAULT_USER_NICKNAME, window.QUIRKBOT_CODE_DEFAULT_USER_PASSWORD)
+					.catch(function (error) {
+						this.fire('authenticate-error', error);
+					}.bind(this));
+				}
+				// Well, nothing else to do here
+				else {
+					this.fire('authenticate-error', 'Cannot initiate auth.');
+				}
 			}.bind(this), 10);
 		},
 		_setUser: function () {
@@ -292,11 +314,12 @@
 							this.set('user.' + key, user[key]);
 						}.bind(this));
 						this.fire('iron-signal', {name: 'track-user', data: this.user.id });
-
+						this.fire('user-ready', this.user);
 						resolve(user);
 					}
 					else{
 						this.user = null;
+						this.fire('iron-signal', {name: 'track-user', data: '' });
 						reject(user);
 					}
 				}.bind(this))

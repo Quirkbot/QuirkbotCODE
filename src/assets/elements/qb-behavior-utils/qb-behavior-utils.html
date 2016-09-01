@@ -26,6 +26,25 @@
 			}
 		},
 		/**
+		* Color utils
+		**/
+		parseCSSColor: function(input) {
+			var div = document.createElement('div'), m;
+			div.style.color = input;
+			div.style.display = 'none';
+			document.body.appendChild(div);
+			m = getComputedStyle(div).color.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
+			document.body.removeChild(div);
+			if(m){
+				return {
+					r:m[1],
+					g:m[2],
+					b:m[3]
+				};
+			}
+			return null;
+		},
+		/**
 		* Dom utils
 		**/
 		hitTest: function(element, x, y, margin){

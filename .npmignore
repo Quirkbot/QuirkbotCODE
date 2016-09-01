@@ -1,0 +1,10 @@
+.git
+.DS_Store
+.sass-cache
+.tmp
+dist_dev
+dist_polymer
+dist_gzip
+node_modules
+npm-debug.log
+aws-config
