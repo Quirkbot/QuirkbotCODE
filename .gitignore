@@ -6,5 +6,6 @@
 /dist_polymer/
 /dist_gzip/
 node_modules
+original_node_modules
 npm-debug.log
 aws-config
