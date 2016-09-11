@@ -121,7 +121,7 @@ npm run gulp -- deploy --environment=production
 ## Publishing to NPM registry
 **Do not call `npm publish` directly!** Use instead:
 ```
-npm run custom_publish
+npm run deploy:npm
 ```
 It will call `npm shrinkwrap` and build the distributions in all the environments before publishing it to NPM.
 

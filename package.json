@@ -1,6 +1,6 @@
 {
   "name": "quirkbot-code-static",
-  "version": "0.4.14",
+  "version": "0.4.15",
   "author": "Quirkbot",
   "homepage": "https://github.com/Quirkbot/QuirkbotCODE",
   "devDependencies": {
@@ -38,7 +38,9 @@
   "scripts": {
     "gulp": "node ./node_modules/gulp/bin/gulp.js",
     "gulp:xunit": "npm run gulp -- --reporter xunit",
-    "custom_publish": "sh prepublish.sh && npm publish"
+    "dependencies": "rm -rf node_modules && npm install && cd src/assets && rm -rf bower_components && bower install",
+    "shrinkwrap": "rm -rf node_modules && npm install --production && npm shrinkwrap",
+    "deploy:npm": "sh prepublish.sh && npm run shrinkwrap && npm publish"
   },
   "engines": {
     "node": ">=0.10.0"
