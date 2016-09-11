@@ -2,13 +2,6 @@
 SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SRC_DIR
 
-
-# Make sure all dependecies are installed
-#npm install
-cd src/assets/
-bower install
-cd ../../
-
 # Clear dist
 rm -r dist
 mkdir dist
