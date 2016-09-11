@@ -1,5 +1,7 @@
-{% assign r_external_services_root_url = 		{{site.data.external-services[jekyll.environment].root}} %}
-{% assign r_external_services_api_url = 		{{site.data.external-services[jekyll.environment].api}} %}
-{% assign r_external_services_compiler_url =	{{site.data.external-services[jekyll.environment].compiler}} %}
-{% assign r_external_services_downloads_url =	{{site.data.external-services[jekyll.environment].downloads}} %}
-{% assign r_external_services_ga_code = 		{{site.data.external-services[jekyll.environment].ga_code}} %}
+{% assign r_external_services_root_url = 		   {{site.data.external-services[jekyll.environment].root}} %}
+{% assign r_external_services_api_url = 		   {{site.data.external-services[jekyll.environment].api}} %}
+{% assign r_external_services_compiler_url =	   {{site.data.external-services[jekyll.environment].compiler}} %}
+{% assign r_external_services_downloads_url =	   {{site.data.external-services[jekyll.environment].downloads}} %}
+{% assign r_external_services_ga_code = 		   {{site.data.external-services[jekyll.environment].ga_code}} %}
+{% assign r_external_services_api_client = 		   {{site.data.external-services[jekyll.environment].api_client}} %}
+{% assign r_external_services_chrome_webstore_id = {{site.data.external-services[jekyll.environment].chrome_webstore_id}} %}
