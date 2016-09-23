@@ -14,7 +14,16 @@ defaults:
       path: ""
     values:
       layout: "default"
+  -
+    scope:
+      path: "en"
+    values:
       lang: "en"
+  -
+    scope:
+      path: "cn"
+    values:
+      lang: "cn"
   -
     scope:
       path: "tutorials"
