@@ -2,6 +2,7 @@
 layout: null
 lang: en
 ---
+{% include f_external_services %}
 {
 	"locale/slug": "en",
 	"locale/name": "English",

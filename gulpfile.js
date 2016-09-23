@@ -84,7 +84,7 @@ gulp.task('language-files', function (cb) {
 		})
 		languages.forEach(function(language) {
 			// Add Jekyll's "front matter"
-			var content = '---\nlayout: null\nlang: ' + language.key + '\n---\n';
+			var content = '---\nlayout: null\nlang: ' + language.key + '\n---\n{% include f_external_services %}\n';
 			content += JSON.stringify(language.translations, null, '\t');
 			fs.writeFileSync(
 				path.resolve(SRC, 'data', 'strings', language.key + '.json'),

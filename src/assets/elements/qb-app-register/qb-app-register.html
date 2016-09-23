@@ -11,6 +11,7 @@
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
+<link rel="import" href="../qb-ui-language-selector/qb-ui-language-selector.html">
 <link rel="import" href="../qb-ui-registration-form/qb-ui-registration-form.html">
 <link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
 <link rel="import" href="../qb-ui-request-password-reset-form/qb-ui-request-password-reset-form.html">
@@ -86,10 +87,10 @@
 
 			}
 		</style>
-		<qb-core-i18n
-			url-format="[[stringsUrl]]"
-			locale="[[locale]]">
-		</qb-core-i18n>
+
+		<qb-ui-language-selector
+			url-format="[[stringsUrl]]">
+		</qb-ui-language-selector>
 
 		<qb-core-auth
 			id="auth"
@@ -209,7 +210,6 @@
 			window.Quirkbot.UtilsBehavior
 		],
 		properties: {
-			locale: String,
 			clientId: String,
 			chromeWebstoreId: String,
 			compilerUrl: String,

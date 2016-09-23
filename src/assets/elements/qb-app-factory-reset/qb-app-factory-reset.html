@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
@@ -8,6 +9,7 @@
 <link rel="import" href="../qb-core-auth/qb-core-auth.html">
 
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
+<link rel="import" href="../qb-ui-language-selector/qb-ui-language-selector.html">
 <link rel="import" href="../qb-ui-quirkbots-area/qb-ui-quirkbots-area.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
@@ -29,10 +31,9 @@
 			}
 		</style>
 
-		<qb-core-i18n
-			url-format="[[stringsUrl]]"
-			locale="[[locale]]">
-		</qb-core-i18n>
+		<qb-ui-language-selector
+			url-format="[[stringsUrl]]">
+		</qb-ui-language-selector>
 
 		<qb-core-auth
 			id="auth"
@@ -94,7 +95,6 @@
 			window.Quirkbot.UtilsBehavior
 		],
 		properties: {
-			locale: String,
 			clientId: String,
 			chromeWebstoreId: String,
 			compilerUrl: String,

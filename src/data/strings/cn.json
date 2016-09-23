@@ -2,6 +2,7 @@
 layout: null
 lang: cn
 ---
+{% include f_external_services %}
 {
 	"locale/slug": "cn",
 	"locale/name": "Chinese",
