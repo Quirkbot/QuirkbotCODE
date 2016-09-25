@@ -62,6 +62,42 @@ gulp.task('soft-jshint', function () {
 });
 
 /**
+ * Create the language files from the master.csv
+ */
+gulp.task('language-files', function (cb) {
+	var fs = require('fs');
+	var parse = require('csv-parse');
+
+	var parser = parse({delimiter: ','}, function (err, data) {
+		var header = data[0];
+		var languageKeys = header.slice(1)
+		var languages = languageKeys.map(function(key) {
+			return {
+				key: key,
+				translations: {}
+			}
+		})
+		data.forEach(function(line) {
+			languages.forEach(function(language, index) {
+				language.translations[line[0]] = line[index+1]
+			})
+		})
+		languages.forEach(function(language) {
+			// Add Jekyll's "front matter"
+			var content = '---\nlayout: null\nlang: ' + language.key + '\n---\n{% include f_external_services %}\n';
+			content += JSON.stringify(language.translations, null, '\t');
+			fs.writeFileSync(
+				path.resolve(SRC, 'data', 'strings', language.key + '.json'),
+				content,
+				'utf8'
+			);
+		})
+
+		cb();
+	});
+	fs.createReadStream(path.resolve(SRC, 'data', 'strings', 'master.csv')).pipe(parser);
+});
+/**
  * Update manifest version (using the version from package.json)
  */
 gulp.task('manifest-version', function () {
@@ -328,6 +364,7 @@ gulp.task('build:dev', ['clean:dev'], function (cb) {
 	runSequence(
 		'soft-jshint',
 		'manifest-version',
+		'language-files',
 		'jekyll',
 	cb);
 });
@@ -335,6 +372,7 @@ gulp.task('build:polymer', ['clean:polymer'], function (cb) {
 	runSequence(
 		'jshint',
 		'manifest-version',
+		'language-files',
 		'jekyll',
 		'polymer-copy',
 		'polymer-use-minified-paths',

@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+
+<dom-module id='qb-ui-language-selector'>
+	<style>
+	</style>
+
+	<template>
+
+		<qb-core-i18n
+			url-format="[[urlFormat]]"
+			locale="[[locale]]">
+		</qb-core-i18n>
+
+		<iron-localstorage
+			name="qb-locale"
+			value="{{locale}}"
+			on-iron-localstorage-load="_initialize"
+			on-iron-localstorage-load-empty="_initialize">
+		</iron-localstorage>
+
+	</template>
+</dom-module>
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UILanguageSelector = Polymer({
+		is: 'qb-ui-language-selector',
+		properties: {
+			locale: String,
+			urlFormat: String
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		_initialize: function () {
+			var overwrite = this.getUrlVar('locale');
+			if(overwrite){
+				this.locale = overwrite;
+			}
+			if(!this.locale){
+				this.locale = 'en';
+			}
+
+		}
+	});
+})();
+</script>

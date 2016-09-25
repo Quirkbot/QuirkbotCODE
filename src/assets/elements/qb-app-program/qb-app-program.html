@@ -10,6 +10,7 @@
 <link rel="import" href="../qb-core-model-controller/qb-core-model-controller.html">
 <link rel="import" href="../qb-core-tree-manager/qb-core-tree-manager.html">
 
+<link rel="import" href="../qb-ui-language-selector/qb-ui-language-selector.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
 <link rel="import" href="../qb-ui-editor/qb-ui-editor.html">
@@ -41,10 +42,9 @@
 	</style>
 	<template>
 
-		<qb-core-i18n
-			url-format="{{stringsUrl}}"
-			locale="{{locale}}">
-		</qb-core-i18n>
+		<qb-ui-language-selector
+			url-format="[[stringsUrl]]">
+		</qb-ui-language-selector>
 
 		<qb-core-router
 			entry="{{programId}}">
@@ -146,7 +146,6 @@
 				type: String,
 				notify: true
 			},
-			locale: String,
 			clientId: String,
 			chromeWebstoreId: String,
 			compilerUrl: String,

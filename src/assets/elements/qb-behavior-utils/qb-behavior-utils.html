@@ -55,6 +55,13 @@
 			}
 			return true;
 		},
+		getUrlVar: function(key) {
+			var vars = {};
+			window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,k,value) {
+				vars[k] = value;
+			});
+			return vars[key];
+		},
 		/**
 		* Polymer helpers
 		**/

@@ -1,11 +1,12 @@
 {
   "name": "quirkbot-code-static",
-  "version": "0.4.15",
+  "version": "0.4.16",
   "author": "Quirkbot",
   "homepage": "https://github.com/Quirkbot/QuirkbotCODE",
   "devDependencies": {
     "browser-sync": "^2.7.7",
     "connect-history-api-fallback": "^1.1.0",
+    "csv-parse": "^1.1.7",
     "del": "^1.1.1",
     "glob": "^5.0.6",
     "gulp": "^3.8.5",

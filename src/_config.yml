@@ -17,6 +17,16 @@ defaults:
       lang: "en"
   -
     scope:
+      path: "en"
+    values:
+      lang: "en"
+  -
+    scope:
+      path: "cn"
+    values:
+      lang: "cn"
+  -
+    scope:
       path: "tutorials"
     values:
       layout: "tutorial_single"
