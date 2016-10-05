@@ -1,0 +1,22 @@
+{% assign query = (site.pages | where: 'object_id', page.object_id) %}
+<!DOCTYPE html>
+<html>
+	{% include head.html %}
+	<body
+		class="layout_app_{{ page.qb_app_type }} fullbleed layout vertical"
+		qb-unresolved>
+		{% include app_shell_simple.html %}
+		<qb-app-{{ page.qb_app_type }} {% include common_attributes.html %}>
+			<div class="header">
+				{% include header.html %}
+			</div>
+			<div class="content">
+				{{ content }}
+			</div>
+			<div class="footer">
+				{% include footer.html %}
+			</div>
+		</qb-app-{{ page.qb_app_type }}>
+		{% include foot.html %}
+	</body>
+</html>
