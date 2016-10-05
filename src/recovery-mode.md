@@ -1,5 +1,6 @@
 ---
-layout: app_factory_reset
+layout: qb_app
+qb_app_type: factory-reset
 object_id: recovery-mode
 title: Recovery Mode
 ---
