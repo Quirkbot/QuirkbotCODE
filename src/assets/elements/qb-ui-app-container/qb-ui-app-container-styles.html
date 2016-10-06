@@ -31,6 +31,7 @@
 			:host .app-main{
 				flex: 1;
 				margin-top: 4rem;
+				margin-bottom: 4rem;
 				background-color:  var(--qb-grey-light-transparent);
 				@apply(--layout-horizontal);
 				@apply(--layout-center);
@@ -48,15 +49,38 @@
 			}
 
 			:host .app-footer{
-				background-color: var(--qb-pink-transparent);
-				min-height: 10rem;
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				background-color: var(--qb-pink-transparent-solid);
+				height: 4rem;
+				z-index: 2;
 			}
 			:host .app-footer .footer-wrapper{
 				margin: 0 auto;
-				padding: 3rem;
+				padding: 0;
 				max-width: var(--qb-desktop-width);
+				height: 100%;
+				@apply(--layout-horizontal);
+				@apply(--layout-center);
+				@apply(--layout-justified);
 			}
-			:host .app-footer .footer-wrapper > ::content .footer{
+			:host .app-footer .footer-wrapper > .menu a{
+				color: var(--qb-white);
+				font-weight: bold;
+				text-decoration: none;
+				margin-left: 1rem;
+				font-size: 1rem;
+			}
+			:host .app-footer .footer-wrapper > .fine-print{
+				color: var(--qb-white);
+				font-size: 0.8rem;
+			}
+			:host .app-footer .footer-wrapper > .fine-print ::content a{
+				text-decoration: none;
+				margin-right: 0.8rem;
+			}
+			/*:host .app-footer .footer-wrapper > ::content .footer{
 				@apply(--layout-horizontal);
 			}
 			:host .app-footer .footer-wrapper > ::content .menu{
@@ -69,7 +93,8 @@
 			}
 			:host .app-footer .footer-wrapper > ::content .menu ul a{
 				text-decoration: none;
-			}
+			}*/
+
 			:host .quirkbot-logo {
 				display: block;
 				/*margin-left: 24px;*/
@@ -82,6 +107,7 @@
 				width: 100%;
 				height: 100%;
 			}
+
 			:host .editor-mode {
 				background-color: var(--qb-grey-light-transparent);
 				border-radius: 10px;
@@ -135,8 +161,7 @@
 			:host([cover]) .app-header{
 				background-color: var(--qb-blue-transparent);
 				position: relative;
-				height: 40vh;
-				min-height: 19rem;
+				height: 15rem;
 				z-index: 1;
 				/*@apply(--layout-vertical);*/
 			}
@@ -144,17 +169,15 @@
 				@apply(--layout-vertical);
 			}
 			:host([cover]) .app-main{
-				margin-top: -3rem;
-				margin-bottom: -3rem;
-				border-radius: 999rem;
-				background-color:  var(--qb-yellow);
-
+				margin-top: 0rem;
+				margin-bottom: 4rem;
+				
 			}
 			:host([cover]) .app-content{
-				z-index: 3;
+
 				margin-top: 2rem;
-				margin-bottom: 2em;
-				min-width: 30rem;
+				margin-bottom: 2rem;
+				width: auto;
 			}
 			:host([cover]) qb-ui-avatar{
 				position: absolute;
@@ -200,7 +223,7 @@
 				:host([cover])  .app-content{
 					min-width:0;
 					margin-top: 0;
-					margin-bottom: 0;
+					margin-bottom: 4rem;
 				}
 				:host([cover]) .quirkbot-logo{
 					width: 100%;
