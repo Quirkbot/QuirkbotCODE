@@ -34,6 +34,10 @@ ide/password-reset/page/password-confirmation/error/required,Password confirmati
 ide/password-reset/page/submit,Reset,重置
 ide/password-reset/page/error/RESET_REQUEST_NOT_FOUND,Invalid reset. This request has probably exipired.,无效的重置，此请求已经过期。
 ide/factory-reset/page/call-to-action,Upload factory program,恢复出厂设置
+FOOTER ------------------------------------------------------------,,
+ide/footer/menu/troubleshooting,Troubleshooting,
+ide/footer/menu/help,Help & Inspiration,
+ide/footer/fine-print,"<a href=""/info/terms-of-use"">Terms of Use</a><a href=""/info/privacy-policy"">Privacy Policy</a>",
 AVATAR -------------------------------------------------------------,,
 ide/avatar/login,Log in,登陆
 ide/avatar/register,Join Quirkbot,加入Quirkbot
