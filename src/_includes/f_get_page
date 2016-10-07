@@ -1,1 +1,12 @@
-{% assign _pages= (site.pages | where: 'object_id', arg1 | where: "lang", page.lang) %}{% for page in _pages %}{% assign r_get_page = page %}{% endfor %}
+{%   assign r_get_page = false
+%}{% assign _pages= (site.pages | where: 'object_id', arg1 | where: "lang", page.lang)
+%}{% for page in _pages
+%}{%     assign r_get_page = page
+%}{% endfor
+%}{% if r_get_page == false
+%}{%     assign _pages= (site.pages | where: 'object_id', arg1 | where: "lang", "en")
+%}{%     for page in _pages
+%}{%         assign r_get_page = page
+%}{%     endfor
+%}{% endif
+%}

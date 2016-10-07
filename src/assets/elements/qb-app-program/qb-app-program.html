@@ -10,6 +10,7 @@
 <link rel="import" href="../qb-core-model-controller/qb-core-model-controller.html">
 <link rel="import" href="../qb-core-tree-manager/qb-core-tree-manager.html">
 
+<link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
 <link rel="import" href="../qb-ui-language-selector/qb-ui-language-selector.html">
 <link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
 <link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
@@ -19,6 +20,7 @@
 <link rel="import" href="../qb-ui-warnings-overlay/qb-ui-warnings-overlay.html">
 
 <dom-module id='qb-app-program'>
+	<style include="qb-app-container-styles"></style>
 	<style>
 		:host{
 			display: block;
@@ -102,36 +104,46 @@
 			model="{{model}}">
 		</qb-ui-warnings-overlay>
 
-		<paper-header-panel mode="seamed">
+		<qb-ui-app-container
+			fit-screen
+			home-url="[[homeUrl]]"
+			register-app-url="[[registerAppUrl]]"
+			user-app-url="[[userAppUrl]]"
+			program-app-url="[[programAppUrl]]"
+			user="[[user]]"
+			model="[[model]]">
 
-			<qb-ui-toolbar
-				class="paper-header"
-				editor-mode={{editorMode}}
-				model="{{model}}"
-				processing-status="[[processingStatus]]"
-				user="[[user]]"
-				home-url="[[homeUrl]]"
-				register-app-url="[[registerAppUrl]]"
-				user-app-url="[[userAppUrl]]"
-				program-app-url="[[programAppUrl]]"
-				on-quirkbots-area-button-tap="_onQuirkbotsAreaButtonTap"
-				on-add-to-profile-button-tap="_onAddToProfileButtonTap">
-			</qb-ui-toolbar>
+			<div class="header">
+				<qb-ui-toolbar
+					class="paper-header"
+					model="{{model}}"
+					processing-status="[[processingStatus]]"
+					user="[[user]]"
+					home-url="[[homeUrl]]"
+					register-app-url="[[registerAppUrl]]"
+					user-app-url="[[userAppUrl]]"
+					program-app-url="[[programAppUrl]]"
+					on-quirkbots-area-button-tap="_onQuirkbotsAreaButtonTap"
+					on-add-to-profile-button-tap="_onAddToProfileButtonTap">
+				</qb-ui-toolbar>
+			</div>
 
-			<qb-ui-editor
-				class="fit"
-				mode={{editorMode}}
-				model="{{model}}"
-				model-controller="{{modelController}}"
-				tree-manager="{{treeManager}}"
-				computed-code="[[computedCode]]"
-				text-editor-code="{{textEditorCode}}"
-				node-definitions="{{nodeDefinitions}}"
-				constant-definitions="{{constantDefinitions}}"
-				taxonomy-definitions="{{taxonomyDefinitions}}">
-			</qb-ui-editor>
+			<div class="content">
+				<qb-ui-editor
+					class="fit"
+					mode={{editorMode}}
+					model="{{model}}"
+					model-controller="{{modelController}}"
+					tree-manager="{{treeManager}}"
+					computed-code="[[computedCode]]"
+					text-editor-code="{{textEditorCode}}"
+					node-definitions="{{nodeDefinitions}}"
+					constant-definitions="{{constantDefinitions}}"
+					taxonomy-definitions="{{taxonomyDefinitions}}">
+				</qb-ui-editor>
+			</div>
 
-		</paper-header-panel>
+		</qb-ui-app-container>
 
 	</template>
 </dom-module>

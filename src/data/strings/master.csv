@@ -32,8 +32,11 @@ ide/password-reset/page/password-confirmation/tip,,
 ide/password-reset/page/password-confirmation/error/pre-validation,Passwords don't match.,密码不一致
 ide/password-reset/page/password-confirmation/error/required,Password confirmation is required.,需要进行密码确认
 ide/password-reset/page/submit,Reset,重置
-ide/password-reset/page/error/RESET_REQUEST_NOT_FOUND,Invalid reset. This request has probably exipired.,无效的重置，此请求已经过期。
+ide/password-reset/page/error/RESET_REQUEST_NOT_FOUND,Invalid reset. This request has probably expired.,无效的重置，此请求已经过期。
 ide/factory-reset/page/call-to-action,Upload factory program,恢复出厂设置
+FOOTER ------------------------------------------------------------,,
+ide/footer/menu,"{% assign arg1='recovery-mode' %}{% include f_print_page_link %}{% assign arg1='help' %}{% include f_print_page_link %}",
+ide/footer/fine-print,"{% assign arg1='terms-of-use' %}{% assign arg2='_blank' %}{% include f_print_page_link %}{% assign arg1='privacy-policy' %}{% assign arg2='_blank' %}{% include f_print_page_link %}",
 AVATAR -------------------------------------------------------------,,
 ide/avatar/login,Log in,登陆
 ide/avatar/register,Join Quirkbot,加入Quirkbot

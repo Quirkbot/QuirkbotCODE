@@ -3,22 +3,28 @@
 	#app-shell-main,
 	#app-shell-footer{
 		width: 100% !important;
-		position: absolute !important;
+		position: fixed !important;
 		border-radius: 0 !important;
 	}
-	#app-shell-header {
-		top:0;
-		height: 40vh  !important;
-		min-height: 19rem  !important;
-		background-color: rgba(0,173,239,0.5) !important;
+	#app-shell-header{
+		top:0 !important;
+		height: 15rem !important;
+		background-color: rgb(128,214,247) !important;
 	}
-	#app-shell-footer {
-		top: 80vh;
-		background-color: rgba(235,0,138, 0.5) !important;
-		height: 20vh !important;
+	#app-shell-main{
+		top: 15rem !important;
+		height: calc(100% - 19rem) !important;
+		background-color: rgba(221,221,221,0.5) !important;
+	}
+	#app-shell-footer{
+		bottom: 0 !important;
+		height: 4rem !important;
+		background-color: rgb(245,128,197) !important;
 	}
 </style>
+
 <div id="app-shell">
 	<div id="app-shell-header"></div>
+	<div id="app-shell-main"></div>
 	<div id="app-shell-footer"></div>
 </div>
