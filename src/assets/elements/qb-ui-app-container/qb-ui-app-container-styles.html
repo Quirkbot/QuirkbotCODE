@@ -53,6 +53,7 @@
 				bottom: 0;
 				width: 100%;
 				background-color: var(--qb-pink-transparent-solid);
+				color: var(--qb-white);
 				height: 4rem;
 				z-index: 2;
 			}
@@ -65,18 +66,18 @@
 				@apply(--layout-center);
 				@apply(--layout-justified);
 			}
-			:host .app-footer .footer-wrapper > .menu a{
-				color: var(--qb-white);
-				font-weight: bold;
-				text-decoration: none;
-				margin-left: 1rem;
+			:host .app-footer .footer-wrapper > .menu {
 				font-size: 1rem;
 			}
-			:host .app-footer .footer-wrapper > .fine-print{
-				color: var(--qb-white);
+			:host .app-footer .footer-wrapper > .menu ::content a {
+				text-decoration: none;
+				font-weight: bold;
+				margin-left: 1rem;
+			}
+			:host .app-footer .footer-wrapper > .fine-print {
 				font-size: 0.8rem;
 			}
-			:host .app-footer .footer-wrapper > .fine-print ::content a{
+			:host .app-footer .footer-wrapper > .fine-print ::content a {
 				text-decoration: none;
 				margin-right: 0.8rem;
 			}
@@ -259,6 +260,7 @@
 			}
 			:host qb-ui-app-container .content > ::content h3{
 				font-size: var(--qb-text-line-height);
+				line-height: var(--qb-text-line-height);
 			}
 			:host qb-ui-app-container .content > ::content h4{
 				font-size: 1rem;
@@ -324,6 +326,10 @@
 			:host qb-ui-app-container .content > ::content img:only-of-type {
 				display: block;
 				margin: 0 auto;
+			}
+			:host qb-ui-app-container .content > ::content hr {
+				border: none;
+				border-top: solid 2px rgba(0,0,0,0.05);
 			}
 			:host qb-ui-app-container .content > ::content table{
 				border-collapse: separate;
