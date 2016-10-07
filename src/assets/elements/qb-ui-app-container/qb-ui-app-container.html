@@ -46,7 +46,8 @@
 						register-app-url="[[registerAppUrl]]"
 						user-app-url="[[userAppUrl]]"
 						program-app-url="[[programAppUrl]]"
-						user="[[user]]">
+						user="[[user]]"
+						model="[[model]]">
 					</qb-ui-avatar>
 				</div>
 
@@ -100,7 +101,8 @@
 			programAppUrl: String,
 			registerAppUrl: String,
 			userAppUrl: String,
-			user:Object
+			user: Object,
+			model: Object
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
