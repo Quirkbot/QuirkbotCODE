@@ -498,11 +498,11 @@
 		 * Don't allow the node to be dragged to a negative position;
 		 */
 		_constrainDrag: function(visualX, visualY){
-			if(visualX < 0 && this.data){
-				this.set('data.visualX', 0);
+			if(visualX < 10 && this.data){
+				this.set('data.visualX', 10);
 			}
-			if(visualY < 0 && this.data){
-				this.set('data.visualY', 0);
+			if(visualY < 10 && this.data){
+				this.set('data.visualY', 10);
 			}
 		}
 	});
