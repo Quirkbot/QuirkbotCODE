@@ -80,20 +80,6 @@
 				text-decoration: none;
 				margin-right: 0.8rem;
 			}
-			/*:host .app-footer .footer-wrapper > ::content .footer{
-				@apply(--layout-horizontal);
-			}
-			:host .app-footer .footer-wrapper > ::content .menu{
-				color: var(--qb-white);
-				width: 14rem;
-			}
-			:host .app-footer .footer-wrapper > ::content .menu ul{
-				padding: 0;
-				list-style: none;
-			}
-			:host .app-footer .footer-wrapper > ::content .menu ul a{
-				text-decoration: none;
-			}*/
 
 			:host .quirkbot-logo {
 				display: block;
@@ -116,48 +102,48 @@
 				z-index: 1;
 				color: var(--qb-black);
 			}
-			:host .editor-mode.with-controls {
-				font-size: 14px;
-				margin: 42px 0 0 20px;
-			}
 			:host .editor-mode .code {
 				width: 87px;
 				height: 34px;
 			}
-			:host .editor-mode.with-controls .code {
-				width: 116px;
-				height: 46px;
-			}
-			:host .editor-mode .controls{
-				padding: 0 5px;
-				margin-top: 9px;
-				cursor: pointer;
-			}
-			:host .editor-mode paper-toggle-button{
-				cursor: pointer;
-				margin: 3px 10px;
-				padding: 0;
-				--paper-toggle-button-unchecked-button-color: var(--qb-yellow);
-				--paper-toggle-button-checked-button-color: var(--qb-yellow);
-				--paper-toggle-button-unchecked-bar-color:  var(--qb-blue-transparent);
-				--paper-toggle-button-checked-bar-color:  var(--qb-pink-transparent);
-				--paper-toggle-button-unchecked-ink-color:  var(--qb-pink-transparent);
-				--paper-toggle-button-checked-ink-color:  var(--qb-pink-transparent);
 
-				--paper-toggle-button-unchecked-button:{
-					box-shadow: 0 0 0 3px var(--qb-pink-transparent) !important;
-					top: -2px !important;
-					height: 18px !important;
-					width: 18px !important;
-				};
-				--paper-toggle-button-unchecked-bar:{
-					opacity: 1 !important;
-				};
-			}
 			:host qb-ui-avatar{
 				min-width: 170px;
 			}
 
+			/* STYLES FOR FIT-SCREEN MODE*/
+			:host([fit-screen]) {
+
+			}
+			:host([fit-screen]) .app-header{
+				position: relative;
+			}
+			:host([fit-screen]) .app-header .header-wrapper{
+				max-width: 100%;
+			}
+
+			:host([fit-screen]) .app-main{
+				@apply(--layout-flex);
+				position: relative;
+				margin: 0;
+			}
+			:host([fit-screen]) .app-content{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				margin: 0;
+				padding: 0;
+				border-radius: 0;
+			}
+			:host([fit-screen]) .app-footer{
+				position: relative;
+			}
+			:host([fit-screen]) .app-footer .footer-wrapper{
+				max-width: 100%;
+			}
+			/* STYLES FOR COVER MODE (Used in home)*/
 			:host([cover]) .app-header{
 				background-color: var(--qb-blue-transparent);
 				position: relative;
@@ -171,7 +157,7 @@
 			:host([cover]) .app-main{
 				margin-top: 0rem;
 				margin-bottom: 4rem;
-				
+
 			}
 			:host([cover]) .app-content{
 
