@@ -39,7 +39,8 @@
 			}
 			:host .status-indicator {
 				@apply(--layout-horizontal);
-				 @apply(--layout-center);
+				@apply(--layout-center);
+				margin-right: 0.5rem;
 			}
 			:host .status-indicator .text{
 				color: var(--qb-white);
@@ -58,37 +59,6 @@
 		<div
 			class="app-header">
 			<div class="header-wrapper">
-				<a href="[[homeUrl]]">
-					<iron-image
-						class="quirkbot-logo"
-						sizing="contain"
-						src="[[resolveUrl('../../images/logo/white-outline.svg')]]">
-					</iron-image>
-				</a>
-
-				<div class="editor-mode with-controls layout vertical">
-					<iron-image
-						class="code"
-						sizing="contain"
-						src="[[resolveUrl('../../images/logo/code.svg')]]">
-					</iron-image>
-
-					<div
-						class="controls layout horizontal center-justified">
-						<qb-core-i18n
-							on-tap="_setVisualModeFlag"
-							key="ide/editor/visual">
-						</qb-core-i18n>
-						<paper-toggle-button
-							checked="{{_editorModeFlag}}">
-						</paper-toggle-button>
-						<qb-core-i18n
-							on-tap="_setTextModeFlag"
-							key="ide/editor/text">
-						</qb-core-i18n>
-					</div>
-
-				</div>
 
 				<qb-ui-input-text
 					class="name"
@@ -117,8 +87,6 @@
 					label-key="[[_addToProfileKey]]">
 				</qb-ui-toolbar-button>
 
-				<div class="flex"></div>
-
 				<qb-ui-toolbar-button
 					on-tap="_onQuirkbotsAreaButtonTap"
 					icon="quirkbots"
@@ -126,14 +94,7 @@
 					label-key="ide/toolbar/quirkbots-area/tooltip">
 				</qb-ui-toolbar-button>
 
-				<qb-ui-avatar
-					home-url="[[homeUrl]]"
-					register-app-url="[[registerAppUrl]]"
-					user-app-url="[[userAppUrl]]"
-					program-app-url="[[programAppUrl]]"
-					user="[[user]]"
-					on-go-to-empty-program="_onAvatarGoToEmptyProgram">
-				</qb-ui-avatar>
+				<div class="flex"></div>
 			</div>
 		</div>
 	</template>
@@ -145,10 +106,6 @@
 	window.Quirkbot.UIToolbar = Polymer({
 		is: 'qb-ui-toolbar',
 		properties: {
-			editorMode: {
-				type: String,
-				notify: true
-			},
 			model: {
 				type: Object,
 				notify: true
@@ -175,10 +132,6 @@
 				computed: '_computeWindowTitle(model.name, _ideName)',
 				observer: '_windowTitleChanged'
 			},
-			_editorModeFlag:{
-				type: Boolean,
-				observer:'_editorModeFlagChanged'
-			},
 			_addToProfileKey: {
 				type: String,
 				computed: '_computeAddToProfileKey(model.id, model.author, user.id)'
@@ -197,20 +150,6 @@
 		},
 		_onAddToProfileButtonTap: function(){
 			this.fire('add-to-profile-button-tap');
-		},
-		_editorModeFlagChanged: function(value){
-			if(value){
-				this.editorMode = 'text';
-			}
-			else{
-				this.editorMode = 'visual';
-			}
-		},
-		_setVisualModeFlag: function(){
-			this._editorModeFlag = false;
-		},
-		_setTextModeFlag: function(){
-			this._editorModeFlag = true;
 		},
 		_computeWindowTitle: function (name, _ideName) {
 			return name + ' - ' + _ideName;
@@ -234,11 +173,6 @@
 		},
 		_computeProcessingStatusKey:function(status){
 			return 'ide/toolbar/status/' + status;
-		},
-		_onAvatarGoToEmptyProgram: function () {
-			if(!this.model.id){
-				window.location.reload();
-			}
 		},
 		_computeAddToProfileKey: function(id, authorId, userId){
 
