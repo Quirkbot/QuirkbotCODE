@@ -177,6 +177,7 @@
 	window.Quirkbot.UIAvatar = Polymer({
 		is: 'qb-ui-avatar',
 		properties:{
+			model: Object,
 			user: Object,
 			homeUrl: String,
 			programAppUrl: String,
@@ -215,7 +216,15 @@
 		},
 		goToEmptyProgram: function(){
 			this.fire('go-to-empty-program');
-			window.location = this._resolveAppUrl(this.programAppUrl, '');
+			if(!this.model.id){
+				window.location.reload();
+			}
+			else{
+				var url = this._resolveAppUrl(this.programAppUrl, '');
+				window.location = url;
+			}
+
+
 		}
 	});
 })();
