@@ -41,7 +41,9 @@
     "gulp:xunit": "npm run gulp -- --reporter xunit",
     "dependencies": "rm -rf node_modules && npm install && cd src/assets && rm -rf bower_components && bower install",
     "shrinkwrap": "rm -rf node_modules && npm install --production && npm shrinkwrap",
-    "deploy:npm": "sh prepublish.sh && npm run shrinkwrap && npm publish"
+    "deploy:npm": "sh prepublish.sh && npm run shrinkwrap && npm publish",
+    "deploy:stage" : "npm run gulp -- deploy --environment=stage",
+    "deploy:production" : "npm run gulp -- deploy --environment=production"
   },
   "engines": {
     "node": ">=0.10.0"
