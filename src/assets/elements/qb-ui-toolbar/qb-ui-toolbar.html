@@ -21,21 +21,18 @@
 			:host{
 				display: block;
 				min-height: 0;
+				@apply(--layout-horizontal);
+				@apply(--layout-center);
 			}
 			:host .name {
 				margin: 0 0.5rem 0 0.7rem;
+				min-width: 5rem;
+				max-width: 15rem;
 
 				--qb-ui-input-text-padding: 0.4rem 0.5em 0.4rem  0.5em;
 				--qb-ui-input-text-input: {
-					font-size: 1rem;
+					font-size: 0.8rem;
 				};
-			}
-			:host .app-header{
-				position: relative;
-			}
-			:host .app-header .header-wrapper{
-				max-width: 100% !important;
-				height: 100%;
 			}
 			:host .status-indicator {
 				@apply(--layout-horizontal);
@@ -49,6 +46,11 @@
 				letter-spacing: 0.03rem;
 				cursor:default;
 			}
+			@media (max-width: 500px) {
+				:host .status-indicator .text{
+					display: none;
+				}
+			}
 		</style>
 
 		<qb-core-i18n
@@ -56,47 +58,41 @@
 			value="{{_ideName}}"
 			hidden>Quirkbot CODE</qb-core-i18n>
 
-		<div
-			class="app-header">
-			<div class="header-wrapper">
+		<qb-ui-input-text
+			class="name"
+			value="{{model.name}}"
+			disabled$="[[!user.id]]">
+		</qb-ui-input-text>
 
-				<qb-ui-input-text
-					class="name"
-					value="{{model.name}}"
-					disabled$="[[!user.id]]">
-				</qb-ui-input-text>
-
-				<div hidden$="[[!user.id]]">
-					<div
-						class="status-indicator"
-						hidden$="[[!_hideAddToProfile]]">
-						<qb-ui-status-indicator
-							state="[[processingStatus]]">
-						</qb-ui-status-indicator>
-						<qb-core-i18n
-							class="text"
-							key="[[_computeProcessingStatusKey(processingStatus)]]"></qb-core-i18n>
-					</div>
-				</div>
-
-				<qb-ui-toolbar-button
-					hidden$="[[_hideAddToProfile]]"
-					on-tap="_onAddToProfileButtonTap"
-					icon="add-to-profile"
-					icon-hover="add-to-profile-hover"
-					label-key="[[_addToProfileKey]]">
-				</qb-ui-toolbar-button>
-
-				<qb-ui-toolbar-button
-					on-tap="_onQuirkbotsAreaButtonTap"
-					icon="quirkbots"
-					icon-hover="quirkbots-hover"
-					label-key="ide/toolbar/quirkbots-area/tooltip">
-				</qb-ui-toolbar-button>
-
-				<div class="flex"></div>
+		<div hidden$="[[!user.id]]">
+			<div
+				class="status-indicator"
+				hidden$="[[!_hideAddToProfile]]">
+				<qb-ui-status-indicator
+					state="[[processingStatus]]">
+				</qb-ui-status-indicator>
+				<qb-core-i18n
+					class="text"
+					key="[[_computeProcessingStatusKey(processingStatus)]]"></qb-core-i18n>
 			</div>
 		</div>
+
+		<qb-ui-toolbar-button
+			hidden$="[[_hideAddToProfile]]"
+			on-tap="_onAddToProfileButtonTap"
+			icon="add-to-profile"
+			icon-hover="add-to-profile-hover"
+			label-key="[[_addToProfileKey]]">
+		</qb-ui-toolbar-button>
+
+		<qb-ui-toolbar-button
+			on-tap="_onQuirkbotsAreaButtonTap"
+			icon="quirkbots"
+			icon-hover="quirkbots-hover"
+			label-key="ide/toolbar/quirkbots-area/tooltip">
+		</qb-ui-toolbar-button>
+
+		<div class="flex"></div>
 	</template>
 </dom-module>
 
