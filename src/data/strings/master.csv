@@ -39,9 +39,10 @@ ide/footer/menu,"{% assign arg1='recovery-mode' %}{% include f_print_page_link %
 ide/footer/fine-print,"{% assign arg1='terms-of-use' %}{% assign arg2='_blank' %}{% include f_print_page_link %}{% assign arg1='privacy-policy' %}{% assign arg2='_blank' %}{% include f_print_page_link %}",
 AVATAR -------------------------------------------------------------,,
 ide/avatar/login,Log in,登陆
-ide/avatar/register,Join Quirkbot,加入Quirkbot
+ide/avatar/register,Join,加入
 ide/avatar/logout,Logout,登出
 ide/avatar/profile,Go to profile,我的资料
+ide/avatar/anonymous-user,Anonymous User,Anonymous User
 ide/avatar/new-program,Create new CODE,创建新的代码
 USER ---------------------------------------------------------------,,
 ide/user/forbidden/title,Access denied.,访问失败
@@ -51,12 +52,12 @@ ide/user/not-found/description,We couldn't find the user you are looking for.,�
 ide/user/programs/title,CODEs,代码
 ide/user/programs/empty,This user hasn't created any CODE yet.,用户未创建任何代码
 ide/user/programs/create-new,Create new CODE,创建新的代码
-ide/user/programs/inspiration,Need some inspiration? <a href='{% assign arg1='tutorials' %}{% include f_print_page_url %}'>Check out the tutorials!</a>,需要一些灵感? <a href='{% assign arg1='tutorials' %}{% include f_print_page_url %}'>看下我们的教程</a>
+ide/user/programs/inspiration,,
 ide/user/programs/item/modified,Last modified:,上一次修改:
 IDE - Toolbar ------------------------------------------------------,,
-ide/toolbar/add-to-profile/tooltip/user,Save CODE,保存
-ide/toolbar/add-to-profile/tooltip/clone,Clone CODE,复制
-ide/toolbar/quirkbots-area/tooltip,Upload CODE,上传
+ide/toolbar/add-to-profile/tooltip/user,Save,保存
+ide/toolbar/add-to-profile/tooltip/clone,Clone,复制
+ide/toolbar/quirkbots-area/tooltip,Upload,上传
 ide/toolbar/status/pending,,
 ide/toolbar/status/success,Saved!,已经保存！
 ide/toolbar/status/fail,Error saving.,保存失败！
