@@ -1,5 +1,6 @@
 ---
-layout: app_factory_reset
+layout: qb_app
+qb_app_type: factory-reset
 object_id: recovery-mode
 title: Recovery Mode
 ---
@@ -19,7 +20,7 @@ If your Quirkbot has stopped working and is not being detected anymore, you shou
 6. The the two **Mouth LEDs** should blink, confirming you have enabled *Recovery Mode*.
 7. Your Quirkbot should now be detectable again, allowing you to upload programs.
 
-*If your Quirkbot is still not detected even on Recovery Mode, please try to use a different USB cable and a different USB port. If the problem persists, please make bug report on the [forum](http://forurm.quirkbot.com).*
+*If your Quirkbot is still not detected even on Recovery Mode, please try to use a different USB cable and a different USB port. If the problem persists, please make bug report on the [forum](http://forum.quirkbot.com).*
 
 ## Resetting to the factory program
 To re-upload the original program that your Quirkbot came with, click on the button bellow.

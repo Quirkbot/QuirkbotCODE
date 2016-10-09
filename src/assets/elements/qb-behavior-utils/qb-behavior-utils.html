@@ -81,13 +81,18 @@
 			}
 			return '';
 		},
+		_resolveAbsoluteUrl: function(url) {
+			var a = document.createElement('a');
+			a.href = url;
+			return a.href;
+		},
 		_resolveApiUrl: function(url, path){
 			if (url.charAt(url.length - 1) === '/') {
 				url = url.substr(0, url.length - 1);
 			}
 			return url + '/' + path;
 		},
-		_resolveAppUrl: function(url, path){
+		_resolveAppUrl: function(url, path) {
 			if (url.charAt(url.length - 1) === '/') {
 				url = url.substr(0, url.length - 1);
 			}

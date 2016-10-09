@@ -23,10 +23,13 @@
 		<style include="qb-app-container-content-styles"></style>
 		<style>
 			:host .user-header{
-				text-align: center;
-				@apply(--layout-horizontal);
-				@apply(--layout-center-justified);
+				@apply(--layout-vertical);
+				@apply(--layout-center);
 				margin-bottom: 2rem;
+			}
+			:host .user-header .wrapper{
+				@apply(--layout-horizontal);
+				@apply(--layout-center);
 			}
 			:host .user-header .icon{
 				display: block;
@@ -34,11 +37,9 @@
 				--iron-icon-height: 4rem;
 			}
 			:host .user-header .label{
-				display: block;
 				color: var(--qb-pink);
 				font-size: 2.5rem;
 				margin-left: 0.5rem;
-				line-height: 2.5rem;
 			}
 			:host .description{
 				text-align: center;
@@ -116,12 +117,14 @@
 					is="dom-if"
 					if="[[_userNotFound]]">
 					<div class="user-header">
-						<iron-icon
-							class="icon"
-							icon="[[resolveIconName('question-mark', 'qb-icons')]]">
-						</iron-icon>
-						<span class="label"><qb-core-i18n
-							key="ide/user/not-found/title"></span>
+						<div class="wrapper">
+							<iron-icon
+								class="icon"
+								icon="[[resolveIconName('question-mark', 'qb-icons')]]">
+							</iron-icon>
+							<span class="label"><qb-core-i18n
+								key="ide/user/not-found/title"></span>
+						</div>
 					</div>
 					<div class="description">
 						<qb-core-i18n
@@ -134,13 +137,14 @@
 					if="[[!_userNotFound]]">
 
 					<div class="user-header">
-						<iron-icon
-							class="icon"
-							icon="[[resolveIconName('user', 'qb-icons')]]">
-						</iron-icon>
-						<span class="label">[[_userModel.nickname]]</span>
+						<div class="wrapper">
+							<iron-icon
+								class="icon"
+								icon="[[resolveIconName('user', 'qb-icons')]]">
+							</iron-icon>
+							<span class="label">[[_userModel.nickname]]</span>
+						</div>
 					</div>
-
 
 					<div class="description">
 						<template

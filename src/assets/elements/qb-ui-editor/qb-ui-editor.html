@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 
 <link rel="import" href="../qb-ui-editor-visual/qb-ui-editor-visual.html">
@@ -48,6 +48,42 @@
 			opacity: 1;
 			z-index: 1;
 		}
+		:host .editor-mode {
+			position: absolute;
+			bottom: 1rem;
+			right: 1rem;
+			background-color: var(--qb-grey-light);
+			border-radius: 2rem;
+    		padding: 0.4rem 0.8rem;
+			font-size: 0.8rem;
+			z-index: 1;
+			color: var(--qb-black);
+			@apply(--layout-horizontal);
+			@apply(--layout-center);
+		}
+		:host .editor-mode > * {
+			cursor: pointer;
+		}
+		:host .editor-mode paper-toggle-button{
+			margin: 0 0 0 0.6rem;
+			padding: 0;
+			--paper-toggle-button-unchecked-button-color: var(--qb-yellow);
+			--paper-toggle-button-checked-button-color: var(--qb-yellow);
+			--paper-toggle-button-unchecked-bar-color:  var(--qb-blue-transparent);
+			--paper-toggle-button-checked-bar-color:  var(--qb-pink-transparent);
+			--paper-toggle-button-unchecked-ink-color:  var(--qb-pink-transparent);
+			--paper-toggle-button-checked-ink-color:  var(--qb-pink-transparent);
+
+			--paper-toggle-button-unchecked-button:{
+				box-shadow: 0 0 0 3px var(--qb-pink-transparent) !important;
+				top: -2px !important;
+				height: 18px !important;
+				width: 18px !important;
+			};
+			--paper-toggle-button-unchecked-bar:{
+				opacity: 1 !important;
+			};
+		}
 
 
 	</style>
@@ -55,7 +91,7 @@
 	<template>
 
 		<paper-drawer-panel
-			right-drawer
+			left-drawer
 			drawer-width="200px">
 			<qb-ui-nodes-menu
 				drawer
@@ -91,6 +127,20 @@
 			</div>
 		</paper-drawer-panel>
 
+		<div class="editor-mode">
+			<qb-core-i18n
+				on-tap="_setVisualModeFlag"
+				key="ide/editor/visual">
+			</qb-core-i18n>
+			<paper-toggle-button
+				checked="{{_editorModeFlag}}">
+			</paper-toggle-button>
+			<qb-core-i18n
+				on-tap="_setTextModeFlag"
+				key="ide/editor/text">
+			</qb-core-i18n>
+		</div>
+
 		<div class="interaction-blocker"></div>
 
 	</template>
@@ -114,6 +164,10 @@
 			nodeDefinitions: Object,
 			constantDefinitions: Object,
 			taxonomyDefinitions: Object,
+			_editorModeFlag:{
+				type: Boolean,
+				observer:'_editorModeFlagChanged'
+			},
 			mode:{
 				type: String,
 				value: 'visual',
@@ -134,6 +188,20 @@
 		},
 		attached: function () {
 			this.$.menu.dropArea = this.$.dropArea;
+		},
+		_editorModeFlagChanged: function(value){
+			if(value){
+				this.mode = 'text';
+			}
+			else{
+				this.mode = 'visual';
+			}
+		},
+		_setVisualModeFlag: function(){
+			this._editorModeFlag = false;
+		},
+		_setTextModeFlag: function(){
+			this._editorModeFlag = true;
 		},
 		_modeChanged: function (mode) {
 			if(mode === 'text'){

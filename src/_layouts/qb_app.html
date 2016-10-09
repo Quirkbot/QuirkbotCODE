@@ -1,0 +1,20 @@
+{% assign query = (site.pages | where: 'object_id', page.object_id) %}
+<!DOCTYPE html>
+<html>
+	{% include head.html %}
+	<body
+		class="layout_app_{{ page.qb_app_type }} fullbleed layout vertical"
+		qb-unresolved>
+		{% if page.qb_app_shell_type == null %}
+			{% include app_shell_simple.html %}
+		{% else %}
+			{% include app_shell_{{ page.qb_app_shell_type  }}.html %}
+		{% endif %}
+		<qb-app-{{ page.qb_app_type }} {% include common_attributes.html %}>
+			<div class="content">
+				{{ content }}
+			</div>
+		</qb-app-{{ page.qb_app_type }}>
+		{% include foot.html %}
+	</body>
+</html>

@@ -31,6 +31,7 @@
 			:host .app-main{
 				flex: 1;
 				margin-top: 4rem;
+				margin-bottom: 4rem;
 				background-color:  var(--qb-grey-light-transparent);
 				@apply(--layout-horizontal);
 				@apply(--layout-center);
@@ -48,95 +49,88 @@
 			}
 
 			:host .app-footer{
-				background-color: var(--qb-pink-transparent);
-				min-height: 10rem;
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				background-color: var(--qb-pink-transparent-solid);
+				color: var(--qb-white);
+				height: 4rem;
+				z-index: 2;
 			}
 			:host .app-footer .footer-wrapper{
 				margin: 0 auto;
-				padding: 3rem;
-				max-width: var(--qb-desktop-width);
-			}
-			:host .app-footer .footer-wrapper > ::content .footer{
-				@apply(--layout-horizontal);
-			}
-			:host .app-footer .footer-wrapper > ::content .menu{
-				color: var(--qb-white);
-				width: 14rem;
-			}
-			:host .app-footer .footer-wrapper > ::content .menu ul{
 				padding: 0;
-				list-style: none;
+				max-width: var(--qb-desktop-width);
+				height: 100%;
+				@apply(--layout-horizontal);
+				@apply(--layout-center);
+				@apply(--layout-justified);
 			}
-			:host .app-footer .footer-wrapper > ::content .menu ul a{
+			:host .app-footer .footer-wrapper > .menu {
+				font-size: 1rem;
+			}
+			:host .app-footer .footer-wrapper > .menu ::content a {
 				text-decoration: none;
+				font-weight: bold;
+				margin-left: 1rem;
 			}
+			:host .app-footer .footer-wrapper > .fine-print {
+				font-size: 0.8rem;
+			}
+			:host .app-footer .footer-wrapper > .fine-print ::content a {
+				text-decoration: none;
+				margin-right: 0.8rem;
+			}
+
 			:host .quirkbot-logo {
 				display: block;
-				/*margin-left: 24px;*/
 				margin-top: 0;
-				width: 153px;
-				height: 64px;
+				width: 15rem;
+				height: 4rem;
 				position: relative;
 			}
 			:host .quirkbot-logo iron-image{
 				width: 100%;
 				height: 100%;
 			}
-			:host .editor-mode {
-				background-color: var(--qb-grey-light-transparent);
-				border-radius: 10px;
-				padding: 7px 10px;
-				margin-left: 15px;
-				z-index: 1;
-				color: var(--qb-black);
+
+			/* STYLES FOR FIT-SCREEN MODE*/
+			:host([fit-screen]) {
+
 			}
-			:host .editor-mode.with-controls {
-				font-size: 14px;
-				margin: 42px 0 0 20px;
+			:host([fit-screen]) .app-header{
+				position: relative;
 			}
-			:host .editor-mode .code {
-				width: 87px;
-				height: 34px;
+			:host([fit-screen]) .app-header .header-wrapper{
+				max-width: 100%;
 			}
-			:host .editor-mode.with-controls .code {
-				width: 116px;
-				height: 46px;
+
+			:host([fit-screen]) .app-main{
+				@apply(--layout-flex);
+				position: relative;
+				margin: 0;
 			}
-			:host .editor-mode .controls{
-				padding: 0 5px;
-				margin-top: 9px;
-				cursor: pointer;
-			}
-			:host .editor-mode paper-toggle-button{
-				cursor: pointer;
-				margin: 3px 10px;
+			:host([fit-screen]) .app-content{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				margin: 0;
 				padding: 0;
-				--paper-toggle-button-unchecked-button-color: var(--qb-yellow);
-				--paper-toggle-button-checked-button-color: var(--qb-yellow);
-				--paper-toggle-button-unchecked-bar-color:  var(--qb-blue-transparent);
-				--paper-toggle-button-checked-bar-color:  var(--qb-pink-transparent);
-				--paper-toggle-button-unchecked-ink-color:  var(--qb-pink-transparent);
-				--paper-toggle-button-checked-ink-color:  var(--qb-pink-transparent);
-
-				--paper-toggle-button-unchecked-button:{
-					box-shadow: 0 0 0 3px var(--qb-pink-transparent) !important;
-					top: -2px !important;
-					height: 18px !important;
-					width: 18px !important;
-				};
-				--paper-toggle-button-unchecked-bar:{
-					opacity: 1 !important;
-				};
+				border-radius: 0;
 			}
-			:host qb-ui-avatar{
-				min-width: 170px;
+			:host([fit-screen]) .app-footer{
+				position: relative;
 			}
-
+			:host([fit-screen]) .app-footer .footer-wrapper{
+				max-width: 100%;
+			}
+			/* STYLES FOR COVER MODE (Used in home)*/
 			:host([cover]) .app-header{
 				background-color: var(--qb-blue-transparent);
 				position: relative;
-				height: 40vh;
-				min-height: 19rem;
+				height: 15rem;
 				z-index: 1;
 				/*@apply(--layout-vertical);*/
 			}
@@ -144,17 +138,15 @@
 				@apply(--layout-vertical);
 			}
 			:host([cover]) .app-main{
-				margin-top: -3rem;
-				margin-bottom: -3rem;
-				border-radius: 999rem;
-				background-color:  var(--qb-yellow);
+				margin-top: 0rem;
+				margin-bottom: 4rem;
 
 			}
 			:host([cover]) .app-content{
-				z-index: 3;
+
 				margin-top: 2rem;
-				margin-bottom: 2em;
-				min-width: 30rem;
+				margin-bottom: 2rem;
+				width: auto;
 			}
 			:host([cover]) qb-ui-avatar{
 				position: absolute;
@@ -164,12 +156,8 @@
 			:host([cover]) .quirkbot-logo{
 				margin-left: 0;
 				margin-top: 0;
-				width: 350px;
-				height: 143px;
-			}
-			:host([cover]) .editor-mode .code {
-				width: 168px;
-				height: 66px;
+				width: 30rem;
+				height: 15rem;
 			}
 			@media (max-width: 52rem) {
 				:host .app-content{
@@ -200,14 +188,12 @@
 				:host([cover])  .app-content{
 					min-width:0;
 					margin-top: 0;
-					margin-bottom: 0;
+					margin-bottom: 4rem;
 				}
+			}
+			@media (max-width: 30rem) {
 				:host([cover]) .quirkbot-logo{
 					width: 100%;
-				}
-				:host([cover]) .editor-mode .code {
-					width: 108px;
-					height: 46px
 				}
 			}
 
@@ -250,6 +236,7 @@
 			}
 			:host qb-ui-app-container .content > ::content h3{
 				font-size: var(--qb-text-line-height);
+				line-height: var(--qb-text-line-height);
 			}
 			:host qb-ui-app-container .content > ::content h4{
 				font-size: 1rem;
@@ -315,6 +302,10 @@
 			:host qb-ui-app-container .content > ::content img:only-of-type {
 				display: block;
 				margin: 0 auto;
+			}
+			:host qb-ui-app-container .content > ::content hr {
+				border: none;
+				border-top: solid 2px rgba(0,0,0,0.05);
 			}
 			:host qb-ui-app-container .content > ::content table{
 				border-collapse: separate;

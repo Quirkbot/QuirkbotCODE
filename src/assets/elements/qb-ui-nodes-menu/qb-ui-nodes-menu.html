@@ -11,19 +11,15 @@
 		:host{
 			display: block;
 			overflow: auto;
-			padding: 2px 8px;
+			padding: 0;
 			box-sizing: border-box;
 			@apply(--layout-vertical);
+			background-color: var(--qb-grey-light-transparent);
 		}
 		:host .menu{
 			overflow-y: scroll;
-			/*max-height: calc(100%);*/
-		}
-		:host .footer{
 			@apply(--layout-flex);
-			margin: 3px 0;
-			border-radius: 10px;
-			background-color: var(--qb-grey-light-transparent);
+			padding: 0.4rem 0.4rem 0.6rem 0.4rem;
 		}
 	</style>
 	<template>
@@ -41,8 +37,6 @@
 					tags="{{selectedTags}}">
 				</qb-ui-nodes-menu-group>
 			</template>
-		</div>
-		<div class="footer">
 		</div>
 	</template>
 </dom-module>

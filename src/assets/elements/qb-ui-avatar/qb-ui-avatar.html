@@ -88,39 +88,81 @@
 
 		<template
 			is="dom-if"
-			if="[[user.nickname]]">
-
-			<paper-menu-button
-				horizontal-align="right"
-				horizontal-offset="0"
-				vertical-align="top"
-				vertical-offset="0"
-				no-animations>
+			if="[[!user.nickname]]">
+			<a href="[[registerAppUrl]]">
 				<paper-button
 					class="button main-button dropdown-trigger">
 					<iron-icon
-						icon="[[resolveIconName('user', 'qb-icons')]]">
-					</iron-icon><div class="label">[[user.nickname]]</div>
+						icon="[[resolveIconName('login', 'qb-icons')]]">
+					</iron-icon>
+					<div class="label">
+						<qb-core-i18n
+							key="ide/avatar/register">
+						</qb-core-i18n>
+						/
+						<qb-core-i18n
+							key="ide/avatar/login">
+						</qb-core-i18n>
+					</div>
 				</paper-button>
-				<paper-menu class="dropdown-content">
-					<a href="[[programAppUrl]]"
-						on-tap="goToEmptyProgram">
-						<paper-button
-							class="button">
-							<iron-icon
-								icon="[[resolveIconName('add', 'qb-icons')]]">
-							</iron-icon><qb-core-i18n
-								key="ide/avatar/new-program">
-							</qb-core-i18n>
-						</paper-button>
-					</a>
+			</a>
+		</template>
+
+		<paper-menu-button
+			horizontal-align="right"
+			horizontal-offset="0"
+			vertical-align="top"
+			vertical-offset="0"
+			no-animations>
+			<paper-button
+				class="button main-button dropdown-trigger">
+				<template
+					is="dom-if"
+					if="[[user.nickname]]">
+					<iron-icon
+						icon="[[resolveIconName('user', 'qb-icons')]]">
+					</iron-icon>
+					<div class="label">
+						<span>[[user.nickname]]</span>
+					</div>
+				</template>
+				<template
+					is="dom-if"
+					if="[[!user.nickname]]">
+					<iron-icon
+						icon="[[resolveIconName('question-mark', 'qb-icons')]]">
+					</iron-icon>
+					<div class="label">
+						<qb-core-i18n
+							key="ide/avatar/anonymous-user">
+						</qb-core-i18n>
+					</div>
+				</template>
+			</paper-button>
+			<paper-menu class="dropdown-content">
+				<a href="[[programAppUrl]]"
+					on-tap="goToEmptyProgram">
+					<paper-button
+						class="button">
+						<iron-icon
+							icon="[[resolveIconName('add', 'qb-icons')]]">
+						</iron-icon>
+						<qb-core-i18n
+							key="ide/avatar/new-program">
+						</qb-core-i18n>
+					</paper-button>
+				</a>
+				<template
+					is="dom-if"
+					if="[[user.nickname]]">
 					<a href="[[profileUrl]]"
 						on-tap="goToProfile">
 						<paper-button
 							class="button">
 							<iron-icon
 								icon="[[resolveIconName('user', 'qb-icons')]]">
-							</iron-icon><qb-core-i18n
+							</iron-icon>
+							<qb-core-i18n
 								key="ide/avatar/profile">
 							</qb-core-i18n>
 						</paper-button>
@@ -130,44 +172,33 @@
 						on-tap="logout">
 						<iron-icon
 							icon="[[resolveIconName('logout', 'qb-icons')]]">
-						</iron-icon><qb-core-i18n
+						</iron-icon>
+						<qb-core-i18n
 							key="ide/avatar/logout">
 						</qb-core-i18n>
 					</paper-button>
-				</paper-menu>
-			</paper-menu-button>
-
-		</template>
-
-		<template
-			is="dom-if"
-			if="[[!user.nickname]]">
-			<a href="[[registerAppUrl]]">
-				<paper-button
-					class="button main-button no-icon dropdown-trigger">
-					<div class="label">
-						<qb-core-i18n
-							key="ide/avatar/register">
-						</qb-core-i18n>
-					</div>
-				</paper-button>
-			</a>
-			<a href="[[registerAppUrl]]">
-				<paper-button
-					class="button main-button blue dropdown-trigger">
-					<iron-icon
-						icon="[[resolveIconName('login', 'qb-icons')]]">
-					</iron-icon><div class="label">
-						<qb-core-i18n
-							key="ide/avatar/login">
-						</qb-core-i18n>
-					</div>
-				</paper-button>
-			</a>
-
-		</template>
-
-
+				</template>
+				<template
+					is="dom-if"
+					if="[[!user.nickname]]">
+					<a href="[[registerAppUrl]]">
+						<paper-button
+							class="button">
+							<iron-icon
+								icon="[[resolveIconName('login', 'qb-icons')]]">
+							</iron-icon>
+							<qb-core-i18n
+								key="ide/avatar/register">
+							</qb-core-i18n>
+							/
+							<qb-core-i18n
+								key="ide/avatar/login">
+							</qb-core-i18n>
+						</paper-button>
+					</a>
+				</template>
+			</paper-menu>
+		</paper-menu-button>
 	</template>
 </dom-module>
 
@@ -177,6 +208,7 @@
 	window.Quirkbot.UIAvatar = Polymer({
 		is: 'qb-ui-avatar',
 		properties:{
+			model: Object,
 			user: Object,
 			homeUrl: String,
 			programAppUrl: String,
@@ -215,7 +247,15 @@
 		},
 		goToEmptyProgram: function(){
 			this.fire('go-to-empty-program');
-			window.location = this._resolveAppUrl(this.programAppUrl, '');
+			if(!this.model.id){
+				window.location.reload();
+			}
+			else{
+				var url = this._resolveAppUrl(this.programAppUrl, '');
+				window.location = url;
+			}
+
+
 		}
 	});
 })();
