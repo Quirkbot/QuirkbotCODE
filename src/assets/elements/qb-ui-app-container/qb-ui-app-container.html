@@ -8,9 +8,10 @@
 
 <link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
 <link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-core-hardware-interface/qb-core-hardware-interface.html">
 <link rel="import" href="../qb-ui-avatar/qb-ui-avatar.html">
-
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container-styles.html">
+<link rel="import" href="../qb-ui-toolbar-button/qb-ui-toolbar-button.html">
 
 <dom-module id='qb-ui-app-container'>
 	<template>
@@ -19,57 +20,91 @@
 			:host{}
 		</style>
 
-			<div
-				class="app-header">
-				<div class="header-wrapper">
-					<a href="[[homeUrl]]" class="quirkbot-logo">
-						<iron-image
-							sizing="contain"
-							src="[[resolveUrl('../../images/logo/quirkbot-code.svg')]]">
-						</iron-image>
-					</a>
+		<qb-core-hardware-interface
+			chrome-webstore-id="[[chromeWebstoreId]]"
+			model="{{hardware}}">
+		</qb-core-hardware-interface>
 
-					<div class="flex">
-						<content select=".header"></content>
-					</div>
+		<div
+			class="app-header">
+			<div class="header-wrapper">
+				<a href="[[homeUrl]]" class="quirkbot-logo">
+					<iron-image
+						sizing="contain"
+						src="[[resolveUrl('../../images/logo/quirkbot-code.svg')]]">
+					</iron-image>
+				</a>
 
-					<qb-ui-avatar
-						home-url="[[homeUrl]]"
-						register-app-url="[[registerAppUrl]]"
-						user-app-url="[[userAppUrl]]"
-						program-app-url="[[programAppUrl]]"
-						user="[[user]]"
-						model="[[model]]">
-					</qb-ui-avatar>
+				<div class="flex">
+					<content select=".header"></content>
+				</div>
+
+				<qb-ui-avatar
+					home-url="[[homeUrl]]"
+					register-app-url="[[registerAppUrl]]"
+					user-app-url="[[userAppUrl]]"
+					program-app-url="[[programAppUrl]]"
+					user="[[user]]"
+					model="[[model]]">
+				</qb-ui-avatar>
+			</div>
+
+		</div>
+		<div class="app-main">
+			<div class="app-content">
+				<content select=".content"></content>
+			</div>
+		</div>
+		<div class="app-footer">
+			<div class="footer-wrapper">
+
+				<div class="quirkbot-detector">
+					<template
+						is="dom-if"
+						if="[[hardware.quirkbots.length]]">
+						<qb-ui-toolbar-button
+							on-tap="_onQuirkbotsAreaButtonTap"
+							icon="quirkbot-detected"
+							icon-hover="quirkbot-detected"
+							header-key="ide/toolbar/quirbot-detector/detected/header"
+							label-key="ide/toolbar/quirbot-detector/detected/label"
+							no-border
+							success>
+						</qb-ui-toolbar-button>
+					</template>
+					<template
+						is="dom-if"
+						if="[[!hardware.quirkbots.length]]">
+						<qb-ui-toolbar-button
+							on-tap="_onQuirkbotsAreaButtonTap"
+							icon="quirkbot-not-detected"
+							icon-hover="quirkbot-not-detected"
+							header-key="ide/toolbar/quirbot-detector/not-detected/header"
+							label-key="ide/toolbar/quirbot-detector/not-detected/label"
+							no-border
+							error>
+						</qb-ui-toolbar-button>
+					</template>
+				</div>
+
+				<div class="menu">
+					<qb-core-i18n
+						key="ide/footer/menu">
+					</qb-core-i18n>
+				</div>
+
+				<div class="flex">
+					<content select=".footer"></content>
+				</div>
+
+				<div class="fine-print">
+					<qb-core-i18n
+						key="ide/footer/fine-print">
+					</qb-core-i18n>
 				</div>
 
 			</div>
-			<div class="app-main">
-				<div class="app-content">
-					<content select=".content"></content>
-				</div>
-			</div>
-			<div class="app-footer">
-				<div class="footer-wrapper">
-
-					<div class="menu">
-						<qb-core-i18n
-							key="ide/footer/menu">
-						</qb-core-i18n>
-					</div>
-
-					<div class="flex">
-						<content select=".footer"></content>
-					</div>
-
-					<div class="fine-print">
-						<qb-core-i18n
-							key="ide/footer/fine-print">
-						</qb-core-i18n>
-					</div>
-
-				</div>
-			</div>
+		</div>
 
 	</template>
 </dom-module>
@@ -86,7 +121,8 @@
 			registerAppUrl: String,
 			userAppUrl: String,
 			user: Object,
-			model: Object
+			model: Object,
+			hardware: Object
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
