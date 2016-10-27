@@ -23,18 +23,28 @@
 				class="hover"
 				icon="[[resolveIconName(iconHover, 'qb-toolbar-buttons')]]">
 			</iron-icon>
-			<template
-				is="dom-if"
-				if="[[labelKey]]">
-				<qb-core-i18n
-					class="label"
-					key="[[labelKey]]"></qb-core-i18n>
-			</template>
-
+			<div
+				class="text">
+				<template
+					is="dom-if"
+					if="[[headerKey]]">
+					<qb-core-i18n
+						class="header"
+						key="[[headerKey]]"></qb-core-i18n>
+				</template>
+				<template
+					is="dom-if"
+					if="[[labelKey]]">
+					<qb-core-i18n
+						class="label"
+						key="[[labelKey]]"></qb-core-i18n>
+				</template>
+			</div>
 
 		</paper-button>
 		<paper-tooltip hidden$="[[!tooltipKey]]">
-
+			<qb-core-i18n
+				key="[[tooltipKey]]"></qb-core-i18n>
 		</paper-tooltip>
 
 	</template>
@@ -48,8 +58,21 @@
 		properties: {
 			icon: String,
 			iconHover: String,
+			headerKey: String,
 			labelKey: String,
-			tooltipKey: String
+			tooltipKey: String,
+			noBorder: {
+				type: Boolean,
+				reflectToAttribute: true
+			},
+			error: {
+				type: Boolean,
+				reflectToAttribute: true
+			},
+			success: {
+				type: Boolean,
+				reflectToAttribute: true
+			}
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
