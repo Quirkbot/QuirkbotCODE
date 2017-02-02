@@ -63,6 +63,12 @@
 						is="dom-if"
 						if="[[hardware.quirkbots.length]]">
 						<qb-ui-toolbar-button
+							icon="quirkbot-detected"
+							icon-hover="quirkbot-detected"
+							no-border
+							success>
+						</qb-ui-toolbar-button>
+						<!--<qb-ui-toolbar-button
 							on-tap="_onQuirkbotsAreaButtonTap"
 							icon="quirkbot-detected"
 							icon-hover="quirkbot-detected"
@@ -70,12 +76,18 @@
 							label-key="ide/toolbar/quirbot-detector/detected/label"
 							no-border
 							success>
-						</qb-ui-toolbar-button>
+						</qb-ui-toolbar-button>-->
 					</template>
 					<template
 						is="dom-if"
 						if="[[!hardware.quirkbots.length]]">
 						<qb-ui-toolbar-button
+							icon="quirkbot-not-detected"
+							icon-hover="quirkbot-not-detected"
+							no-border
+							error>
+						</qb-ui-toolbar-button>
+						<!--<qb-ui-toolbar-button
 							on-tap="_onQuirkbotsAreaButtonTap"
 							icon="quirkbot-not-detected"
 							icon-hover="quirkbot-not-detected"
@@ -83,7 +95,7 @@
 							label-key="ide/toolbar/quirbot-detector/not-detected/label"
 							no-border
 							error>
-						</qb-ui-toolbar-button>
+						</qb-ui-toolbar-button>-->
 					</template>
 				</div>
 
