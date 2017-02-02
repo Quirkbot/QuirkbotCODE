@@ -23,23 +23,27 @@
 				class="hover"
 				icon="[[resolveIconName(iconHover, 'qb-toolbar-buttons')]]">
 			</iron-icon>
-			<div
-				class="text">
-				<template
-					is="dom-if"
-					if="[[headerKey]]">
-					<qb-core-i18n
-						class="header"
-						key="[[headerKey]]"></qb-core-i18n>
-				</template>
-				<template
-					is="dom-if"
-					if="[[labelKey]]">
-					<qb-core-i18n
-						class="label"
-						key="[[labelKey]]"></qb-core-i18n>
-				</template>
-			</div>
+			<template
+				is="dom-if"
+				if="[[_any(headerKey,labelKey)]]">
+				<div
+					class="text">
+					<template
+						is="dom-if"
+						if="[[headerKey]]">
+						<qb-core-i18n
+							class="header"
+							key="[[headerKey]]"></qb-core-i18n>
+					</template>
+					<template
+						is="dom-if"
+						if="[[labelKey]]">
+						<qb-core-i18n
+							class="label"
+							key="[[labelKey]]"></qb-core-i18n>
+					</template>
+				</div>
+			</template>
 
 		</paper-button>
 		<paper-tooltip hidden$="[[!tooltipKey]]">
