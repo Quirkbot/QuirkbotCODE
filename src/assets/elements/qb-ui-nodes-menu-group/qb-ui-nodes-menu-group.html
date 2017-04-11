@@ -75,10 +75,12 @@
 			class="collapse"
 			opened$="{{opened}}">
 			<template
+				id="nodesRepeater"
 				is="dom-repeat"
 				items="{{data.nodes}}"
-				sort="sortByName"
-				observe="name">
+				sort="sortByDefinitionIndex"
+				filter="_filterByTags"
+				observe="index">
 				<div class="nodes-container">
 					<qb-ui-nodes-menu-item
 						data="{{item}}"
@@ -124,6 +126,11 @@
 			collapseIcon: {
 				type: String,
 				computed: '_computeCollapseIcon(opened)'
+			},
+			tags: {
+				type: Array,
+				observer: '_tagsChanged',
+				value: []
 			}
 		},
 		behaviors:[
@@ -131,6 +138,20 @@
 		],
 		toggleItems: function () {
 			this.opened = !this.opened;
+		},
+		_tagsChanged: function(){
+			this.$.nodesRepeater.render();
+		},
+		_filterByTags: function(object) {
+			var found = false;
+			this.tags.forEach(function(selectedTag){
+				object.definition.taxonomy.tags.forEach(function(tag){
+					if(tag === selectedTag){
+						found = true;
+					}
+				});
+			});
+			return found;
 		},
 		_computeNameKey: function(data) {
 			return 'category/' + data.definition.id;

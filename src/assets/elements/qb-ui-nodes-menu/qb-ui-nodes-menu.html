@@ -14,27 +14,76 @@
 			padding: 0;
 			box-sizing: border-box;
 			@apply(--layout-vertical);
-			background-color: var(--qb-grey-light-transparent);
+			@apply(--layout-center);
+			background-color: var(--qb-grey-lightest-transparent);
 		}
 		:host .menu{
 			overflow-y: scroll;
 			@apply(--layout-flex);
+			@apply(--layout-self-stretch);
 			padding: 0.4rem 0.4rem 0.6rem 0.4rem;
+			background-color: var(--qb-grey-lightest);
+		}
+		:host .nodes-filter {
+			background-color: var(--qb-grey-light);
+			margin: 10px 0;
+			border-radius: 2rem;
+			padding: 0.4rem 0.8rem;
+			font-size: 0.8rem;
+			color: var(--qb-black);
+			@apply(--layout-horizontal);
+			@apply(--layout-center);
+		}
+		:host .nodes-filter > * {
+			cursor: pointer;
+		}
+		:host .nodes-filter paper-toggle-button{
+			margin: 0 0 0 0.6rem;
+			padding: 0;
+			--paper-toggle-button-unchecked-button-color: var(--qb-yellow);
+			--paper-toggle-button-checked-button-color: var(--qb-yellow);
+			--paper-toggle-button-unchecked-bar-color:  var(--qb-blue-transparent);
+			--paper-toggle-button-checked-bar-color:  var(--qb-pink-transparent);
+			--paper-toggle-button-unchecked-ink-color:  var(--qb-pink-transparent);
+			--paper-toggle-button-checked-ink-color:  var(--qb-pink-transparent);
+
+			--paper-toggle-button-unchecked-button:{
+				box-shadow: 0 0 0 3px var(--qb-pink-transparent) !important;
+				top: -2px !important;
+				height: 18px !important;
+				width: 18px !important;
+			};
+			--paper-toggle-button-unchecked-bar:{
+				opacity: 1 !important;
+			};
 		}
 	</style>
 	<template>
+		<div class="nodes-filter">
+			<qb-core-i18n
+				on-tap="_setSimpleTag"
+				key="tag/simple">
+			</qb-core-i18n>
+			<paper-toggle-button
+				checked="{{_tagFilterFlag}}">
+			</paper-toggle-button>
+			<qb-core-i18n
+				on-tap="_setAdvancedTag"
+				key="tag/advanced">
+			</qb-core-i18n>
+		</div>
 		<div class="menu">
 			<template
 				is="dom-repeat"
-				items="{{categories}}"
-				sort="sortByName"
-				observe="name">
+				items="[[categories]]"
+				sort="sortByDefinitionIndex"
+				observe="index">
 				<qb-ui-nodes-menu-group
 					tree-manager="{{treeManager}}"
 					drop-area="{{dropArea}}"
 					visual-editor="{{visualEditor}}"
 					data="{{item}}"
-					tags="{{selectedTags}}">
+					tags="[[selectedTags]]">
 				</qb-ui-nodes-menu-group>
 			</template>
 		</div>
@@ -54,7 +103,11 @@
 
 			categories: Array,
 			tags: Array,
-			selectedTags: Array
+			selectedTags: Array,
+			_tagFilterFlag: {
+				type: Boolean,
+				observer:'_tagFilterFlagChanged'
+			}
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
@@ -62,6 +115,20 @@
 		observers:[
 			'_computeCategoriesAndTags(taxonomyDefinitions, nodeDefinitions)'
 		],
+		_setSimpleTag: function(){
+			this._tagFilterFlag = false;
+		},
+		_setAdvancedTag: function(){
+			this._tagFilterFlag = true;
+		},
+		_tagFilterFlagChanged: function(value) {
+			if(value) {
+				this.set('selectedTags', ['simple', 'advanced']);
+			}
+			else {
+				this.set('selectedTags', ['simple']);
+			}
+		},
 		_computeCategoriesAndTags: function(taxonomyDefinitions, nodeDefinitions) {
 			if(typeof nodeDefinitions === 'undefined' || typeof taxonomyDefinitions === 'undefined' ){
 				return;
@@ -86,8 +153,9 @@
 				this.push('tags', {
 					definition: definition
 				});
-				this.push('selectedTags',definition.id);
 			}.bind(this));
+
+			this.set('selectedTags', ['simple']);
 		},
 		_taxonomyPush: function (list, container, type) {
 			list.forEach(function (node) {
