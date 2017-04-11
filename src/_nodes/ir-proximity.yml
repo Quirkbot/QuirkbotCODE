@@ -6,7 +6,8 @@ name_t:
 taxonomy:
   categories:
     - input
-  tags: []
+  tags:
+    - advanced
 type: IRProximity
 inputs:
   -
