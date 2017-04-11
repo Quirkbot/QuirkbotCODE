@@ -1,11 +1,13 @@
 ---
 object_id: makey-touch
+index: 0
 name_t:
   en: Circuit Touch
 taxonomy:
   categories:
-    - connect
-  tags: []
+    - input
+  tags:
+    - simple
 type: CircuitTouch
 inputs:
   -

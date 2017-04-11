@@ -161,6 +161,8 @@ lang: cn
 	"CATEGORIES ---------------------------------------------------------": "",
 	"category/backpack": "背包",
 	"category/brains": "大脑",
+	"category/input": "Input",
+	"category/output": "Output",
 	"category/connect": "连接",
 	"category/usb": "USB",
 	"TAGS ---------------------------------------------------------------": "",

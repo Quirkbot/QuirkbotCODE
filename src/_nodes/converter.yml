@@ -1,11 +1,13 @@
 ---
 object_id: converter
+index: 2
 name_t:
   en: Converter
 taxonomy:
   categories:
     - brains
-  tags: []
+  tags:
+    - advanced
 type: Converter
 inputs:
   -

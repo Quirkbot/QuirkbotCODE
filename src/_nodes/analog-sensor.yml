@@ -1,12 +1,14 @@
 ---
 object_id: analog-sensor
+index: 3
 type: AnalogSensor
 name_t:
   en: Analog Sensor
 taxonomy:
   categories:
-    - connect
-  tags: []
+    - input
+  tags:
+    - advanced
 inputs:
   -
     id: place

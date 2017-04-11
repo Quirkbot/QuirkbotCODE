@@ -1,11 +1,13 @@
 ---
 object_id: list
+index: 4
 name_t:
   en: List
 taxonomy:
   categories:
     - brains
-  tags: []
+  tags:
+    - advanced
 type: List
 inputs:
   -

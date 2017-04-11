@@ -155,6 +155,8 @@ ide/warnings/sync/NOT_CONFIRMED/cancel,Close,关闭
 CATEGORIES ---------------------------------------------------------,,
 category/backpack,Backpack,背包
 category/brains,Brains,大脑
+category/input,Input,Input
+category/output,Output,Output
 category/connect,Connect,连接
 category/usb,USB,USB
 TAGS ---------------------------------------------------------------,,

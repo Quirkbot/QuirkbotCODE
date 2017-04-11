@@ -1,11 +1,13 @@
 ---
 object_id: sequence
+index: 5
 name_t:
   en: Sequence
 taxonomy:
   categories:
     - brains
-  tags: []
+  tags:
+    - advanced
 type: Sequence
 inputs:
   -

@@ -1,10 +1,11 @@
 ---
 object_id: ir-proximity
+index: 2
 name_t:
   en: IR Proximity
 taxonomy:
   categories:
-    - backpack
+    - input
   tags: []
 type: IRProximity
 inputs:

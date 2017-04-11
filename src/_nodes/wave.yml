@@ -1,11 +1,13 @@
 ---
 object_id: wave
+index: 0
 name_t:
   en: Wave
 taxonomy:
   categories:
     - brains
-  tags: []
+  tags:
+    - simple
 type: Wave
 inputs:
   -

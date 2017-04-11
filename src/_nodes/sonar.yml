@@ -1,11 +1,13 @@
 ---
 object_id: sonar
+index: 2
 name_t:
   en: Sonar
 taxonomy:
   categories:
-    - backpack
-  tags: []
+    - input
+  tags:
+    - advanced
 type: Sonar
 inputs:
   -

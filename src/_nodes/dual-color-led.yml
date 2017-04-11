@@ -1,11 +1,13 @@
 ---
 object_id: dual-color-led
+index: 1
 name_t:
   en: Dual Color LED
 taxonomy:
   categories:
-    - connect
-  tags: []
+    - output
+  tags:
+    - advanced
 type: DualColorLed
 inputs:
   -

@@ -1,11 +1,13 @@
 ---
 object_id: key-press
+index: 5
 name_t:
   en: Key Press
 taxonomy:
   categories:
-    - usb
-  tags: []
+    - output
+  tags:
+    - advanced
 type: KeyPress
 inputs:
   -
