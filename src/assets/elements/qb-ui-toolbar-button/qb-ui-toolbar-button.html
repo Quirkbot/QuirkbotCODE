@@ -23,28 +23,18 @@
 				class="hover"
 				icon="[[resolveIconName(iconHover, 'qb-toolbar-buttons')]]">
 			</iron-icon>
-			<template
-				is="dom-if"
-				if="[[_any(headerKey,labelKey)]]">
-				<div
-					class="text">
-					<template
-						is="dom-if"
-						if="[[headerKey]]">
-						<qb-core-i18n
-							class="header"
-							key="[[headerKey]]"></qb-core-i18n>
-					</template>
-					<template
-						is="dom-if"
-						if="[[labelKey]]">
-						<qb-core-i18n
-							class="label"
-							key="[[labelKey]]"></qb-core-i18n>
-					</template>
-				</div>
-			</template>
-
+			<div
+				class="text"
+				hidden$="[[!_any(headerKey,labelKey)]]">
+				<qb-core-i18n
+					class="header"
+					hidden$="[[!headerKey]]"
+					key="[[headerKey]]"></qb-core-i18n>
+				<qb-core-i18n
+					class="label"
+					hidden$="[[!labelKey]]"
+					key="[[labelKey]]"></qb-core-i18n>
+			</div>
 		</paper-button>
 		<paper-tooltip hidden$="[[!tooltipKey]]">
 			<qb-core-i18n
@@ -62,9 +52,18 @@
 		properties: {
 			icon: String,
 			iconHover: String,
-			headerKey: String,
-			labelKey: String,
-			tooltipKey: String,
+			headerKey: {
+				type: String,
+				value: ''
+			},
+			labelKey: {
+				type: String,
+				value: ''
+			},
+			tooltipKey: {
+				type: String,
+				value: ''
+			},
 			noBorder: {
 				type: Boolean,
 				reflectToAttribute: true
