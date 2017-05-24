@@ -1,11 +1,13 @@
 ---
 object_id: randomizer
+index: 1
 name_t:
   en: Randomizer
 taxonomy:
   categories:
     - brains
-  tags: []
+  tags:
+    - simple
 type: Randomizer
 inputs:
   -

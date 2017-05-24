@@ -7,6 +7,8 @@ layout: null
 		{% for node in site.nodes %}
 			{
 				"id" : {{node.object_id | jsonify}},
+				"index" : {{node.index | jsonify}},
+				"color" : {{node.color | jsonify}},
 				"type" : {{node.type | jsonify}},
 				"taxonomy" : {{node.taxonomy | jsonify}},
 				"inputs" : {{node.inputs | jsonify}},
@@ -20,11 +22,19 @@ layout: null
 			{% for category in categories %}
 				{
 					"id" : {{category.object_id | jsonify}},
+					"index" : {{category.index | jsonify}},
 					"color" : {{category.color | jsonify}}
 				}{% if forloop.last == false %},{% endif %}
 			{% endfor %}
 		],
-		"tags": []
+		"tags": [
+			{
+				"id" : "simple"
+			},
+			{
+				"id" : "advanced"
+			}
+		]
 	},
 	"constants": [
 		"A0",

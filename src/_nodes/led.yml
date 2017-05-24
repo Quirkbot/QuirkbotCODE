@@ -1,11 +1,13 @@
 ---
 object_id: led
+index: 0
 name_t:
   en: LED
 taxonomy:
   categories:
-    - connect
-  tags: []
+    - output
+  tags:
+    - simple
 type: Led
 inputs:
   -

@@ -1,11 +1,13 @@
 ---
 object_id: light-sensor
+index: 1
 name_t:
   en: Light Sensor
 taxonomy:
   categories:
-    - connect
-  tags: []
+    - input
+  tags:
+    - simple
 type: LightSensor
 inputs:
   -

@@ -1,11 +1,13 @@
 ---
 object_id: voltage-output
+index: 7
 name_t:
   en: Voltage Output
 taxonomy:
   categories:
-    - connect
-  tags: []
+    - output
+  tags:
+    - advanced
 type: VoltageOutput
 inputs:
   -

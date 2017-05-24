@@ -1,12 +1,14 @@
 ---
 object_id: buzzer
+index: 4
 type: Buzzer
 name_t:
   en: Buzzer
 taxonomy:
   categories:
-    - backpack
-  tags: []
+    - output
+  tags:
+    - advanced
 inputs:
   -
     id: note

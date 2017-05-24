@@ -1,11 +1,13 @@
 ---
 object_id: gate
+index: 3
 name_t:
   en: Gate
 taxonomy:
   categories:
     - brains
-  tags: []
+  tags:
+    - advanced
 type: Gate
 inputs:
   -

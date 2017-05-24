@@ -1,11 +1,13 @@
 ---
 object_id: key-sequence
+index: 6
 name_t:
   en: Key Sequence
 taxonomy:
   categories:
-    - usb
-  tags: []
+    - output
+  tags:
+    - advanced
 type: KeySequence
 inputs:
   -

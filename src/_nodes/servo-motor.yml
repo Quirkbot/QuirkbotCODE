@@ -1,11 +1,13 @@
 ---
 object_id: servo-motor
+index: 2
 name_t:
   en: Servo Motor
 taxonomy:
   categories:
-    - backpack
-  tags: []
+    - output
+  tags:
+    - simple
 type: ServoMotor
 inputs:
   -

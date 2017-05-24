@@ -145,7 +145,7 @@
 		/**
 		* Filters and sorters for arrays of objects
 		**/
-		sortByKey: function (key, a, b) {
+		sortByKey: function (key, a, b, parseAsNumber) {
 			if(!a[key] && !b[key]){
 				return 0;
 			}
@@ -155,8 +155,9 @@
 			else if(!b[key]){
 				return 1;
 			}
-			var aValue = a[key].toUpperCase();
-			var bValue = b[key].toUpperCase();
+			var aValue = parseAsNumber ? parseFloat(a[key]) : a[key].toUpperCase();
+			var bValue = parseAsNumber ? parseFloat(b[key]) : b[key].toUpperCase();
+
 			if(aValue < bValue){
 				return -1;
 			}
@@ -164,6 +165,12 @@
 				return 1;
 			}
 			return 0;
+		},
+		sortByDefinitionIndex: function (a, b) {
+			return this.sortByKey('index', a.definition, b.definition, true);
+		},
+		sortByIndex: function (a, b) {
+			return this.sortByKey('index', a, b, true);
 		},
 		sortByName: function (a, b) {
 			return this.sortByKey('name', a, b);

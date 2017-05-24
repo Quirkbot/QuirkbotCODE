@@ -1,11 +1,13 @@
 ---
 object_id: continuous-servo
+index: 3
 name_t:
   en: Continuous Servo
 taxonomy:
   categories:
-    - backpack
-  tags: []
+    - output
+  tags:
+    - advanced
 type: ContinuousServo
 inputs:
   -

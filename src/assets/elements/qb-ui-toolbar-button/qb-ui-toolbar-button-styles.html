@@ -13,21 +13,39 @@
 				background-color: var(--qb-white);
 				min-width: 0;
 				min-height: 0;
-				padding: 0.2em 0.4em;
-				margin: 0 0.29em;
+				padding: 0.2rem 0.4rem;
+				margin: 0 0.29rem;
 				border-radius: 10px;
 				border: solid 2px var(--qb-interactive-color-transparent);
 				box-shadow: 0 0 0 2px var(--qb-interactive-color-transparent);
 				text-transform: inherit;
 				color: var(--qb-black);
 			}
+			:host([no-border]) .qb-toolbar-button{
+				border: none;
+				box-shadow: none;
+			}
 			:host .qb-toolbar-button iron-icon{
 				--iron-icon-width: 30px;
 				--iron-icon-height: 30px;
 			}
-			:host .qb-toolbar-button .label{
-				font-size: 0.5rem;
+			:host .qb-toolbar-button .text{
+				@apply(--layout-vertical);
 				margin: 0 0.3rem;
+			}
+			:host .qb-toolbar-button .label{
+				font-size: 0.6rem;
+
+			}
+			:host .qb-toolbar-button .header{
+				font-weight: bold;
+				font-size: 0.7rem;
+			}
+			:host([error]) .qb-toolbar-button .header{
+				color: var(--qb-red);
+			}
+			:host([success]) .qb-toolbar-button .header{
+				color: var(--qb-green-dark);
 			}
 			/*:host .qb-toolbar-button paper-tooltip{
 				--paper-tooltip:{
@@ -52,7 +70,7 @@
 			}
 
 			@media (max-width: 500px) {
-				:host .qb-toolbar-button .label{
+				:host .qb-toolbar-button .text {
 					display: none;
 				}
 			}
