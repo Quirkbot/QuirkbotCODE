@@ -360,7 +360,7 @@
 				// We need to flag that the change was externernal, so that we
 				// avoid overwriting the value on _sliderValueChanged
 				this.externalSlideChange = true;
-				slider.value = parseFloat(value);
+				slider.value = parseFloat(parseFloat(value).toFixed(2));
 			}
 			this.externalSlideChange = false;
 			// Validate
@@ -385,7 +385,7 @@
 
 			if(this.rangeController && slider && !isNaN(slider.value) && !external){
 
-				this._setTypedValue('Number', slider.value);
+				this._setTypedValue('Number', parseFloat(parseFloat(slider.value).toFixed(2)));
 
 			}
 
