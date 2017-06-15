@@ -20,6 +20,13 @@
 			:host{}
 		</style>
 
+		<iron-ajax
+			auto
+			url="[[resolveUrl('../../../manifest.json')]]"
+			handle-as="json"
+			last-response="{{manifest}}">
+		</iron-ajax>
+
 		<qb-core-hardware-interface
 			chrome-webstore-id="[[chromeWebstoreId]]"
 			model="{{hardware}}">
@@ -115,6 +122,10 @@
 					</qb-core-i18n>
 				</div>
 
+				<div class="version">
+					[[manifest.version]]
+				</div>
+
 			</div>
 		</div>
 
@@ -134,7 +145,8 @@
 			userAppUrl: String,
 			user: Object,
 			model: Object,
-			hardware: Object
+			hardware: Object,
+			manifest: Object
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
