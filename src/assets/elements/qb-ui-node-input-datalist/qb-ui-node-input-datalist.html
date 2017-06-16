@@ -19,7 +19,7 @@
 					background-color: transparent;
 				};
 				--paper-menu-selected-item:{
-					background-color: var(--qb-interactive-color-hard-transparent) !important;
+					background-color: var(--qb-interactive-color) !important;
 				};
 			}
 			:host iron-list{
@@ -36,10 +36,10 @@
 				background-color: transparent;
 			}
 			:host .item:nth-child(odd) {
-				background-color: var(--qb-white-transparent);
+				background-color: var(--qb-interactive-color-hard-transparent);
 			}
 			:host .item[selected] {
-				background-color: var(--qb-interactive-color-hard-transparent);
+				background-color: var(--qb-interactive-hover-color-hard-transparent);
 			}
 
 			:host .item iron-icon{
