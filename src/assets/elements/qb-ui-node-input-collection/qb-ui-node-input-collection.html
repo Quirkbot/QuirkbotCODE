@@ -13,24 +13,33 @@
 		:host{
 			display: block;
 
-			--label-offset: var(--qb-ui-node-input-label-offset, 6px);
-			--label-font-size: var(--qb-ui-node-input-label-font-size, 12px);
+			--label-min-width: var(--qb-ui-node-input-label-min-width, 1rem);
+			--label-offset: var(--qb-ui-node-input-label-offset, 0.2rem);
+			--label-font-size: var(--qb-ui-node-input-label-font-size, 0.75rem);
+
 			@apply(--qb-ui-node-input-collection);
-		};
+		}
+		:host .header{
+			margin-bottom: 0.5rem;
+		}
 		:host .label{
 			font-size: var(--label-font-size);
 			color: var(--qb-text-background-color);
 			margin-left: var(--label-offset);
 			display: inline-block;
+			text-align: center;
 			@apply(--qb-ui-node-input-label);
 		}
 		:host paper-icon-button{
-			border-radius: 999px;
+			border-radius: 10rem;
 			padding: 0;
 			background-color: var(--qb-text-background-color);
-			--iron-icon-width: var(--qb-ui-node-input-collection-button-size, 25px);
-			--iron-icon-height: var(--qb-ui-node-input-collection-button-size, 25px);
-			transform: scale(0.65);
+			--iron-icon-width: var(--qb-ui-node-input-collection-button-size, 1.5rem);
+			--iron-icon-height: var(--qb-ui-node-input-collection-button-size, 1.5rem);
+			--paper-icon-button: {
+				width: 1.2rem;
+				height: 1.2rem;
+			};
 			@apply(--qb-ui-node-input-collection-button);
 		}
 		:host .input-inner-wrapper{
@@ -38,7 +47,7 @@
 		}
 		:host paper-icon-button.delete{
 			display: inline-block;
-			transform: translate3d(0,-6px,0	) scale(0.65);
+			transform: translate3d(0, -0.375rem, 0);
 		}
 
 		:host qb-ui-node-input{

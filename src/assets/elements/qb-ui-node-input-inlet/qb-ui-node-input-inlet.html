@@ -6,17 +6,17 @@
 	<style>
 		:host{
 			display: block;
-			--size: var(--qb-ui-node-input-inlet-size, 20px);
+			--size: var(--qb-ui-node-input-inlet-size, 1rem);
 			width: var(--size);
 			height: var(--size);
-			--iron-icon-width: calc(var(--size) + 20%);
-			--iron-icon-height: calc(var(--size) + 20%);
+			--iron-icon-width: 2rem;
+			--iron-icon-height: 2rem;
 			@apply(--qb-ui-node-input-inlet);
 		}
 
 		:host div{
-			border-radius: 999px;
-			background-color: var(--qb-ui-node-input-inlet-background-color, --qb-interactive-color);
+			border-radius: 10rem;
+			background-color: var(--qb-grey-light);
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -24,17 +24,22 @@
 			right: 0;
 		}
 		:host iron-icon{
-			fill: var(--qb-ui-node-input-inlet-foreground-color, --qb-node-color-transparent);
+			fill: var(--qb-node-color-transparent);
 			position: absolute;
 			top: -10%;
 			left: -10%;
 			bottom: 0;
 			right: 0;
+			opacity: 0;
 		}
 
+		:host([connection-type="Output"]) div,
+		:host([output-is-hovering]) div {
+			background-color: var(--qb-yellow);
+		}
 		:host([connection-type="Output"]) iron-icon,
-		:host([output-is-hovering]) iron-icon{
-			fill: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color-transparent);
+		:host([output-is-hovering]) iron-icon,{
+			fill: var(--qb-action-color-transparent);
 		}
 
 	</style>

@@ -50,6 +50,7 @@
 
 			:host .app-footer{
 				position: fixed;
+				position: relative;
 				bottom: 0;
 				width: 100%;
 				background-color: var(--qb-pink-transparent-solid);
@@ -74,23 +75,43 @@
 				font-weight: bold;
 				margin-left: 1rem;
 			}
-			:host .app-footer .footer-wrapper > .fine-print {
-				font-size: 0.8rem;
+			:host .app-footer .footer-wrapper > .right {
+				@apply(--layout-horizontal);
+				@apply(--layout-end);
 			}
-			:host .app-footer .footer-wrapper > .fine-print ::content a {
+			:host .app-footer .footer-wrapper > .right .fine-print {
+				font-size: 0.75rem;
+			}
+			:host .app-footer .footer-wrapper > .right .fine-print ::content a {
 				text-decoration: none;
 				margin-left: 0.8rem;
 			}
+
+			:host .app-footer .footer-wrapper > .right .strawbees-logo {
+				text-decoration: none;
+				display: block;
+				width: 7rem;
+				height: 1.5rem;
+				margin-left: 1rem;
+			}
+			:host .app-footer .footer-wrapper > .right .strawbees-logo iron-image{
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+
 			:host .app-footer .footer-wrapper > .version {
-				margin-left: 0.5rem;
+				position: absolute;
+				right: 0.2rem;
+				bottom: 0.2rem;
 				font-size: 0.5rem;
-				opacity: 0.8;
+				opacity: 0.4;
 			}
 
 			:host .quirkbot-logo {
 				display: block;
 				margin-top: 0;
-				width: 10rem;
+				width: 13rem;
 				height: 3.5rem;
 				position: relative;
 			}
@@ -132,8 +153,7 @@
 				max-width: 100%;
 			}
 			/* STYLES FOR COVER MODE (Used in home)*/
-			:host([cover]) .app-header{
-				background-color: var(--qb-blue-transparent);
+			:host([cover]) .app-header {
 				position: relative;
 				height: 10rem;
 				z-index: 1;
@@ -379,7 +399,7 @@
 				list-style: none;
 			}
 			:host qb-ui-app-container .content > ::content .sidebar .item{
-				font-size: 0.8rem;
+				font-size: 0.75rem;
 				margin-bottom: 0;
 			}
 			/* End Sidebar*/
@@ -499,7 +519,7 @@
 				position: absolute;
 				top: 1rem;
 				right: 1rem;
-				font-size: 0.8rem;
+				font-size: 0.75rem;
 			}
 			:host qb-ui-app-container .content > ::content .node-input-list > ul > li > ul > li:last-child,
 			:host qb-ui-app-container .content > ::content .node-output-list > ul > li > ul > li:last-child{

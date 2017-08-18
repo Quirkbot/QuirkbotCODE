@@ -1,5 +1,6 @@
 ---
 object_id: output
+color: "rgb(244,66,176)"
 index: 2
 name_t:
   en: Output

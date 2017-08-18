@@ -27,18 +27,17 @@
 			:host{
 				display: block;
 				position: relative;
-				--handle-height: var(--qb-ui-node-input-handle-height, 20px);
-				--handle-offset: var(--qb-ui-node-input-handle-offset, -23px);
-				--value-font-size: var(--qb-ui-node-input-value-font-size, 12px);
-				--label-offset: var(--qb-ui-node-input-label-offset, 6px);
-				--label-font-size: var(--qb-ui-node-input-label-font-size, 12px);
+				--handle-height: var(--qb-ui-node-input-handle-height, 1rem);
+				--handle-offset: var(--qb-ui-node-input-handle-offset, -1.4rem);
+				--value-font-size: var(--qb-ui-node-input-value-font-size, 0.75rem);
+				--label-offset: var(--qb-ui-node-input-label-offset, 0rem);
+				--label-font-size: var(--qb-ui-node-input-label-font-size, 0.75rem);
 				@apply(--qb-ui-node-input);
 			};
 			:host .label{
 				font-size: var(--label-font-size);
 				color: var(--qb-text-background-color);
 				margin-left: var(--label-offset);
-				margin-bottom: 2px;
 				@apply(--qb-ui-node-input-label);
 			}
 			:host .handle{
@@ -78,10 +77,10 @@
 			}
 
 			:host .value-container{
-				border-radius: 999px;
+				border-radius: 10rem;
 				background-color:  var(--qb-text-background-color);
-				padding: 0 1em 0 2em;
-				display: inline-block;
+				padding: 0 0.75rem;
+				display: block;
 				@apply(--qb-font-code);
 				@apply(--qb-ui-node-input-label-theme);
 				font-size: var(--value-font-size);
@@ -90,21 +89,16 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				overflow: hidden;
-				max-width: 100px;
-			}
-			:host .handle:hover .value-container,
-			:host([controller-openend]) .value-container{
-				background-color:  var(--qb-interactive-color);
+				max-width: 9rem;
 			}
 
-			:host([connection-type="Output"]) .value-container,
-			:host([output-is-hovering]) .value-container{
-				color: var(--qb-ui-node-input-inlet-foreground-connected-color, --qb-action-color);
-			}
-			:host([output-is-hovering]) .value-container{
-				background-color:  var(--qb-pink-soft-transparent-solid);
+			:host([connection-type="Output"]) .value-container {
+				background-color:  var(--qb-white);
 			}
 
+			:host([output-is-hovering]) .value-container{
+				background-color:  var(--qb-yellow);
+			}
 
 			/* controller */
 			:host([controller-openend]) .controller{
@@ -114,85 +108,102 @@
 			:host .controller{
 				z-index: 1;
 				position: absolute;
-				top: 6px;
-				left: 7px;
-				width: 180px;
+				width: 13.5rem;
+				left: -0.25rem;
+				top: 0.65rem;
 				cursor: auto;
-				background-color: var(--qb-text-background-color-hard-transparent);
-				border-radius: 10px;
-				padding: 10px;
-				box-shadow: 0 0 0 7px var(--qb-interactive-color-hard-transparent);
+				background-color: var(--qb-grey-light);
+				border-radius: 1rem;
+				padding: 0.5rem;
+				/*box-shadow: 0 0 0 7px var(--qb-interactive-color-hard-transparent);*/
 				@apply(--qb-ui-node-input-controller);
 				display: none;
 				@apply(--qb-ui-node-input-controller-inactive);
 			}
 			:host(.collection-item) .controller{
-				top: -11px;
+				top: -0.45rem;
+			}
+			:host(.collection-item) .label{
+				min-width: 1rem;
+				margin-left: 0;
+				text-align: center;
 			}
 
 			:host .controller #deleteButton{
+				z-index: 1;
 				position: absolute;
-				right: -20px;
-				top: -20px;
-				border-radius: 100px;
+				right: -1rem;
+				top: -1rem;
+				border-radius: 10rem;
 				color: white;
 				background-color: var(--qb-action-inactive-color-transparent);
-				border: solid 3px;
+				border: solid 0.2rem;
 				border-color: var(--qb-white-transparent);
-				padding: 5px;
+				padding: 0.3rem;
 				-moz-background-clip: padding;
 				-webkit-background-clip: padding;
 				background-clip: padding-box;
-				--iron-icon-height: 22px;
-				--iron-icon-width: 22px;
-				transform: scale(0.8);
+				--iron-icon-height: 1.4rem;
+				--iron-icon-width: 1.4rem;
+				transform: scale(0.6);
+				@apply(--qb-ui-node-delete-button-theme);
+				@apply(--qb-ui-node-delete-button-inactive-theme);
 			}
 			:host .controller #deleteButton:hover{
-				background-color: var(--qb-action-color-transparent);
+				background-color: var(--qb-red);
 				@apply(--qb-ui-node-delete-button-hover-theme);
 			}
 
 			:host .controller .text-input{
 				display: block;
-				margin-left: -10px;
+				margin-left: 0;
+				--qb-ui-input-text-padding:0;
 				--qb-ui-input-text-input: {
 					text-align: left;
-					font-size: 12px;
-					line-height: 12px;
+					font-size: 0.75rem;
+					line-height: 0.75rem;
 				};
 			}
 
-			:host([input-type="range"]) .controller{
-				width: 235px;
-				@apply(--qb-ui-node-input-controller-range);
+			:host([input-type="range"]) .controller {
+				width: 12.5rem;
+				height: 1rem;
+			}
+
+			:host([input-type="range"]) .controller .slider-container{
+				width: 11rem;
+				position: absolute;
+				right: 0;
+				top: 0;
 			}
 			:host([input-type="range"]) .controller .slider{
-				width: 210px;
-				position: absolute;
-				top: 2px;
-				right: 0;
-				--paper-slider-height: 10px;
-				@apply(--qb-ui-node-input-controller-slider);
+				width: 100%;
+				--paper-slider-active-color: var(--qb-grey-dark);
+				--paper-slider-container-color: var(--qb-white);
+				--paper-slider-secondary-color: var(--qb-white);
+				--paper-slider-knob-color:var(--qb-grey-dark);
+				--paper-slider-knob-start-color: var(--qb-grey-dark);
+				--paper-slider-knob-start-border-color: var(--qb-grey-dark);
+				--paper-slider-pin-start-color: var(--qb-yellow);
+				--paper-slider-pin-color: var(--qb-yellow);
+				--paper-slider-font-color:var(--qb-black);
 			}
 			:host([input-type="range"]) .controller .text-input{
-				width: 46px;
+				width: 2.3rem;
 			}
 
 			:host([input-type="text"]) .controller{
-				width: 100px;
+				width: 7rem;
 				@apply(--qb-ui-node-input-controller-text);
 			}
 
 			:host([input-type="datalist"]) .controller{
-				width: 155px;
+				width: 9.5rem;
 				@apply(--qb-ui-node-input-controller-datalist);
 			}
-			/*:host([input-type="datalist"]) .controller .text-input{
-				width: 100px;
-			}*/
 			:host([input-type="datalist"]) .controller .menu {
 				height: 143px;
-				margin-top: 10px;
+				margin-top: 0.625rem;
 			}
 		</style>
 
@@ -241,7 +252,8 @@
 				id="controllerTextInput"
 				class="text-input"
 				value="{{data.value}}"
-				on-keyup="_onInputKeyUp">
+				on-keyup="_onInputKeyUp"
+				highlight>
 			</qb-ui-input-text>
 
 			<qb-ui-node-input-datalist
@@ -252,16 +264,17 @@
 				selected-value="{{data.value}}">
 			</qb-ui-node-input-datalist>
 
-			<div hidden$="{{!rangeController}}">
+			<div class="slider-container" hidden$="{{!rangeController}}">
 				<paper-slider
 					id="slider"
 					class="slider"
 					on-value-change="_sliderValueChanged"
-					min="{{range.min}}"
-					max="{{range.max}}"
+					on-immediate-value-change="_sliderValueChanged"
+					on-immediate-value-changed="_sliderValueChanged"
+					min="[[range.min]]"
+					max="[[range.max]]"
 					snap
-					step="0.01"
-					pin>
+					step="[[range.step]]">
 				</paper-slider>
 			</div>
 
@@ -378,15 +391,13 @@
 				}.bind(this), 4000);
 			}
 		},
-		_sliderValueChanged: function(){
+		_sliderValueChanged: function(e){
 			var external = this.externalSlideChange;
 
 			var slider = this.$.slider;
 
-			if(this.rangeController && slider && !isNaN(slider.value) && !external){
-
-				this._setTypedValue('Number', parseFloat(parseFloat(slider.value).toFixed(2)));
-
+			if(this.rangeController && slider && !isNaN(e.detail.value) && !external){
+				this._setTypedValue('Number', parseFloat(parseFloat(e.detail.value).toFixed(2)));
 			}
 
 		},
@@ -419,8 +430,6 @@
 				this.datalistController = true;
 				this.rangeController = false;
 				this.textController = false;
-
-
 			}
 			else if( definition.validation && definition.validation.type === 'range' && typeof definition.validation.data.min !== 'undefined' && typeof definition.validation.data.max !== 'undefined') {
 				this.datalistController = false;
@@ -500,7 +509,8 @@
 
 			var range = {
 				min:  parseFloat(definition.validation.data.min),
-				max:  parseFloat(definition.validation.data.max)
+				max:  parseFloat(definition.validation.data.max),
+				step:  parseFloat(definition.validation.data.step) || 0.01
 			};
 
 			return range;

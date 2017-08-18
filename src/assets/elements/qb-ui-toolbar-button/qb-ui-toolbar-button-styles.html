@@ -5,7 +5,6 @@
 <dom-module id="qb-ui-toolbar-button-styles">
 	<template>
 		<style>
-
 			:host .qb-toolbar-button{
 				display: inline-block;
 				@apply(--layout-horizontal);
@@ -14,12 +13,13 @@
 				min-width: 0;
 				min-height: 0;
 				padding: 0.2rem 0.4rem;
-				margin: 0 0.29rem;
-				border-radius: 10px;
-				border: solid 2px var(--qb-interactive-color-transparent);
-				box-shadow: 0 0 0 2px var(--qb-interactive-color-transparent);
+				margin: 0 0.3rem;
+				border-radius: 10rem;
 				text-transform: inherit;
 				color: var(--qb-black);
+			}
+			:host .qb-toolbar-button:hover{
+				background-color: var(--qb-yellow);
 			}
 			:host([no-border]) .qb-toolbar-button{
 				border: none;
@@ -38,8 +38,9 @@
 
 			}
 			:host .qb-toolbar-button .header{
-				font-weight: bold;
-				font-size: 0.7rem;
+				font-size: 0.75rem;
+				letter-spacing: 0.05rem;
+				text-transform: uppercase;
 			}
 			:host([error]) .qb-toolbar-button .header{
 				color: var(--qb-red);
@@ -47,26 +48,8 @@
 			:host([success]) .qb-toolbar-button .header{
 				color: var(--qb-green-dark);
 			}
-			/*:host .qb-toolbar-button paper-tooltip{
-				--paper-tooltip:{
-					z-index: 999;
-					min-width: 70px;
-				};
-			}*/
-			:host .qb-toolbar-button .hover{
-				display: none;
-			}
-			:host .qb-toolbar-button .hover{
-				display: none;
-			}
-			:host .qb-toolbar-button:hover .hover{
-				display: inline-block;
-			}
 			:host .qb-toolbar-button .normal{
 				display: inline-block;
-			}
-			:host .qb-toolbar-button:hover .normal{
-				display: none;
 			}
 
 			@media (max-width: 500px) {
