@@ -41,22 +41,4 @@ inputs:
         -
           id: servo-bp2
           value: SERVO_BP2
-        -
-          id: place-backpack-1
-          value: BP1
-        -
-          id: place-backpack-2
-          value: BP2
-        -
-          id: place-backpack-3
-          value: BP3
-        -
-          id: place-backpack-4
-          value: BP4
-        -
-          id: place-backpack-5
-          value: BP5
-        -
-          id: place-backpack-6
-          value: BP6
 outputs: []

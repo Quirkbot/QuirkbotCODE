@@ -7,7 +7,7 @@
 	<style>
 	:host{
 		display: block;
-		--size: var(--qb-ui-node-output-outlet-size, 20px);
+		--size: var(--qb-ui-node-output-outlet-size, 1rem);
 		width: var(--size);
 		height: var(--size);
 		--iron-icon-width: calc(var(--size) + 20%);
@@ -29,8 +29,8 @@
 	}
 
 	:host div{
-		border-radius: 999px;
-		background-color: var(--qb-ui-node-output-outlet-background-color, --qb-interactive-color);
+		border-radius: 10rem;
+		background-color: var(--qb-grey);
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -38,12 +38,13 @@
 		right: 0;
 	}
 	:host iron-icon{
-		fill: var(--qb-ui-node-output-outlet-foreground-color, --qb-action-color-transparent);
+		fill: var( --qb-action-color-transparent);
 		position: absolute;
 		top: -10%;
 		left: -10%;
 		bottom: 0;
 		right: 0;
+		opacity: 0;
 	}
 
 	</style>

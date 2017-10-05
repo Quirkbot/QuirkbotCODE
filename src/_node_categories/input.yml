@@ -1,5 +1,6 @@
 ---
 object_id: input
+color: "rgb(0,173,238)"
 index: 0
 name_t:
   en: Input

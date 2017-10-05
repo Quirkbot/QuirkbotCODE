@@ -1,36 +1,41 @@
 <style>
 	#app-shell-header,
+	#app-shell-main,
 	#app-shell-sidebar,
-	#app-shell-sidebar-header{
-		position: absolute !important;
+	#app-shell-footer{
+		width: 100% !important;
+		position: fixed !important;
+		border-radius: 0 !important;
 	}
 	#app-shell-header{
-		width: 100% !important;
-		height: 65px !important;
 		top:0 !important;
-		left:0 !important;
-		background-color: rgba(0,173,239,0.5) !important;
+		height: 3.5rem !important;
+		background-color: rgb(127,213,246) !important;
 	}
-	#app-shell-sidebar-header{
-		width: 185px !important;
-		height: 32px !important;
-		top: 69px !important;
-		left: calc(100% - 193px) !important;
-		background-color: rgba(235,0,138, 0.5) !important;
-		border-radius: 999px !important;
+	#app-shell-main{
+		top: 3.5rem !important;
+		left: 200px !important;
+		width: calc(100% - 200px) !important;
+		height: calc(100% - 3.5rem - 3.5rem) !important;
+		background-color: rgb(255,255,255)!important;
 	}
 	#app-shell-sidebar{
-		width: 185px !important;
-		height: calc(100% - 110px) !important;
-		top: 105px !important;
-		left: calc(100% - 193px) !important;
-		background-color: rgba(221,221,221,0.5) !important;
-		border-radius: 10px !important;
+		width: 200px !important;
+		top: 3.5rem !important;
+		height: calc(100% - 3.5rem - 3.5rem) !important;
+		background-color: rgb(244,244,244) !important;
+		border-right: solid 0.5rem rgb(204,204,204);
+	}
+	#app-shell-footer{
+		bottom: 0 !important;
+		height: 3.5rem !important;
+		background-color: rgb(249,160,215) !important;
 	}
 </style>
 
 <div id="app-shell">
 	<div id="app-shell-header"></div>
-	<div id="app-shell-sidebar-header"></div>
 	<div id="app-shell-sidebar"></div>
+	<div id="app-shell-main"></div>
+	<div id="app-shell-footer"></div>
 </div>

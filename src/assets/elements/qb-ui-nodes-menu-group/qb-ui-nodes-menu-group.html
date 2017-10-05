@@ -11,15 +11,17 @@
 	<style>
 		:host{
 			display: block;
-			margin-top: 3px;
+			/*margin-top: 0.1rem;*/
+			margin-bottom: 0.2rem;
 			@apply(--qb-ui-nodes-menu-group);
 		}
 		:host .toolbar{
 			cursor: pointer;
 			border-radius: 999px;
 			height: 30px;
+			text-transform: uppercase;
 			color: var(--qb-white);
-			background-color: var(--qb-action-color-transparent);
+			background-color: var(--qb-grey-light);
 			--paper-item-min-height: 30px;
 			@apply(--qb-ui-nodes-menu-group-toolbar);
 		}
@@ -30,7 +32,8 @@
 			**/
 			@apply(--layout-flex);
 			@apply(--qb-font-text);
-			font-size: 14px ;
+			font-size: 0.75rem;
+			letter-spacing: 0.05rem;
 			margin: 0;
 		}
 		:host .collapse{
@@ -38,6 +41,7 @@
 		}
 		:host .nodes-container{
 			position: relative;
+			margin-left: 0.3rem;
 		}
 		:host .nodes-container qb-ui-nodes-menu-item{
 			width: 95%;
@@ -61,6 +65,7 @@
 	</style>
 	<template>
 		<paper-item
+			id="toolbar"
 		 	class="toolbar"
 			on-tap="toggleItems">
 			<div class="title">
@@ -109,7 +114,10 @@
 			dropArea: Object,
 			visualEditor: Object,
 			treeManager: Object,
-			data: Object,
+			data: {
+				type: Object,
+				observer: '_dataChanged'
+			},
 
 			nameKey: {
 				type: String,
@@ -138,6 +146,9 @@
 		],
 		toggleItems: function () {
 			this.opened = !this.opened;
+		},
+		_dataChanged: function(data){
+			this.$.toolbar.style.backgroundColor = data.definition.color;
 		},
 		_tagsChanged: function(){
 			this.$.nodesRepeater.render();

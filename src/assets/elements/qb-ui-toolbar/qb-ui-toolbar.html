@@ -24,15 +24,25 @@
 				@apply(--layout-horizontal);
 				@apply(--layout-center);
 			}
-			:host .name {
+			:host .program {
 				margin: 0 0.5rem 0 0.7rem;
+			}
+			:host .program .name {
 				min-width: 5rem;
 				max-width: 15rem;
 
-				--qb-ui-input-text-padding: 0.4rem 0.5em 0.4rem  0.5em;
 				--qb-ui-input-text-input: {
-					font-size: 0.8rem;
+					font-size: 0.75rem;
 				};
+			}
+			:host .program .author {
+				color: var(--qb-white);
+				font-size: 0.75rem;
+			}
+			:host .program .author .nickname {
+				color: inherit;
+				text-decoration: none;
+				font-weight: bold;
 			}
 			:host .status-indicator {
 				@apply(--layout-horizontal);
@@ -47,6 +57,7 @@
 				cursor:default;
 			}
 			@media (max-width: 500px) {
+				:host .program .author .authorship,
 				:host .status-indicator .text{
 					display: none;
 				}
@@ -58,11 +69,24 @@
 			value="{{_ideName}}"
 			hidden>Quirkbot CODE</qb-core-i18n>
 
-		<qb-ui-input-text
-			class="name"
-			value="{{model.name}}"
-			disabled$="[[!user.id]]">
-		</qb-ui-input-text>
+		<div class="program">
+			<qb-ui-input-text
+				class="name"
+				value="{{model.name}}"
+				disabled$="[[!user.id]]">
+			</qb-ui-input-text>
+
+			<div class="author" hidden$="[[!model.authorNickname]]">
+				<qb-core-i18n
+					class="authorship"
+					key="ide/toolbar/program/authorship"></qb-core-i18n>
+				<a
+					class="nickname"
+					href="[[profileUrl]]">
+					@[[model.authorNickname]]
+				</a>
+			</div>
+		</div>
 
 		<div hidden$="[[!user.id]]">
 			<div
@@ -114,6 +138,10 @@
 			registerAppUrl: String,
 			userAppUrl: String,
 			programAppUrl: String,
+			profileUrl: {
+				type: String,
+				computed: '_computeProfileUrl(userAppUrl, model.authorNickname)'
+			},
 
 			_hideStatus: {
 				type: Boolean,
@@ -153,8 +181,11 @@
 		_windowTitleChanged: function (name) {
 			window.document.title = name;
 		},
-		_computeHideAddToProfile:function(author, userId){
-			if(userId && author !== userId){
+		_computeProfileUrl: function(userAppUrl, nickname){
+			return this._resolveAppUrl(userAppUrl, nickname);
+		},
+		_computeHideAddToProfile:function(authorId, userId){
+			if(userId && authorId !== userId){
 				this._hideAddToProfile = false;
 				return;
 			}
