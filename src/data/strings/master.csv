@@ -197,7 +197,7 @@ node/connection/name/sensitivity,sensitivity,敏感度
 node/connection/name/speed,speed,速度
 node/connection/name/direction,direction,方向
 node/connection/name/duration,duration,占空比
-node/connection/name/length,length,长度
+node/connection/name/length,length (in seconds),长度
 node/connection/name/meters,meters,表
 node/connection/name/interval,interval,间隔
 node/connection/name/type,type,方式
@@ -220,8 +220,8 @@ node/connection/datalist/triangle-wave,Triangle,三角波
 node/connection/datalist/pulse-wave,Pulse,脉冲波
 node/connection/datalist/ramp-up-wave,Ramp Up,坡上
 node/connection/datalist/ramp-down-wave,Ramp Down,坡下
-node/connection/datalist/servo-bp1,Servo Motor 1,伺服电机1
-node/connection/datalist/servo-bp2,Servo Motor 2,伺服电机2
+node/connection/datalist/servo-bp1,Servo 1,伺服电机1
+node/connection/datalist/servo-bp2,Servo 2,伺服电机2
 node/connection/datalist/no-location,No Location,无位置
 node/connection/datalist/place-left-eye,Left eye,左眼
 node/connection/datalist/place-right-eye,Right eye,右眼
