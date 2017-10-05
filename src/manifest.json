@@ -1,7 +1,7 @@
 {
 	"name": "Quirkbot CODE",
 	"short_name": "Quirkbot CODE",
-	"version": "0.6.1-b",
+	"version": "0.6.1-c",
 	"icons": [{
 		"src": "/android-chrome-36x36.png",
 		"sizes": "36x36",
