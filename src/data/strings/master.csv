@@ -188,7 +188,7 @@ node/name/wave,Wave,波形
 CONNECTIONS --------------------------------------------------------,,
 node/connection/name/in,in,输入
 node/connection/name/out,out,输出
-node/connection/name/light,light,光
+node/connection/name/light,light intensity,光
 node/connection/name/color,color,颜色
 node/connection/name/items,items,物品
 node/connection/name/place,place,地点
@@ -196,10 +196,10 @@ node/connection/name/position,position,位置
 node/connection/name/sensitivity,sensitivity,敏感度
 node/connection/name/speed,speed,速度
 node/connection/name/direction,direction,方向
-node/connection/name/duration,duration,占空比
+node/connection/name/duration,duration (in seconds),占空比
 node/connection/name/length,length (in seconds),长度
-node/connection/name/meters,meters,表
-node/connection/name/interval,interval,间隔
+node/connection/name/meters,max distance (in meters),表
+node/connection/name/interval,interval (in seconds),间隔
 node/connection/name/type,type,方式
 node/connection/name/min,min,最小
 node/connection/name/max,max,最大
