@@ -22,7 +22,7 @@
 
 		<iron-ajax
 			auto
-			url="[[resolveUrl('../../../manifest.json')]]"
+			url="[[manifestUrl]]"
 			handle-as="json"
 			last-response="{{manifest}}">
 		</iron-ajax>
@@ -72,8 +72,8 @@
 						<qb-ui-toolbar-button
 							icon="quirkbot-detected"
 							icon-hover="quirkbot-detected"
-							no-border
-							success>
+							header-key="ide/toolbar/quirbot-detector/detected/header"
+							no-border>
 						</qb-ui-toolbar-button>
 						<!--<qb-ui-toolbar-button
 							on-tap="_onQuirkbotsAreaButtonTap"
@@ -91,8 +91,8 @@
 						<qb-ui-toolbar-button
 							icon="quirkbot-not-detected"
 							icon-hover="quirkbot-not-detected"
-							no-border
-							error>
+							header-key="ide/toolbar/quirbot-detector/not-detected/header"
+							no-border>
 						</qb-ui-toolbar-button>
 						<!--<qb-ui-toolbar-button
 							on-tap="_onQuirkbotsAreaButtonTap"
@@ -116,11 +116,20 @@
 					<content select=".footer"></content>
 				</div>
 
-				<div class="fine-print">
-					<qb-core-i18n
-						key="ide/footer/fine-print">
-					</qb-core-i18n>
+				<div class="right">
+					<div class="fine-print">
+						<qb-core-i18n
+							key="ide/footer/fine-print">
+						</qb-core-i18n>
+					</div>
+					<a href="https://strawbees.com" target="_blank" class="strawbees-logo">
+						<iron-image
+							sizing="contain"
+							src="[[resolveUrl('../../images/logo/strawbees.svg')]]">
+						</iron-image>
+					</a>
 				</div>
+
 
 				<div class="version">
 					[[manifest.version]]
@@ -143,6 +152,7 @@
 			programAppUrl: String,
 			registerAppUrl: String,
 			userAppUrl: String,
+			manifestUrl: String,
 			user: Object,
 			model: Object,
 			hardware: Object,
@@ -150,7 +160,10 @@
 		},
 		behaviors:[
 			window.Quirkbot.UtilsBehavior
-		]
+		],
+		attached: function () {
+			this.manifestUrl = this.resolveUrl('../../../manifest.json?' + (Date.now()/(1000*60)).toFixed(0));
+		}
 	});
 })();
 </script>

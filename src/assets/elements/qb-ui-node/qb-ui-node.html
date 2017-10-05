@@ -22,9 +22,9 @@
 			display: block;
 			position: absolute;
 			background-color: var(--qb-node-color-transparent);
-			border-radius: 10px;
-			padding: 13px;
-			min-width: 150px;
+			border-radius: 0.625rem;
+			padding: 0.8rem;
+			min-width: 9rem;
 			cursor: move;
 			cursor: grab;
 			cursor: -moz-grab;
@@ -77,10 +77,6 @@
 			--qb-ui-input-text-input-container: {
 				display: inline-block;
 			};
-			--qb-ui-input-text-input: {
-				font-size: 12px;
-				line-height: 12px;
-			};
 			@apply(--qb-ui-node-variable);
 		}
 
@@ -96,13 +92,13 @@
 			@apply(--qb-ui-node-inputs-inner);
 		}
 		:host qb-ui-node-input {
-			margin-top: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
-			margin-bottom: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
+			margin-top: calc(var(--qb-ui-node-input-gap, 0.5rem)*0.5);
+			margin-bottom: calc(var(--qb-ui-node-input-gap, 0.5rem)*0.5);
 			@apply(--qb-ui-node-node-input);
 		}
 		:host qb-ui-node-input-collection {
-			margin-top: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
-			margin-bottom: calc(var(--qb-ui-node-input-gap, 20px)*0.5);
+			margin-top: calc(var(--qb-ui-node-input-gap, 0.5rem)*0.5);
+			margin-bottom: calc(var(--qb-ui-node-input-gap, 0.5rem)*0.5);
 			@apply(--qb-ui-node-node-input-collection);
 		}
 		:host .outputs{
@@ -117,8 +113,8 @@
 			@apply(--qb-ui-node-outputs-inner);
 		}
 		:host qb-ui-node-output {
-			margin-top: calc(var(--qb-ui-node-output-gap, 30px)*0.5);
-			margin-bottom: calc(var(--qb-ui-node-output-gap, 30px)*0.5);
+			margin-top: calc(var(--qb-ui-node-output-gap, 0.5rem)*0.5);
+			margin-bottom: calc(var(--qb-ui-node-output-gap, 0.5rem)*0.5);
 			@apply(--qb-ui-node-node-output);
 		}
 
@@ -126,20 +122,20 @@
 			z-index: 1;
 			display: none;
 			position: absolute;
-			right: -15px;
-			top: -15px;
-			border-radius: 100px;
+			right: -1rem;
+			top: -1rem;
+			border-radius: 10rem;
 			color: white;
 			background-color: var(--qb-action-inactive-color-transparent);
-			border: solid 3px;
+			border: solid 0.2rem;
 			border-color: var(--qb-white-transparent);
-			padding: 5px;
+			padding: 0.3rem;
 			-moz-background-clip: padding;
 			-webkit-background-clip: padding;
 			background-clip: padding-box;
-			--iron-icon-height: 22px;
-			--iron-icon-width: 22px;
-			transform: scale(0.8);
+			--iron-icon-height: 1.4rem;
+			--iron-icon-width: 1.4rem;
+			transform: scale(0.6);
 			@apply(--qb-ui-node-delete-button-theme);
 			@apply(--qb-ui-node-delete-button-inactive-theme);
 		}
@@ -148,7 +144,7 @@
 			@apply(--qb-ui-node-delete-button-active-theme);
 		}
 		:host #deleteButton:hover{
-			background-color: var(--qb-action-color-transparent);
+			background-color: var(--qb-red);
 			@apply(--qb-ui-node-delete-button-hover-theme);
 		}
 

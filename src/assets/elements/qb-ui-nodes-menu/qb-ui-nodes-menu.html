@@ -15,21 +15,22 @@
 			box-sizing: border-box;
 			@apply(--layout-vertical);
 			@apply(--layout-center);
-			background-color: var(--qb-grey-lightest-transparent);
+			background-color: var(--qb-grey-lightest);
+			border-right: solid 0.5rem var(--qb-grey-light);
 		}
 		:host .menu{
 			overflow-y: scroll;
 			@apply(--layout-flex);
 			@apply(--layout-self-stretch);
-			padding: 0.4rem 0.4rem 0.6rem 0.4rem;
+			padding: 0 0.4rem 0.6rem 0.4rem;
 			background-color: var(--qb-grey-lightest);
 		}
 		:host .nodes-filter {
-			background-color: var(--qb-grey-light);
-			margin: 10px 0;
 			border-radius: 2rem;
 			padding: 0.4rem 0.8rem;
-			font-size: 0.8rem;
+			font-size: 0.75rem;
+			letter-spacing: 0.05rem;
+			text-transform: uppercase;
 			color: var(--qb-black);
 			@apply(--layout-horizontal);
 			@apply(--layout-center);

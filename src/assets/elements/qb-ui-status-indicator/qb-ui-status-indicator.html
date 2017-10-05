@@ -40,10 +40,10 @@
 				-webkit-transform: scale(0.6);
 			}
 			:host .circle {
-				width: 20px;
-				height: 20px;
-				margin-top: -10px;
-				margin-left: -10px;
+				width: 10px;
+				height: 10px;
+				margin-top: -5px;
+				margin-left: -5px;
 				border-radius: 999px;
 				position: absolute;
 				top: 50%;
@@ -88,6 +88,13 @@
 			}
 			:host([state="success"]) .circle.b {
 				box-shadow: 0 0 0 2px var(--qb-yellow);
+			}
+			:host([state="fail"]) .circle,
+			:host([state="success"]) .circle {
+				width: 20px;
+				height: 20px;
+				margin-top: -10px;
+				margin-left: -10px;
 			}
 			@-webkit-keyframes slide{
 				0% { -webkit-transform: translate3d(0,0,0); }

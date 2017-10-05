@@ -58,12 +58,13 @@ IDE - Toolbar ------------------------------------------------------,,
 ide/toolbar/add-to-profile/tooltip/user,Save,保存
 ide/toolbar/add-to-profile/tooltip/clone,Clone,复制
 ide/toolbar/quirkbots-area/tooltip,Upload,上传
+ide/toolbar/program/authorship,by,by
 ide/toolbar/status/pending,,
 ide/toolbar/status/success,Saved!,已经保存！
 ide/toolbar/status/fail,Error saving.,保存失败！
-ide/toolbar/quirbot-detector/detected/header,Quirkbot ready to use,Quirkbot ready to use
+ide/toolbar/quirbot-detector/detected/header,Ready,Ready
 ide/toolbar/quirbot-detector/detected/label,Click to upload original program,Click to upload original program
-ide/toolbar/quirbot-detector/not-detected/header,Quirkbot not detected,Quirkbot not detected
+ide/toolbar/quirbot-detector/not-detected/header,Not detected,Not detected
 ide/toolbar/quirbot-detector/not-detected/label,Click here to find the problem,Click here to find the problem
 IDE - Quirkbots Area -----------------------------------------------,,
 ide/quirkbots-area/dialog/header,CODE Upload,上传
