@@ -1,0 +1,47 @@
+---
+object_id: math
+index: 2
+type: Math
+taxonomy:
+  categories:
+    - brains
+  tags:
+    - advanced
+inputs:
+  -
+    id: in
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: operation
+    default: MATH_ADD
+    validation:
+      type: list
+      data:
+        -
+          id: math-add
+          value: MATH_ADD
+        -
+          id: math-subtract
+          value: MATH_SUBTRACT
+        -
+          id: math-multiply
+          value: MATH_MULTIPLY
+        -
+          id: math-divide
+          value: MATH_DIVIDE
+  -
+    id: value
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+outputs:
+  -
+    id: out

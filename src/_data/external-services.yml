@@ -8,8 +8,8 @@ production:
     chrome_webstore_id: ackaalhbfjagidmjlhlokoblhbnahegd
 lite:
     root: http://localhost:9510/
-    compiler: http://localhost:9511/
-    api: http://localhost:9512/
+    compiler:  https://compiler.quirkbot.com/
+    api: https://api.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
     ga_code: UA-50042401-8
     api_client: YWJjMTphc2Q=

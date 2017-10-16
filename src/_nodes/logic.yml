@@ -1,0 +1,32 @@
+---
+object_id: logic
+index: 3
+type: Logic
+taxonomy:
+  categories:
+    - brains
+  tags:
+    - advanced
+inputs:
+  -
+    id: operation
+    default: LOGIC_AND
+    validation:
+      type: list
+      data:
+        -
+          id: logic-and
+          value: LOGIC_AND
+        -
+          id: logic-or
+          value: LOGIC_OR
+        -
+          id: logic-xor
+          value: LOGIC_XOR
+  -
+    id: items
+    default: 0
+    multiple: true
+outputs:
+  -
+    id: out
