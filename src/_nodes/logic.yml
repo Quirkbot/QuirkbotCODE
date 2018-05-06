@@ -27,6 +27,22 @@ inputs:
     id: items
     default: 0
     multiple: true
+  -
+    id: open
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: close
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
 outputs:
   -
     id: out

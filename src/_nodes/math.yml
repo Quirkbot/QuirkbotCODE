@@ -34,6 +34,9 @@ inputs:
         -
           id: math-divide
           value: MATH_DIVIDE
+        -
+          id: math-modulo
+          value: MATH_MODULO
   -
     id: value
     default: 0

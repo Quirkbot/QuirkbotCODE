@@ -171,6 +171,7 @@ node/name/continuous-servo,Continuous Servo,伺服器
 node/name/comparison,Comparison,Comparison
 node/name/constrain,Constrain,Constrain
 node/name/converter,Converter,转换器
+node/name/counter,Counter,Counter
 node/name/dual-color-led,Dual Color LED,双色 LED
 node/name/gate,Gate,门
 node/name/ir-proximity,IR Proximity,红外感应
@@ -190,6 +191,7 @@ node/name/squeeze-sensor,Squeeze Sensor,挤压传感器
 node/name/statistics,Statistics,Statistics
 node/name/voltage-output,Voltage Output,电压输出
 node/name/wave,Wave,波形
+node/name/time,Time,Time
 CONNECTIONS --------------------------------------------------------,,
 node/connection/name/in,in,输入
 node/connection/name/out,out,输出
@@ -220,6 +222,11 @@ node/connection/name/note,note,注意
 node/connection/name/holdTime,hold time,持续时间
 node/connection/name/offset,offset,抵消
 node/connection/name/channel,channel,通道
+node/connection/name/ifThen,then,then
+node/connection/name/ifElse,else,else
+node/connection/name/amount,amount,amount
+node/connection/name/open,open,open
+node/connection/name/close,close,close
 DATALISTS ----------------------------------------------------------,,
 node/connection/datalist/logic-and,AND gate,AND gate
 node/connection/datalist/logic-or,OR gate,OR gate
@@ -228,18 +235,17 @@ node/connection/datalist/math-add,Add,Add
 node/connection/datalist/math-subtract,Subtract,Subtract
 node/connection/datalist/math-multiply,Multiply,Multiply
 node/connection/datalist/math-divide,Divide,Divide
+node/connection/datalist/math-modulo,Modulo,Modulo
 node/connection/datalist/comparison-equal,Equal to,Equal to
 node/connection/datalist/comparison-diff,Different to,Different to
-node/connection/datalist/comparison-grater,Grater than,Grater than
-node/connection/datalist/comparison-grater-equal,Grater than or equal to,Grater than or equal to
+node/connection/datalist/comparison-greater,Greater than,Greater than
+node/connection/datalist/comparison-greater-equal,Greater than or equal to,Greater than or equal to
 node/connection/datalist/comparison-less,Less than,Less than
 node/connection/datalist/comparison-less-equal,Less than or equal to,Less than or equal to
-node/connection/datalist/statistics-average,Average,Average
+node/connection/datalist/statistics-avg,Average,Average
 node/connection/datalist/statistics-min,Minimum,Minimum
 node/connection/datalist/statistics-max,Maximum,Maximum
-node/connection/datalist/statistics-median,Median,Median
-node/connection/datalist/statistics-mode,Mode,Mode
-node/connection/datalist/statistics-sum,Sum,Sum
+node/connection/datalist/statistics-sum,Summation,Summation
 node/connection/datalist/sine-wave,Sine,正弦波
 node/connection/datalist/square-wave,Square,方波
 node/connection/datalist/triangle-wave,Triangle,三角波

@@ -10,22 +10,22 @@ taxonomy:
 inputs:
   -
     id: operation
-    default: STATISTICS_AVERAGE
+    default: STAT_AVG
     validation:
       type: list
       data:
         -
-          id: statistics-average
-          value: STATISTICS_AVERAGE
+          id: statistics-avg
+          value: STAT_AVG
         -
           id: statistics-min
-          value: STATISTICS_MIN
+          value: STAT_MIN
         -
           id: statistics-max
-          value: STATISTICS_MAX
+          value: STAT_MAX
         -
           id: statistics-sum
-          value: STATISTICS_SUM
+          value: STAT_SUM
   -
     id: items
     default: 0

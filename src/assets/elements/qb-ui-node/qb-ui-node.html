@@ -396,7 +396,7 @@
 			}.bind(this));
 
 			this.inputs = [];
-			definition.inputs.forEach(function(inputDefinition){
+			(definition.inputs || []).forEach(function(inputDefinition){
 				if(!data.inputs){
 					this.set('data.inputs',[]);
 				}

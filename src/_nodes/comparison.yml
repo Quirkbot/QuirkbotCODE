@@ -29,17 +29,17 @@ inputs:
           id: comparison-diff
           value: COMP_DIFF
         -
-          id: comparison-grater
+          id: comparison-greater
           value: COMP_GREATER
         -
-          id: comparison-grater-equal
-          value: COMP_GREATER_EQUAL
+          id: comparison-greater-equal
+          value: COMP_GREATER_EQ
         -
           id: comparison-less
           value: COMP_LESS
         -
           id: comparison-less-equal
-          value: COMP_LESS_EQUAL
+          value: COMP_LESS_EQ
   -
     id: value
     default: 0
@@ -49,7 +49,7 @@ inputs:
         min: 0
         max: 1
   -
-    id: min
+    id: ifThen
     default: 0
     validation:
       type: range
@@ -57,7 +57,7 @@ inputs:
         min: 0
         max: 1
   -
-    id: max
+    id: ifElse
     default: 1
     validation:
       type: range
