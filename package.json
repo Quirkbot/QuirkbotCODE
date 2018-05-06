@@ -1,6 +1,6 @@
 {
   "name": "quirkbot-code-static",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "author": "Quirkbot",
   "homepage": "https://github.com/Quirkbot/QuirkbotCODE",
   "devDependencies": {

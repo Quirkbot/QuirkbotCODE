@@ -50,7 +50,7 @@ inputs:
         max: 1
   -
     id: ifThen
-    default: 0
+    default: 1
     validation:
       type: range
       data:
@@ -58,7 +58,7 @@ inputs:
         max: 1
   -
     id: ifElse
-    default: 1
+    default: 0
     validation:
       type: range
       data:
