@@ -1,0 +1,15 @@
+---
+object_id: time
+index: 1
+name_t:
+  en: Time
+taxonomy:
+  categories:
+    - brains
+  tags:
+    - advanced
+type: Time
+inputs:
+outputs:
+  -
+    id: out

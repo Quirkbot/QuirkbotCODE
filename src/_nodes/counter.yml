@@ -1,25 +1,26 @@
 ---
-object_id: sequence
-index: 7
+object_id: counter
+index: 8
 name_t:
-  en: Sequence
+  en: Counter
 taxonomy:
   categories:
     - brains
   tags:
     - advanced
-type: Sequence
+type: Counter
 inputs:
   -
     id: trigger
     default: 0
   -
-    id: duration
+    id: amount
     default: 1
-  -
-    id: items
-    default: 0
-    multiple: true
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
 outputs:
   -
     id: out

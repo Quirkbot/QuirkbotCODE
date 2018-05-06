@@ -1,0 +1,35 @@
+---
+object_id: statistics
+index: 3
+type: Statistics
+taxonomy:
+  categories:
+    - brains
+  tags:
+    - advanced
+inputs:
+  -
+    id: operation
+    default: STAT_AVG
+    validation:
+      type: list
+      data:
+        -
+          id: statistics-avg
+          value: STAT_AVG
+        -
+          id: statistics-min
+          value: STAT_MIN
+        -
+          id: statistics-max
+          value: STAT_MAX
+        -
+          id: statistics-sum
+          value: STAT_SUM
+  -
+    id: items
+    default: 0
+    multiple: true
+outputs:
+  -
+    id: out

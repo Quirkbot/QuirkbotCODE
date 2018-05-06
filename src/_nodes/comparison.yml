@@ -1,0 +1,69 @@
+---
+object_id: comparison
+index: 3
+type: Comparison
+taxonomy:
+  categories:
+    - brains
+  tags:
+    - advanced
+inputs:
+  -
+    id: in
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: operation
+    default: COMP_EQUAL
+    validation:
+      type: list
+      data:
+        -
+          id: comparison-equal
+          value: COMP_EQUAL
+        -
+          id: comparison-diff
+          value: COMP_DIFF
+        -
+          id: comparison-greater
+          value: COMP_GREATER
+        -
+          id: comparison-greater-equal
+          value: COMP_GREATER_EQ
+        -
+          id: comparison-less
+          value: COMP_LESS
+        -
+          id: comparison-less-equal
+          value: COMP_LESS_EQ
+  -
+    id: value
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: ifThen
+    default: 0
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+  -
+    id: ifElse
+    default: 1
+    validation:
+      type: range
+      data:
+        min: 0
+        max: 1
+outputs:
+  -
+    id: out
