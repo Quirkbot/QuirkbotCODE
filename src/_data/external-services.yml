@@ -8,8 +8,8 @@ production:
     chrome_webstore_id: ackaalhbfjagidmjlhlokoblhbnahegd
 lite:
     root: http://localhost:9510/
-    compiler: http://localhost:9511/
-    api: http://localhost:9512/
+    compiler:  https://compiler.quirkbot.com/
+    api: https://api.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
     ga_code: UA-50042401-8
     api_client: YWJjMTphc2Q=
@@ -24,10 +24,10 @@ stage:
     chrome_webstore_id: ackaalhbfjagidmjlhlokoblhbnahegd
 development:
     root: http://ide-local.quirkbot.com:4000/
-    #compiler: http://localhost:8080/
-    compiler: https://compiler-stage.quirkbot.com/
+    compiler: http://localhost:8080/
+    #compiler: https://compiler-stage.quirkbot.com/
     #api: http://localhost:1337/
-    api: https://api-stage.quirkbot.com/
+    api: https://api.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
     ga_code: UX-XXXXXXX-X
     api_client: YWJjMTphc2Q=

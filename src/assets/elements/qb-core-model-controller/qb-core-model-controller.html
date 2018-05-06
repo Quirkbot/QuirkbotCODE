@@ -753,7 +753,7 @@
 				delete safeNode.inputs;
 				if(node.inputs && node.inputs.length){
 					safeNode.inputs = [];
-					node.inputs.forEach(function(input){
+					(node.inputs || []).forEach(function(input){
 						if(!input.children && typeof input.value === 'undefined'){
 							return;
 						}

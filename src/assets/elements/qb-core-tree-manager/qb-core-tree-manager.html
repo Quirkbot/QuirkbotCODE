@@ -79,7 +79,7 @@
 				if(node === this.data) {
 					return;
 				}
-				node.inputs.forEach(function(input){
+				(node.inputs || []).forEach(function(input){
 					disconnectInput(input);
 					// check if the input is a collection
 					if(!input.children || !input.children.length){

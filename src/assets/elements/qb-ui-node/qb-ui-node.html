@@ -340,7 +340,7 @@
 				if(this.data.outputs && this.treeManager){
 					this.data.outputs.forEach(function(output){
 						var inputs = this.treeManager.findInputsByValue(this.oldId + '.' + output.id);
-						inputs.forEach(function(inputData){
+						(inputs || []).forEach(function(inputData){
 							var element = inputData.input.element;
 							element.set('data.value', newId + '.' + output.id);
 						}.bind(this));
@@ -396,7 +396,7 @@
 			}.bind(this));
 
 			this.inputs = [];
-			definition.inputs.forEach(function(inputDefinition){
+			(definition.inputs || []).forEach(function(inputDefinition){
 				if(!data.inputs){
 					this.set('data.inputs',[]);
 				}
