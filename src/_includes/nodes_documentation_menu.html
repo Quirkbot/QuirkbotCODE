@@ -2,14 +2,14 @@
 	{% assign arg1=site.data.strings.menu_nodes_documentation_title %}{% include f_translated_name %}
 	<h3 class="title">{{r_translated_name}}</h3>
 
-	{% assign categories = (site.node_categories | sort: 'index') %}
+	{% assign categories = site.node_categories | sort: 'index' %}
 	{% for category in categories %}
 		<nav class="nav">
 			<h4 class="subtitle">{{category.name_t[page.lang]}}</h4>
 			<ul class="list">
 				{% for node in site.nodes %}
 					{% if node.taxonomy.categories contains category.object_id %}
-						{% assign docs = (site.pages | where: "node", node.object_id | where: "lang", page.lang | where: "layout", "node_documentation_single" ) %}
+						{% assign docs = site.pages | where: "node", node.object_id | where: "lang", page.lang | where: "layout", "node_documentation_single"  %}
 						{% assign docs = docs.first %}
 						<li class="item">
 							<a href="{{docs.url}}">{{node.name_t[page.lang]}}</a>
