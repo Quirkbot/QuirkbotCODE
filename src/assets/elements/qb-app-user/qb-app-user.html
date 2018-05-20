@@ -69,10 +69,18 @@
 				font-size: 1.5rem;
 				margin-bottom: 2rem;
 			}
+			:host .account-settings .danger-zone {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				color: var(--qb-red);
+				background-color: var(--qb-red-soft-transparent);
+				padding: 1rem 0;
+			}
 			:host .delete-account-button{
 				background: var(--qb-red);
 				color: var(--qb-white);
-
+				margin-top: 1rem;
 			}
 			:host .export-data-button{
 				background: var(--qb-yellow);
@@ -250,16 +258,21 @@
 							<qb-core-i18n
 								key="ide/user/account/data"></qb-core-i18n>
 						</paper-button>
-						<paper-button
-							class="delete-account-button"
-							on-tap="_onDeleteAccountTap">
-							<iron-icon
-								class="icon"
-								icon="[[resolveIconName('delete', 'qb-icons')]]">
-							</iron-icon>
+						<div class="danger-zone">
 							<qb-core-i18n
-								key="ide/user/account/delete"></qb-core-i18n>
-						</paper-button>
+								class="danger-zone-title"
+								key="ide/user/account/danger-zone"></qb-core-i18n>
+							<paper-button
+								class="delete-account-button"
+								on-tap="_onDeleteAccountTap">
+								<iron-icon
+									class="icon"
+									icon="[[resolveIconName('delete', 'qb-icons')]]">
+								</iron-icon>
+								<qb-core-i18n
+									key="ide/user/account/delete"></qb-core-i18n>
+							</paper-button>
+						</div>
 
 					</div>
 				</template>
@@ -414,7 +427,13 @@
 
 		},
 		_onExportDataTap: function(){
-			console.log('export');
+			var dataStr = "data:text/json;charset=utf-8," +
+				encodeURIComponent(JSON.stringify(exportObj));
+			var downloadAnchorNode = document.createElement('a');
+			downloadAnchorNode.setAttribute("href",     dataStr);
+			downloadAnchorNode.setAttribute("download", userNickname + '.json');
+			downloadAnchorNode.click();
+			downloadAnchorNode.remove();
 		}
 	});
 })();
