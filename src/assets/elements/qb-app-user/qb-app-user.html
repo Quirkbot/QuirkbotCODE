@@ -76,6 +76,7 @@
 				color: var(--qb-red);
 				background-color: var(--qb-red-soft-transparent);
 				padding: 1rem 0;
+				width: 100%;
 			}
 			:host .delete-account-button{
 				background: var(--qb-red);
@@ -419,21 +420,31 @@
 		},
 		_onDeleteAccountTap: function(){
 			setTimeout(function() {
-				console.log(this._deleteAccountAlert)
 				if (window.confirm(this._deleteAccountAlert)) {
-					console.log('delete!');
+					this.$.auth.apiCall('DELETE', 'user/' + this._userModel.id)
+					.then(function (data) {
+						window.localStorage.removeItem('qb-user');
+						window.localStorage.removeItem('qb-accessToken');
+						window.localStorage.removeItem('qb-refreshToken');
+						window.localStorage.removeItem('qb-tokenExpires');
+						window.location.reload();
+					}.bind(this));
 				}
-			}.bind(this), 300)
+			}.bind(this), 300);
 
 		},
 		_onExportDataTap: function(){
-			var dataStr = "data:text/json;charset=utf-8," +
-				encodeURIComponent(JSON.stringify(exportObj));
-			var downloadAnchorNode = document.createElement('a');
-			downloadAnchorNode.setAttribute("href",     dataStr);
-			downloadAnchorNode.setAttribute("download", userNickname + '.json');
-			downloadAnchorNode.click();
-			downloadAnchorNode.remove();
+			this.$.auth.apiCall('GET', 'user/data')
+			.then(function (data) {
+				var dataStr = 'data:text/json;charset=utf-8,' +
+					encodeURIComponent(JSON.stringify(data));
+				var downloadAnchorNode = document.createElement('a');
+				downloadAnchorNode.setAttribute('href',  dataStr);
+				downloadAnchorNode.setAttribute('download', this.userNickname + '.json');
+				downloadAnchorNode.click();
+				downloadAnchorNode.remove();
+			}.bind(this));
+
 		}
 	});
 })();
