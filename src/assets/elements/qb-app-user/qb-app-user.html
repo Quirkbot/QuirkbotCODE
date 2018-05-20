@@ -58,6 +58,27 @@
 				background: var(--qb-green);
 				color: var(--qb-white);
 			}
+			:host .account-settings {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				border-top: solid 1px rgba(0,0,0,0.2);
+				padding-top: 2rem;
+			}
+			:host .account-settings .account-settings-title {
+				font-size: 1.5rem;
+				margin-bottom: 2rem;
+			}
+			:host .delete-account-button{
+				background: var(--qb-red);
+				color: var(--qb-white);
+
+			}
+			:host .export-data-button{
+				background: var(--qb-yellow);
+				color: var(--qb-black);
+				margin-bottom: 1rem;
+			}
 			:host .inspiration-notice{
 				display: block;
 				margin-top: 1rem;
@@ -80,6 +101,10 @@
 			key="ide/name"
 			value="{{_ideName}}"
 			hidden>Quirkbot CODE</qb-core-i18n>
+		<qb-core-i18n
+			key="ide/user/account/delete-alert"
+			value="{{_deleteAccountAlert}}"
+			hidden></qb-core-i18n>
 
 		<qb-core-router
 			entry="{{userNickname}}">
@@ -207,6 +232,38 @@
 					</div>
 				</template>
 
+				<template
+					is="dom-if"
+					if="[[_ownsProfile]]">
+					<div class="account-settings">
+						<qb-core-i18n
+							class="account-settings-title"
+							key="ide/user/account/settings-title"></qb-core-i18n>
+
+						<paper-button
+							class="export-data-button"
+							on-tap="_onExportDataTap">
+							<iron-icon
+								class="icon"
+								icon="[[resolveIconName('profile', 'qb-icons')]]">
+							</iron-icon>
+							<qb-core-i18n
+								key="ide/user/account/data"></qb-core-i18n>
+						</paper-button>
+						<paper-button
+							class="delete-account-button"
+							on-tap="_onDeleteAccountTap">
+							<iron-icon
+								class="icon"
+								icon="[[resolveIconName('delete', 'qb-icons')]]">
+							</iron-icon>
+							<qb-core-i18n
+								key="ide/user/account/delete"></qb-core-i18n>
+						</paper-button>
+
+					</div>
+				</template>
+
 			</div>
 			<div class="footer">
 				<content select=".footer"></content>
@@ -256,7 +313,10 @@
 			_notAuthenticated: {
 				type: Boolean
 			},
-			_loadingPrograms: Boolean
+			_loadingPrograms: Boolean,
+			_deleteAccountAlert: {
+				type: String
+			}
 		},
 		observers:[
 		],
@@ -343,7 +403,18 @@
 				});
 			}
 			catch(e){}
+		},
+		_onDeleteAccountTap: function(){
+			setTimeout(function() {
+				console.log(this._deleteAccountAlert)
+				if (window.confirm(this._deleteAccountAlert)) {
+					console.log('delete!');
+				}
+			}.bind(this), 300)
 
+		},
+		_onExportDataTap: function(){
+			console.log('export');
 		}
 	});
 })();

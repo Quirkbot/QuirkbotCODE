@@ -26,8 +26,8 @@ development:
     root: http://ide-local.quirkbot.com:4000/
     compiler: http://localhost:8080/
     #compiler: https://compiler-stage.quirkbot.com/
-    #api: http://localhost:1337/
-    api: https://api.quirkbot.com/
+    api: http://localhost:1337/
+    #api: https://api.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
     ga_code: UX-XXXXXXX-X
     api_client: YWJjMTphc2Q=

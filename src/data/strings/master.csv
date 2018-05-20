@@ -45,6 +45,10 @@ ide/avatar/profile,Go to profile,我的资料
 ide/avatar/anonymous-user,Anonymous User,Anonymous User
 ide/avatar/new-program,Create new CODE,创建新的代码
 USER ---------------------------------------------------------------,,
+ide/user/account/delete,Delete my account,Delete my account
+ide/user/account/delete-alert,"You are about to delete your account PERMANENTLY!\n\nARE YOU SURE YOU WANT TO PROCEED?","You are about to delete your account PERMANENTLY!\n\nARE YOU SURE YOU WANT TO PROCEED?"
+ide/user/account/data,Export my data,Export my data
+ide/user/account/settings-title,Account Settings,Account Settings
 ide/user/forbidden/title,Access denied.,访问失败
 ide/user/forbidden/description,You can only access a user profile if you are logged in.,您只有在登录后才能访问用户资料
 ide/user/not-found/title,User not found,未找到对应用户

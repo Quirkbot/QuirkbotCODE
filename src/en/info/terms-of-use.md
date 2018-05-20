@@ -3,13 +3,13 @@ title: Terms of Use
 object_id: terms-of-use
 ---
 
-# Quirkbot's Terms of Use
+# Strawbees CODE Terms of Use
 
 ## 1. User Agreement
 
-**1.1** These Terms of Use constitute an agreement between you and the Quirkbot Team that governs your use of Quirkbot and all associated services (collectively "Quirkbot"). The Quirkbot Team is part of the Swedish based company with the name Quirkbot AB. Please read the Terms of Use carefully. By using Quirkbot you affirm that you have read, understood, and accepted the terms and conditions in the Terms of Use. If you do not agree with any of these conditions, please do not use Quirkbot.
+**1.1** These Terms of Use constitute an agreement between you and Strawbees AB (collectively "Strawbees", "we", "us" or "ours") that governs your use of Strawbees CODE and all associated services (collectively "platform"). Strawbees AB is a company that provide solutions for developing a powerful skillset through hands-on exploration and working with design, construction, electronics and programming. Our organization number is 556983-8914 and we are registered under the address Strawbees AB, Stenkolsgatan 1B, 417 07 Gothenburg, Sweden. Please read the Terms of Use carefully. By using the platform you affirm that you have read, understood, and accepted the terms and conditions in the Terms of Use. If you do not agree with any of these conditions, please do not the platform.
 
-**1.2** Your privacy is important to us. Please read our Privacy Policy, which identifies how the Quirkbot Team uses, collects, and stores information it collects through the Services. By using Quirkbot, you additionally agree that you are comfortable with Quirkbot's {% assign arg1='privacy-policy' %}{% include f_print_page_link %}.
+**1.2** Your privacy is important to us. Please read our Privacy Policy, which identifies how we use, collect, and store information it collects through the platform. By using the plaform, you additionally agree that you are comfortable with Quirkbot's {% assign arg1='privacy-policy' %}{% include f_print_page_link %}.
 
 **1.3** Quirkbot is open to children and adults of all ages, and we ask that you keep this in mind when using the Quirkbot services. When you use Quirkbot, you agree to abide by the Quirkbot Community Guidelines.
 

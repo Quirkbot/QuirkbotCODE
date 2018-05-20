@@ -3,72 +3,107 @@ title: Privacy Policy
 object_id: privacy-policy
 ---
 
-# Quirkbot's Privacy Policy
+# Strawbees CODE's Privacy Policy
 
-*We made Quirkbot so people like you could create projects, share ideas, and build a community. To make this happen, we collect some information for our users. The Quirkbot Team understands how important privacy is to our community, especially kids and parents. We wrote this privacy policy to explain what information we collect, how we use it, and what we're doing to keep it safe. If you have any questions regarding this privacy policy, you can contact us.*
+*We made Strawbees CODE (for now on referred as "platform") so anyone can program their Quirkbots easily. We understand how important privacy is to our community, especially kids and parents. We wrote this Privacy Policy to explain what information we collect, how we use it and what we're doing to keep it safe.*
 
-*Please do not share personal contact information, such as your name, physical address, email address, phone number, or anything else that can be used to make contact outside of the Quirkbot website. Please report projects, comments, or forum posts that contain this kind of information so the Quirkbot team can remove it, and please remind the author of our policy.*
+We may change this Policy from time to time so please check this page occasionally to ensure that you're happy with any changes. When the changes to this Policy regards how we handle your personal information (this only applies for registered users), you will be informed via email and will be required to review them before you can continue using the platform.
 
-## What information does the Quirkbot Team collect about me?
+Any questions regarding this Policy and our privacy practices should be sent by email to info@strawbees.com or by writing to Strawbees AB, Stenkolsgatan 1B, 417 07 Gothenburg, Sweden.
 
-### Account Information:
-In order to build projects or comment on other users' projects, you need to make an account. During account creation, we may ask you for a username, your country, birth month and year, gender, and your email address (or your parent or guardian's email address if you are under 13 years old). We ask that you select a user name that does not disclose your real name or other information that could identify you. Other users can see your username and country, but not your age, gender, or email address.
+## Who are we?
 
-### User-generated Content:
-All of your Quirkbot projects, comments, and forum posts are stored on the Quirkbot servers. All your projects, comments, and forum posts, along with your username are public accessible, meaning that anyone can view them. Because the Quirkbot Team is responsible for moderation, we have access to all content stored on the Quirkbot website. If you prefer to work on projects in complete privacy, you can program your Quirkbot offline by using the [Quirkbot Arduino Library](https://github.com/Quirkbot/QuirkbotArduinoLibrary/releases/latest) and [Quirkbot Arduino Hardware](https://github.com/Quirkbot/QuirkbotArduinoHardware/releases/latest).
+We are Strawbees AB (for now on referred as "Strawbees", "we", "us" or "our"), a company that provide solutions for developing a powerful skillset through hands-on exploration and working with design, construction, electronics and programming.
 
-### Usage Information:
-When you use Quirkbot, our servers will automatically store a limited amount of information about how you use the website. This information includes a number that identifies your computer (the IP address), which pages you visited, and what browser you are using.
+Our organization number is 556983-8914 and we are registered under the address Strawbees AB, Stenkolsgatan 1B, 417 07 Gothenburg, Sweden.
 
-### Google Analytics:
-We also collect data on where you click and which parts of the site you visit using Google Analytics.
+## What personal information do we collect about you?
 
-This "click data" helps us figure out ways to improve the website. Information collected and processed by Google Analytics includes the user's IP address, network location, and geographic location. Google Analytics acquires all its information directly from the user, by installing a cookie (see below) on your computer, if you have enabled JavaScript. Quirkbot does not share any information it collects with Google, and Google does not collect any personal identifying information about you.
+### You don't have to share any personal information with us:
+It's important that you understand that you don't have to share any personal information with us if you don't want to. *You can use the platform to program your Quirkbots completely anonymously*.
 
-### Cookies and Local Storage:
-When you log in, the Quirkbot website asks your browser to put an http "cookie" on your computer. The cookie is actually a small text file that our site can send to your browser for storage on your computer. This allows the website to remember that you are logged in when you go to a different page.
+As an anonymous user you are able to open, create and upload programs to your Quirkbot without the need to share any personal information with us.
 
-We also save information in the Local Storage of your browser. The Local Storage is a space to save data locally on your browser. Like with "cookies" we will use the Local Storage to remember if you are logged in and which program are you currently editing.
+However if you wish to save your programs online, you will need to create an account, and for that we will need access to some (minimal) personal information from you.
 
-## How does the Quirkbot Team use my information?
+### Personal information is only required in case you want to save your programs online:
+In order to save programs online, you will need to create an account.
 
-* We may collect age, gender and country data. We need to collect age data as we must know if our users are below 13 and need to use a guardian’s email when registering their Quirkbot account. We collect gender and country data for research purposes.
+During the account creation, we collect the minimum personal information we need in order to make the process technically viable. The information is only stored if you explicitly consent us to do so.
 
-* If you forget your password, we will ask you to disclose to us your email address so that we can send you a new password.
+We collect your **username** (but explicitly state that it cannot include your real name or any other information that could personally identify you), a **password** (stored encrypted, using international industry standards) and an **email address** (used solely for communication regarding your account).
 
-* We will use your email address to respond to messages you send us or to communicate with you about the Quirkbot service or your account.
+When you save your programs online, we store the **source code** of those programs too.
 
-* We send out occasional email updates about Quirkbot to the confirmed email address on your account. Quirkbot will never sell or share your email address without your permission. You can unsubscribe from these updates by clicking the unsubscribe link found at the bottom of the email.
+**Your username and all saved programs are public and anyone can access them online.**
 
-* Parents and guardians who register their under-13 year olds for Quirkbot may also receive additional updates from Kids Hack Day, a non-profit that supports Quirkbot educational initiatives. Kids Hack Day will never sell or share your email address without your permission. You can unsubscribe from these updates by clicking the unsubscribe link found at the bottom of the email.
+Your email can only be accessed by you and our technical team.
 
-* If we detect repeated abusive behavior from your account, IP address, or email address, we may share your account name, IP address, and the time and content of the abusive behavior with the IP address owner (such as a school or internet service provided).
+### Cookies and other local storage technologies (cookie policy):
+Cookies are small text files containing a string of characters that can be placed on your computer or mobile device that uniquely identify your browser or device. The local storage (Local Storage, Session Storage, Indexed DB and WebSQL) is a space to save arbitrary data *locally on your browser*. **We don't store cookies but we store information in the local storage of your browser.**
 
-* We may use de-identified location, age, gender, and usage data in future research studies intended to improve our understanding of how people learn with Quirkbot. The results of such research would then be shared with educators and researchers through conferences, journals, and other publications.
+We will use the local storage to store essential information that allows Strawbees CODE to function correctly. This information are the programs you are currently editing and interface settings. If you have an account on the platform we will also store authentication tokens that allows us to verify that you are logged in.
 
-* We may disclose some of the information we collect to third-party service providers that help us manage communications to and from the Quirkbot website and improve website performance. We are satisfied that these service providers have privacy policies that restrict them from further disclosing any of your information.
+Before using Strawbees CODE for the first time, you will need to explicitly consent that we can use the local storage of your browser to store essential data. If you do not explicitly consent it, you will not be able to use the platform at all as it will not be able work correctly, technically speaking.
 
-* Other than as described above, we will never share personally identifiable information about you with any other person, company, or organization, except:
+When you create an account, you will need to explicitly consent that we can use the local storage of your browser to store authentication data. If you do not explicitly consent it, you will not be able to create an account.
+
+The information in your local storage will be stored indefinitely, until the storage is cleared. You have full control over it, and can clear it at any time by clicking on the button "Clear my Local Storage" on the start page or on your profile page or by clearing your browser storage. By clicking on the "Clear my Local Storage" button, you are also withdrawing your consent that we can store data on your local storage. If you have a registered account you can only fully withdraw your consent by deleting your account, you can do that by following the instructions on the section "How can you delete your information?" below.
+
+## How do we use your information?
+
+* **Email**: We will use your registered email to send necessary transactional messages exclusively regarding your account and updates to this Privacy Policy and our Terms of Service. If you forget your password, we will ask you to disclose to us your email address so that we can send you a password reset code. As these emails are fundamental to the inner workings of Strawbees CODE you can only un-subscribe from them by deleting your account. We will not use your email to send you any marketing information.
+
+* **Username**: We store your username (that cannot contain any information that could personally identify you) in order for you to be able to login and in order for you easily access all your programs at your profile page. The profile page is an unique URL that lists all your programs at once.
+
+* **Encrypted password**: We store an encrypted version of you password in order to verify that you have access to your account.
+
+* **Saved programs**: We save your programs so that you and other users can access them from anywhere.
+
+* We will never share personally identifiable information about you with any other person, company, or organization, except:
 	* As required to comply with our obligations under the law.
-	* For technical reasons, if we are required to transfer the data on our servers to another location or organization.
+	* For technical reasons, if we are required to transfer the data to another location or organization.
 
-## How can I update my personal information?
-At the moment you can not update your password, email address, country or gender, once your account has been created.
 
-What you can do is to reset your password through the login page and then clicking on the "Forgot your Password?" button. You cannot change your username, but you can make a new account and duplicate your projects to the new account.
+## For how long do we store your information?
+Your information will be stored for as long as your account is active. If you delete your account, all your stored information (username, email, encrypted password and programs) will be deleted permanently.
 
-At the moment you can not delete your account entirely through the website. If you want to delete your account, please email support@quirkbot.com.
+If an account has not confirmed the email address or has not saved any programs in the last one year it will be considered inactive and will be deleted permanently and without any notice.
 
-## How does the Quirkbot Team protect my information?
+## How can you update your information?
+If you would like to update your username or email, you can delete your account (via the "Delete my account" button on your profile page) and create a new one with the updated information at any moment.
 
-The Quirkbot Team has in place physical and electronic procedures to protect the information we collect on the Quirkbot website. We strictly limit individual access to the Quirkbot servers and the data we store on them.
+If you would like to update your password, follow the password reset process on the login page.
 
-However, as effective as these measures are, no security system is impenetrable. We cannot completely guarantee the security of our database, nor can we guarantee that the information you supply will not be intercepted while being transmitted to us over the Internet.
+You can edit or delete your programs directly from your profile page.
 
-## Notifications of Changes to the Privacy Policy
+## How can you delete your information?
+At any moment, you can simply click on the button "Delete my account" on your profile page and all your stored information (username, email, encrypted password and programs) will be deleted instantly and permanently.
 
-We review our security measures and Privacy Policy on a periodic basis, and we may modify our policies as appropriate. We may also change or update our Privacy Policy if we add new services or features. If we make any changes to our privacy practices, we will amend this Privacy Policy accordingly and post the amended policy on the Quirkbot website. We encourage you to review our Privacy Policy on a regular basis.
+## How can you access all your stored information?
+At any moment, you can simply click on the button "Export my data", to download all your stored information (username, email, encrypted password and programs) in a machine readable format.
 
-*Revision date: 10th December 2015.*
+## Who actually stores your information?
+As a *data controller*, we do not store your personal data directly on our premises. Instead your data is stored on our behalf by our *data processors* in servers managed by them.
 
-*The Quirkbot Privacy Policy was last updated: December 2015*
+We have agreements (Data Processing Addendum) with our data processors and all of them are compliant with GDPR:
+
+- Amazon Web Services, Inc (AWS) - Seattle, United States
+- International Business Machines Corporation (IBM) - New York, United States
+- The Rocket Science Group LLC d/b/a MailChimp (MailChimp) - Georgia, United States
+
+## How do we protect your personal information?
+As a data controller we strictly limit individual access of our employees to the data servers and all those employees have signed NDAs that do not allow them to disclose any of your personal data.
+
+Our services that handle your personal data were designed with security in mind by implementing international industry standards for authentication and encrypting.
+
+All data communication between your browser and the severs happens over HTTPS, meaning that even if that information was intercepted by someone (man-in-the-middle), it would not be able to be decoded.
+
+You personal data is stored only by our data processors and we do not keep copies of it in our premises. The data processors are well stablished, global companies and all of them  have international industry standard security policies in place. You can read about how they deal with data security here:
+- AWS (https://aws.amazon.com/security/)
+- IBM (https://www.ibm.com/cloud/security)
+- Mailchimp (https://mailchimp.com/about/security/)
+
+However, as effective as these measures are, no security system is impenetrable. We cannot completely guarantee the security of the databases.
+
+*This Privacy Policy was last updated: May 16th 2018*
