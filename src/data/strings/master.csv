@@ -476,6 +476,8 @@ node/connection/datalist/channel-2,Channel 2,Channel 2
 node/connection/datalist/channel-3,Channel 3,Channel 3
 node/connection/datalist/channel-4,Channel 4,Channel 4
 REGISTER ----------------------------------------------------------------------------,,
+register/anonymous-title,Program anonymously:,Program anonymously:
+register/title,Save programs on the cloud:,Save programs on the cloud:
 register/registration/call-to-action,Join,加入
 register/registration/error/E_VALIDATION,There are errors in the inputs.,输入有误
 register/registration/error/CONNECTION_REFUSED,"Quirkbot CODE is having problems connecting to the servers, please try again later.",Quirkbot CODE无法连接到服务器，请稍后重试。
@@ -485,7 +487,7 @@ register/registration/age/error/pre-validation,"For legal reasons, we need to kn
 register/registration/age/error/required,"For legal reasons, we need to know your age.",因为法律原因，我们需要知道您的年龄.
 register/registration/nickname/label,Nickname,您的用户名
 register/registration/nickname/placeholder,,
-register/registration/nickname/tip,Pick a nickname that doesn't give away your real name.,建议您使用用户名而不是真实姓名.
+register/registration/nickname/tip,Pick one that doesn't reveal your real name!,建议您使用用户名而不是真实姓名.
 register/registration/nickname/error/pre-validation,Nickname is required.,用户名是必须的.
 register/registration/nickname/error/required,Nickname is required.,用户名是必须的.
 register/registration/nickname/error/uniqueNickname,This nickname was already taken.,此用户名已被使用.
@@ -497,12 +499,12 @@ register/registration/country/error/required,Country is required.,国家信息�
 register/registration/country/error/in,Invalid country,无效的国家信息
 register/registration/email/label,E-mail,电子邮箱
 register/registration/email/placeholder,,
-register/registration/email/tip,,
+register/registration/email/tip,So we can communicate with you about your account,So we can communicate with you about your account
 register/registration/email/error/pre-validation,E-mail is invalid.,电子邮箱地址无效
 register/registration/email/error/email,E-mail is invalid.,电子邮箱地址无效
 register/registration/email/error/required,E-mail  is required.,电子邮箱地址信息是必须的
 register/registration/email/error/uniqueEmail,This e-mail is already registered.,此电子邮箱已被注册
-register/registration/copa-notice,"Since you are under 13 years old, you cannot use Quirkbot CODE without the consent of your parents or guardians.<br>Enter their e-mail below and we will send them an email to confirm this account.","因为您未到13岁, 您必须在家长或监护人陪伴下才能使用 Quirkbot CODE .<br>请将他们的email地址填写在下方，我们会发送邮件向他们核实，谢谢."
+register/registration/copa-notice,"Sorry, you can't create an account and save programs on the cloud.<br>But don't worry, you can still <a href='/program'>program anonymously</a>!","Sorry, you can't save programs on the cloud.<br>But don't worry, you can still <a href='/program'>program anonymously</a>!"
 register/registration/guardian-email/label,Parent's or guardian's e-mail,家长/监护人的电子邮箱地址
 register/registration/guardian-email/placeholder,,
 register/registration/guardian-email/tip,,
@@ -512,7 +514,7 @@ register/registration/guardian-email/error/email,Parent's or guardian's e-mail i
 register/registration/guardian-email/error/unique,This e-mail is already registered.,此电子邮箱已被注册
 register/registration/password/label,Password,密码
 register/registration/password/placeholder,,
-register/registration/password/tip,Don't tell your password to anyone!,密码请勿外泄
+register/registration/password/tip,,
 register/registration/password/error/pre-validation,Password must be at least 6 characters long.,密码至少6位
 register/registration/password/error/required,Password is required.,需要输入密码
 register/registration/password-confirmation/label,Confirm Password,确认密码
@@ -534,9 +536,9 @@ register/registration/birthdate/day/placeholder,Day,日
 register/registration/birthdate/month/placeholder,Month,月
 register/registration/birthdate/year/placeholder,Year,年
 register/registration/terms/label,Terms and conditions,条款和条件
-register/registration/terms/placeholder,I've read and accepted the <a href='{% assign arg1='terms-of-use' %}{% include f_print_page_url %}' target='_blank'>terms of use</a> and the <a href='{% assign arg1='privacy-policy' %}{% include f_print_page_url %}' target='_blank'>privacy policy</a>.,我已经阅读并接受<a href='{% assign arg1='terms-of-use' %}{% include f_print_page_url %}' target='_blank'>terms of use</a> 以及 <a href='{% assign arg1='privacy-policy' %}{% include f_print_page_url %}' target='_blank'>隐私条例</a>.
+register/registration/terms/placeholder,I've read and accepted the <a href='{% assign arg1='terms-of-use' %}{% include f_print_page_url %}' target='_blank'>terms of use</a> and the <a href='{% assign arg1='privacy-policy' %}{% include f_print_page_url %}' target='_blank'>privacy policy</a>. I understand this service will process some of my personal data.,我已经阅读并接受<a href='{% assign arg1='terms-of-use' %}{% include f_print_page_url %}' target='_blank'>terms of use</a> 以及 <a href='{% assign arg1='privacy-policy' %}{% include f_print_page_url %}' target='_blank'>隐私条例</a>.
 register/registration/terms/tip,,
-register/registration/terms/error/pre-validation,You must read and agree to the terms and conditions.,您必须阅读并同意这些条款和条件。
+register/registration/terms/error/pre-validation,You must read and accept the terms and conditions.,您必须阅读并同意这些条款和条件。
 register/registration/submit,Join,加入
 register/login/call-to-action,Log in,登陆
 register/login/error/E_VALIDATION,There are errors in the inputs.,输入信息有误

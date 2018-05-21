@@ -422,7 +422,7 @@
 			setTimeout(function() {
 				if (window.confirm(this._deleteAccountAlert)) {
 					this.$.auth.apiCall('DELETE', 'user/' + this._userModel.id)
-					.then(function (data) {
+					.then(function () {
 						window.localStorage.removeItem('qb-user');
 						window.localStorage.removeItem('qb-accessToken');
 						window.localStorage.removeItem('qb-refreshToken');
