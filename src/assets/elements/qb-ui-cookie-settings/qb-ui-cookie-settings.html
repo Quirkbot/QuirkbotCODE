@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../qb-ui-styles/qb-ui-styles.html">
+<link rel="import" href="../qb-ui-form-checkbox/qb-ui-form-checkbox.html">
+
+<dom-module id='qb-ui-cookie-settings'>
+	<template>
+		<style>
+			:host {
+				max-width:20rem;
+				display: flex;
+				flex-direction: column;
+			}
+		</style>
+		<qb-ui-form-checkbox
+			strings-base="ide/cookie-consent/checkbox/necessary"
+			value="true"
+			disabled>
+		</qb-ui-form-checkbox>
+		<qb-ui-form-checkbox
+			id="analytics"
+			value="{{_enableAnalyticsCookies}}"
+			strings-base="ide/cookie-consent/checkbox/analytics"
+			required>
+		</qb-ui-form-checkbox>
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UICookieSettings = Polymer({
+		is: 'qb-ui-cookie-settings',
+		properties: {
+			_enableAnalyticsCookies: {
+				type: Boolean,
+				observer: '_enableAnalyticsCookiesChanged',
+				value:null
+			}
+		},
+		attached: function () {
+			this.debounce('check cookie settings', function(){
+				this._enableAnalyticsCookiesControl = true;
+				if (localStorage.getItem('qb-disableAnalyticsCookies')) {
+					this._enableAnalyticsCookies = false;
+				} else {
+					this._enableAnalyticsCookies = true;
+				}
+			}.bind(this), 1000);
+		},
+		_enableAnalyticsCookiesChanged: function(value) {
+			if(value === null) {
+				return;
+			}
+			if(this._enableAnalyticsCookiesControl) {
+				this._enableAnalyticsCookiesControl = false;
+				return;
+			}
+			if(!value){
+				localStorage.setItem('qb-disableAnalyticsCookies', true);
+				window[window.DISABLE_ANALYTICS_STRING] = true;
+			} else {
+				localStorage.removeItem('qb-disableAnalyticsCookies');
+				delete window[window.DISABLE_ANALYTICS_STRING];
+			}
+		}
+	});
+})();
+</script>

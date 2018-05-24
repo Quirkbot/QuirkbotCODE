@@ -6,17 +6,34 @@ ide/untitled-program,Untitled CODE,未命名程序
 ide/editor/visual,Visual,可视化
 ide/editor/text,Text,文本
 ide/node/disconnect,disconnect,断开连接
-ide/account-verification/reminder,"Your account is not verified, plase check your email for instructions.",您的帐户未完成邮箱认证，请查看您注册的邮箱，并按照步骤进行认证。
+ide/account-verification/reminder,"Your account is not verified, please check your email for instructions.",您的帐户未完成邮箱认证，请查看您注册的邮箱，并按照步骤进行认证。
 ide/account-verification/reminder/more-info,More information,更多信息
 ide/account-verification/dialog/header,Account verification,帐户认证
 ide/account-verification/dialog/title,Please click on the link we sent to:,请进入：，并点击我们发送的链接。
-ide/account-verification/dialog/description,<b>Can't find the verification message?</b><br><ul><li>Wait for ten minutes. The message may take a while to arrive.</li><li>Check your spam folder.<li>Still can't find it? Resend the verification.</li></ul>,<b>没有找到认证信息？</b><br><ul><li>等10分钟吧，让信息飞一会儿。</li><li>Check your spam folder.<li>还没有收到？重新发送认证信息。</li></ul>
+ide/account-verification/dialog/description,<b>Can't find the verification message?</b><br>Wait for ten minute and check your spam folder.<br><br><b style='color: red;'>Accounts that are not verified will be removed 60 days after their registration.</b></b>,
 ide/account-verification/dialog/cancel,Close,关闭
 ide/account-verification/dialog/continue,Resend verification,重发认证信息
 ide/account-verification/page/title,Account verification,帐户认证
 ide/account-verification/page/description/pending,Please wait while we verify your account...,在我们认证您的帐户时，请耐心等待。
 ide/account-verification/page/description/success,This account verifed!,帐户认证完成！
 ide/account-verification/page/description/fail,Error verifying account.,帐户认证错误！
+ide/new-terms-consent/dialog/header,,
+ide/new-terms-consent/dialog/title,Updated terms and conditions,
+ide/new-terms-consent/dialog/description,"In order to continue using your account, you need to agree to our terms and conditions. If you don't explicitly agree, your account will be deleted from our systems within 30 days.",
+ide/new-terms-consent/dialog/cancel,"I don't agree",
+ide/new-terms-consent/dialog/continue,"I agree",
+ide/new-terms-consent/page/title,Agree to terms and conditions,Agree to terms and conditions
+ide/new-terms-consent/page/description/pending,Please wait...,Please wait...
+ide/new-terms-consent/page/description/success,Consent confirmed,Consent confirmed
+ide/new-terms-consent/page/description/fail,Error verifying consent,Error verifying consent
+ide/cookie-consent/dialog/header,,
+ide/cookie-consent/dialog/title,This app uses cookies,
+ide/cookie-consent/dialog/description,"Some cookies track if a user is logged in or which program they are currently editing. Other cookies help us improve the service by giving us insight in how people are using it. Read more about them in our <a href='{% assign arg1='cookie-policy' %}{% include f_print_page_url %}' target='_blank'>cookie policy</a>.",
+ide/cookie-consent/dialog/continue,"I agree with the cookies",
+ide/cookie-consent/checkbox/necessary/label,Necessary cookies (can't be disabled),
+ide/cookie-consent/checkbox/necessary/placeholder,"Security, settings and local data.",
+ide/cookie-consent/checkbox/analytics/label,Analytics cookies,
+ide/cookie-consent/checkbox/analytics/placeholder,"Anonymously track how the app is being used and help us understand better what we should improve.",
 ide/password-reset/page/title,Password Reset,重新设置密码
 ide/password-reset/page/description/pending,Please wait while we verify your account...,在我们认证您的帐户时，请耐心等待。
 ide/password-reset/page/description/success,This account verifed!,帐户认证完成！
@@ -36,7 +53,7 @@ ide/password-reset/page/error/RESET_REQUEST_NOT_FOUND,Invalid reset. This reques
 ide/factory-reset/page/call-to-action,Upload factory program,恢复出厂设置
 FOOTER ------------------------------------------------------------,,
 ide/footer/menu,"{% assign arg1='recovery-mode' %}{% include f_print_page_link %}{% assign arg1='help' %}{% include f_print_page_link %}",
-ide/footer/fine-print,"{% assign arg1='terms-of-use' %}{% assign arg2='_blank' %}{% include f_print_page_link %}{% assign arg1='privacy-policy' %}{% assign arg2='_blank' %}{% include f_print_page_link %}",
+ide/footer/fine-print,"{% assign arg1='terms-of-use' %}{% assign arg2='_blank' %}{% include f_print_page_link %}{% assign arg1='privacy-policy' %}{% assign arg2='_blank' %}{% include f_print_page_link %}{% assign arg1='cookie-policy' %}{% assign arg2='_blank' %}{% include f_print_page_link %}",
 AVATAR -------------------------------------------------------------,,
 ide/avatar/login,Log in,登陆
 ide/avatar/register,Join,加入
@@ -233,9 +250,9 @@ node/connection/name/amount,amount,amount
 node/connection/name/open,open,open
 node/connection/name/close,close,close
 DATALISTS ----------------------------------------------------------,,
-node/connection/datalist/logic-and,AND gate,AND gate
-node/connection/datalist/logic-or,OR gate,OR gate
-node/connection/datalist/logic-xor,XOR gate,XOR gate
+node/connection/datalist/logic-and,AND,AND
+node/connection/datalist/logic-or,OR,OR
+node/connection/datalist/logic-xor,XOR,XOR
 node/connection/datalist/math-add,Add,Add
 node/connection/datalist/math-subtract,Subtract,Subtract
 node/connection/datalist/math-multiply,Multiply,Multiply
@@ -536,7 +553,7 @@ register/registration/birthdate/day/placeholder,Day,日
 register/registration/birthdate/month/placeholder,Month,月
 register/registration/birthdate/year/placeholder,Year,年
 register/registration/terms/label,Terms and conditions,条款和条件
-register/registration/terms/placeholder,I've read and accepted the <a href='{% assign arg1='terms-of-use' %}{% include f_print_page_url %}' target='_blank'>terms of use</a> and the <a href='{% assign arg1='privacy-policy' %}{% include f_print_page_url %}' target='_blank'>privacy policy</a>. I understand this service will process some of my personal data.,我已经阅读并接受<a href='{% assign arg1='terms-of-use' %}{% include f_print_page_url %}' target='_blank'>terms of use</a> 以及 <a href='{% assign arg1='privacy-policy' %}{% include f_print_page_url %}' target='_blank'>隐私条例</a>.
+register/registration/terms/placeholder,"I've read and accepted the <a href='{% assign arg1='terms-of-use' %}{% include f_print_page_url %}' target='_blank'>terms of use</a>, <a href='{% assign arg1='privacy-policy' %}{% include f_print_page_url %}' target='_blank'>privacy policy</a> and <a href='{% assign arg1='cookie-policy' %}{% include f_print_page_url %}' target='_blank'>cookie policy</a>.",
 register/registration/terms/tip,,
 register/registration/terms/error/pre-validation,You must read and accept the terms and conditions.,您必须阅读并同意这些条款和条件。
 register/registration/submit,Join,加入

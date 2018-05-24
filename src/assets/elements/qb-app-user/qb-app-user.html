@@ -14,6 +14,9 @@
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container.html">
 <link rel="import" href="../qb-ui-app-container/qb-ui-app-container-styles.html">
 <link rel="import" href="../qb-ui-account-verification-reminder/qb-ui-account-verification-reminder.html">
+<link rel="import" href="../qb-ui-terms-reminder/qb-ui-terms-reminder.html">
+<link rel="import" href="../qb-ui-cookie-consent/qb-ui-cookie-consent.html">
+<link rel="import" href="../qb-ui-cookie-settings/qb-ui-cookie-settings.html">
 <link rel="import" href="../qb-ui-profile-program-item/qb-ui-profile-program-item.html">
 
 
@@ -99,7 +102,6 @@
 			:host .loading-indicator{
 				background-color: var(--qb-white-transparent);
 			}
-
 		</style>
 
 		<qb-ui-language-selector
@@ -147,6 +149,12 @@
 					user="[[user]]"
 					auth="[[auth]]">
 				</qb-ui-account-verification-reminder>
+				<qb-ui-terms-reminder
+					user="[[user]]"
+					auth="[[auth]]">
+				</qb-ui-terms-reminder>
+				<qb-ui-cookie-consent>
+				</qb-ui-cookie-consent>
 
 				<template
 					is="dom-if"
@@ -259,6 +267,10 @@
 							<qb-core-i18n
 								key="ide/user/account/data"></qb-core-i18n>
 						</paper-button>
+
+						<qb-ui-cookie-settings>
+						</qb-ui-cookie-settings>
+
 						<div class="danger-zone">
 							<qb-core-i18n
 								class="danger-zone-title"
@@ -332,8 +344,6 @@
 				type: String
 			}
 		},
-		observers:[
-		],
 		_onAutheticate: function(){
 			this._notAuthenticated = false;
 		},

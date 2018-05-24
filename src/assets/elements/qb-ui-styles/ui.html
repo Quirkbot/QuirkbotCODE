@@ -52,11 +52,14 @@
 			:host .buttons paper-button:last-child{
 				margin-right: 0;
 			}
-			:host .buttons [dialog-dismiss]{
+			:host .buttons [dialog-dismiss],
+			:host .buttons .dialog-dismiss{
 				background: var(--qb-red-hard-transparent);
 			}
 			:host .buttons [dialog-confirm],
-			:host .buttons [dialog-continue]{
+			:host .buttons [dialog-continue],
+			:host .buttons .dialog-confirm,
+			:host .buttons .dialog-continue{
 				background: var(--qb-green-hard-transparent);
 
 			}

@@ -16,6 +16,7 @@
 <link rel="import" href="../qb-ui-login-form/qb-ui-login-form.html">
 <link rel="import" href="../qb-ui-request-password-reset-form/qb-ui-request-password-reset-form.html">
 <link rel="import" href="../qb-ui-status-indicator/qb-ui-status-indicator.html">
+<link rel="import" href="../qb-ui-cookie-consent/qb-ui-cookie-consent.html">
 
 <dom-module id='qb-app-register'>
 	<template>
@@ -117,6 +118,8 @@
 			</div>
 
 			<div class="content">
+				<qb-ui-cookie-consent>
+				</qb-ui-cookie-consent>
 				<div class="start-container">
 					<template
 						is="dom-if"
