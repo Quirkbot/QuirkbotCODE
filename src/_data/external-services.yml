@@ -29,6 +29,6 @@ development:
     api: http://localhost:1337/
     #api: https://api.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
-    ga_code: UA-50042401-3
+    ga_code: UA-XXXXXXXX-X
     api_client: YWJjMTphc2Q=
     chrome_webstore_id: ackaalhbfjagidmjlhlokoblhbnahegd

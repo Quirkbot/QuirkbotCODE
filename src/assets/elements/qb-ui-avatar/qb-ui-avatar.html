@@ -230,6 +230,8 @@
 			window.localStorage.removeItem('qb-accessToken');
 			window.localStorage.removeItem('qb-refreshToken');
 			window.localStorage.removeItem('qb-tokenExpires');
+			window.localStorage.removeItem('qb-hideCookieConsent');
+			window.localStorage.removeItem('qb-disableAnalyticsCookies');
 			this.fire('iron-signal', {name: 'track-user', data: '' });
 			this.goToHome();
 		},
