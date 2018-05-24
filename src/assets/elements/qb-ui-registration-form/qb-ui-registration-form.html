@@ -19,13 +19,18 @@
 		<style include="qb-form-styles"></style>
 		<style>
 			:host{
-
+				max-width: 30rem;
 			}
 			:host paper-button{
 				margin-top: 2rem;
 				background: var(--qb-pink-transparent);
 				color: var(--qb-white);
 				text-align: center;
+			}
+			@media (max-width: 30rem) {
+				:host {
+					max-width: auto;
+				}
 			}
 		</style>
 		<form
@@ -148,7 +153,8 @@
 
 			<paper-button
 				on-tap='_submitForm'
-				disabled$="[[loading]]">
+				disabled$="[[loading]]"
+				hidden="[[under13]]">
 				<qb-core-i18n
 					key="register/registration/submit"></qb-core-i18n>
 			</paper-button>
@@ -240,11 +246,11 @@
 			var birthdate = year + '-' + month + '-' + day;
 			return birthdate;
 		},
-		_computeEmailStringBase: function (under13) {
-			if(under13){
-				return 'register/registration/guardian-email';
-			}
+		_computeEmailStringBase: function (/*under13*/) {
 			return 'register/registration/email';
+			// if(under13){
+			// 	return 'register/registration/guardian-email';
+			// }
 		}
 	});
 })();

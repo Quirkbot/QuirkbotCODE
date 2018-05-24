@@ -16,13 +16,18 @@
 		<style include="qb-form-styles"></style>
 		<style>
 			:host{
-
+				width: 30rem;
 			}
 			:host paper-button{
 				margin-top: 2rem;
 				background: var(--qb-blue-transparent);
 				color: var(--qb-white);
 				text-align: center;
+			}
+			@media (max-width: 30rem) {
+				:host {
+					max-width: auto;
+				}
 			}
 		</style>
 		<form

@@ -1,4 +1,4 @@
-{% assign query = (site.pages | where: 'object_id', page.object_id) %}
+{% assign query = site.pages | where: 'object_id', page.object_id %}
 <!DOCTYPE html>
 <html>
 	{% include head.html %}

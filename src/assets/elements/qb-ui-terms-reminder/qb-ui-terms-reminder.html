@@ -1,0 +1,114 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="../qb-behavior-utils/qb-behavior-utils.html">
+<link rel="import" href="../qb-core-i18n/qb-core-i18n.html">
+<link rel="import" href="../qb-ui-icons/qb-ui-icons.html">
+
+<dom-module id='qb-ui-terms-reminder'>
+
+	<template>
+		<style include="qb-dialog-styles"></style>
+		<style>
+		</style>
+
+		<paper-dialog
+			modal
+			entry-animation="scale-up-animation"
+			exit-animation="fade-out-animation"
+			class="dialog large"
+			id="dialog">
+			<div
+				class="dialog-content">
+				<h3 class="header">
+					<qb-core-i18n
+						key="ide/new-terms-consent/dialog/title"></qb-core-i18n>
+
+				</h3>
+				<qb-core-i18n
+					key="ide/new-terms-consent/dialog/description"></qb-core-i18n>
+				<qb-ui-form-checkbox
+					id="terms"
+					name="terms"
+					strings-base="register/registration/terms"
+					required>
+				</qb-ui-form-checkbox>
+			</div>
+
+			<div
+				class="buttons">
+
+				<paper-button
+					dialog-dismiss>
+					<qb-core-i18n
+						key="ide/new-terms-consent/dialog/cancel"></qb-core-i18n>
+				</paper-button>
+				<paper-button
+					class="dialog-confirm"
+					on-tap='_onConfirmTap'>
+					<qb-core-i18n
+						key="ide/new-terms-consent/dialog/continue"></qb-core-i18n>
+				</paper-button>
+			</div>
+
+		</paper-dialog>
+
+	</template>
+</dom-module>
+
+<script>
+(function () {
+	window.Quirkbot = window.Quirkbot || {};
+	window.Quirkbot.UITermsReminder = Polymer({
+		is: 'qb-ui-terms-reminder',
+		properties: {
+			user: {
+				type: Object
+			},
+			auth: {
+				type: Object
+			}
+		},
+		behaviors:[
+			window.Quirkbot.UtilsBehavior
+		],
+		observers:[
+			'_openDialog(user.confirmedTerms)'
+		],
+		_openDialog: function (confirmed) {
+			if(!this.user || confirmed){
+				this.cancelDebouncer('termsNotice.show');
+				this.$.dialog.close();
+			}
+			else {
+				this.debounce(
+					'termsNotice.show',
+					this.$.dialog.open.bind(this.$.dialog),
+					1000
+				);
+				this.debounce(
+					'termsNotice.resize1',
+					this.$.dialog.notifyResize.bind(this.$.dialog),
+					1500
+				);
+				this.debounce(
+					'termsNotice.resize2',
+					this.$.dialog.notifyResize.bind(this.$.dialog),
+					3000
+				);
+			}
+		},
+		_onConfirmTap: function () {
+			if(!this.$.terms.value){
+				this.$.terms.invalid = true;
+				return;
+			}
+			this.$.terms.invalid = false;
+			this.auth.apiCall('GET', 'user/terms/'+ this.user.id)
+			.then(function () {
+				this.$.dialog.close();
+			}.bind(this));
+		}
+	});
+})();
+</script>

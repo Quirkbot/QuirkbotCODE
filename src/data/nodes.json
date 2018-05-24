@@ -18,7 +18,7 @@ layout: null
 	],
 	"taxonomies": {
 		"categories": [
-			{% assign categories = (site.node_categories | sort: 'index') %}
+			{% assign categories = site.node_categories | sort: 'index' %}
 			{% for category in categories %}
 				{
 					"id" : {{category.object_id | jsonify}},

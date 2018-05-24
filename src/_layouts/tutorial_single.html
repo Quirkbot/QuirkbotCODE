@@ -1,4 +1,4 @@
-{% assign query = (site.nodes | where: 'object_id', page.node) %}
+{% assign query = site.nodes | where: 'object_id', page.node %}
 
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@
 					<h1 class="tutorials-realted-title">{{r_translated_name}}</h1>
 					<div class="tutorials-index" block="markdown">
 						{% for object_id in page.related_tutorials %}
-							{% assign _tutorials = (site.pages | where: 'object_id', object_id | where: "lang", page.lang) %}
+							{% assign _tutorials = site.pages | where: 'object_id', object_id | where: "lang", page.lang %}
 							{% for tutorial in _tutorials %}
 								{% assign url=tutorial.url %}
 								{% assign title=tutorial.title %}

@@ -44,8 +44,10 @@
 			</label>
 			<paper-checkbox
 				required
+				disabled$="[[disabled]]"
 				class="paper-input-input checkbox"
-				invalid="{{invalid}}">
+				invalid="{{invalid}}"
+				checked="{{value}}">
 				<qb-core-i18n
 					key="[[_placeholderlKey]]"
 					value="{{placeholder}}"></qb-core-i18n>

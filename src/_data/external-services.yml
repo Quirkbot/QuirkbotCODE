@@ -17,7 +17,7 @@ lite:
 stage:
     root: https://code-stage.quirkbot.com/
     compiler: https://compiler-stage.quirkbot.com/
-    api: https://api.quirkbot.com/
+    api: https://api-stage.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
     ga_code: UX-XXXXXXX-X
     api_client: YWJjMTphc2Q=
@@ -26,9 +26,9 @@ development:
     root: http://ide-local.quirkbot.com:4000/
     compiler: http://localhost:8080/
     #compiler: https://compiler-stage.quirkbot.com/
-    #api: http://localhost:1337/
-    api: https://api.quirkbot.com/
+    api: http://localhost:1337/
+    #api: https://api.quirkbot.com/
     downloads: https://s3.amazonaws.com/quirkbot-downloads-production/downloads/
-    ga_code: UX-XXXXXXX-X
+    ga_code: UA-50042401-3
     api_client: YWJjMTphc2Q=
     chrome_webstore_id: ackaalhbfjagidmjlhlokoblhbnahegd

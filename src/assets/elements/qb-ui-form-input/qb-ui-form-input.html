@@ -14,9 +14,15 @@
 		<style>
 			:host{
 				display: block;
+				position: relative;
 			}
-
-
+			:host .tip {
+				font-size: 0.7rem;
+				color: rgba(0,0,0, 0.4);
+				position: absolute;
+				top: 0.5rem;
+				right: 0;
+			}
 		</style>
 
 		<qb-core-i18n
@@ -71,7 +77,7 @@
 		<template
 			is="dom-if"
 			if="[[tip]]">
-			<paper-tooltip offset="2px">[[tip]]</paper-tooltip>
+			<div class="tip">[[tip]]</div>
 		</template>
 	</template>
 </dom-module>
