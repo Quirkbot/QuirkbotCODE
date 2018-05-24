@@ -125,7 +125,7 @@
 			this.debounce('open dialog', this.$.dialog.notifyResize.bind(this.$.dialog), 3000);
 		},
 		_onConfirmTap: function () {
-			this.auth.apiCall('GET','auth/resendConfirmation/'+this.user.nickname)
+			this.auth.apiCall('GET','auth/resendConfirmation/'+this.user.id)
 			.then(function () {
 			}.bind(this))
 			.catch(function () {
