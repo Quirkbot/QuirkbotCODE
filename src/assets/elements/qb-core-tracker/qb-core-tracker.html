@@ -86,7 +86,7 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
 					if (e !== undefined && e.detail.path !== undefined) {
 						page = e.detail.path;
 					} else {
-						page = window.location.toString();
+						page = window.location.toString().replace(window.location.origin, '');
 					}
 					page = page.replace('/#!/', '/').replace('/#/', '/').replace('/#', '/');
 					window.gtag('set', { 'page_path' : page });
