@@ -17,3 +17,114 @@
 <qb-core-tracker
 	code="{{r_external_services_ga_code}}">
 </qb-core-tracker>
+
+
+<div id="new-code-alert" style="display:none">
+	<style>
+		#new-code-alert {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			z-index: 999999;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			background-color: rgba(127,213,246, 0.5);
+		}
+		#new-code-alert .modal {
+			background-color: white;
+			width: 90%;
+			max-width: 560px;
+			border-radius: 10px;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+		}
+		#new-code-alert .container {
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			text-align: center;
+			justify-content: center;
+			flex: 1;
+			padding: 20px;
+			background-color: #f1eded;
+		}
+		#new-code-alert .modal > img {
+			width: 70%;
+			height: auto;
+			max-width: 500px;
+			margin: 16px 0;
+		}
+		#new-code-alert .modal .title {
+			font-weight: bold;
+			font-size: 25px;
+		}
+		#new-code-alert .modal .description {
+			color: #828282;
+		}
+
+		#new-code-alert .controls {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+		#new-code-alert .controls > * {
+			display: block;
+			text-decoration: none;
+			border-radius: 10px;
+			margin: 0 8px;
+			padding: 8px 16px;
+			border: solid 1px;
+			box-sizing: border-box;
+			margin-bottom: 16px;
+			cursor: pointer;
+		}
+		#new-code-alert .controls > .no {
+			color: rgba(244, 66, 176, 1);
+			background-color: white;
+		}
+		#new-code-alert .controls > .yes {
+			border: none;
+			color: white;
+			background-color: rgba(244, 66, 176, 1);;
+		}
+
+	</style>
+	<div class="modal">
+		<img src="/assets/images/strawbees-code.jpg"/>
+		<div class="container">
+			<div class="title">Try the new Strawbees CODE!</div>
+			<div class="description">
+				<p>We are working on the new version of our editor, that allows you to program in three different ways: Flow, Blocks (Scratch) and Text (Arduino).</p>
+				<p>Try it out and let us know what you think!</p>
+			</div>
+			<div class="controls">
+				<div class="no" id="new-code-alert-close">
+					Not now
+				</div>
+				<a class="yes" href="https://code-stage.strawbees.com">
+					Try new editor
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+(() => {
+	const ref = localStorage.getItem('new-code-alert')
+	if (!ref || (Date.now() - Number.parseInt(ref, 10)) > (1000 * 60 * 20)) {
+		const dialog = document.getElementById('new-code-alert')
+		dialog.style.display = 'flex'
+
+		document.getElementById('new-code-alert-close').addEventListener('click', () => {
+			localStorage.setItem('new-code-alert', Date.now())
+			dialog.style.display = 'none'
+		})
+	}
+})()
+</script>
